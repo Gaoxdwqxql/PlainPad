@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 紫 -->
+    <color name="tc_purple_primary">#D0BCFF</color>
+    <color name="tc_purple_on_primary">#381E72</color>
+    <color name="tc_purple_primary_container">#4F378B</color>
+    <color name="tc_purple_on_primary_container">#EADDFF</color>
+
+    <!-- 蓝 -->
+    <color name="tc_blue_primary">#A9C7FF</color>
+    <color name="tc_blue_on_primary">#003064</color>
+    <color name="tc_blue_primary_container">#00458F</color>
+    <color name="tc_blue_on_primary_container">#D6E4FF</color>
+
+    <!-- 靛蓝 -->
+    <color name="tc_indigo_primary">#BBC3FF</color>
+    <color name="tc_indigo_on_primary">#1A2677</color>
+    <color name="tc_indigo_primary_container">#36459B</color>
+    <color name="tc_indigo_on_primary_container">#E0E0FF</color>
+
+    <!-- 青 -->
+    <color name="tc_teal_primary">#80CBC4</color>
+    <color name="tc_teal_on_primary">#003731</color>
+    <color name="tc_teal_primary_container">#005049</color>
+    <color name="tc_teal_on_primary_container">#B2DFDB</color>
+
+    <!-- 绿 -->
+    <color name="tc_green_primary">#A5D6A7</color>
+    <color name="tc_green_on_primary">#00390A</color>
+    <color name="tc_green_primary_container">#1B5E20</color>
+    <color name="tc_green_on_primary_container">#C8E6C9</color>
+
+    <!-- 橙 -->
+    <color name="tc_orange_primary">#FFB77C</color>
+    <color name="tc_orange_on_primary">#4D2600</color>
+    <color name="tc_orange_primary_container">#703800</color>
+    <color name="tc_orange_on_primary_container">#FFDCC2</color>
+
+    <!-- 红 -->
+    <color name="tc_red_primary">#FFB4AB</color>
+    <color name="tc_red_on_primary">#690005</color>
+    <color name="tc_red_primary_container">#93000A</color>
+    <color name="tc_red_on_primary_container">#FFDAD6</color>
+
+    <!-- 粉 -->
+    <color name="tc_pink_primary">#FFB0C8</color>
+    <color name="tc_pink_on_primary">#65002F</color>
+    <color name="tc_pink_primary_container">#8E0045</color>
+    <color name="tc_pink_on_primary_container">#FFD9E2</color>
+</resources>

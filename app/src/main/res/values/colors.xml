@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 紫（Material 3 默认） -->
+    <color name="tc_purple_primary">#6750A4</color>
+    <color name="tc_purple_on_primary">#FFFFFF</color>
+    <color name="tc_purple_primary_container">#EADDFF</color>
+    <color name="tc_purple_on_primary_container">#21005D</color>
+
+    <!-- 蓝 -->
+    <color name="tc_blue_primary">#1565C0</color>
+    <color name="tc_blue_on_primary">#FFFFFF</color>
+    <color name="tc_blue_primary_container">#D6E4FF</color>
+    <color name="tc_blue_on_primary_container">#001A41</color>
+
+    <!-- 靛蓝 -->
+    <color name="tc_indigo_primary">#3F51B5</color>
+    <color name="tc_indigo_on_primary">#FFFFFF</color>
+    <color name="tc_indigo_primary_container">#E0E0FF</color>
+    <color name="tc_indigo_on_primary_container">#00006E</color>
+
+    <!-- 青 -->
+    <color name="tc_teal_primary">#00796B</color>
+    <color name="tc_teal_on_primary">#FFFFFF</color>
+    <color name="tc_teal_primary_container">#B2DFDB</color>
+    <color name="tc_teal_on_primary_container">#00201C</color>
+
+    <!-- 绿 -->
+    <color name="tc_green_primary">#2E7D32</color>
+    <color name="tc_green_on_primary">#FFFFFF</color>
+    <color name="tc_green_primary_container">#C8E6C9</color>
+    <color name="tc_green_on_primary_container">#002105</color>
+
+    <!-- 橙 -->
+    <color name="tc_orange_primary">#E65100</color>
+    <color name="tc_orange_on_primary">#FFFFFF</color>
+    <color name="tc_orange_primary_container">#FFDCC2</color>
+    <color name="tc_orange_on_primary_container">#311300</color>
+
+    <!-- 红 -->
+    <color name="tc_red_primary">#C62828</color>
+    <color name="tc_red_on_primary">#FFFFFF</color>
+    <color name="tc_red_primary_container">#FFDAD6</color>
+    <color name="tc_red_on_primary_container">#410002</color>
+
+    <!-- 粉 -->
+    <color name="tc_pink_primary">#C2185B</color>
+    <color name="tc_pink_on_primary">#FFFFFF</color>
+    <color name="tc_pink_primary_container">#FFD9E2</color>
+    <color name="tc_pink_on_primary_container">#3E001D</color>
+</resources>

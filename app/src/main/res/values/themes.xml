@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.PlainPad" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <style name="ThemeOverlay.PlainPad.Color.Purple" parent="">
+        <item name="colorPrimary">@color/tc_purple_primary</item>
+        <item name="colorOnPrimary">@color/tc_purple_on_primary</item>
+        <item name="colorPrimaryContainer">@color/tc_purple_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/tc_purple_on_primary_container</item>
+        <item name="colorSecondary">@color/tc_purple_primary</item>
+        <item name="colorOnSecondary">@color/tc_purple_on_primary</item>
+        <item name="colorSecondaryContainer">@color/tc_purple_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/tc_purple_on_primary_container</item>
+    </style>
+
+    <style name="ThemeOverlay.PlainPad.Color.Blue" parent="">
+        <item name="colorPrimary">@color/tc_blue_primary</item>
+        <item name="colorOnPrimary">@color/tc_blue_on_primary</item>
+        <item name="colorPrimaryContainer">@color/tc_blue_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/tc_blue_on_primary_container</item>
+        <item name="colorSecondary">@color/tc_blue_primary</item>
+        <item name="colorOnSecondary">@color/tc_blue_on_primary</item>
+        <item name="colorSecondaryContainer">@color/tc_blue_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/tc_blue_on_primary_container</item>
+    </style>
+
+    <style name="ThemeOverlay.PlainPad.Color.Indigo" parent="">
+        <item name="colorPrimary">@color/tc_indigo_primary</item>
+        <item name="colorOnPrimary">@color/tc_indigo_on_primary</item>
+        <item name="colorPrimaryContainer">@color/tc_indigo_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/tc_indigo_on_primary_container</item>
+        <item name="colorSecondary">@color/tc_indigo_primary</item>
+        <item name="colorOnSecondary">@color/tc_indigo_on_primary</item>
+        <item name="colorSecondaryContainer">@color/tc_indigo_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/tc_indigo_on_primary_container</item>
+    </style>
+
+    <style name="ThemeOverlay.PlainPad.Color.Teal" parent="">
+        <item name="colorPrimary">@color/tc_teal_primary</item>
+        <item name="colorOnPrimary">@color/tc_teal_on_primary</item>
+        <item name="colorPrimaryContainer">@color/tc_teal_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/tc_teal_on_primary_container</item>
+        <item name="colorSecondary">@color/tc_teal_primary</item>
+        <item name="colorOnSecondary">@color/tc_teal_on_primary</item>
+        <item name="colorSecondaryContainer">@color/tc_teal_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/tc_teal_on_primary_container</item>
+    </style>
+
+    <style name="ThemeOverlay.PlainPad.Color.Green" parent="">
+        <item name="colorPrimary">@color/tc_green_primary</item>
+        <item name="colorOnPrimary">@color/tc_green_on_primary</item>
+        <item name="colorPrimaryContainer">@color/tc_green_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/tc_green_on_primary_container</item>
+        <item name="colorSecondary">@color/tc_green_primary</item>
+        <item name="colorOnSecondary">@color/tc_green_on_primary</item>
+        <item name="colorSecondaryContainer">@color/tc_green_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/tc_green_on_primary_container</item>
+    </style>
+
+    <style name="ThemeOverlay.PlainPad.Color.Orange" parent="">
+        <item name="colorPrimary">@color/tc_orange_primary</item>
+        <item name="colorOnPrimary">@color/tc_orange_on_primary</item>
+        <item name="colorPrimaryContainer">@color/tc_orange_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/tc_orange_on_primary_container</item>
+        <item name="colorSecondary">@color/tc_orange_primary</item>
+        <item name="colorOnSecondary">@color/tc_orange_on_primary</item>
+        <item name="colorSecondaryContainer">@color/tc_orange_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/tc_orange_on_primary_container</item>
+    </style>
+
+    <style name="ThemeOverlay.PlainPad.Color.Red" parent="">
+        <item name="colorPrimary">@color/tc_red_primary</item>
+        <item name="colorOnPrimary">@color/tc_red_on_primary</item>
+        <item name="colorPrimaryContainer">@color/tc_red_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/tc_red_on_primary_container</item>
+        <item name="colorSecondary">@color/tc_red_primary</item>
+        <item name="colorOnSecondary">@color/tc_red_on_primary</item>
+        <item name="colorSecondaryContainer">@color/tc_red_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/tc_red_on_primary_container</item>
+    </style>
+
+    <style name="ThemeOverlay.PlainPad.Color.Pink" parent="">
+        <item name="colorPrimary">@color/tc_pink_primary</item>
+        <item name="colorOnPrimary">@color/tc_pink_on_primary</item>
+        <item name="colorPrimaryContainer">@color/tc_pink_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/tc_pink_on_primary_container</item>
+        <item name="colorSecondary">@color/tc_pink_primary</item>
+        <item name="colorOnSecondary">@color/tc_pink_on_primary</item>
+        <item name="colorSecondaryContainer">@color/tc_pink_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/tc_pink_on_primary_container</item>
+    </style>
+
+</resources>
