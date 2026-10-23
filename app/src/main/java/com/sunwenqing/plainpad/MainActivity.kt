@@ -1,4 +1,3 @@
-// MainActivity.kt
 package com.sunwenqing.plainpad
 
 import android.content.Intent
@@ -53,12 +52,13 @@ class MainActivity : AppCompatActivity() {
 
     private var currentThemeColor = ""
 
-    // ★ 主题色变化走 recreate 时，本次 onStop 不要切 activity-alias。
-    // 否则在 onCreate/onStart 窗口内切换 alias 会被系统判定为启动组件失效，
-    // 直接把当前任务清掉，表现为"主题色变了然后退出"。
+    // ★ 防止改主题色 recreate 时，切 activity-alias 导致系统结束进程
     private var skipIconSwitchOnce = false
 
-    // ★ 阈值提升到 100 万字符（约 2MB~3MB）
+    // ★ 缓存当前换行符类型
+    private var currentEol = "LF"
+
+    // ★ 大文件模式阈值（100 万字符）
     private val LARGE_FILE_THRESHOLD = 1_000_000
     private var isLargeFileMode = false
 
@@ -153,7 +153,9 @@ class MainActivity : AppCompatActivity() {
             handleIncomingIntent(intent)
         }
 
-        if (documents.isEmpty()) newTabInternal(isFirst = true)
+        if (documents.isEmpty()) {
+            newTabInternal(isFirst = true)
+        }
 
         refreshTabBar()
         refreshCurrentView()
@@ -165,7 +167,9 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        if (uiReady) handleIncomingIntent(intent)
+        if (uiReady) {
+            handleIncomingIntent(intent)
+        }
     }
 
     override fun onResume() {
@@ -231,8 +235,12 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         if (uiReady) {
             saveCurrentToDoc()
-            if (prefs.autoSaveEnabled && prefs.autoSaveOnPause) autoSaveCurrent()
-            if (documents.isNotEmpty()) prefs.saveTabs(documents)
+            if (prefs.autoSaveEnabled && prefs.autoSaveOnPause) {
+                autoSaveCurrent()
+            }
+            if (documents.isNotEmpty()) {
+                prefs.saveTabs(documents)
+            }
         }
         cancelAutoSave()
         cancelEditAutoSave()
@@ -265,7 +273,9 @@ class MainActivity : AppCompatActivity() {
         cancelEditAutoSave()
         cancelSpecialCharRefresh()
         cancelStatusUpdate()
-        if (uiReady) undoManager.release()
+        if (uiReady) {
+            undoManager.release()
+        }
         super.onDestroy()
     }
 
@@ -287,7 +297,9 @@ class MainActivity : AppCompatActivity() {
                     if (!isLargeFileMode) {
                         undoManager.scheduleSnapshot()
                         scheduleEditAutoSave()
-                        if (prefs.showSpecialChars) scheduleSpecialCharRefresh()
+                        if (prefs.showSpecialChars) {
+                            scheduleSpecialCharRefresh()
+                        }
                         triggerStatusUpdate()
                     }
                 }
@@ -300,6 +312,8 @@ class MainActivity : AppCompatActivity() {
     private fun triggerStatusUpdate() {
         cancelStatusUpdate()
         val r = Runnable {
+            // 每次防抖刷新时同步更新 EOL 状态（大文件也可更新，detectEol 只扫前 10 万字符，极快）
+            updateEolLabel()
             if (isLargeFileMode) return@Runnable
             updateStatus()
             updateLineNumbers()
@@ -341,7 +355,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupBackHandler() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (isImmersive) applyImmersive(false) else finish()
+                if (isImmersive) {
+                    applyImmersive(false)
+                } else {
+                    finish()
+                }
             }
         })
     }
@@ -373,6 +391,8 @@ class MainActivity : AppCompatActivity() {
         binding.btnInsertSpecial.setOnClickListener {
             if (isLargeFileMode) showTip("大文件模式已禁用特殊字符") else showSpecialCharPanel()
         }
+        // ★ 绑定底栏 EOL 的点击事件
+        binding.tvEol.setOnClickListener { showEolMenu() }
     }
 
     private fun showCustomMenu(anchor: View, items: List<Pair<String, () -> Unit>>) {
@@ -434,6 +454,75 @@ class MainActivity : AppCompatActivity() {
             0xFFEEEEEE.toInt()
         }
     }
+
+    // ================= 换行符处理 =================
+
+    // ================= 换行符处理 =================
+
+    private fun updateEolLabel() {
+        val text = binding.editor.text ?: return
+        currentEol = EditorCommands.detectEol(text)
+        // ★ 底栏只显示极简缩写，节省空间
+        binding.tvEol.text = when (currentEol) {
+            "CRLF" -> "CRLF"
+            "LF" -> "LF"
+            else -> "Mixed"
+        }
+    }
+
+    private fun showEolMenu() {
+        if (isLargeFileMode) {
+            showTip("大文件模式下不支持转换换行符")
+            return
+        }
+        // ★ 点开后的菜单里保留完整全称，方便用户直观理解
+        val items = listOf(
+            "转为 Windows (CRLF)" to { convertEol("\r\n") },
+            "转为 Unix/MacOS (LF)" to { convertEol("\n") }
+        )
+        showCustomMenu(binding.tvEol, items)
+    }
+
+    private fun convertEol(targetEol: String) {
+        if (isLargeFileMode) return
+        val doc = currentDoc() ?: return
+        val editor = binding.editor
+        val text = editor.text.toString()
+        if (text.isEmpty()) return
+
+        val targetLabel = if (targetEol == "\r\n") "CRLF" else "LF"
+        if (currentEol == targetLabel) {
+            showTip("当前已是 $targetLabel 格式")
+            return
+        }
+
+        // 统一转为 LF
+        val normalized = text.replace("\r\n", "\n")
+        // 如果目标是 CRLF，再全替换为 CRLF
+        val newText = if (targetEol == "\r\n") normalized.replace("\n", "\r\n") else normalized
+
+        val selStart = editor.selectionStart
+
+        suppressWatcher = true
+        editor.setText(newText)
+        suppressWatcher = false
+
+        doc.text = newText
+        doc.isDirty = true
+        refreshTabBar()
+
+        // 换行符转换后，撤销栈里的旧内容已经失去意义，且可能占满内存，直接重置
+        undoManager.reset(newText)
+
+        val newSel = selStart.coerceIn(0, newText.length)
+        editor.setSelection(newSel)
+
+        updateEolLabel()
+        triggerStatusUpdate()
+        showTip("已转为 $targetLabel 格式")
+    }
+
+    // ================= 菜单与保存 =================
 
     private fun showSaveMenu() {
         showCustomMenu(
@@ -516,7 +605,9 @@ class MainActivity : AppCompatActivity() {
         if (finalSize != prefs.fontSize) prefs.fontSize = finalSize
         EditorStyler.applyFontSize(binding, finalSize.toFloat())
         lastAppliedFontSize = finalSize
-        if (prefs.showSpecialChars && !isLargeFileMode) scheduleSpecialCharRefresh()
+        if (prefs.showSpecialChars && !isLargeFileMode) {
+            scheduleSpecialCharRefresh()
+        }
     }
 
     private fun showTip(msg: String) {
@@ -525,6 +616,8 @@ class MainActivity : AppCompatActivity() {
             .setAnchorView(anchor)
             .show()
     }
+
+    // ================= 自动保存与生命周期 =================
 
     private fun scheduleAutoSave() {
         cancelAutoSave()
@@ -636,6 +729,8 @@ class MainActivity : AppCompatActivity() {
             ThemeColorHelper.applySystemBars(this)
         }
     }
+
+    // ================= 标签与文件加载 =================
 
     private fun initializeFromStartupMode() {
         when (prefs.startupMode) {
@@ -818,9 +913,11 @@ class MainActivity : AppCompatActivity() {
             newTabInternal(isFirst = true)
             return
         }
-        if (currentIndex > index) currentIndex--
-        else if (currentIndex == index) currentIndex =
-            currentIndex.coerceAtMost(documents.size - 1)
+        if (currentIndex > index) {
+            currentIndex--
+        } else if (currentIndex == index) {
+            currentIndex = currentIndex.coerceAtMost(documents.size - 1)
+        }
         loadDocIntoEditor(documents[currentIndex])
         refreshTabBar()
         refreshCurrentView()
@@ -859,7 +956,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.editor.post {
             binding.editor.scrollTo(0, doc.scrollY)
-            if (!isLargeFileMode) binding.tvLineNumbers.invalidate()
+            if (!isLargeFileMode) {
+                binding.tvLineNumbers.invalidate()
+            }
         }
 
         if (!isLargeFileMode) {
@@ -881,6 +980,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshCurrentView() {
         updateEncodingLabel()
+        updateEolLabel() // ★ 切换标签时立刻更新 EOL 显示
         if (!isLargeFileMode) {
             triggerStatusUpdate()
         } else {
@@ -1033,7 +1133,9 @@ class MainActivity : AppCompatActivity() {
             }
             Intent.ACTION_SEND -> {
                 val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-                if (!text.isNullOrEmpty()) handleSharedText(text)
+                if (!text.isNullOrEmpty()) {
+                    handleSharedText(text)
+                }
             }
         }
     }
@@ -1158,8 +1260,11 @@ class MainActivity : AppCompatActivity() {
             },
             onReplaceAll = { query, replacement ->
                 val n = EditorSearchHelper.replaceAll(binding.editor, query, replacement)
-                if (n == 0) showTip(getString(R.string.not_found))
-                else showTip(getString(R.string.replaced_n, n))
+                if (n == 0) {
+                    showTip(getString(R.string.not_found))
+                } else {
+                    showTip(getString(R.string.replaced_n, n))
+                }
             }
         )
     }

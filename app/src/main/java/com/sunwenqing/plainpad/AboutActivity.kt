@@ -17,6 +17,8 @@ class AboutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
+        // ★ 必须放在 super.onCreate 之前
+        ThemeColorHelper.apply(this, prefs.themeColor)
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
 

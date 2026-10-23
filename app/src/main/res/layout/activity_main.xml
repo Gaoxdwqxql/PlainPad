@@ -230,6 +230,20 @@
                 android:fontFamily="monospace"
                 tools:text="UTF-8" />
 
+            <!-- 新增的 EOL 显示 -->
+            <TextView
+                android:id="@+id/tvEol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="2dp"
+                android:background="?attr/colorSurfaceVariant"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                tools:text="Windows(CRLF)" />
+
             <ImageButton
                 android:id="@+id/btnInsertSpecial"
                 android:layout_width="32dp"

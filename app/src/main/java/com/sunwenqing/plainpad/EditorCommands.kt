@@ -156,4 +156,34 @@ object EditorCommands {
 
     /** ASCII 及半角字符算 1 宽，其他（中文、全角）算 2 宽 */
     private fun charHalfWidth(c: Char): Int = if (c.code < 0x80) 1 else 2
+
+    // ---------------- 换行符检测 ----------------
+
+    /**
+     * 检测文本的换行符类型。
+     * 为了性能，最多只扫描前 100_000 个字符，足以应对所有场景。
+     */
+    fun detectEol(text: CharSequence): String {
+        var crlfCount = 0
+        var lfCount = 0
+        var idx = 0
+        val limit = minOf(text.length, 100_000)
+
+        while (idx < limit) {
+            val lfIdx = text.indexOf('\n', idx)
+            if (lfIdx == -1 || lfIdx >= limit) break
+            if (lfIdx > 0 && text[lfIdx - 1] == '\r') {
+                crlfCount++
+            } else {
+                lfCount++
+            }
+            idx = lfIdx + 1
+        }
+
+        return when {
+            crlfCount > 0 && lfCount > 0 -> "Mixed"
+            crlfCount > 0 -> "CRLF"
+            else -> "LF" // 纯 LF，或者文本没有任何换行符，默认按 LF 处理
+        }
+    }
 }

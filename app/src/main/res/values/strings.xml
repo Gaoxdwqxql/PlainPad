@@ -278,6 +278,14 @@
     <string name="help_section_encoding">编码支持</string>
     <string name="help_encoding_content">打开文件时自动识别 BOM 并优先按 UTF-8 解码，失败时回退 GBK，避免中文乱码。\n保存时可选择：UTF-8、UTF-16LE、UTF-16BE、GBK、GB2312。\n底栏右侧会显示当前文件的编码。</string>
 
+    <!-- 换行符格式 (新增) -->
+    <string name="help_section_eol">换行符格式</string>
+    <string name="help_eol_content">底栏编码右侧会实时显示当前文件的换行符格式（CRLF 或 LF）。\n• Windows 使用 CRLF (\\r\\n)\n• Unix / macOS 使用 LF (\\n)\n\n点击底栏的 CRLF 或 LF 标签，可以在两种格式之间一键转换，防止在不同操作系统间传输文件时出现排版错乱。</string>
+
+    <!-- 大文件模式 (新增) -->
+    <string name="help_section_large_file">大文件模式</string>
+    <string name="help_large_file_content">为保证在移动设备上的极致流畅，PlainPad 对超大文本做了特殊处理：\n• 读取上限：最大支持打开 20MB 的文本文件，超出部分会截断并提示。\n• 性能保护：当单文件字符数超过 100 万时，会自动进入“大文件模式”。\n• 受限功能：在该模式下，为保证不发生卡顿或 OOM（内存溢出），将禁用行号、撤销/重做、双指缩放、特殊字符渲染及统计功能。</string>
+
     <!-- 沉浸阅读 -->
     <string name="help_section_immersive">沉浸阅读</string>
     <string name="help_immersive_content">菜单 → 沉浸阅读，隐藏顶栏、标签栏、状态栏与系统状态栏，只留纯文本。\n右下角会出现"退出阅读"按钮，按返回键也能退出。</string>

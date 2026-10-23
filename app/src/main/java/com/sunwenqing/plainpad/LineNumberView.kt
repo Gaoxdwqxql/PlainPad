@@ -18,10 +18,9 @@ import kotlin.math.max
  * 直接读取 EditText 的 Layout，逐行取 baseline 精确绘制。
  *
  * 宽度策略（关键修复）：
- * - 宽度只在"行号位数变化"时重新计算一次，之后**锁定**，绝不因字号变化而重算
- * - 字号只影响数字在栏内的绘制，不影响栏宽
- * - 这样双指缩放字号时，行号栏宽度固定，编辑区左边缘稳定，
- *   数字与正文之间的水平间距也恒定
+ * - 宽度根据当前字号，使用 paint.measureText 精确测量，绝不让数字溢出左边缘。
+ * - 只有行号位数变化、或字号/字体变化时，才重新计算宽度并 requestLayout。
+ * - 这样双指缩放字号时，行号栏宽度会自动适配，编辑区左边缘依然稳定。
  */
 class LineNumberView @JvmOverloads constructor(
     context: Context,
@@ -36,7 +35,7 @@ class LineNumberView @JvmOverloads constructor(
         color = Color.GRAY
     }
 
-    /** 锁定的宽度（px）。只有行号位数变化时才更新 */
+    /** 锁定的宽度（px）。只有行号位数或字号变化时才更新 */
     private var lockedWidth = 0
     /** 上次计算宽度时使用的行号位数 */
     private var lastDigits = -1
@@ -51,12 +50,21 @@ class LineNumberView @JvmOverloads constructor(
 
     /**
      * 字体同步（字号 / 字体族变化时调用）。
-     * 关键：只 invalidate 重绘，绝不 requestLayout，
-     * 这样字号变化不会触发栏宽重新测量。
+     * 关键：字号改变时，必须重新计算宽度并 requestLayout，
+     * 否则字变大了，行号栏宽度不够，数字会超出屏幕边缘。
      */
     fun setTypefaceAndSize(tf: Typeface, sizePx: Float) {
         paint.typeface = tf
         paint.textSize = sizePx
+
+        // ★ 字号变化后，重新计算所需宽度
+        val lineCount = editor?.lineCount ?: 1
+        val digits = max(lineCount, 1).toString().length.coerceAtLeast(3)
+        val newWidth = computeDesiredWidth(digits)
+        if (lockedWidth != newWidth) {
+            lockedWidth = newWidth
+            requestLayout()
+        }
         invalidate()
     }
 
@@ -90,7 +98,7 @@ class LineNumberView @JvmOverloads constructor(
 
     /**
      * 只在"行号位数"变化时才更新 lockedWidth，
-     * 其余情况（字号变化、布局变化、滚动、光标移动）一律不重测宽度。
+     * 其余情况（滚动、光标移动）一律不重测宽度。
      */
     private fun updateWidthIfNeeded() {
         val lineCount = editor?.lineCount ?: 1
@@ -104,14 +112,15 @@ class LineNumberView @JvmOverloads constructor(
 
     private fun computeDesiredWidth(digits: Int): Int {
         val density = resources.displayMetrics.density
-        // 每位数字固定占用的宽度（dp），与字号无关
-        val perDigitDp = 9f
+
+        // ★ 使用当前 paint 的 measureText 动态测量数字宽度，而不是固定 dp
+        val textArea = paint.measureText("8".repeat(digits))
+
         // 数字右边缘到行号栏右边缘的间距（dp）
         val endGapDp = 6f
         // 行号栏左边缘到数字左边缘的间距（dp）
         val startGapDp = 4f
 
-        val textArea = digits * perDigitDp * density
         val endGap = endGapDp * density
         val startGap = startGapDp * density
 

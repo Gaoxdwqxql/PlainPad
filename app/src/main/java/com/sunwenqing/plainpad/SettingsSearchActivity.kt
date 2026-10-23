@@ -36,11 +36,16 @@ class SettingsSearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
+        // ★ 必须放在 super.onCreate 之前
+        ThemeColorHelper.apply(this, prefs.themeColor)
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
 
         binding = ActivitySettingsSearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // ★ 加上系统状态栏颜色同步
+        ThemeColorHelper.applySystemBars(this)
 
         // 高亮背景色：主题的 primaryContainer
         highlightColor = MaterialColors.getColor(
