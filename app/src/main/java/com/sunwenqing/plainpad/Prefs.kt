@@ -168,6 +168,7 @@ class Prefs(context: Context) {
             o.put("name", d.displayName)
             o.put("enc", d.encoding)
             o.put("dirty", d.isDirty)
+            o.put("readonly", d.isReadOnly) // ★ 保存只读状态
             o.put("sel", d.selStart)
             o.put("sel2", d.selEnd)
             o.put("scroll", d.scrollY)
@@ -191,6 +192,7 @@ class Prefs(context: Context) {
                         displayName = o.optString("name", "未命名.txt"),
                         encoding = o.optString("enc", "UTF-8"),
                         isDirty = o.optBoolean("dirty", false),
+                        isReadOnly = o.optBoolean("readonly", false), // ★ 恢复只读状态
                         selStart = o.optInt("sel", 0),
                         selEnd = o.optInt("sel2", 0),
                         scrollY = o.optInt("scroll", 0),

@@ -11,5 +11,6 @@ data class OpenDocument(
     var selStart: Int = 0,
     var selEnd: Int = 0,
     var scrollY: Int = 0,
-    var isDirty: Boolean = false
+    var isDirty: Boolean = false,
+    var isReadOnly: Boolean = false // ★ 新增：是否强制只读（文件截断时触发）
 )

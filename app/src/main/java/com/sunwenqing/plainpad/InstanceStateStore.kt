@@ -13,6 +13,7 @@ object InstanceStateStore {
     private const val KEY_ENCODINGS = "doc_encodings"
     private const val KEY_TEXTS = "doc_texts"
     private const val KEY_DIRTY_FLAGS = "doc_dirty_flags"
+    private const val KEY_READONLY_FLAGS = "doc_readonly_flags" // ★ 新增
     private const val KEY_SEL_STARTS = "doc_sel_starts"
     private const val KEY_SEL_ENDS = "doc_sel_ends"
     private const val KEY_SCROLLS = "doc_scrolls"
@@ -30,6 +31,7 @@ object InstanceStateStore {
         val encodings = ArrayList<String>()
         val texts = ArrayList<String>()
         val dirtyFlags = ArrayList<Boolean>()
+        val readonlyFlags = ArrayList<Boolean>() // ★ 新增
         val selStarts = ArrayList<Int>()
         val selEnds = ArrayList<Int>()
         val scrolls = ArrayList<Int>()
@@ -40,6 +42,7 @@ object InstanceStateStore {
             encodings.add(d.encoding)
             texts.add(d.text)
             dirtyFlags.add(d.isDirty)
+            readonlyFlags.add(d.isReadOnly) // ★ 收集只读状态
             selStarts.add(d.selStart)
             selEnds.add(d.selEnd)
             scrolls.add(d.scrollY)
@@ -50,6 +53,7 @@ object InstanceStateStore {
         outState.putStringArrayList(KEY_ENCODINGS, encodings)
         outState.putStringArrayList(KEY_TEXTS, texts)
         outState.putBooleanArray(KEY_DIRTY_FLAGS, dirtyFlags.toBooleanArray())
+        outState.putBooleanArray(KEY_READONLY_FLAGS, readonlyFlags.toBooleanArray()) // ★ 保存到 Bundle
         outState.putIntegerArrayList(KEY_SEL_STARTS, selStarts)
         outState.putIntegerArrayList(KEY_SEL_ENDS, selEnds)
         outState.putIntegerArrayList(KEY_SCROLLS, scrolls)
@@ -69,6 +73,7 @@ object InstanceStateStore {
         val encodings = state.getStringArrayList(KEY_ENCODINGS) ?: arrayListOf()
         val texts = state.getStringArrayList(KEY_TEXTS) ?: arrayListOf()
         val dirtyFlags = state.getBooleanArray(KEY_DIRTY_FLAGS) ?: booleanArrayOf()
+        val readonlyFlags = state.getBooleanArray(KEY_READONLY_FLAGS) ?: booleanArrayOf() // ★ 读取只读状态
         val selStarts = state.getIntegerArrayList(KEY_SEL_STARTS) ?: arrayListOf()
         val selEnds = state.getIntegerArrayList(KEY_SEL_ENDS) ?: arrayListOf()
         val scrolls = state.getIntegerArrayList(KEY_SCROLLS) ?: arrayListOf()
@@ -84,6 +89,7 @@ object InstanceStateStore {
                     encoding = encodings.getOrNull(i) ?: "UTF-8",
                     text = texts.getOrNull(i) ?: "",
                     isDirty = dirtyFlags.getOrNull(i) ?: false,
+                    isReadOnly = readonlyFlags.getOrNull(i) ?: false, // ★ 恢复给 OpenDocument
                     selStart = selStarts.getOrNull(i) ?: 0,
                     selEnd = selEnds.getOrNull(i) ?: 0,
                     scrollY = scrolls.getOrNull(i) ?: 0

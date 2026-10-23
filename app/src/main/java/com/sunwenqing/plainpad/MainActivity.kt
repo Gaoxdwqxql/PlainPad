@@ -51,18 +51,12 @@ class MainActivity : AppCompatActivity() {
     private var uiReady = false
 
     private var currentThemeColor = ""
-
-    // ★ 防止改主题色 recreate 时，切 activity-alias 导致系统结束进程
     private var skipIconSwitchOnce = false
-
-    // ★ 缓存当前换行符类型
     private var currentEol = "LF"
 
-    // ★ 大文件模式阈值（100 万字符）
     private val LARGE_FILE_THRESHOLD = 1_000_000
     private var isLargeFileMode = false
 
-    // ★ 缓存最近一次已应用的外观，避免 onResume 无条件重新布局大文本
     private var lastAppliedFontSize = -1
     private var lastAppliedFontFamily = ""
     private var lastAppliedEditorTheme = ""
@@ -79,7 +73,6 @@ class MainActivity : AppCompatActivity() {
     private var specialCharRunnable: Runnable? = null
     private val SPECIAL_CHAR_REFRESH_DELAY_MS = 150L
 
-    // ★ 防抖计算状态与行号。停止输入 400ms 后才计算
     private val statusUpdateHandler = Handler(Looper.getMainLooper())
     private var statusUpdateRunnable: Runnable? = null
     private val STATUS_UPDATE_DELAY_MS = 400L
@@ -138,7 +131,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.tvLineNumbers.visibility = if (prefs.showLineNumbers) View.VISIBLE else View.GONE
 
-        // ★ 先应用外观，再加载文档。避免大文本 setText 后再改字号/字体导致二次重排。
         applyWrap(prefs.wrap)
         lastAppliedWrap = prefs.wrap
         EditorStyler.applyAll(binding, prefs)
@@ -177,9 +169,7 @@ class MainActivity : AppCompatActivity() {
         if (!uiReady) return
 
         if (prefs.themeColor != currentThemeColor) {
-            // 显式保存，避免 recreate 窗口丢最后输入
             saveCurrentToDoc()
-            // 关键：本次 onStop 不要切 activity-alias，否则任务会被系统清掉
             skipIconSwitchOnce = true
             recreate()
             return
@@ -198,10 +188,6 @@ class MainActivity : AppCompatActivity() {
         scheduleAutoSave()
     }
 
-    /**
-     * 只在设置真的变化时才重新应用字号/字体/编辑区主题。
-     * 大文件模式下避免 setTextSize/setTypeface 触发布局，只允许切换编辑区配色。
-     */
     private fun applyAppearanceIfChanged() {
         val themeChanged = prefs.editorThemeId != lastAppliedEditorTheme
         val fontChanged = prefs.fontSize != lastAppliedFontSize ||
@@ -258,10 +244,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        // ★ 三种情况不切图标：
-        // 1) 正在 recreate（改主题色），切 alias 会被系统判为组件失效并清任务
-        // 2) 普通配置变更（旋转等），同样不该在重建窗口切
-        // 3) uiReady 尚未就绪
         if (uiReady && !skipIconSwitchOnce && !isChangingConfigurations) {
             IconSwitcher.applyIfNeeded(this, prefs.themeColor)
         }
@@ -287,13 +269,23 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if (!suppressWatcher) {
                     val doc = currentDoc() ?: return
+
+                    // ★ 防绕过：如果当前是只读文档，任何修改企图都立刻回滚
+                    if (doc.isReadOnly) {
+                        showTip("只读模式不可编辑")
+                        suppressWatcher = true
+                        binding.editor.setText(doc.text)
+                        binding.editor.setSelection(doc.selStart.coerceIn(0, doc.text.length))
+                        suppressWatcher = false
+                        return
+                    }
+
                     doc.text = s?.toString().orEmpty()
                     if (!doc.isDirty) {
                         doc.isDirty = true
                         refreshTabBar()
                     }
 
-                    // ★ 大文件模式下不做任何全量遍历与撤销快照
                     if (!isLargeFileMode) {
                         undoManager.scheduleSnapshot()
                         scheduleEditAutoSave()
@@ -308,11 +300,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // ★ 防抖刷新统计与行号
     private fun triggerStatusUpdate() {
         cancelStatusUpdate()
         val r = Runnable {
-            // 每次防抖刷新时同步更新 EOL 状态（大文件也可更新，detectEol 只扫前 10 万字符，极快）
             updateEolLabel()
             if (isLargeFileMode) return@Runnable
             updateStatus()
@@ -327,7 +317,6 @@ class MainActivity : AppCompatActivity() {
         statusUpdateRunnable = null
     }
 
-    // ★ 切换大文件模式（100万字符）的 UI
     private fun updateLargeFileMode(textLen: Int) {
         val isLarge = textLen > LARGE_FILE_THRESHOLD
         if (isLargeFileMode == isLarge) return
@@ -335,8 +324,7 @@ class MainActivity : AppCompatActivity() {
         isLargeFileMode = isLarge
         if (isLarge) {
             binding.tvLineNumbers.visibility = View.GONE
-            undoManager.reset("") // 释放可能占满内存的撤销栈
-            showTip("文件过大（>100万字符），已禁用行号、撤销、双指缩放与特殊字符渲染以保证流畅")
+            undoManager.reset("")
         } else {
             binding.tvLineNumbers.visibility =
                 if (prefs.showLineNumbers && !isImmersive) View.VISIBLE else View.GONE
@@ -366,7 +354,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupZoomGesture() {
         binding.editor.setOnTouchListener { v, event ->
-            // ★ 大文件下禁用双指缩放，避免实时改字号导致整篇重新布局
             if (isLargeFileMode) return@setOnTouchListener false
             zoomHandler.onTouch(v, event)
         }
@@ -391,7 +378,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnInsertSpecial.setOnClickListener {
             if (isLargeFileMode) showTip("大文件模式已禁用特殊字符") else showSpecialCharPanel()
         }
-        // ★ 绑定底栏 EOL 的点击事件
         binding.tvEol.setOnClickListener { showEolMenu() }
     }
 
@@ -455,14 +441,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ================= 换行符处理 =================
-
-    // ================= 换行符处理 =================
-
     private fun updateEolLabel() {
         val text = binding.editor.text ?: return
         currentEol = EditorCommands.detectEol(text)
-        // ★ 底栏只显示极简缩写，节省空间
         binding.tvEol.text = when (currentEol) {
             "CRLF" -> "CRLF"
             "LF" -> "LF"
@@ -471,11 +452,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showEolMenu() {
-        if (isLargeFileMode) {
-            showTip("大文件模式下不支持转换换行符")
+        if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
+            showTip("当前模式下不支持转换换行符")
             return
         }
-        // ★ 点开后的菜单里保留完整全称，方便用户直观理解
         val items = listOf(
             "转为 Windows (CRLF)" to { convertEol("\r\n") },
             "转为 Unix/MacOS (LF)" to { convertEol("\n") }
@@ -486,6 +466,11 @@ class MainActivity : AppCompatActivity() {
     private fun convertEol(targetEol: String) {
         if (isLargeFileMode) return
         val doc = currentDoc() ?: return
+        if (doc.isReadOnly) {
+            showTip("只读模式不可修改")
+            return
+        }
+
         val editor = binding.editor
         val text = editor.text.toString()
         if (text.isEmpty()) return
@@ -496,9 +481,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // 统一转为 LF
         val normalized = text.replace("\r\n", "\n")
-        // 如果目标是 CRLF，再全替换为 CRLF
         val newText = if (targetEol == "\r\n") normalized.replace("\n", "\r\n") else normalized
 
         val selStart = editor.selectionStart
@@ -511,7 +494,6 @@ class MainActivity : AppCompatActivity() {
         doc.isDirty = true
         refreshTabBar()
 
-        // 换行符转换后，撤销栈里的旧内容已经失去意义，且可能占满内存，直接重置
         undoManager.reset(newText)
 
         val newSel = selStart.coerceIn(0, newText.length)
@@ -521,8 +503,6 @@ class MainActivity : AppCompatActivity() {
         triggerStatusUpdate()
         showTip("已转为 $targetLabel 格式")
     }
-
-    // ================= 菜单与保存 =================
 
     private fun showSaveMenu() {
         showCustomMenu(
@@ -537,7 +517,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveAll() {
         saveCurrentToDoc()
-        val targets = documents.filter { it.uri != null && it.isDirty }
+        // ★ 过滤掉只读文件
+        val targets = documents.filter { it.uri != null && it.isDirty && !it.isReadOnly }
         if (targets.isEmpty()) {
             showTip(getString(R.string.save_all_nothing))
             return
@@ -617,8 +598,6 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    // ================= 自动保存与生命周期 =================
-
     private fun scheduleAutoSave() {
         cancelAutoSave()
         if (!prefs.autoSaveEnabled || prefs.autoSaveIntervalSec <= 0) return
@@ -642,7 +621,7 @@ class MainActivity : AppCompatActivity() {
     private fun scheduleEditAutoSave() {
         if (!prefs.autoSaveEnabled || !prefs.autoSaveOnEdit || isLargeFileMode) return
         val doc = currentDoc() ?: return
-        if (doc.uri == null || !doc.isDirty) return
+        if (doc.uri == null || !doc.isDirty || doc.isReadOnly) return
         editAutoSaveRunnable?.let { editAutoSaveHandler.removeCallbacks(it) }
         val r = Runnable { autoSaveCurrent() }
         editAutoSaveRunnable = r
@@ -657,7 +636,8 @@ class MainActivity : AppCompatActivity() {
     private fun autoSaveCurrent() {
         if (!prefs.autoSaveEnabled || isLargeFileMode) return
         val doc = currentDoc() ?: return
-        if (doc.uri == null || !doc.isDirty) return
+        // ★ 只读文件不进行自动保存
+        if (doc.uri == null || !doc.isDirty || doc.isReadOnly) return
         val content = binding.editor.text?.toString().orEmpty()
         lifecycleScope.launch {
             try {
@@ -730,8 +710,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ================= 标签与文件加载 =================
-
     private fun initializeFromStartupMode() {
         when (prefs.startupMode) {
             0 -> {
@@ -780,11 +758,10 @@ class MainActivity : AppCompatActivity() {
                         }
                         doc.text = result.text
                         doc.encoding = result.encoding
+                        // ★ 重新载入时，也同步截断状态
+                        doc.isReadOnly = result.isTruncated
                         if (index == currentIndex) {
                             loadDocIntoEditor(doc)
-                            if (result.isTruncated) {
-                                showTip("文件过大，已截断显示前 20MB 内容")
-                            }
                         }
                         refreshTabBar()
                     } catch (_: Exception) {
@@ -850,7 +827,8 @@ class MainActivity : AppCompatActivity() {
                     uri = uri,
                     displayName = name,
                     encoding = result.encoding,
-                    text = result.text
+                    text = result.text,
+                    isReadOnly = result.isTruncated // ★ 如果超过了 20MB 被截断，则强制只读
                 )
                 saveCurrentToDoc()
                 documents.add(doc)
@@ -859,9 +837,6 @@ class MainActivity : AppCompatActivity() {
                 refreshTabBar()
                 refreshCurrentView()
                 prefs.addRecentFile(uri, name)
-                if (result.isTruncated) {
-                    showTip("文件过大，为保证流畅度已截断显示前 20MB 内容")
-                }
             } catch (e: Exception) {
                 showTip(getString(R.string.err_open, e.message ?: ""))
             }
@@ -925,6 +900,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveCurrentToDoc() {
         val doc = currentDoc() ?: return
+        if (doc.isReadOnly) return // 只读文档不接受修改保存
         doc.text = binding.editor.text?.toString().orEmpty()
         doc.selStart = binding.editor.selectionStart.coerceAtLeast(0)
         doc.selEnd = binding.editor.selectionEnd.coerceAtLeast(0)
@@ -932,12 +908,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadDocIntoEditor(doc: OpenDocument) {
-        // ★ 先确定大文件标志，再 setText，避免 TextWatcher 走非大文件路径做多余工作
         val isLarge = doc.text.length > LARGE_FILE_THRESHOLD
         isLargeFileMode = isLarge
 
         suppressWatcher = true
         binding.editor.setText(doc.text)
+
+        // ★ 设置只读模式
+        binding.editor.isReadOnlyMode = doc.isReadOnly
+
         val s = doc.selStart.coerceIn(0, doc.text.length)
         val e = doc.selEnd.coerceIn(0, doc.text.length)
         binding.editor.setSelection(s, e)
@@ -945,9 +924,12 @@ class MainActivity : AppCompatActivity() {
 
         undoManager.reset(if (isLarge) "" else doc.text)
 
-        if (isLarge) {
+        if (doc.isReadOnly) {
             binding.tvLineNumbers.visibility = View.GONE
-            showTip("文件过大（>100万字符），已禁用行号、撤销、双指缩放与特殊字符渲染以保证流畅")
+            showTip("文件超过 20MB，已截断显示前 20MB，并进入只读模式防覆盖")
+        } else if (isLarge) {
+            binding.tvLineNumbers.visibility = View.GONE
+            showTip("文件过大（>100万字符），已禁用行号、撤销、双指缩放等以保证流畅")
         } else {
             binding.tvLineNumbers.visibility =
                 if (prefs.showLineNumbers && !isImmersive) View.VISIBLE else View.GONE
@@ -980,7 +962,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshCurrentView() {
         updateEncodingLabel()
-        updateEolLabel() // ★ 切换标签时立刻更新 EOL 显示
+        updateEolLabel()
         if (!isLargeFileMode) {
             triggerStatusUpdate()
         } else {
@@ -991,14 +973,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateLineNumbers() {
         if (isLargeFileMode) return
-        // LineNumberView 自己读 editor.layout 绘制，只需重绘
         binding.tvLineNumbers.invalidate()
     }
 
     private fun updateStatus() {
         val text = binding.editor.text ?: return
         if (isLargeFileMode) {
-            binding.tvStatus.text = "大文件模式 · ${text.length} 字符"
+            // ★ 状态栏显示只读标识
+            val readOnlyText = if (currentDoc()?.isReadOnly == true) "（只读）" else ""
+            binding.tvStatus.text = "大文件模式$readOnlyText · ${text.length} 字符"
             return
         }
         val stats = EditorCommands.computeStats(text)
@@ -1038,8 +1021,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSpecialCharPanel() {
-        if (isLargeFileMode) {
-            showTip("大文件模式已禁用此功能")
+        if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
+            showTip("当前模式下已禁用此功能")
             return
         }
         val items = listOf(
@@ -1080,8 +1063,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun undo() {
-        if (isLargeFileMode) {
-            showTip("大文件模式下不可撤销")
+        if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
+            showTip("当前模式下不可撤销")
             return
         }
         val snap = EditorCommands.undo(undoManager) ?: run {
@@ -1092,8 +1075,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun redo() {
-        if (isLargeFileMode) {
-            showTip("大文件模式下不可重做")
+        if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
+            showTip("当前模式下不可重做")
             return
         }
         val snap = EditorCommands.redo(undoManager) ?: run {
@@ -1165,6 +1148,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveCurrent() {
         val doc = currentDoc() ?: return
+        if (doc.isReadOnly) {
+            showTip("该文件因过大已被截断，禁止保存以免覆盖丢失原有内容")
+            return
+        }
         if (doc.uri == null) {
             chooseEncodingThenSaveAs()
         } else {
@@ -1175,6 +1162,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun chooseEncodingThenSaveAs() {
         val doc = currentDoc() ?: return
+        if (doc.isReadOnly) return
         EditorDialogs.showEncoding(this, doc.encoding) { enc ->
             pendingEncoding = enc
             saveAsLauncher.launch(
@@ -1185,6 +1173,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveCurrentToUri(uri: Uri) {
         val doc = currentDoc() ?: return
+        if (doc.isReadOnly) return
         val content = binding.editor.text?.toString().orEmpty()
         val encoding = pendingEncoding ?: doc.encoding
         lifecycleScope.launch {
@@ -1253,6 +1242,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showReplace() {
+        if (currentDoc()?.isReadOnly == true) {
+            showTip("只读模式不可替换")
+            return
+        }
         EditorDialogs.showReplace(
             this,
             onReplace = { query, replacement ->
