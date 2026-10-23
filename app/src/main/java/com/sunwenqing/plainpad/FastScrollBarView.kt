@@ -22,7 +22,7 @@ import kotlin.math.min
 
 /**
  * 通用滚动条：
- * - 支持 EditText（编辑器）与 ScrollView（设置页等）
+ * - 支持 EditText（编辑器）、ScrollView（设置页）、LargeTextView（大文件阅读器）
  * - 拖动时通过 scrollTo 控制目标滚动位置
  * - 松手后按手指速度惯性滑动（OverScroller）
  * - 触摸时立即打断惯性
@@ -38,6 +38,7 @@ class FastScrollBarView @JvmOverloads constructor(
 
     private var editor: EditText? = null
     private var scrollView: ScrollView? = null
+    private var largeTextView: LargeTextView? = null
 
     private val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val thumbPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -73,6 +74,7 @@ class FastScrollBarView @JvmOverloads constructor(
     fun attach(editText: EditText) {
         editor = editText
         scrollView = null
+        largeTextView = null
         syncColorFromEditor()
 
         editText.viewTreeObserver.addOnScrollChangedListener {
@@ -99,8 +101,8 @@ class FastScrollBarView @JvmOverloads constructor(
     fun attachScrollView(sv: ScrollView) {
         scrollView = sv
         editor = null
+        largeTextView = null
 
-        // 颜色从主题推导
         val rgb = MaterialColors.getColor(
             sv, com.google.android.material.R.attr.colorOnSurface
         ) and 0x00FFFFFF
@@ -114,6 +116,31 @@ class FastScrollBarView @JvmOverloads constructor(
         }
 
         sv.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            post { updateThumb() }
+        }
+
+        post { updateThumb() }
+    }
+
+    fun attachLargeTextView(view: LargeTextView) {
+        largeTextView = view
+        editor = null
+        scrollView = null
+
+        // 颜色从主题推导
+        val rgb = MaterialColors.getColor(
+            view, com.google.android.material.R.attr.colorOnSurface
+        ) and 0x00FFFFFF
+        thumbPaint.color = rgb or 0x66000000
+        trackPaint.color = rgb or 0x22000000
+
+        view.setOnScrollListener {
+            if (isDragging || isFlinging) return@setOnScrollListener
+            updateThumb()
+            flashVisible()
+        }
+
+        view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             post { updateThumb() }
         }
 
@@ -134,24 +161,28 @@ class FastScrollBarView @JvmOverloads constructor(
     private fun contentHeight(): Float {
         editor?.let { return (it.layout?.height ?: 0).toFloat() }
         scrollView?.let { return (it.getChildAt(0)?.height ?: 0).toFloat() }
+        largeTextView?.let { return it.getContentHeight().toFloat() }
         return 0f
     }
 
     private fun visibleHeight(): Float {
         editor?.let { return (it.height - it.paddingTop - it.paddingBottom).toFloat() }
         scrollView?.let { return it.height.toFloat() }
+        largeTextView?.let { return it.getVisibleHeight().toFloat() }
         return 0f
     }
 
     private fun currentScrollY(): Int {
         editor?.let { return it.scrollY }
         scrollView?.let { return it.scrollY }
+        largeTextView?.let { return it.getCurrentScrollY() }
         return 0
     }
 
     private fun applyScroll(y: Int) {
         editor?.scrollTo(0, y)
         scrollView?.scrollTo(0, y)
+        largeTextView?.scrollToY(y)
     }
 
     private fun maxScrollY(): Float =
@@ -241,7 +272,7 @@ class FastScrollBarView @JvmOverloads constructor(
     // ---------------- 触摸 ----------------
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (editor == null && scrollView == null) return false
+        if (editor == null && scrollView == null && largeTextView == null) return false
         if (contentHeight() <= visibleHeight()) return false
 
         if (event.actionMasked == MotionEvent.ACTION_DOWN) {

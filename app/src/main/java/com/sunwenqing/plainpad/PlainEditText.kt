@@ -2,7 +2,14 @@ package com.sunwenqing.plainpad
 
 import android.content.Context
 import android.os.Build
+import android.text.Layout
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.ExtractedText
+import android.view.inputmethod.ExtractedTextRequest
+import android.view.inputmethod.InputConnection
+import android.view.inputmethod.InputConnectionWrapper
 import android.view.textclassifier.TextClassifier
 import android.widget.EditText
 import android.widget.TextView
@@ -18,35 +25,80 @@ class PlainEditText @JvmOverloads constructor(
     @Volatile
     private var allowBring = false
 
-    // ★ 新增：只读模式。设为 true 时表现类似 TextView，支持滚动/选中/复制，但禁止修改
+    private val MAX_IME_TEXT_LENGTH = 100_000
+
     var isReadOnlyMode = false
         set(value) {
             field = value
             isCursorVisible = !value
+            showSoftInputOnFocus = !value
+        }
+
+    // ★ 新增：完全禁用编辑器交互（针对大文件模式）
+    var isInteractionDisabled = false
+        set(value) {
+            field = value
+            if (value) {
+                isFocusable = false
+                isFocusableInTouchMode = false
+                isLongClickable = false
+                setTextIsSelectable(false)
+                // 隐藏光标
+                isCursorVisible = false
+            } else {
+                isFocusable = true
+                isFocusableInTouchMode = true
+                isLongClickable = true
+                setTextIsSelectable(true)
+            }
         }
 
     init {
         disableMagnifier()
         disableTextClassifier()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            breakStrategy = Layout.BREAK_STRATEGY_SIMPLE
+            hyphenationFrequency = Layout.HYPHENATION_FREQUENCY_NONE
+        }
     }
 
-    // ★ 重写此方法。返回 false 时，系统底层会拒绝按键输入、拦截软键盘输入和粘贴操作
+    // ★ 拦截触摸事件：如果交互被禁用，直接 return true 吞掉事件，防止底层去算长按和分词
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (isInteractionDisabled) {
+            // 只允许滑动和滚动（通过父容器或自身的滚动机制），不允许点击或长按
+            return true
+        }
+        return super.onTouchEvent(event)
+    }
+
     override fun getDefaultEditable(): Boolean {
         return !isReadOnlyMode
+    }
+
+    override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection? {
+        val superConnection = super.onCreateInputConnection(outAttrs) ?: return null
+        return object : InputConnectionWrapper(superConnection, false) {
+            override fun getExtractedText(request: ExtractedTextRequest?, flags: Int): ExtractedText? {
+                if ((text?.length ?: 0) > MAX_IME_TEXT_LENGTH) return null
+                return super.getExtractedText(request, flags)
+            }
+            override fun getTextBeforeCursor(n: Int, flags: Int): CharSequence? {
+                return super.getTextBeforeCursor(n.coerceAtMost(1000), flags)
+            }
+            override fun getTextAfterCursor(n: Int, flags: Int): CharSequence? {
+                return super.getTextAfterCursor(n.coerceAtMost(1000), flags)
+            }
+        }
     }
 
     private fun disableMagnifier() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
         try {
-            val method = TextView::class.java
-                .getDeclaredMethod(
-                    "setMagnifierEnabled",
-                    Boolean::class.javaPrimitiveType
-                )
+            val method = TextView::class.java.getDeclaredMethod("setMagnifierEnabled", Boolean::class.javaPrimitiveType)
             method.isAccessible = true
             method.invoke(this, false)
-        } catch (_: Exception) {
-        }
+        } catch (_: Exception) {}
     }
 
     private fun disableTextClassifier() {

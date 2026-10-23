@@ -1,6 +1,7 @@
 package com.sunwenqing.plainpad
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import android.net.Uri
@@ -11,6 +12,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     private var skipIconSwitchOnce = false
     private var currentEol = "LF"
 
-    private val LARGE_FILE_THRESHOLD = 1_000_000
+    private val LARGE_FILE_THRESHOLD = 3_000_000
     private var isLargeFileMode = false
 
     private var lastAppliedFontSize = -1
@@ -193,26 +195,33 @@ class MainActivity : AppCompatActivity() {
         val fontChanged = prefs.fontSize != lastAppliedFontSize ||
                 prefs.editorFontFamily != lastAppliedFontFamily
 
-        if (!isLargeFileMode && (themeChanged || fontChanged)) {
-            EditorStyler.applyAll(binding, prefs)
-        } else if (isLargeFileMode && themeChanged) {
-            val theme = EditorThemes.byId(prefs.editorThemeId)
-            EditorThemes.apply(
-                theme,
-                this,
-                binding.editArea,
-                binding.editor,
-                binding.tvLineNumbers
-            )
-            binding.fastScrollBar.syncColorFromEditor()
-            binding.tvLineNumbers.invalidate()
+        if (themeChanged || fontChanged) {
+            if (!isLargeFileMode) {
+                EditorStyler.applyAll(binding, prefs)
+            } else {
+                val theme = EditorThemes.byId(prefs.editorThemeId)
+                EditorThemes.apply(
+                    theme,
+                    this,
+                    binding.editArea,
+                    binding.editor,
+                    binding.tvLineNumbers
+                )
+                val tf = Typeface.create(prefs.editorFontFamily, Typeface.NORMAL)
+                val textColor = binding.editor.currentTextColor
+                val textSizePx = prefs.fontSize * resources.displayMetrics.scaledDensity
+                binding.largeTextView.setTextAppearance(tf, textSizePx, textColor)
+                binding.largeTextView.setBackgroundColor(theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface))
+            }
         }
 
         lastAppliedFontSize = prefs.fontSize
         lastAppliedFontFamily = prefs.editorFontFamily
         lastAppliedEditorTheme = prefs.editorThemeId
 
-        if (!isLargeFileMode && prefs.wrap != lastAppliedWrap) {
+        if (isLargeFileMode) {
+            applyWrap(false)
+        } else if (prefs.wrap != lastAppliedWrap) {
             applyWrap(prefs.wrap)
         }
         lastAppliedWrap = prefs.wrap
@@ -267,10 +276,8 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                if (!suppressWatcher) {
+                if (!suppressWatcher && !isLargeFileMode) {
                     val doc = currentDoc() ?: return
-
-                    // ★ 防绕过：如果当前是只读文档，任何修改企图都立刻回滚
                     if (doc.isReadOnly) {
                         showTip("只读模式不可编辑")
                         suppressWatcher = true
@@ -286,14 +293,12 @@ class MainActivity : AppCompatActivity() {
                         refreshTabBar()
                     }
 
-                    if (!isLargeFileMode) {
-                        undoManager.scheduleSnapshot()
-                        scheduleEditAutoSave()
-                        if (prefs.showSpecialChars) {
-                            scheduleSpecialCharRefresh()
-                        }
-                        triggerStatusUpdate()
+                    undoManager.scheduleSnapshot()
+                    scheduleEditAutoSave()
+                    if (prefs.showSpecialChars) {
+                        scheduleSpecialCharRefresh()
                     }
+                    triggerStatusUpdate()
                 }
                 updateAutoSaveStatus()
             }
@@ -315,21 +320,6 @@ class MainActivity : AppCompatActivity() {
     private fun cancelStatusUpdate() {
         statusUpdateRunnable?.let { statusUpdateHandler.removeCallbacks(it) }
         statusUpdateRunnable = null
-    }
-
-    private fun updateLargeFileMode(textLen: Int) {
-        val isLarge = textLen > LARGE_FILE_THRESHOLD
-        if (isLargeFileMode == isLarge) return
-
-        isLargeFileMode = isLarge
-        if (isLarge) {
-            binding.tvLineNumbers.visibility = View.GONE
-            undoManager.reset("")
-        } else {
-            binding.tvLineNumbers.visibility =
-                if (prefs.showLineNumbers && !isImmersive) View.VISIBLE else View.GONE
-            triggerStatusUpdate()
-        }
     }
 
     private fun setupLineNumbers() {
@@ -376,9 +366,23 @@ class MainActivity : AppCompatActivity() {
             if (isLargeFileMode) showTip("大文件模式已禁用统计") else showStats()
         }
         binding.btnInsertSpecial.setOnClickListener {
-            if (isLargeFileMode) showTip("大文件模式已禁用特殊字符") else showSpecialCharPanel()
+            if (isLargeFileMode || currentDoc()?.isReadOnly == true) showTip("当前模式下已禁用此功能") else showSpecialCharPanel()
         }
         binding.tvEol.setOnClickListener { showEolMenu() }
+    }
+
+    private fun showLoading() {
+        binding.tvLoadingText.text = "正在加载大文件..."
+        binding.loadingOverlay.visibility = View.VISIBLE
+        binding.loadingOverlay.animate().alpha(1f).setDuration(200).start()
+    }
+
+    private fun hideLoading() {
+        if (binding.loadingOverlay.visibility == View.VISIBLE) {
+            binding.loadingOverlay.animate().alpha(0f).setDuration(200)
+                .withEndAction { binding.loadingOverlay.visibility = View.GONE }
+                .start()
+        }
     }
 
     private fun showCustomMenu(anchor: View, items: List<Pair<String, () -> Unit>>) {
@@ -390,25 +394,10 @@ class MainActivity : AppCompatActivity() {
         val bg = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
             cornerRadius = 14f * density
-            setColor(
-                resolveThemeColor(
-                    com.google.android.material.R.attr.colorSurfaceContainerHigh
-                )
-            )
-            setStroke(
-                (1 * density).toInt(),
-                resolveThemeColor(com.google.android.material.R.attr.colorOutlineVariant)
-            )
+            setColor(resolveThemeColor(com.google.android.material.R.attr.colorSurfaceContainerHigh))
+            setStroke((1 * density).toInt(), resolveThemeColor(com.google.android.material.R.attr.colorOutlineVariant))
         }
-        popup.setBackgroundDrawable(
-            InsetDrawable(
-                bg,
-                (4 * density).toInt(),
-                (4 * density).toInt(),
-                (4 * density).toInt(),
-                (4 * density).toInt()
-            )
-        )
+        popup.setBackgroundDrawable(InsetDrawable(bg, (4 * density).toInt(), (4 * density).toInt(), (4 * density).toInt(), (4 * density).toInt()))
         popup.setAdapter(object : BaseAdapter() {
             override fun getCount() = items.size
             override fun getItem(position: Int) = items[position]
@@ -431,18 +420,13 @@ class MainActivity : AppCompatActivity() {
     private fun resolveThemeColor(attr: Int): Int {
         val tv = android.util.TypedValue()
         return if (theme.resolveAttribute(attr, tv, true)) {
-            if (tv.resourceId != 0) {
-                androidx.core.content.ContextCompat.getColor(this, tv.resourceId)
-            } else {
-                tv.data
-            }
-        } else {
-            0xFFEEEEEE.toInt()
-        }
+            if (tv.resourceId != 0) androidx.core.content.ContextCompat.getColor(this, tv.resourceId) else tv.data
+        } else 0xFFEEEEEE.toInt()
     }
 
     private fun updateEolLabel() {
-        val text = binding.editor.text ?: return
+        val text = if (isLargeFileMode) currentDoc()?.text else binding.editor.text
+        if (text == null) return
         currentEol = EditorCommands.detectEol(text)
         binding.tvEol.text = when (currentEol) {
             "CRLF" -> "CRLF"
@@ -517,7 +501,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveAll() {
         saveCurrentToDoc()
-        // ★ 过滤掉只读文件
         val targets = documents.filter { it.uri != null && it.isDirty && !it.isReadOnly }
         if (targets.isEmpty()) {
             showTip(getString(R.string.save_all_nothing))
@@ -529,27 +512,17 @@ class MainActivity : AppCompatActivity() {
             for (doc in targets) {
                 try {
                     withContext(Dispatchers.IO) {
-                        EditorFileIO.save(
-                            contentResolver,
-                            doc.uri!!,
-                            doc.text,
-                            doc.encoding
-                        )
+                        EditorFileIO.save(contentResolver, doc.uri!!, doc.text, doc.encoding)
                     }
                     doc.isDirty = false
                     success++
-                } catch (_: Exception) {
-                    failed++
-                }
+                } catch (_: Exception) { failed++ }
             }
             if (success > 0) prefs.lastSaveTime = System.currentTimeMillis()
             refreshTabBar()
             updateAutoSaveStatus()
-            if (failed == 0) {
-                showTip(getString(R.string.save_all_success, success))
-            } else {
-                showTip(getString(R.string.save_all_partial, success, failed))
-            }
+            if (failed == 0) showTip(getString(R.string.save_all_success, success))
+            else showTip(getString(R.string.save_all_partial, success, failed))
         }
     }
 
@@ -558,21 +531,15 @@ class MainActivity : AppCompatActivity() {
             binding.btnMore,
             listOf(
                 getString(R.string.menu_new) to { newTab() },
-                getString(R.string.menu_open) to {
-                    openLauncher.launch(arrayOf("text/plain", "text/*"))
-                },
+                getString(R.string.menu_open) to { openLauncher.launch(arrayOf("text/plain", "text/*")) },
                 getString(R.string.menu_recent) to { showRecent() },
                 getString(R.string.menu_close_tab) to { requestCloseTab(currentIndex) },
                 getString(R.string.menu_replace) to { showReplace() },
                 getString(R.string.menu_goto_line) to { showGotoLine() },
                 getString(R.string.menu_immersive) to { applyImmersive(true) },
                 getString(R.string.menu_default) to { openDefaultAppsSettings() },
-                getString(R.string.menu_help) to {
-                    startActivity(Intent(this, HelpActivity::class.java))
-                },
-                getString(R.string.menu_about) to {
-                    startActivity(Intent(this, AboutActivity::class.java))
-                }
+                getString(R.string.menu_help) to { startActivity(Intent(this, HelpActivity::class.java)) },
+                getString(R.string.menu_about) to { startActivity(Intent(this, AboutActivity::class.java)) }
             )
         )
     }
@@ -593,9 +560,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showTip(msg: String) {
         val anchor = if (isImmersive) binding.btnExitImmersive else binding.statusBar
-        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
-            .setAnchorView(anchor)
-            .show()
+        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).setAnchorView(anchor).show()
     }
 
     private fun scheduleAutoSave() {
@@ -636,7 +601,6 @@ class MainActivity : AppCompatActivity() {
     private fun autoSaveCurrent() {
         if (!prefs.autoSaveEnabled || isLargeFileMode) return
         val doc = currentDoc() ?: return
-        // ★ 只读文件不进行自动保存
         if (doc.uri == null || !doc.isDirty || doc.isReadOnly) return
         val content = binding.editor.text?.toString().orEmpty()
         lifecycleScope.launch {
@@ -649,8 +613,7 @@ class MainActivity : AppCompatActivity() {
                 prefs.lastSaveTime = System.currentTimeMillis()
                 refreshTabBar()
                 updateAutoSaveStatus()
-            } catch (_: Exception) {
-            }
+            } catch (_: Exception) {}
         }
     }
 
@@ -658,8 +621,7 @@ class MainActivity : AppCompatActivity() {
         val t = prefs.lastSaveTime
         if (t > 0) {
             val fmt = SimpleDateFormat("HH:mm", Locale.getDefault())
-            binding.tvAutoSave.text =
-                getString(R.string.auto_save_last_time, fmt.format(Date(t)))
+            binding.tvAutoSave.text = getString(R.string.auto_save_last_time, fmt.format(Date(t)))
         } else {
             binding.tvAutoSave.text = getString(R.string.auto_save_never)
         }
@@ -669,9 +631,7 @@ class MainActivity : AppCompatActivity() {
     private fun scheduleSpecialCharRefresh() {
         if (isLargeFileMode) return
         cancelSpecialCharRefresh()
-        val r = Runnable {
-            SpecialCharRenderer.apply(binding.editor, prefs.showSpecialChars)
-        }
+        val r = Runnable { SpecialCharRenderer.apply(binding.editor, prefs.showSpecialChars) }
         specialCharRunnable = r
         specialCharHandler.postDelayed(r, SPECIAL_CHAR_REFRESH_DELAY_MS)
     }
@@ -693,8 +653,7 @@ class MainActivity : AppCompatActivity() {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             WindowInsetsControllerCompat(window, window.decorView).apply {
                 hide(WindowInsetsCompat.Type.systemBars())
-                systemBarsBehavior =
-                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         } else {
             binding.topBar.visibility = View.VISIBLE
@@ -704,8 +663,7 @@ class MainActivity : AppCompatActivity() {
                 if (prefs.showLineNumbers && !isLargeFileMode) View.VISIBLE else View.GONE
             binding.btnExitImmersive.visibility = View.GONE
             WindowCompat.setDecorFitsSystemWindows(window, true)
-            WindowInsetsControllerCompat(window, window.decorView)
-                .show(WindowInsetsCompat.Type.systemBars())
+            WindowInsetsControllerCompat(window, window.decorView).show(WindowInsetsCompat.Type.systemBars())
             ThemeColorHelper.applySystemBars(this)
         }
     }
@@ -733,9 +691,7 @@ class MainActivity : AppCompatActivity() {
                 val saved = prefs.loadTabs()
                 for (d in saved) documents.add(d)
                 if (documents.isNotEmpty()) {
-                    val newIdx = documents.indexOfFirst {
-                        it.uri == null && !it.isDirty && it.text.isEmpty()
-                    }
+                    val newIdx = documents.indexOfFirst { it.uri == null && !it.isDirty && it.text.isEmpty() }
                     if (newIdx >= 0 && newIdx != documents.size - 1) {
                         val nd = documents.removeAt(newIdx)
                         documents.add(nd)
@@ -753,19 +709,15 @@ class MainActivity : AppCompatActivity() {
             if (doc.text.isEmpty() && doc.uri != null && !doc.isDirty) {
                 lifecycleScope.launch {
                     try {
-                        val result = withContext(Dispatchers.IO) {
-                            EditorFileIO.load(contentResolver, doc.uri!!)
-                        }
+                        val result = withContext(Dispatchers.IO) { EditorFileIO.load(contentResolver, doc.uri!!) }
                         doc.text = result.text
                         doc.encoding = result.encoding
-                        // ★ 重新载入时，也同步截断状态
                         doc.isReadOnly = result.isTruncated
                         if (index == currentIndex) {
                             loadDocIntoEditor(doc)
                         }
                         refreshTabBar()
-                    } catch (_: Exception) {
-                    }
+                    } catch (_: Exception) {}
                 }
             }
         }
@@ -776,12 +728,9 @@ class MainActivity : AppCompatActivity() {
     private fun newTab() {
         if (prefs.plusReuseEmpty) {
             val current = currentDoc()
-            val alreadyOnEmpty =
-                current != null && current.uri == null && !current.isDirty && current.text.isEmpty()
+            val alreadyOnEmpty = current != null && current.uri == null && !current.isDirty && current.text.isEmpty()
             if (!alreadyOnEmpty) {
-                val emptyIdx = documents.indexOfFirst {
-                    it.uri == null && !it.isDirty && it.text.isEmpty()
-                }
+                val emptyIdx = documents.indexOfFirst { it.uri == null && !it.isDirty && it.text.isEmpty() }
                 if (emptyIdx >= 0) {
                     switchToTab(emptyIdx)
                     return
@@ -793,11 +742,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun newTabInternal(isFirst: Boolean) {
         untitledCounter++
-        val name = if (isFirst && documents.isEmpty()) {
-            getString(R.string.untitled)
-        } else {
-            getString(R.string.untitled_n, untitledCounter)
-        }
+        val name = if (isFirst && documents.isEmpty()) getString(R.string.untitled) else getString(R.string.untitled_n, untitledCounter)
         val doc = OpenDocument(displayName = name)
         saveCurrentToDoc()
         documents.add(doc)
@@ -815,20 +760,15 @@ class MainActivity : AppCompatActivity() {
         }
         lifecycleScope.launch {
             try {
-                val result = withContext(Dispatchers.IO) {
-                    EditorFileIO.load(contentResolver, uri)
-                }
-                val name = EditorFileIO.queryName(
-                    contentResolver,
-                    uri,
-                    getString(R.string.untitled)
-                )
+                showLoading()
+                val result = withContext(Dispatchers.IO) { EditorFileIO.load(contentResolver, uri) }
+                val name = EditorFileIO.queryName(contentResolver, uri, getString(R.string.untitled))
                 val doc = OpenDocument(
                     uri = uri,
                     displayName = name,
                     encoding = result.encoding,
                     text = result.text,
-                    isReadOnly = result.isTruncated // ★ 如果超过了 20MB 被截断，则强制只读
+                    isReadOnly = result.isTruncated
                 )
                 saveCurrentToDoc()
                 documents.add(doc)
@@ -838,6 +778,7 @@ class MainActivity : AppCompatActivity() {
                 refreshCurrentView()
                 prefs.addRecentFile(uri, name)
             } catch (e: Exception) {
+                hideLoading()
                 showTip(getString(R.string.err_open, e.message ?: ""))
             }
         }
@@ -868,16 +809,10 @@ class MainActivity : AppCompatActivity() {
             this,
             onSave = {
                 if (index != currentIndex) switchToTab(index)
-                pendingAction = {
-                    val idx = documents.indexOf(doc)
-                    if (idx >= 0) closeTabInternal(idx)
-                }
+                pendingAction = { val idx = documents.indexOf(doc); if (idx >= 0) closeTabInternal(idx) }
                 saveCurrent()
             },
-            onDiscard = {
-                val idx = documents.indexOf(doc)
-                if (idx >= 0) closeTabInternal(idx)
-            }
+            onDiscard = { val idx = documents.indexOf(doc); if (idx >= 0) closeTabInternal(idx) }
         )
     }
 
@@ -888,11 +823,8 @@ class MainActivity : AppCompatActivity() {
             newTabInternal(isFirst = true)
             return
         }
-        if (currentIndex > index) {
-            currentIndex--
-        } else if (currentIndex == index) {
-            currentIndex = currentIndex.coerceAtMost(documents.size - 1)
-        }
+        if (currentIndex > index) currentIndex--
+        else if (currentIndex == index) currentIndex = currentIndex.coerceAtMost(documents.size - 1)
         loadDocIntoEditor(documents[currentIndex])
         refreshTabBar()
         refreshCurrentView()
@@ -900,7 +832,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveCurrentToDoc() {
         val doc = currentDoc() ?: return
-        if (doc.isReadOnly) return // 只读文档不接受修改保存
+        if (doc.isReadOnly || isLargeFileMode) return
         doc.text = binding.editor.text?.toString().orEmpty()
         doc.selStart = binding.editor.selectionStart.coerceAtLeast(0)
         doc.selEnd = binding.editor.selectionEnd.coerceAtLeast(0)
@@ -908,55 +840,100 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadDocIntoEditor(doc: OpenDocument) {
-        val isLarge = doc.text.length > LARGE_FILE_THRESHOLD
-        isLargeFileMode = isLarge
+        val isLargeLen = doc.text.length > LARGE_FILE_THRESHOLD
 
-        suppressWatcher = true
-        binding.editor.setText(doc.text)
-
-        // ★ 设置只读模式
-        binding.editor.isReadOnlyMode = doc.isReadOnly
-
-        val s = doc.selStart.coerceIn(0, doc.text.length)
-        val e = doc.selEnd.coerceIn(0, doc.text.length)
-        binding.editor.setSelection(s, e)
-        suppressWatcher = false
-
-        undoManager.reset(if (isLarge) "" else doc.text)
-
-        if (doc.isReadOnly) {
-            binding.tvLineNumbers.visibility = View.GONE
-            showTip("文件超过 20MB，已截断显示前 20MB，并进入只读模式防覆盖")
-        } else if (isLarge) {
-            binding.tvLineNumbers.visibility = View.GONE
-            showTip("文件过大（>100万字符），已禁用行号、撤销、双指缩放等以保证流畅")
-        } else {
-            binding.tvLineNumbers.visibility =
-                if (prefs.showLineNumbers && !isImmersive) View.VISIBLE else View.GONE
-            triggerStatusUpdate()
-        }
-
-        binding.editor.post {
-            binding.editor.scrollTo(0, doc.scrollY)
-            if (!isLargeFileMode) {
-                binding.tvLineNumbers.invalidate()
+        // ★ 智能检测：如果存在超过 10000 字符且没有换行的超长单行，必须进只读
+        // 检查前 100000 个字符，寻找最长的行，避免全量遍历
+        var maxLineLength = 0
+        var currentLineLength = 0
+        val checkLen = minOf(doc.text.length, 100_000)
+        for (i in 0 until checkLen) {
+            if (doc.text[i] == '\n') {
+                maxLineLength = maxOf(maxLineLength, currentLineLength)
+                currentLineLength = 0
+                if (maxLineLength > 10000) break
+            } else {
+                currentLineLength++
             }
         }
+        maxLineLength = maxOf(maxLineLength, currentLineLength)
 
-        if (!isLargeFileMode) {
+        // 只有长度超标，或包含极长单行，才进入只读
+        val isLarge = isLargeLen || maxLineLength > 10000
+        isLargeFileMode = isLarge
+
+        Log.e("PlainPad", "=== loadDocIntoEditor: len=${doc.text.length}, maxLine=$maxLineLength, isLarge=$isLarge ===")
+
+        applyWrap(if (isLarge) false else prefs.wrap)
+        val tf = Typeface.create(prefs.editorFontFamily, Typeface.NORMAL)
+        val textColor = binding.editor.currentTextColor
+
+        if (isLarge) {
+            // ★ 超大文本/超长单行：使用 LargeTextView 只读模式
+            binding.editor.setText("")
+            binding.editor.visibility = View.GONE
+            binding.largeTextView.visibility = View.VISIBLE
+
+            val textSizePx = prefs.fontSize * resources.displayMetrics.scaledDensity
+            binding.largeTextView.setTextAppearance(tf, textSizePx, textColor)
+
+            val theme = EditorThemes.byId(prefs.editorThemeId)
+            binding.largeTextView.setBackgroundColor(theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface))
+
+            binding.largeTextView.onReady = {
+                hideLoading()
+            }
+
+            binding.largeTextView.setText(doc.text)
+            binding.largeTextView.scrollToY(doc.scrollY)
+
+            binding.fastScrollBar.attachLargeTextView(binding.largeTextView)
+
+            binding.tvLineNumbers.visibility = View.GONE
+            showTip("文件过大或包含超长单行，已进入高性能只读阅读模式")
+        } else {
+            // ★ 正常文本（哪怕有 200 万字符）：使用 EditText 继续编辑
+            binding.largeTextView.visibility = View.GONE
+            binding.editor.visibility = View.VISIBLE
+            binding.fastScrollBar.attach(binding.editor)
+
+            suppressWatcher = true
+            binding.editor.setText(doc.text)
+            binding.editor.isReadOnlyMode = doc.isReadOnly
+            binding.editor.showSoftInputOnFocus = !doc.isReadOnly
+
+            val s = doc.selStart.coerceIn(0, doc.text.length)
+            val e = doc.selEnd.coerceIn(0, doc.text.length)
+            binding.editor.setSelection(s, e)
+            suppressWatcher = false
+
+            undoManager.reset(doc.text)
+
+            // ★ 100万到300万字符之间，算是重度文件，关闭行号保证滑动不卡
+            if (doc.text.length > 1_000_000) {
+                binding.tvLineNumbers.visibility = View.GONE
+                showTip("文件较大，已自动关闭行号以保证流畅")
+            } else {
+                binding.tvLineNumbers.visibility =
+                    if (prefs.showLineNumbers && !isImmersive) View.VISIBLE else View.GONE
+            }
+
+            binding.editor.post {
+                binding.editor.scrollTo(0, doc.scrollY)
+                if (binding.tvLineNumbers.visibility == View.VISIBLE) {
+                    binding.tvLineNumbers.invalidate()
+                }
+            }
             SpecialCharRenderer.apply(binding.editor, prefs.showSpecialChars)
+            triggerStatusUpdate()
+            hideLoading()
         }
     }
 
     private fun refreshTabBar() {
         TabBarRenderer.render(
-            context = this,
-            binding = binding,
-            documents = documents,
-            currentIndex = currentIndex,
-            onTabClick = { switchToTab(it) },
-            onTabClose = { requestCloseTab(it) },
-            onAddClick = { newTab() }
+            context = this, binding = binding, documents = documents, currentIndex = currentIndex,
+            onTabClick = { switchToTab(it) }, onTabClose = { requestCloseTab(it) }, onAddClick = { newTab() }
         )
     }
 
@@ -977,19 +954,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateStatus() {
-        val text = binding.editor.text ?: return
         if (isLargeFileMode) {
-            // ★ 状态栏显示只读标识
             val readOnlyText = if (currentDoc()?.isReadOnly == true) "（只读）" else ""
-            binding.tvStatus.text = "大文件模式$readOnlyText · ${text.length} 字符"
+            val length = currentDoc()?.text?.length ?: 0
+            binding.tvStatus.text = "大文件模式$readOnlyText · $length 字符"
             return
         }
+        val text = binding.editor.text ?: return
         val stats = EditorCommands.computeStats(text)
-        val items = prefs.statusBarItems
-            .split(",")
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-            .take(2)
+        val items = prefs.statusBarItems.split(",").map { it.trim() }.filter { it.isNotEmpty() }.take(2)
         val parts = ArrayList<String>(items.size)
         for (id in items) {
             val str = when (id) {
@@ -1013,6 +986,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun applyWrap(wrap: Boolean) {
+        if (isLargeFileMode) {
+            binding.editor.setHorizontallyScrolling(true)
+            binding.editor.setSingleLine(false)
+            binding.editor.maxLines = Int.MAX_VALUE
+            return
+        }
         binding.editor.setHorizontallyScrolling(!wrap)
         if (!wrap) {
             binding.editor.setSingleLine(false)
@@ -1021,33 +1000,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSpecialCharPanel() {
-        if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
-            showTip("当前模式下已禁用此功能")
-            return
-        }
         val items = listOf(
-            getString(R.string.special_lf) to "\n",
-            getString(R.string.special_cr) to "\r",
-            getString(R.string.special_crlf) to "\r\n",
-            getString(R.string.special_tab) to "\t",
-            getString(R.string.special_zwsp) to "\u200B",
-            getString(R.string.special_zwnj) to "\u200C",
-            getString(R.string.special_zwj) to "\u200D",
-            getString(R.string.special_nbsp) to "\u00A0",
-            getString(R.string.special_ideographic_space) to "\u3000",
-            getString(R.string.special_nbhyphen) to "\u2011",
-            getString(R.string.special_bom) to "\uFEFF",
-            getString(R.string.special_lrm) to "\u200E",
+            getString(R.string.special_lf) to "\n", getString(R.string.special_cr) to "\r",
+            getString(R.string.special_crlf) to "\r\n", getString(R.string.special_tab) to "\t",
+            getString(R.string.special_zwsp) to "\u200B", getString(R.string.special_zwnj) to "\u200C",
+            getString(R.string.special_zwj) to "\u200D", getString(R.string.special_nbsp) to "\u00A0",
+            getString(R.string.special_ideographic_space) to "\u3000", getString(R.string.special_nbhyphen) to "\u2011",
+            getString(R.string.special_bom) to "\uFEFF", getString(R.string.special_lrm) to "\u200E",
             getString(R.string.special_rlm) to "\u200F"
         )
         EditorDialogs.showSpecialCharPanel(
-            activity = this,
-            items = items,
-            showSpecialInitially = prefs.showSpecialChars,
-            onToggleShow = { checked ->
-                prefs.showSpecialChars = checked
-                SpecialCharRenderer.apply(binding.editor, checked)
-            },
+            activity = this, items = items, showSpecialInitially = prefs.showSpecialChars,
+            onToggleShow = { checked -> prefs.showSpecialChars = checked; SpecialCharRenderer.apply(binding.editor, checked) },
             onPick = { value -> insertAtCursor(value) }
         )
     }
@@ -1067,10 +1031,7 @@ class MainActivity : AppCompatActivity() {
             showTip("当前模式下不可撤销")
             return
         }
-        val snap = EditorCommands.undo(undoManager) ?: run {
-            showTip(getString(R.string.no_undo))
-            return
-        }
+        val snap = EditorCommands.undo(undoManager) ?: run { showTip(getString(R.string.no_undo)); return }
         applySnapshot(snap)
     }
 
@@ -1079,10 +1040,7 @@ class MainActivity : AppCompatActivity() {
             showTip("当前模式下不可重做")
             return
         }
-        val snap = EditorCommands.redo(undoManager) ?: run {
-            showTip(getString(R.string.no_redo))
-            return
-        }
+        val snap = EditorCommands.redo(undoManager) ?: run { showTip(getString(R.string.no_redo)); return }
         applySnapshot(snap)
     }
 
@@ -1098,7 +1056,6 @@ class MainActivity : AppCompatActivity() {
             doc.isDirty = true
             refreshTabBar()
         }
-        updateLargeFileMode(snap.text.length)
         if (!isLargeFileMode) {
             triggerStatusUpdate()
             SpecialCharRenderer.apply(binding.editor, prefs.showSpecialChars)
@@ -1109,16 +1066,11 @@ class MainActivity : AppCompatActivity() {
         intent ?: return
         when (intent.action) {
             Intent.ACTION_VIEW, Intent.ACTION_EDIT -> {
-                intent.data?.let {
-                    EditorFileIO.takePersistable(contentResolver, it)
-                    openDocumentIntoNewTab(it)
-                }
+                intent.data?.let { EditorFileIO.takePersistable(contentResolver, it); openDocumentIntoNewTab(it) }
             }
             Intent.ACTION_SEND -> {
                 val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-                if (!text.isNullOrEmpty()) {
-                    handleSharedText(text)
-                }
+                if (!text.isNullOrEmpty()) handleSharedText(text)
             }
         }
     }
@@ -1132,11 +1084,7 @@ class MainActivity : AppCompatActivity() {
             refreshTabBar()
         } else {
             untitledCounter++
-            val nd = OpenDocument(
-                displayName = getString(R.string.untitled_n, untitledCounter),
-                text = text,
-                isDirty = true
-            )
+            val nd = OpenDocument(displayName = getString(R.string.untitled_n, untitledCounter), text = text, isDirty = true)
             saveCurrentToDoc()
             documents.add(nd)
             currentIndex = documents.size - 1
@@ -1148,13 +1096,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveCurrent() {
         val doc = currentDoc() ?: return
-        if (doc.isReadOnly) {
-            showTip("该文件因过大已被截断，禁止保存以免覆盖丢失原有内容")
+        if (doc.isReadOnly || isLargeFileMode) {
+            showTip("大文件或只读模式下禁止保存，以免损坏原文件")
             return
         }
-        if (doc.uri == null) {
-            chooseEncodingThenSaveAs()
-        } else {
+        if (doc.uri == null) chooseEncodingThenSaveAs()
+        else {
             pendingEncoding = doc.encoding
             saveCurrentToUri(doc.uri!!)
         }
@@ -1162,31 +1109,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun chooseEncodingThenSaveAs() {
         val doc = currentDoc() ?: return
-        if (doc.isReadOnly) return
+        if (doc.isReadOnly || isLargeFileMode) return
         EditorDialogs.showEncoding(this, doc.encoding) { enc ->
             pendingEncoding = enc
-            saveAsLauncher.launch(
-                doc.displayName.ifEmpty { getString(R.string.default_file_name) }
-            )
+            saveAsLauncher.launch(doc.displayName.ifEmpty { getString(R.string.default_file_name) })
         }
     }
 
     private fun saveCurrentToUri(uri: Uri) {
         val doc = currentDoc() ?: return
-        if (doc.isReadOnly) return
+        if (doc.isReadOnly || isLargeFileMode) return
         val content = binding.editor.text?.toString().orEmpty()
         val encoding = pendingEncoding ?: doc.encoding
         lifecycleScope.launch {
             try {
-                withContext(Dispatchers.IO) {
-                    EditorFileIO.save(contentResolver, uri, content, encoding)
-                }
+                withContext(Dispatchers.IO) { EditorFileIO.save(contentResolver, uri, content, encoding) }
                 doc.uri = uri
-                doc.displayName = EditorFileIO.queryName(
-                    contentResolver,
-                    uri,
-                    getString(R.string.untitled)
-                )
+                doc.displayName = EditorFileIO.queryName(contentResolver, uri, getString(R.string.untitled))
                 doc.encoding = encoding
                 doc.text = content
                 doc.isDirty = false
@@ -1223,13 +1162,9 @@ class MainActivity : AppCompatActivity() {
             return
         }
         EditorDialogs.showRecent(
-            this,
-            files,
+            this, files,
             onOpen = { file -> openDocumentIntoNewTab(Uri.parse(file.uri)) },
-            onClear = {
-                prefs.clearRecentFiles()
-                showTip(getString(R.string.recent_cleared))
-            }
+            onClear = { prefs.clearRecentFiles(); showTip(getString(R.string.recent_cleared)) }
         )
     }
 
@@ -1242,38 +1177,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showReplace() {
-        if (currentDoc()?.isReadOnly == true) {
-            showTip("只读模式不可替换")
+        if (currentDoc()?.isReadOnly == true || isLargeFileMode) {
+            showTip("当前模式下不可替换")
             return
         }
         EditorDialogs.showReplace(
             this,
-            onReplace = { query, replacement ->
-                EditorSearchHelper.replaceOne(binding.editor, query, replacement)
-            },
+            onReplace = { query, replacement -> EditorSearchHelper.replaceOne(binding.editor, query, replacement) },
             onReplaceAll = { query, replacement ->
                 val n = EditorSearchHelper.replaceAll(binding.editor, query, replacement)
-                if (n == 0) {
-                    showTip(getString(R.string.not_found))
-                } else {
-                    showTip(getString(R.string.replaced_n, n))
-                }
+                if (n == 0) showTip(getString(R.string.not_found)) else showTip(getString(R.string.replaced_n, n))
             }
         )
     }
 
     private fun showGotoLine() {
-        val editable = binding.editor.text ?: return
-        val totalLines = EditorCommands.countLogicalLines(editable)
+        val text = if (isLargeFileMode) currentDoc()?.text else binding.editor.text
+        if (text == null) return
+        val totalLines = EditorCommands.countLogicalLines(text)
         EditorDialogs.showGotoLine(this, totalLines) { lineNo ->
-            val target = EditorCommands.offsetOfLine(editable, lineNo)
+            val target = EditorCommands.offsetOfLine(text, lineNo)
             if (target < 0) {
                 showTip(getString(R.string.goto_line_invalid))
                 return@showGotoLine
             }
-            binding.editor.requestFocus()
-            binding.editor.setSelection(target)
-            binding.editor.forceBringCursorIntoView()
+            if (isLargeFileMode) {
+                val approxY = (lineNo * (binding.largeTextView.getContentHeight() / totalLines))
+                binding.largeTextView.scrollToY(approxY)
+            } else {
+                binding.editor.requestFocus()
+                binding.editor.setSelection(target)
+                binding.editor.forceBringCursorIntoView()
+            }
         }
     }
 
@@ -1292,8 +1227,7 @@ class MainActivity : AppCompatActivity() {
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
         } else {
-            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                .setData(Uri.fromParts("package", packageName, null))
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.fromParts("package", packageName, null))
         }
         try {
             startActivity(intent)

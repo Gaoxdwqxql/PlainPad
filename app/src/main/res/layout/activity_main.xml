@@ -150,6 +150,7 @@
                     android:background="?attr/colorSurfaceVariant"
                     android:visibility="gone" />
 
+                <!-- 小文件：正常可编辑 -->
                 <com.sunwenqing.plainpad.PlainEditText
                     android:id="@+id/editor"
                     android:layout_width="0dp"
@@ -167,6 +168,15 @@
                     android:textSize="16sp"
                     android:lineSpacingMultiplier="1.0"
                     tools:ignore="LabelFor" />
+
+                <!-- 大文件：高性能只读渲染 -->
+                <com.sunwenqing.plainpad.LargeTextView
+                    android:id="@+id/largeTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="16dp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <com.sunwenqing.plainpad.FastScrollBarView
@@ -230,7 +240,6 @@
                 android:fontFamily="monospace"
                 tools:text="UTF-8" />
 
-            <!-- 新增的 EOL 显示 -->
             <TextView
                 android:id="@+id/tvEol"
                 android:layout_width="wrap_content"
@@ -242,7 +251,7 @@
                 android:textColor="?android:attr/textColorSecondary"
                 android:textSize="12sp"
                 android:fontFamily="monospace"
-                tools:text="Windows(CRLF)" />
+                tools:text="CRLF" />
 
             <ImageButton
                 android:id="@+id/btnInsertSpecial"
@@ -269,5 +278,37 @@
         android:text="@string/exit_immersive"
         app:cornerRadius="24dp"
         tools:visibility="visible" />
+
+    <!-- ★ 新增：大文件加载遮罩层 -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        android:elevation="100dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ProgressBar
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+            <TextView
+                android:id="@+id/tvLoadingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </FrameLayout>
 
 </FrameLayout>
