@@ -38,7 +38,7 @@
 
 你可以前往 [Releases](https://github.com/Gaoxdwqxql/PlainPad/releases) 页面下载最新的正式版 APK。
 
-**当前最新版本**：`v1.0.1`
+**当前最新版本**：`v1.0.2`
 
 **安装说明**：
 1. 下载 `PlainPad-v*.apk`。
