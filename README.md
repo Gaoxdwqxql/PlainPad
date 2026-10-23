@@ -36,7 +36,7 @@
 
 ## 📦 下载与安装
 
-你可以前往 [Releases](https://github.com/你的用户名/PlainPad/releases) 页面下载最新的正式版 APK。
+你可以前往 [Releases](https://github.com/Gaoxdwqxql/PlainPad/releases) 页面下载最新的正式版 APK。
 
 **当前最新版本**：`v1.0.0`
 
@@ -51,7 +51,7 @@
 
 如果你想自己编译本项目，请确保你的开发环境满足以下条件：
 
-- **Android Studio**：最新版本（推荐使用支持 AGP 9.3.0 的版本）
+- **Android Studio**：最新版本（推荐使用支持 AGP 9.3.0）
 - **JDK**：Java 11 或以上
 - **Gradle**：9.5.0（项目已包含 wrapper）
 
@@ -70,6 +70,7 @@
 - 本应用**没有任何网络权限**，绝对不会上传你的任何数据。
 - 所有文件读取、保存均通过 Android SAF 在你本地完成。
 - 仅使用 SharedPreferences 保存你的界面设置和未保存的草稿。
+- 你可以先在沙箱或虚拟机中运行，以进行确认
 
 ---
 
