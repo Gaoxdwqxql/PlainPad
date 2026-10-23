@@ -41,7 +41,7 @@
 **当前最新版本**：`v1.0.0`
 
 **安装说明**：
-1. 下载 `PlainPad-v1.0.0.apk`。
+1. 下载 `PlainPad-v*.apk`。(目前最新版: v1.0.1)
 2. 如果设备上安装过 Debug 版本，请先卸载，避免签名冲突。
 3. 安装并首次打开，按引导完成设置。
 
@@ -57,7 +57,7 @@
 
 **克隆并编译**：
 
-    git clone https://github.com/你的用户名/PlainPad.git
+    git clone https://github.com/Gaoxdwqxql/PlainPad.git
     cd PlainPad
     ./gradlew :app:assembleDebug
 
