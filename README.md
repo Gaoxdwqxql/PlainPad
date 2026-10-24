@@ -5,6 +5,7 @@
 - **包名**：`com.sunwenqing.plainpad`
 - **技术栈**：Kotlin, AndroidX, ViewBinding, Material 3 (XML 布局体系，无 Compose)
 - **最低支持**：Android 7.0 (API 24)
+- **推荐版本**：Android 12.0+
 
 ---
 
@@ -71,6 +72,7 @@
 - 所有文件读取、保存均通过 Android SAF 在你本地完成。
 - 仅使用 SharedPreferences 保存你的界面设置和未保存的草稿。
 - 你可以先在沙箱或虚拟机中运行，以进行确认
+- 如果你不信任预编译的APK，请自行构建
 
 ---
 
