@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.sunwenqing.plainpad.databinding.ActivityOnboardingBinding
@@ -17,22 +18,23 @@ class OnboardingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOnboardingBinding
     private lateinit var prefs: Prefs
-
     private lateinit var pages: List<Page>
 
     data class Page(val iconRes: Int, val title: String, val desc: String)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
-
-        // ★ 主题色（必须在 super.onCreate 之前）
         ThemeColorHelper.apply(this, prefs.themeColor)
-
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // ★ 设置纯色填充高度
+        binding.statusBarFill.setStatusBarHeight()
 
         ThemeColorHelper.applySystemBars(this)
 
@@ -56,49 +58,15 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun buildPages(): List<Page> = listOf(
-        Page(
-            R.drawable.ic_onboard_welcome,
-            getString(R.string.onboard_welcome_title),
-            getString(R.string.onboard_welcome_desc)
-        ),
-        Page(
-            R.drawable.ic_onboard_tabs,
-            getString(R.string.onboard_tabs_title),
-            getString(R.string.onboard_tabs_desc)
-        ),
-        Page(
-            R.drawable.ic_onboard_save,
-            getString(R.string.onboard_save_title),
-            getString(R.string.onboard_save_desc)
-        ),
-        Page(
-            R.drawable.ic_onboard_find,
-            getString(R.string.onboard_find_title),
-            getString(R.string.onboard_find_desc)
-        ),
-        Page(
-            R.drawable.ic_onboard_appearance,
-            getString(R.string.onboard_appearance_title),
-            getString(R.string.onboard_appearance_desc)
-        ),
-        Page(
-            R.drawable.ic_onboard_gesture,
-            getString(R.string.onboard_gesture_title),
-            getString(R.string.onboard_gesture_desc)
-        ),
-        Page(
-            R.drawable.ic_onboard_special,
-            getString(R.string.onboard_special_title),
-            getString(R.string.onboard_special_desc)
-        ),
-        Page(
-            R.drawable.ic_onboard_done,
-            getString(R.string.onboard_done_title),
-            getString(R.string.onboard_done_desc)
-        )
+        Page(R.drawable.ic_onboard_welcome, getString(R.string.onboard_welcome_title), getString(R.string.onboard_welcome_desc)),
+        Page(R.drawable.ic_onboard_tabs, getString(R.string.onboard_tabs_title), getString(R.string.onboard_tabs_desc)),
+        Page(R.drawable.ic_onboard_save, getString(R.string.onboard_save_title), getString(R.string.onboard_save_desc)),
+        Page(R.drawable.ic_onboard_find, getString(R.string.onboard_find_title), getString(R.string.onboard_find_desc)),
+        Page(R.drawable.ic_onboard_appearance, getString(R.string.onboard_appearance_title), getString(R.string.onboard_appearance_desc)),
+        Page(R.drawable.ic_onboard_gesture, getString(R.string.onboard_gesture_title), getString(R.string.onboard_gesture_desc)),
+        Page(R.drawable.ic_onboard_special, getString(R.string.onboard_special_title), getString(R.string.onboard_special_desc)),
+        Page(R.drawable.ic_onboard_done, getString(R.string.onboard_done_title), getString(R.string.onboard_done_desc))
     )
-
-    // ---------------- 分页指示器 ----------------
 
     private val dots = mutableListOf<View>()
 
@@ -107,9 +75,7 @@ class OnboardingActivity : AppCompatActivity() {
         dots.clear()
 
         repeat(pages.size) {
-            val dotBinding = ItemOnboardingDotBinding.inflate(
-                layoutInflater, binding.indicatorContainer, false
-            )
+            val dotBinding = ItemOnboardingDotBinding.inflate(layoutInflater, binding.indicatorContainer, false)
             binding.indicatorContainer.addView(dotBinding.root)
             dots.add(dotBinding.root)
         }
@@ -124,8 +90,6 @@ class OnboardingActivity : AppCompatActivity() {
             dots[i].scaleY = scale
         }
     }
-
-    // ---------------- 按钮 ----------------
 
     private fun setupButtons() {
         binding.btnNext.setOnClickListener {
@@ -151,9 +115,7 @@ class OnboardingActivity : AppCompatActivity() {
         val isFirst = position == 0
         val isLast = position == pages.size - 1
 
-        binding.btnNext.text = getString(
-            if (isLast) R.string.onboard_start else R.string.onboard_next
-        )
+        binding.btnNext.text = getString(if (isLast) R.string.onboard_start else R.string.onboard_next)
         binding.btnPrev.visibility = if (isFirst) View.INVISIBLE else View.VISIBLE
         binding.btnSkipTop.visibility = if (isLast) View.INVISIBLE else View.VISIBLE
     }
@@ -166,17 +128,11 @@ class OnboardingActivity : AppCompatActivity() {
         finish()
     }
 
-    // ---------------- Adapter ----------------
-
-    private class OnboardingAdapter(private val pages: List<Page>) :
-        RecyclerView.Adapter<OnboardingAdapter.VH>() {
-
+    private class OnboardingAdapter(private val pages: List<Page>) : RecyclerView.Adapter<OnboardingAdapter.VH>() {
         class VH(val binding: ItemOnboardingBinding) : RecyclerView.ViewHolder(binding.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-            val binding = ItemOnboardingBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
+            val binding = ItemOnboardingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return VH(binding)
         }
 

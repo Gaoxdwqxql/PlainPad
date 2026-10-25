@@ -58,14 +58,16 @@ object EditorDialogs {
         onCommit: (Int) -> Unit,
         onCancel: () -> Unit
     ) {
+        val density = activity.resources.displayMetrics.density
         val container = LinearLayout(activity).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(50, 30, 50, 30)
+            // ★ 修复：使用 24dp 的左右边距，与 Material 3 Title 对齐
+            setPadding((24 * density).toInt(), (8 * density).toInt(), (24 * density).toInt(), (8 * density).toInt())
         }
         val tvValue = TextView(activity).apply {
             text = activity.getString(R.string.font_size_label, initial)
             textSize = 18f
-            setPadding(0, 0, 0, 20)
+            setPadding(0, 0, 0, (16 * density).toInt())
         }
         val seekBar = SeekBar(activity).apply {
             max = 30
@@ -227,15 +229,17 @@ object EditorDialogs {
         totalLines: Int,
         onConfirm: (Int) -> Unit
     ) {
+        val density = activity.resources.displayMetrics.density
         val container = LinearLayout(activity).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(50, 30, 50, 20)
+            // ★ 修复：使用 24dp 的左右边距，与 Material 3 Title 对齐
+            setPadding((24 * density).toInt(), (8 * density).toInt(), (24 * density).toInt(), (8 * density).toInt())
         }
 
         val tip = TextView(activity).apply {
             text = activity.getString(R.string.goto_line_range, totalLines)
             textSize = 13f
-            setPadding(0, 0, 0, 20)
+            setPadding(0, 0, 0, (16 * density).toInt())
         }
 
         val input = EditText(activity).apply {

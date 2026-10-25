@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="?attr/colorSurface">
+
+    <!-- ★ 顶部状态栏纯色填充 -->
+    <View
+        android:id="@+id/statusBarFill"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/aboutToolbar"
@@ -82,7 +90,6 @@
                 android:text="@string/about_made_with"
                 android:textColor="?android:attr/textColorSecondary"
                 android:textSize="12sp" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

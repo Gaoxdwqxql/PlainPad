@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.PlainPad" parent="Theme.Material3.DayNight.NoActionBar" />
+    <!-- 应用主主题 -->
+    <style name="Theme.PlainPad" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- ★ 全局配置对话框样式（圆角+描边） -->
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.PlainPad.MaterialAlertDialog</item>
 
+        <!-- PopupMenu 背景 -->
+        <item name="popupMenuBackground">@drawable/bg_popup_menu</item>
+        <item name="android:popupBackground">@drawable/bg_popup_menu</item>
+    </style>
+
+    <!-- ★ 对话框的 ThemeOverlay -->
+    <style name="ThemeOverlay.PlainPad.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.PlainPad.Dialog</item>
+    </style>
+
+    <!-- ★ 对话框的 Shape 配置（控制圆角和描边） -->
+    <style name="ShapeAppearance.PlainPad.Dialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">?attr/colorOutlineVariant</item>
+    </style>
+
+    <!-- 以下为原有的 8 色主题色覆盖（无需改动） -->
     <style name="ThemeOverlay.PlainPad.Color.Purple" parent="">
         <item name="colorPrimary">@color/tc_purple_primary</item>
         <item name="colorOnPrimary">@color/tc_purple_on_primary</item>

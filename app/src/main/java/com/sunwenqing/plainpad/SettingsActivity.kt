@@ -1,6 +1,9 @@
 package com.sunwenqing.plainpad
 
 import android.content.Intent
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +12,16 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.os.LocaleListCompat
+import androidx.core.view.WindowCompat
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sunwenqing.plainpad.databinding.ActivitySettingsBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
+import java.io.File
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -27,10 +34,13 @@ class SettingsActivity : AppCompatActivity() {
     private var saveExpanded = true
     private var appearanceExpanded = true
     private var tabsExpanded = true
-
     private var rulesExpanded = false
 
-    // ---------------- 搜索入口 ----------------
+    private val importFontLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) importFont(uri)
+    }
 
     private val searchLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -43,15 +53,17 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
-
-        // ★ 主题色（必须在 super.onCreate 之前）
         ThemeColorHelper.apply(this, prefs.themeColor)
-
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
 
+        // ★ 开启沉浸式适配
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.statusBarFill.setStatusBarHeight()
 
         ThemeColorHelper.applySystemBars(this)
 
@@ -69,6 +81,8 @@ class SettingsActivity : AppCompatActivity() {
         setupThemeColor()
         setupEditorTheme()
         setupEditorFont()
+        setupLanguage()
+        setupImportFont()
         setupStartupMode()
         setupPlusBehavior()
         setupStatusBarItems()
@@ -84,39 +98,14 @@ class SettingsActivity : AppCompatActivity() {
         syncStatusBarCheckboxes()
         syncAutoSaveUI()
         updateThemeColorLabel()
+        updateLanguageLabel()
     }
 
-    // ---------------- 板块折叠 ----------------
-
     private fun setupSections() {
-        bindSection(
-            header = binding.headerEditing,
-            content = binding.contentEditing,
-            arrow = binding.ivExpandEditing,
-            isExpanded = { editingExpanded },
-            setExpanded = { editingExpanded = it }
-        )
-        bindSection(
-            header = binding.headerSave,
-            content = binding.contentSave,
-            arrow = binding.ivExpandSave,
-            isExpanded = { saveExpanded },
-            setExpanded = { saveExpanded = it }
-        )
-        bindSection(
-            header = binding.headerAppearance,
-            content = binding.contentAppearance,
-            arrow = binding.ivExpandAppearance,
-            isExpanded = { appearanceExpanded },
-            setExpanded = { appearanceExpanded = it }
-        )
-        bindSection(
-            header = binding.headerTabs,
-            content = binding.contentTabs,
-            arrow = binding.ivExpandTabs,
-            isExpanded = { tabsExpanded },
-            setExpanded = { tabsExpanded = it }
-        )
+        bindSection(binding.headerEditing, binding.contentEditing, binding.ivExpandEditing, { editingExpanded }, { editingExpanded = it })
+        bindSection(binding.headerSave, binding.contentSave, binding.ivExpandSave, { saveExpanded }, { saveExpanded = it })
+        bindSection(binding.headerAppearance, binding.contentAppearance, binding.ivExpandAppearance, { appearanceExpanded }, { appearanceExpanded = it })
+        bindSection(binding.headerTabs, binding.contentTabs, binding.ivExpandTabs, { tabsExpanded }, { tabsExpanded = it })
 
         applySectionState(binding.contentEditing, binding.ivExpandEditing, editingExpanded)
         applySectionState(binding.contentSave, binding.ivExpandSave, saveExpanded)
@@ -124,13 +113,7 @@ class SettingsActivity : AppCompatActivity() {
         applySectionState(binding.contentTabs, binding.ivExpandTabs, tabsExpanded)
     }
 
-    private fun bindSection(
-        header: View,
-        content: View,
-        arrow: View,
-        isExpanded: () -> Boolean,
-        setExpanded: (Boolean) -> Unit
-    ) {
+    private fun bindSection(header: View, content: View, arrow: View, isExpanded: () -> Boolean, setExpanded: (Boolean) -> Unit) {
         header.setOnClickListener {
             val newState = !isExpanded()
             setExpanded(newState)
@@ -140,32 +123,21 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun applySectionState(content: View, arrow: View, expanded: Boolean) {
         content.visibility = if (expanded) View.VISIBLE else View.GONE
-        arrow.animate()
-            .rotation(if (expanded) 180f else 0f)
-            .setDuration(180)
-            .start()
+        arrow.animate().rotation(if (expanded) 180f else 0f).setDuration(180).start()
     }
-
-    // ---------------- 右侧滚动条 ----------------
 
     private fun setupScrollBar() {
         binding.settingsScrollBar.attachScrollView(binding.settingsScroll)
     }
 
-    // ---------------- 搜索定位 ----------------
-
     private fun locateSetting(key: String) {
-        editingExpanded = true
-        saveExpanded = true
-        appearanceExpanded = true
-        tabsExpanded = true
+        editingExpanded = true; saveExpanded = true; appearanceExpanded = true; tabsExpanded = true
         applySectionState(binding.contentEditing, binding.ivExpandEditing, true)
         applySectionState(binding.contentSave, binding.ivExpandSave, true)
         applySectionState(binding.contentAppearance, binding.ivExpandAppearance, true)
         applySectionState(binding.contentTabs, binding.ivExpandTabs, true)
 
         val target = findViewByTag(binding.settingsRoot, "search:$key") ?: return
-
         binding.settingsScroll.post {
             val y = relativeTop(target, binding.settingsRoot)
             binding.settingsScroll.smoothScrollTo(0, (y - 120).coerceAtLeast(0))
@@ -196,25 +168,18 @@ class SettingsActivity : AppCompatActivity() {
     private fun flashView(view: View) {
         val original = view.background
         val density = resources.displayMetrics.density
-        val highlight = android.graphics.drawable.GradientDrawable().apply {
-            setColor(
-                MaterialColors.getColor(
-                    view, com.google.android.material.R.attr.colorPrimaryContainer
-                )
-            )
+        val highlight = GradientDrawable().apply {
+            setColor(MaterialColors.getColor(view, com.google.android.material.R.attr.colorPrimaryContainer))
             cornerRadius = 10 * density
         }
         view.background = highlight
         view.postDelayed({ view.background = original }, 1500)
     }
 
-    // ---------------- 字体大小 ----------------
-
     private fun setupFontSize() {
         binding.seekFontSize.max = 30
         binding.seekFontSize.progress = prefs.fontSize - 10
         updateFontSizeLabel(prefs.fontSize)
-
         binding.seekFontSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
                 val size = progress + 10
@@ -230,36 +195,19 @@ class SettingsActivity : AppCompatActivity() {
         binding.tvFontSizeValue.text = getString(R.string.font_size_label, size)
     }
 
-    // ---------------- 开关 ----------------
-
     private fun setupSwitches() {
         binding.switchWrap.isChecked = prefs.wrap
         binding.switchLineNumbers.isChecked = prefs.showLineNumbers
         binding.switchShowSpecialChars.isChecked = prefs.showSpecialChars
 
-        binding.switchWrap.setOnCheckedChangeListener { _, checked ->
-            prefs.wrap = checked
-        }
-        binding.switchLineNumbers.setOnCheckedChangeListener { _, checked ->
-            prefs.showLineNumbers = checked
-        }
-        binding.switchShowSpecialChars.setOnCheckedChangeListener { _, checked ->
-            prefs.showSpecialChars = checked
-        }
+        binding.switchWrap.setOnCheckedChangeListener { _, checked -> prefs.wrap = checked }
+        binding.switchLineNumbers.setOnCheckedChangeListener { _, checked -> prefs.showLineNumbers = checked }
+        binding.switchShowSpecialChars.setOnCheckedChangeListener { _, checked -> prefs.showSpecialChars = checked }
 
-        binding.rowWrap.setOnClickListener {
-            binding.switchWrap.isChecked = !binding.switchWrap.isChecked
-        }
-        binding.rowLineNumbers.setOnClickListener {
-            binding.switchLineNumbers.isChecked = !binding.switchLineNumbers.isChecked
-        }
-        binding.rowShowSpecialChars.setOnClickListener {
-            binding.switchShowSpecialChars.isChecked =
-                !binding.switchShowSpecialChars.isChecked
-        }
+        binding.rowWrap.setOnClickListener { binding.switchWrap.isChecked = !binding.switchWrap.isChecked }
+        binding.rowLineNumbers.setOnClickListener { binding.switchLineNumbers.isChecked = !binding.switchLineNumbers.isChecked }
+        binding.rowShowSpecialChars.setOnClickListener { binding.switchShowSpecialChars.isChecked = !binding.switchShowSpecialChars.isChecked }
     }
-
-    // ---------------- 应用主题（浅色/深色） ----------------
 
     private fun setupTheme() {
         when (prefs.themeMode) {
@@ -281,8 +229,6 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    // ---------------- 主题色 ----------------
-
     private fun setupThemeColor() {
         updateThemeColorLabel()
         binding.rowThemeColor.setOnClickListener { showThemeColorDialog() }
@@ -290,6 +236,28 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateThemeColorLabel() {
         binding.tvThemeColorValue.text = themeColorName(prefs.themeColor)
+        val color = getColorForThemeId(prefs.themeColor)
+        val drawable = GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(color)
+            setStroke((1.5f * resources.displayMetrics.density).toInt(), 0x33000000)
+        }
+        binding.viewThemeColorPreview.background = drawable
+    }
+
+    private fun getColorForThemeId(id: String): Int {
+        return when (id) {
+            "system" -> MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary, 0xFF6750A4.toInt())
+            "purple" -> ContextCompat.getColor(this, R.color.tc_purple_primary)
+            "blue" -> ContextCompat.getColor(this, R.color.tc_blue_primary)
+            "indigo" -> ContextCompat.getColor(this, R.color.tc_indigo_primary)
+            "teal" -> ContextCompat.getColor(this, R.color.tc_teal_primary)
+            "green" -> ContextCompat.getColor(this, R.color.tc_green_primary)
+            "orange" -> ContextCompat.getColor(this, R.color.tc_orange_primary)
+            "red" -> ContextCompat.getColor(this, R.color.tc_red_primary)
+            "pink" -> ContextCompat.getColor(this, R.color.tc_pink_primary)
+            else -> 0xFF888888.toInt()
+        }
     }
 
     private fun themeColorName(id: String): String = when (id) {
@@ -305,34 +273,125 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun showThemeColorDialog() {
-        val ids = arrayOf(
-            "system", "purple", "blue", "indigo", "teal",
-            "green", "orange", "red", "pink"
-        )
+        val ids = arrayOf("system", "purple", "blue", "indigo", "teal", "green", "orange", "red", "pink")
         val names = ids.map { themeColorName(it) }.toTypedArray()
         val current = ids.indexOf(prefs.themeColor).coerceAtLeast(0)
-
         val dynamicAvailable = ThemeColorHelper.isDynamicColorAvailable(this)
 
-        showChoiceDialog(R.string.theme_color_title, names, current) { which ->
-            val picked = ids[which]
-            if (picked == "system" && !dynamicAvailable) {
-                Toast.makeText(
-                    this,
-                    getString(R.string.theme_color_system_unavailable),
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@showChoiceDialog
+        val b = DialogChoiceBinding.inflate(layoutInflater)
+        b.tvDialogTitle.setText(R.string.theme_color_title)
+
+        val dialog = MaterialAlertDialogBuilder(this).setView(b.root).create()
+
+        names.forEachIndexed { i, name ->
+            val item = DialogChoiceItemBinding.inflate(layoutInflater, b.choiceContainer, false)
+            item.tvOptionText.text = name
+            item.ivCheck.visibility = if (i == current) View.VISIBLE else View.INVISIBLE
+
+            val colorPreview = View(this)
+            val size = (18 * resources.displayMetrics.density).toInt()
+            val marginEnd = (12 * resources.displayMetrics.density).toInt()
+            val lp = android.widget.LinearLayout.LayoutParams(size, size)
+            lp.marginEnd = marginEnd
+            colorPreview.layoutParams = lp
+
+            val color = getColorForThemeId(ids[i])
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.OVAL
+                setColor(color)
+                setStroke((1.5f * resources.displayMetrics.density).toInt(), 0x33000000)
             }
-            if (picked != prefs.themeColor) {
-                prefs.themeColor = picked
-                updateThemeColorLabel()
-                recreate()
+            colorPreview.background = drawable
+
+            item.root.addView(colorPreview, item.root.childCount - 1)
+
+            item.root.setOnClickListener {
+                val picked = ids[i]
+                if (picked == "system" && !dynamicAvailable) {
+                    Toast.makeText(this, getString(R.string.theme_color_system_unavailable), Toast.LENGTH_SHORT).show()
+                } else if (picked != prefs.themeColor) {
+                    prefs.themeColor = picked
+                    updateThemeColorLabel()
+                    dialog.dismiss()
+                    recreate()
+                } else {
+                    dialog.dismiss()
+                }
             }
+            b.choiceContainer.addView(item.root)
+        }
+
+        dialog.show()
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.9).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
+
+    private fun setupLanguage() {
+        updateLanguageLabel()
+        binding.rowLanguage.setOnClickListener { showLanguageDialog() }
+    }
+
+    private fun updateLanguageLabel() {
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        binding.tvLanguageValue.text = when {
+            currentLocales.isEmpty() -> getString(R.string.language_system)
+            currentLocales.toLanguageTags().startsWith("zh") -> getString(R.string.language_zh)
+            else -> getString(R.string.language_en)
         }
     }
 
-    // ---------------- 编辑区主题 ----------------
+    private fun showLanguageDialog() {
+        val names = arrayOf(
+            getString(R.string.language_system),
+            getString(R.string.language_zh),
+            getString(R.string.language_en)
+        )
+        val tags = arrayOf("", "zh", "en")
+        val currentLocales = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+
+        val current = when {
+            AppCompatDelegate.getApplicationLocales().isEmpty() -> 0
+            currentLocales.startsWith("zh") -> 1
+            else -> 2
+        }
+
+        showChoiceDialog(R.string.language_title, names, current) { which ->
+            val tag = tags[which]
+            val locales = if (tag.isEmpty()) {
+                LocaleListCompat.getEmptyLocaleList()
+            } else {
+                LocaleListCompat.forLanguageTags(tag)
+            }
+            AppCompatDelegate.setApplicationLocales(locales)
+        }
+    }
+
+    private fun setupImportFont() {
+        binding.rowImportFont.setOnClickListener {
+            importFontLauncher.launch("font/*")
+        }
+    }
+
+    private fun importFont(uri: Uri) {
+        try {
+            val destFile = File(filesDir, "custom_font")
+            contentResolver.openInputStream(uri)?.use { input ->
+                destFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Typeface.createFromFile(destFile)
+
+            prefs.customFontPath = destFile.absolutePath
+            prefs.editorFontFamily = "custom"
+            updateEditorFontLabel()
+            Toast.makeText(this, R.string.import_font_success, Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, R.string.import_font_fail, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     private fun setupEditorTheme() {
         updateEditorThemeLabel()
@@ -346,16 +405,12 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun showEditorThemeDialog() {
         val names = EditorThemes.ALL.map { getString(it.nameRes) }.toTypedArray()
-        val current = EditorThemes.ALL.indexOfFirst { it.id == prefs.editorThemeId }
-            .coerceAtLeast(0)
-
+        val current = EditorThemes.ALL.indexOfFirst { it.id == prefs.editorThemeId }.coerceAtLeast(0)
         showChoiceDialog(R.string.settings_editor_theme, names, current) { which ->
             prefs.editorThemeId = EditorThemes.ALL[which].id
             updateEditorThemeLabel()
         }
     }
-
-    // ---------------- 编辑区字体 ----------------
 
     private fun setupEditorFont() {
         updateEditorFontLabel()
@@ -363,42 +418,44 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateEditorFontLabel() {
-        binding.tvEditorFontValue.text = getString(
-            EditorThemes.fontNameRes(prefs.editorFontFamily)
-        )
+        if (prefs.customFontPath.isNotEmpty() && prefs.editorFontFamily == "custom") {
+            binding.tvEditorFontValue.text = getString(R.string.font_custom)
+        } else {
+            binding.tvEditorFontValue.text = getString(EditorThemes.fontNameRes(prefs.editorFontFamily))
+        }
     }
 
     private fun showEditorFontDialog() {
-        val names = EditorThemes.FONTS.map { getString(it.second) }.toTypedArray()
-        val current = EditorThemes.FONTS.indexOfFirst {
-            it.first == prefs.editorFontFamily
-        }.coerceAtLeast(0)
+        val hasCustomFont = prefs.customFontPath.isNotEmpty()
+        val names = if (hasCustomFont) {
+            EditorThemes.FONTS.map { getString(it.second) } + getString(R.string.font_custom)
+        } else {
+            EditorThemes.FONTS.map { getString(it.second) }
+        }
 
-        showChoiceDialog(R.string.settings_editor_font, names, current) { which ->
-            prefs.editorFontFamily = EditorThemes.FONTS[which].first
+        val current = if (prefs.editorFontFamily == "custom") {
+            names.size - 1
+        } else {
+            EditorThemes.FONTS.indexOfFirst { it.first == prefs.editorFontFamily }.coerceAtLeast(0)
+        }
+
+        showChoiceDialog(R.string.settings_editor_font, names.toTypedArray(), current) { which ->
+            if (which < EditorThemes.FONTS.size) {
+                prefs.editorFontFamily = EditorThemes.FONTS[which].first
+            } else {
+                prefs.editorFontFamily = "custom"
+            }
             updateEditorFontLabel()
         }
     }
 
-    // ---------------- 自定义单选对话框 ----------------
-
-    private fun showChoiceDialog(
-        titleRes: Int,
-        names: Array<String>,
-        selectedIndex: Int,
-        onPick: (Int) -> Unit
-    ) {
+    private fun showChoiceDialog(titleRes: Int, names: Array<String>, selectedIndex: Int, onPick: (Int) -> Unit) {
         val b = DialogChoiceBinding.inflate(layoutInflater)
         b.tvDialogTitle.setText(titleRes)
-
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setView(b.root)
-            .create()
+        val dialog = MaterialAlertDialogBuilder(this).setView(b.root).create()
 
         names.forEachIndexed { i, name ->
-            val item = DialogChoiceItemBinding.inflate(
-                layoutInflater, b.choiceContainer, false
-            )
+            val item = DialogChoiceItemBinding.inflate(layoutInflater, b.choiceContainer, false)
             item.tvOptionText.text = name
             item.ivCheck.visibility = if (i == selectedIndex) View.VISIBLE else View.INVISIBLE
             item.root.setOnClickListener {
@@ -407,16 +464,12 @@ class SettingsActivity : AppCompatActivity() {
             }
             b.choiceContainer.addView(item.root)
         }
-
         dialog.show()
-
         dialog.window?.setLayout(
             (resources.displayMetrics.widthPixels * 0.9).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
-
-    // ---------------- 启动模式 ----------------
 
     private fun setupStartupMode() {
         when (prefs.startupMode) {
@@ -435,29 +488,21 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    // ---------------- 加号行为 ----------------
-
     private fun setupPlusBehavior() {
         binding.switchPlusReuse.isChecked = prefs.plusReuseEmpty
         updatePlusHint(prefs.plusReuseEmpty)
-
         binding.switchPlusReuse.setOnCheckedChangeListener { _, checked ->
             prefs.plusReuseEmpty = checked
             updatePlusHint(checked)
         }
-
         binding.rowPlusReuse.setOnClickListener {
             binding.switchPlusReuse.isChecked = !binding.switchPlusReuse.isChecked
         }
     }
 
     private fun updatePlusHint(reuse: Boolean) {
-        binding.tvPlusHint.text = getString(
-            if (reuse) R.string.plus_reuse_empty else R.string.plus_always_new
-        )
+        binding.tvPlusHint.text = getString(if (reuse) R.string.plus_reuse_empty else R.string.plus_always_new)
     }
-
-    // ---------------- 状态栏显示项 ----------------
 
     private fun statusBoxes(): Array<Pair<MaterialCheckBox, String>> = arrayOf(
         binding.cbCharsSpace to "chars_space",
@@ -481,12 +526,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun onStatusItemChanged(id: String, checked: Boolean) {
-        val current = prefs.statusBarItems
-            .split(",")
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-            .toMutableList()
-
+        val current = prefs.statusBarItems.split(",").map { it.trim() }.filter { it.isNotEmpty() }.toMutableList()
         if (checked) {
             if (current.contains(id)) return
             current.add(id)
@@ -494,56 +534,38 @@ class SettingsActivity : AppCompatActivity() {
         } else {
             current.remove(id)
         }
-
         prefs.statusBarItems = current.joinToString(",")
         syncStatusBarCheckboxes()
     }
 
     private fun syncStatusBarCheckboxes() {
         suppressStatusListener = true
-        val current = prefs.statusBarItems
-            .split(",")
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-        statusBoxes().forEach { (cb, id) ->
-            cb.isChecked = current.contains(id)
-        }
+        val current = prefs.statusBarItems.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+        statusBoxes().forEach { (cb, id) -> cb.isChecked = current.contains(id) }
         suppressStatusListener = false
     }
 
-    // ---------------- 自动保存 ----------------
-
     private fun setupAutoSave() {
         syncAutoSaveUI()
-
         binding.switchAutoSave.setOnCheckedChangeListener { _, checked ->
             prefs.autoSaveEnabled = checked
             syncAutoSaveUI()
         }
-        binding.rowAutoSave.setOnClickListener {
-            binding.switchAutoSave.isChecked = !binding.switchAutoSave.isChecked
-        }
+        binding.rowAutoSave.setOnClickListener { binding.switchAutoSave.isChecked = !binding.switchAutoSave.isChecked }
 
-        binding.switchAutoSaveOnPause.setOnCheckedChangeListener { _, checked ->
-            prefs.autoSaveOnPause = checked
-        }
+        binding.switchAutoSaveOnPause.setOnCheckedChangeListener { _, checked -> prefs.autoSaveOnPause = checked }
         binding.rowAutoSaveOnPause.setOnClickListener {
             if (!prefs.autoSaveEnabled) return@setOnClickListener
             binding.switchAutoSaveOnPause.isChecked = !binding.switchAutoSaveOnPause.isChecked
         }
 
-        binding.switchAutoSaveOnTabSwitch.setOnCheckedChangeListener { _, checked ->
-            prefs.autoSaveOnTabSwitch = checked
-        }
+        binding.switchAutoSaveOnTabSwitch.setOnCheckedChangeListener { _, checked -> prefs.autoSaveOnTabSwitch = checked }
         binding.rowAutoSaveOnTabSwitch.setOnClickListener {
             if (!prefs.autoSaveEnabled) return@setOnClickListener
-            binding.switchAutoSaveOnTabSwitch.isChecked =
-                !binding.switchAutoSaveOnTabSwitch.isChecked
+            binding.switchAutoSaveOnTabSwitch.isChecked = !binding.switchAutoSaveOnTabSwitch.isChecked
         }
 
-        binding.switchAutoSaveOnEdit.setOnCheckedChangeListener { _, checked ->
-            prefs.autoSaveOnEdit = checked
-        }
+        binding.switchAutoSaveOnEdit.setOnCheckedChangeListener { _, checked -> prefs.autoSaveOnEdit = checked }
         binding.rowAutoSaveOnEdit.setOnClickListener {
             if (!prefs.autoSaveEnabled) return@setOnClickListener
             binding.switchAutoSaveOnEdit.isChecked = !binding.switchAutoSaveOnEdit.isChecked
@@ -557,7 +579,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun syncAutoSaveUI() {
         binding.switchAutoSave.isChecked = prefs.autoSaveEnabled
-
         val enabled = prefs.autoSaveEnabled
         val alpha = if (enabled) 1f else 0.4f
 
@@ -603,27 +624,19 @@ class SettingsActivity : AppCompatActivity() {
         val values = intArrayOf(0, 15, 30, 60, 300, 600)
         val names = values.map { autoSaveIntervalName(it) }.toTypedArray()
         val current = values.indexOf(prefs.autoSaveIntervalSec).coerceAtLeast(0)
-
         showChoiceDialog(R.string.auto_save_interval_title, names, current) { which ->
             prefs.autoSaveIntervalSec = values[which]
             updateAutoSaveIntervalLabel()
         }
     }
 
-    // ---------------- 替换规则折叠 ----------------
-
     private fun setupReplaceRules() {
         binding.tvReplaceRules.visibility = if (rulesExpanded) View.VISIBLE else View.GONE
         binding.ivRulesExpand.rotation = if (rulesExpanded) 180f else 0f
-
         binding.rowReplaceRules.setOnClickListener {
             rulesExpanded = !rulesExpanded
-            binding.tvReplaceRules.visibility =
-                if (rulesExpanded) View.VISIBLE else View.GONE
-            binding.ivRulesExpand.animate()
-                .rotation(if (rulesExpanded) 180f else 0f)
-                .setDuration(180)
-                .start()
+            binding.tvReplaceRules.visibility = if (rulesExpanded) View.VISIBLE else View.GONE
+            binding.ivRulesExpand.animate().rotation(if (rulesExpanded) 180f else 0f).setDuration(180).start()
         }
     }
 }

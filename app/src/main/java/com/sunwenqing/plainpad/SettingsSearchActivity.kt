@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.WindowCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,18 +37,21 @@ class SettingsSearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
-        // ★ 必须放在 super.onCreate 之前
         ThemeColorHelper.apply(this, prefs.themeColor)
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
 
+        // ★ 开启沉浸式适配
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         binding = ActivitySettingsSearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ★ 加上系统状态栏颜色同步
+        binding.searchStatusBarFill.setStatusBarHeight()
+
+
         ThemeColorHelper.applySystemBars(this)
 
-        // 高亮背景色：主题的 primaryContainer
         highlightColor = MaterialColors.getColor(
             binding.root, com.google.android.material.R.attr.colorPrimaryContainer
         )
@@ -67,18 +71,13 @@ class SettingsSearchActivity : AppCompatActivity() {
             doSearch(q)
         }
 
-        binding.btnClear.setOnClickListener {
-            binding.etSearch.setText("")
-        }
+        binding.btnClear.setOnClickListener { binding.etSearch.setText("") }
 
-        // 自动聚焦并弹出键盘
         binding.etSearch.requestFocus()
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
         updateEmptyState(0, isInitial = true)
     }
-
-    // ---------------- 搜索 ----------------
 
     private fun doSearch(query: String) {
         val q = query.trim()
@@ -123,24 +122,16 @@ class SettingsSearchActivity : AppCompatActivity() {
         }
     }
 
-    // ---------------- 高亮 ----------------
-
     private fun highlight(text: String, positions: List<Int>?): CharSequence {
         if (positions.isNullOrEmpty()) return text
         val sp = SpannableString(text)
         for (i in positions) {
             if (i in text.indices) {
-                sp.setSpan(
-                    BackgroundColorSpan(highlightColor),
-                    i, i + 1,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+                sp.setSpan(BackgroundColorSpan(highlightColor), i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
         }
         return sp
     }
-
-    // ---------------- Adapter ----------------
 
     private inner class SearchResultAdapter(
         private val onClick: (String) -> Unit
@@ -157,9 +148,7 @@ class SettingsSearchActivity : AppCompatActivity() {
         inner class VH(val b: ItemSettingsSearchBinding) : RecyclerView.ViewHolder(b.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-            val b = ItemSettingsSearchBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
+            val b = ItemSettingsSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return VH(b)
         }
 
@@ -174,11 +163,7 @@ class SettingsSearchActivity : AppCompatActivity() {
                 holder.b.tvDesc.text = highlight(r.desc, r.descMatches)
             }
 
-            holder.b.tvSection.text = getString(
-                R.string.settings_search_section_prefix,
-                getString(SettingsCatalog.sectionNameRes(r.item.section))
-            )
-
+            holder.b.tvSection.text = getString(R.string.settings_search_section_prefix, getString(SettingsCatalog.sectionNameRes(r.item.section)))
             holder.b.root.setOnClickListener { onClick(r.item.key) }
         }
 

@@ -6,10 +6,19 @@
     android:orientation="vertical"
     android:background="?attr/colorSurface">
 
+    <!-- ★ 顶部状态栏纯色填充 -->
+    <View
+        android:id="@+id/statusBarFill"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary" />
+
     <!-- 跳过按钮 -->
     <FrameLayout
+        android:id="@+id/onboardingTopBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorSurface">
 
         <com.google.android.material.button.MaterialButton

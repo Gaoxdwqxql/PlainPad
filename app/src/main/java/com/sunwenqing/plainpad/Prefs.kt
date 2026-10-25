@@ -34,7 +34,6 @@ class Prefs(context: Context) {
         get() = sp.getInt(KEY_THEME_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         set(v) = sp.edit { putInt(KEY_THEME_MODE, v) }
 
-    /** 主题色 id：system / purple / blue / indigo / teal / green / orange / red / pink */
     var themeColor: String
         get() = sp.getString(KEY_THEME_COLOR, "system") ?: "system"
         set(v) = sp.edit { putString(KEY_THEME_COLOR, v) }
@@ -48,6 +47,11 @@ class Prefs(context: Context) {
     var editorFontFamily: String
         get() = sp.getString(KEY_EDITOR_FONT, "monospace") ?: "monospace"
         set(v) = sp.edit { putString(KEY_EDITOR_FONT, v) }
+
+    // ★ 新增：自定义字体路径
+    var customFontPath: String
+        get() = sp.getString(KEY_CUSTOM_FONT_PATH, "") ?: ""
+        set(v) = sp.edit { putString(KEY_CUSTOM_FONT_PATH, v) }
 
     // ---------------- 启动模式 ----------------
 
@@ -92,14 +96,12 @@ class Prefs(context: Context) {
 
     // ---------------- 保存时间 ----------------
 
-    /** 上次保存时间（毫秒时间戳），0 表示从未保存过 */
     var lastSaveTime: Long
         get() = sp.getLong(KEY_LAST_SAVE_TIME, 0L)
         set(v) = sp.edit { putLong(KEY_LAST_SAVE_TIME, v) }
 
     // ---------------- 特殊字符显示 ----------------
 
-    /** 是否在编辑区以符号形式显示特殊字符（不修改文本内容） */
     var showSpecialChars: Boolean
         get() = sp.getBoolean(KEY_SHOW_SPECIAL_CHARS, false)
         set(v) = sp.edit { putBoolean(KEY_SHOW_SPECIAL_CHARS, v) }
@@ -168,7 +170,7 @@ class Prefs(context: Context) {
             o.put("name", d.displayName)
             o.put("enc", d.encoding)
             o.put("dirty", d.isDirty)
-            o.put("readonly", d.isReadOnly) // ★ 保存只读状态
+            o.put("readonly", d.isReadOnly)
             o.put("sel", d.selStart)
             o.put("sel2", d.selEnd)
             o.put("scroll", d.scrollY)
@@ -192,7 +194,7 @@ class Prefs(context: Context) {
                         displayName = o.optString("name", "未命名.txt"),
                         encoding = o.optString("enc", "UTF-8"),
                         isDirty = o.optBoolean("dirty", false),
-                        isReadOnly = o.optBoolean("readonly", false), // ★ 恢复只读状态
+                        isReadOnly = o.optBoolean("readonly", false),
                         selStart = o.optInt("sel", 0),
                         selEnd = o.optInt("sel2", 0),
                         scrollY = o.optInt("scroll", 0),
@@ -220,6 +222,7 @@ class Prefs(context: Context) {
         const val KEY_THEME_COLOR = "theme_color"
         const val KEY_EDITOR_THEME = "editor_theme_id"
         const val KEY_EDITOR_FONT = "editor_font_family"
+        const val KEY_CUSTOM_FONT_PATH = "custom_font_path"
         const val KEY_STARTUP_MODE = "startup_mode"
         const val KEY_PLUS_REUSE_EMPTY = "plus_reuse_empty"
         const val KEY_STATUS_BAR_ITEMS = "status_bar_items"

@@ -2,6 +2,7 @@ package com.sunwenqing.plainpad
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.util.TypedValue
 import androidx.annotation.StyleRes
@@ -9,11 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.color.DynamicColors
 
-/**
- * 主题色应用工具。
- * - apply()：在 Activity.onCreate() 的 super.onCreate() 之前调用
- * - applySystemBars()：在 setContentView() 之后调用，让状态栏/导航栏跟随主题色
- */
 object ThemeColorHelper {
 
     @StyleRes
@@ -48,26 +44,25 @@ object ThemeColorHelper {
     }
 
     /**
-     * 让系统状态栏 / 导航栏颜色跟随主题色。
-     * 必须在 setContentView() 之后调用，因为此时才能取到 ThemeOverlay 生效后的 colorPrimary。
+     * 仅设置状态栏/导航栏图标颜色，不再去设置背景色（因为已经被 View 接管）
      */
     fun applySystemBars(activity: Activity) {
         val window = activity.window
         val primary = resolvePrimary(activity)
+        val isLight = isColorLight(primary)
 
-        @Suppress("DEPRECATION")
-        window.statusBarColor = primary
-
-        @Suppress("DEPRECATION")
-        window.navigationBarColor = primary
-
-        // 状态栏图标用白色（在深色主题色背景上更清晰）
         val controller = WindowInsetsControllerCompat(window, window.decorView)
-        controller.isAppearanceLightStatusBars = false
-        controller.isAppearanceLightNavigationBars = false
+        // 如果状态栏背景是深色，图标就显示白色；如果是浅色，图标就显示黑色
+        controller.isAppearanceLightStatusBars = isLight
+        controller.isAppearanceLightNavigationBars = isLight
     }
 
-    /** 从当前主题解析 colorPrimary */
+    // 判断颜色是否为浅色
+    private fun isColorLight(color: Int): Boolean {
+        val darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255
+        return darkness < 0.5
+    }
+
     private fun resolvePrimary(activity: Activity): Int {
         val tv = TypedValue()
         return if (activity.theme.resolveAttribute(

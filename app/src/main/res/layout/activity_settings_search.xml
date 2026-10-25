@@ -5,11 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="?attr/colorSurface">
+    <View
+        android:id="@+id/statusBarFill"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary" />
+
+    <View
+        android:id="@+id/searchStatusBarFill"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorSurface"
         app:navigationIcon="@drawable/ic_arrow_back">
 

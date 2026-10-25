@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 应用主主题 -->
     <style name="Theme.PlainPad" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- PopupMenu 背景（圆角 + 描边） -->
+        <!-- ★ 全局配置对话框样式（圆角+描边） -->
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.PlainPad.MaterialAlertDialog</item>
+
+        <!-- PopupMenu 背景 -->
         <item name="popupMenuBackground">@drawable/bg_popup_menu</item>
         <item name="android:popupBackground">@drawable/bg_popup_menu</item>
-
-        <!-- 对话框圆角 -->
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.PlainPad.MaterialAlertDialog</item>
     </style>
 
-    <style name="ThemeOverlay.PlainPad.MaterialAlertDialog"
-        parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <!-- 只调整圆角，不动背景，让 Material 3 自己画 -->
+    <!-- ★ 对话框的 ThemeOverlay -->
+    <style name="ThemeOverlay.PlainPad.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.PlainPad.Dialog</item>
     </style>
 
+    <!-- ★ 对话框的 Shape 配置（控制圆角和描边） -->
     <style name="ShapeAppearance.PlainPad.Dialog" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">18dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">?attr/colorOutlineVariant</item>
     </style>
 
 </resources>

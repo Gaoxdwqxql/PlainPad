@@ -17,7 +17,7 @@ object EditorStyler {
         val sizeSp = prefs.fontSize.toFloat()
         binding.editor.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeSp)
 
-        val tf = Typeface.create(prefs.editorFontFamily, Typeface.NORMAL)
+        val tf = FontHelper.getTypeface(prefs)
         binding.editor.typeface = tf
         binding.tvLineNumbers.setTypefaceAndSize(tf, binding.editor.textSize)
 

@@ -1,12 +1,5 @@
 package com.sunwenqing.plainpad
 
-/**
- * 模糊匹配工具：
- * 1. 优先匹配连续子串（大小写不敏感）
- * 2. 失败则尝试子序列匹配（关键词的字符按顺序出现在文本中，中间允许其他字符）
- *
- * 返回匹配到的字符索引列表，用于高亮；无匹配返回 null。
- */
 object FuzzyMatcher {
 
     fun match(text: String, query: String): List<Int>? {
@@ -25,6 +18,10 @@ object FuzzyMatcher {
         var qi = 0
         for (i in text.indices) {
             if (qi < lowerQuery.length && lowerText[i] == lowerQuery[qi]) {
+                // ★ 过滤控制字符：如果匹配到的是换行符或制表符，直接跳过
+                if (lowerText[i] == '\n' || lowerText[i] == '\r' || lowerText[i] == '\t') {
+                    continue
+                }
                 positions.add(i)
                 qi++
             }

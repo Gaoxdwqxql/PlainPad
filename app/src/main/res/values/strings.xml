@@ -1,372 +1,380 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ========== 应用信息 ========== -->
+    <!-- App Info -->
     <string name="app_name">PlainPad</string>
-    <string name="untitled">未命名.txt</string>
-    <string name="default_file_name">未命名.txt</string>
-    <string name="untitled_n">未命名 %1$d.txt</string>
-    <string name="editor_hint">在此输入文本…</string>
+    <string name="untitled">Untitled.txt</string>
+    <string name="default_file_name">Untitled.txt</string>
+    <string name="untitled_n">Untitled %1$d.txt</string>
+    <string name="editor_hint">Type text here…</string>
 
-    <!-- ========== 顶栏菜单 ========== -->
-    <string name="menu_undo">撤销</string>
-    <string name="menu_redo">重做</string>
-    <string name="menu_find">查找</string>
-    <string name="menu_settings">设置</string>
-    <string name="menu_more">更多</string>
+    <!-- Top Bar -->
+    <string name="menu_undo">Undo</string>
+    <string name="menu_redo">Redo</string>
+    <string name="menu_find">Find</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_more">More</string>
 
-    <!-- ========== 溢出菜单 ========== -->
-    <string name="menu_new">新建</string>
-    <string name="menu_open">打开…</string>
-    <string name="menu_recent">最近文件</string>
-    <string name="menu_save">保存</string>
-    <string name="menu_save_as">另存为…</string>
-    <string name="menu_close_tab">关闭当前标签</string>
-    <string name="menu_replace">替换</string>
-    <string name="menu_goto_line">跳转到行</string>
-    <string name="menu_immersive">沉浸阅读</string>
-    <string name="menu_default">设为默认文本编辑器</string>
-    <string name="menu_about">关于</string>
+    <!-- Overflow Menu -->
+    <string name="menu_new">New</string>
+    <string name="menu_open">Open…</string>
+    <string name="menu_recent">Recent Files</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_save_as">Save as…</string>
+    <string name="menu_close_tab">Close Tab</string>
+    <string name="menu_replace">Replace</string>
+    <string name="menu_goto_line">Go to Line</string>
+    <string name="menu_immersive">Immersive Mode</string>
+    <string name="menu_default">Set as Default Editor</string>
+    <string name="menu_about">About</string>
 
-    <!-- ========== 兼容旧引用 ========== -->
-    <string name="menu_wrap">自动换行</string>
-    <string name="menu_show_line_numbers">显示行号</string>
-    <string name="menu_font_size">字体大小</string>
-    <string name="menu_theme">主题</string>
+    <!-- Compatibility -->
+    <string name="menu_wrap">Word Wrap</string>
+    <string name="menu_show_line_numbers">Show Line Numbers</string>
+    <string name="menu_font_size">Font Size</string>
+    <string name="menu_theme">Theme</string>
 
-    <!-- ========== 撤销 / 重做提示 ========== -->
-    <string name="no_undo">没有可撤销的操作</string>
-    <string name="no_redo">没有可重做的操作</string>
+    <!-- Undo/Redo Toast -->
+    <string name="no_undo">Nothing to undo</string>
+    <string name="no_redo">Nothing to redo</string>
 
-    <!-- ========== 最近文件 ========== -->
-    <string name="recent_title">最近文件</string>
-    <string name="no_recent">暂无最近文件</string>
-    <string name="recent_cleared">已清空最近文件</string>
-    <string name="clear">清空</string>
+    <!-- Recent Files -->
+    <string name="recent_title">Recent Files</string>
+    <string name="no_recent">No recent files</string>
+    <string name="recent_cleared">Recent files cleared</string>
+    <string name="clear">Clear</string>
 
-    <!-- ========== 查找 / 替换 ========== -->
-    <string name="find_hint">查找内容</string>
-    <string name="replace_hint">替换为</string>
-    <string name="find_prev">查找上一个</string>
-    <string name="find_next">查找下一个</string>
-    <string name="replace">替换</string>
-    <string name="replace_all">全部替换</string>
-    <string name="close">关闭</string>
-    <string name="not_found">未找到匹配内容</string>
-    <string name="replaced_n">已替换 %1$d 处</string>
+    <!-- Find/Replace -->
+    <string name="find_hint">Find</string>
+    <string name="replace_hint">Replace with</string>
+    <string name="find_prev">Previous</string>
+    <string name="find_next">Next</string>
+    <string name="replace">Replace</string>
+    <string name="replace_all">Replace All</string>
+    <string name="close">Close</string>
+    <string name="not_found">Not found</string>
+    <string name="replaced_n">Replaced %1$d occurrences</string>
 
-    <!-- ========== 保存 / 打开提示 ========== -->
-    <string name="saved">已保存</string>
-    <string name="err_open">打开失败：%1$s</string>
-    <string name="err_save">保存失败：%1$s</string>
-    <string name="status_count">%1$d 字符 · %2$d 行</string>
+    <!-- Save/Open Status -->
+    <string name="saved">Saved</string>
+    <string name="err_open">Open failed: %1$s</string>
+    <string name="err_save">Save failed: %1$s</string>
+    <string name="status_count">%1$d chars · %2$d lines</string>
 
-    <!-- ========== 未保存提示 ========== -->
-    <string name="unsaved_title">尚未保存</string>
-    <string name="unsaved_message">当前文件已修改，是否保存？</string>
-    <string name="save">保存</string>
-    <string name="discard">不保存</string>
-    <string name="cancel">取消</string>
-    <string name="ok">确定</string>
+    <!-- Unsaved -->
+    <string name="unsaved_title">Unsaved Changes</string>
+    <string name="unsaved_message">The current file has been modified. Save changes?</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 
-    <!-- ========== 通用 ========== -->
-    <string name="no_settings">无法打开系统设置</string>
-    <string name="about_message">PlainPad 1.0\n\n一个轻量的纯文本编辑器。\n支持 UTF-8 / UTF-16 / GBK 自动识别，多标签页编辑。\n\n提示：在「设为默认文本编辑器」中可将本应用注册为系统默认的 txt 打开工具。</string>
+    <!-- General -->
+    <string name="no_settings">Cannot open system settings</string>
+    <string name="about_message">PlainPad 1.0\n\nA lightweight plain text editor.\nSupports UTF-8 / UTF-16 / GBK auto detection and multi-tab editing.\n\nTip: You can set PlainPad as the default app for txt files in system settings.</string>
 
-    <!-- ========== 编码 ========== -->
-    <string name="choose_encoding">选择保存编码</string>
-    <string name="encoding_label">编码：%1$s</string>
+    <!-- Encoding -->
+    <string name="choose_encoding">Choose Encoding</string>
+    <string name="encoding_label">Encoding: %1$s</string>
 
-    <!-- ========== 字体大小对话框 ========== -->
-    <string name="font_size_dialog_title">调整字体大小</string>
-    <string name="font_size_label">当前字号：%1$d sp</string>
+    <!-- Font Size -->
+    <string name="font_size_dialog_title">Adjust Font Size</string>
+    <string name="font_size_label">Current size: %1$d sp</string>
 
-    <!-- ========== 主题 ========== -->
-    <string name="theme_title">选择主题</string>
-    <string name="theme_system">跟随系统</string>
-    <string name="theme_light">浅色</string>
-    <string name="theme_dark">深色</string>
+    <!-- Theme -->
+    <string name="theme_title">Choose Theme</string>
+    <string name="theme_system">Follow System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
 
-    <!-- ========== 沉浸阅读 ========== -->
-    <string name="exit_immersive">退出阅读</string>
+    <!-- Immersive -->
+    <string name="exit_immersive">Exit Immersive</string>
 
-    <!-- ========== 跳转到行 ========== -->
-    <string name="goto_line_title">跳转到行</string>
-    <string name="goto_line_hint">输入行号</string>
-    <string name="goto_line_range">当前文件共 %1$d 行</string>
-    <string name="goto_line_invalid">行号无效</string>
+    <!-- Goto Line -->
+    <string name="goto_line_title">Go to Line</string>
+    <string name="goto_line_hint">Enter line number</string>
+    <string name="goto_line_range">Total %1$d lines</string>
+    <string name="goto_line_invalid">Invalid line number</string>
 
-    <!-- ========== 标签页 ========== -->
-    <string name="cannot_close_last">至少保留一个标签</string>
+    <!-- Tabs -->
+    <string name="cannot_close_last">Keep at least one tab</string>
 
-    <!-- ========== 设置页面 ========== -->
-    <string name="settings_title">设置</string>
-    <string name="settings_font_size_title">字体大小</string>
-    <string name="settings_theme">主题</string>
-    <string name="settings_startup_mode">启动模式</string>
-    <string name="settings_startup_hint">下次从桌面冷启动时：</string>
-    <string name="settings_plus_behavior">加号行为</string>
+    <!-- Settings Page -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_font_size_title">Font Size</string>
+    <string name="settings_theme">App Theme</string>
+    <string name="settings_startup_mode">Startup Mode</string>
+    <string name="settings_startup_hint">On cold start from launcher:</string>
+    <string name="settings_plus_behavior">Plus Button Behavior</string>
 
-    <!-- 分区标题 -->
-    <string name="section_editing">编辑体验</string>
-    <string name="section_appearance">外观</string>
-    <string name="section_tabs">标签页行为</string>
+    <string name="section_editing">Editing</string>
+    <string name="section_save">Saving</string>
+    <string name="section_appearance">Appearance</string>
+    <string name="section_tabs">Tabs</string>
 
-    <!-- 启动模式选项 -->
-    <string name="startup_restore">恢复上次的标签页</string>
-    <string name="startup_new_only">新建文件，丢弃历史</string>
-    <string name="startup_new_and_restore">新建文件并保留历史标签页</string>
+    <string name="startup_restore">Restore previous tabs</string>
+    <string name="startup_new_only">New file, discard history</string>
+    <string name="startup_new_and_restore">New file and keep history</string>
 
-    <!-- 加号行为选项 -->
-    <string name="plus_reuse_empty">优先切换到已有的空标签</string>
-    <string name="plus_always_new">总是新建标签</string>
+    <string name="plus_reuse_empty">Reuse existing empty tab</string>
+    <string name="plus_always_new">Always create new tab</string>
 
-    <!-- ========== 编辑区主题 / 字体 ========== -->
-    <string name="settings_editor_theme">编辑区主题</string>
-    <string name="settings_editor_font">编辑区字体</string>
+    <!-- Editor Theme / Font -->
+    <string name="settings_editor_theme">Editor Theme</string>
+    <string name="settings_editor_font">Editor Font</string>
 
-    <string name="theme_follow_app">跟随应用主题</string>
-    <string name="theme_white">纯白</string>
-    <string name="theme_sepia">米黄（护眼）</string>
-    <string name="theme_soft_green">淡绿（护眼）</string>
-    <string name="theme_oled_black">纯黑（OLED）</string>
-    <string name="theme_dark_gray">深灰</string>
-    <string name="theme_midnight_blue">午夜蓝</string>
+    <string name="theme_follow_app">Follow App Theme</string>
+    <string name="theme_white">White</string>
+    <string name="theme_sepia">Sepia</string>
+    <string name="theme_soft_green">Soft Green</string>
+    <string name="theme_oled_black">OLED Black</string>
+    <string name="theme_dark_gray">Dark Gray</string>
+    <string name="theme_midnight_blue">Midnight Blue</string>
 
-    <string name="font_monospace">等宽</string>
-    <string name="font_sans_serif">无衬线</string>
-    <string name="font_serif">衬线</string>
+    <string name="font_monospace">Monospace</string>
+    <string name="font_sans_serif">Sans Serif</string>
+    <string name="font_serif">Serif</string>
 
-    <!-- ========== 关于页面 ========== -->
-    <string name="about_title">关于</string>
-    <string name="about_version">版本 %1$s</string>
-    <string name="about_description">PlainPad 是一个轻量的纯文本编辑器。\n支持 UTF-8 / UTF-16 / GBK 自动识别，多标签页编辑，行号显示，双指缩放，自定义编辑区主题与字体。</string>
-    <string name="about_set_default">设为默认文本编辑器</string>
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_description">PlainPad is a lightweight plain text editor.\nSupports auto-detection of UTF-8 / UTF-16 / GBK, multi-tab editing, line numbers, pinch-to-zoom, and customizable editor themes and fonts.</string>
+    <string name="about_set_default">Set as Default Editor</string>
     <string name="about_made_with">Made with ❤️</string>
 
-    <!-- ========== 统计对话框 ========== -->
-    <string name="stats_title">统计信息</string>
-    <string name="stats_group_chars">字符统计</string>
-    <string name="stats_group_paragraphs">段落与行</string>
-    <string name="stat_chars_no_space">字符（不含空格）</string>
-    <string name="stat_visible_chars">可见字符</string>
-    <string name="stat_invisible_chars">不可见字符</string>
-    <string name="stat_letters">英文字母</string>
-    <string name="stat_digits">数字</string>
-    <string name="stat_words">词数</string>
-    <string name="stat_total_lines">总行数</string>
-    <string name="stat_nonempty_lines">非空行</string>
-    <string name="stat_paragraphs">段落数</string>
-    <string name="stat_chinese_chars">中文字符</string>
-    <string name="stat_max_line_width">最长行（半角宽）</string>
+    <!-- Stats Dialog -->
+    <string name="stats_title">Statistics</string>
+    <string name="stats_group_chars">Character Statistics</string>
+    <string name="stats_group_paragraphs">Paragraphs &amp; Lines</string>
+    <string name="stat_chars_no_space">Chars (no space)</string>
+    <string name="stat_visible_chars">Visible chars</string>
+    <string name="stat_invisible_chars">Invisible chars</string>
+    <string name="stat_letters">Letters</string>
+    <string name="stat_digits">Digits</string>
+    <string name="stat_words">Words</string>
+    <string name="stat_total_lines">Total lines</string>
+    <string name="stat_nonempty_lines">Non-empty lines</string>
+    <string name="stat_paragraphs">Paragraphs</string>
+    <string name="stat_chinese_chars">Chinese chars</string>
+    <string name="stat_max_line_width">Max line width</string>
 
-    <!-- ========== 状态栏简写格式 ========== -->
-    <string name="status_chars_space">%1$d 字符</string>
-    <string name="status_chars_nospace">%1$d 字</string>
-    <string name="status_words">%1$d 词</string>
-    <string name="status_lines">%1$d 行</string>
-    <string name="status_nonempty_lines">%1$d 非空行</string>
-    <string name="status_max_line">行宽 %1$d</string>
-    <string name="status_letters">%1$d 字母</string>
-    <string name="status_invisible">%1$d 隐</string>
+    <!-- Status Bar Formats -->
+    <string name="status_chars_space">%1$d chars</string>
+    <string name="status_chars_nospace">%1$d chars</string>
+    <string name="status_words">%1$d words</string>
+    <string name="status_lines">%1$d lines</string>
+    <string name="status_nonempty_lines">%1$d non-empty</string>
+    <string name="status_max_line">Max width %1$d</string>
+    <string name="status_letters">%1$d letters</string>
+    <string name="status_invisible">%1$d invisible</string>
 
-    <!-- ========== 状态栏设置 ========== -->
-    <string name="settings_status_bar">状态栏显示</string>
-    <string name="status_bar_hint">最多勾选 2 项，超出时自动取消最早勾选的</string>
-    <string name="status_item_chars_space">字符（含空格）</string>
-    <string name="status_item_chars_nospace">字符（不含空格）</string>
-    <string name="status_item_words">词数</string>
-    <string name="status_item_lines">总行数</string>
-    <string name="status_item_nonempty_lines">非空行</string>
-    <string name="status_item_max_line">最长行宽</string>
-    <string name="status_item_letters">英文字母</string>
-    <string name="status_item_invisible">不可见字符</string>
+    <!-- Status Bar Settings -->
+    <string name="settings_status_bar">Status Bar Display</string>
+    <string name="status_bar_hint">Max 2 items. Older ones will be unselected.</string>
+    <string name="status_item_chars_space">Chars (with space)</string>
+    <string name="status_item_chars_nospace">Chars (no space)</string>
+    <string name="status_item_words">Words</string>
+    <string name="status_item_lines">Total lines</string>
+    <string name="status_item_nonempty_lines">Non-empty lines</string>
+    <string name="status_item_max_line">Max line width</string>
+    <string name="status_item_letters">Letters</string>
+    <string name="status_item_invisible">Invisible chars</string>
 
-    <!-- ========== 兼容旧引用（可保留） ========== -->
-    <string name="settings_font_size">字体大小（当前 %1$d sp）</string>
-    <string name="check_prefix">✓  </string>
-    <string name="uncheck_prefix">　  </string>
-    <string name="font_size_toast">字号：%1$d</string>
+    <!-- Special Chars -->
+    <string name="insert_special_cd">Insert Special Char</string>
+    <string name="insert_special_title">Insert Special Char</string>
+    <string name="special_lf">LF (Line Feed) </string>
+    <string name="special_cr">CR (Carriage Return) </string>
+    <string name="special_crlf">CRLF </string>
+    <string name="special_tab">TAB </string>
+    <string name="special_zwsp">Zero Width Space</string>
+    <string name="special_zwnj">ZWNJ</string>
+    <string name="special_zwj">ZWJ</string>
+    <string name="special_nbsp">Non-breaking Space</string>
+    <string name="special_ideographic_space">Ideographic Space</string>
+    <string name="special_nbhyphen">Non-breaking Hyphen</string>
+    <string name="special_bom">BOM</string>
+    <string name="special_lrm">LRM</string>
+    <string name="special_rlm">RLM</string>
 
-    <!-- 插入特殊字符 -->
-    <string name="insert_special_cd">插入特殊字符</string>
-    <string name="insert_special_title">插入特殊字符</string>
-    <string name="special_lf">换行 LF </string>
-    <string name="special_cr">回车 CR </string>
-    <string name="special_crlf">回车换行 CRLF </string>
-    <string name="special_tab">制表符 TAB </string>
-    <string name="special_zwsp">零宽空格 ZWSP</string>
-    <string name="special_zwnj">零宽不连字 ZWNJ</string>
-    <string name="special_zwj">零宽连字 ZWJ</string>
-    <string name="special_nbsp">不换行空格 NBSP</string>
-    <string name="special_ideographic_space">全角空格</string>
-    <string name="special_nbhyphen">不间断连字符</string>
-    <string name="special_bom">字节顺序标记 BOM</string>
-    <string name="special_lrm">左至右标记 LRM</string>
-    <string name="special_rlm">右至左标记 RLM</string>
+    <string name="stat_chars_with_space">Chars (with space, no line break)</string>
 
-    <!-- 统计标签更新 -->
-    <string name="stat_chars_with_space">字符（含空格，不含换行）</string>
+    <!-- Auto Save -->
+    <string name="settings_auto_save">Auto Save</string>
+    <string name="auto_save_hint">Only works for saved files. Untitled files will be skipped.</string>
+    <string name="auto_save_on_pause">Save on background</string>
+    <string name="auto_save_on_tab_switch">Save on tab switch</string>
+    <string name="auto_save_interval">Interval Save</string>
+    <string name="auto_save_interval_title">Interval Save Time</string>
+    <string name="auto_save_interval_off">Off</string>
+    <string name="auto_save_interval_15">Every 15 sec</string>
+    <string name="auto_save_interval_30">Every 30 sec</string>
+    <string name="auto_save_interval_60">Every 1 min</string>
+    <string name="auto_save_interval_300">Every 5 min</string>
+    <string name="auto_save_interval_600">Every 10 min</string>
 
-    <!-- ========== 自动保存 ========== -->
-    <string name="section_save">保存</string>
-    <string name="settings_auto_save">自动保存</string>
-    <string name="auto_save_hint">仅对已保存到文件的内容生效，未命名文件不会自动保存</string>
-    <string name="auto_save_on_pause">切到后台时保存</string>
-    <string name="auto_save_on_tab_switch">切换标签时保存</string>
-    <string name="auto_save_interval">定时保存</string>
-    <string name="auto_save_interval_title">定时保存间隔</string>
-    <string name="auto_save_interval_off">不定时</string>
-    <string name="auto_save_interval_15">每 15 秒</string>
-    <string name="auto_save_interval_30">每 30 秒</string>
-    <string name="auto_save_interval_60">每 1 分钟</string>
-    <string name="auto_save_interval_300">每 5 分钟</string>
-    <string name="auto_save_interval_600">每 10 分钟</string>
+    <string name="auto_save_status_pending">Pending</string>
+    <string name="auto_save_status_saved">Saved %1$s</string>
+    <string name="auto_save_status_saving">Saving…</string>
 
-    <string name="auto_save_status_pending">待保存</string>
-    <string name="auto_save_status_saved">已保存 %1$s</string>
-    <string name="auto_save_status_saving">保存中…</string>
+    <string name="stats_file_name">File: %1$s</string>
 
-    <!-- ========== 统计对话框 - 文件名 ========== -->
-    <string name="stats_file_name">文件：%1$s</string>
+    <string name="auto_save_on_edit">Save on edit</string>
+    <string name="auto_save_on_edit_hint">Save 2 seconds after typing stops</string>
+    <string name="auto_save_last_time">Saved at %1$s</string>
 
-    <string name="auto_save_on_edit">内容变化时保存</string>
-    <string name="auto_save_on_edit_hint">停止输入约 2 秒后自动保存</string>
-    <string name="auto_save_last_time">上次保存于%1$s</string>
+    <string name="menu_save_current">Save Current</string>
+    <string name="menu_save_all">Save All</string>
+    <string name="save_all_nothing">No modified files to save</string>
+    <string name="save_all_success">Saved %1$d files</string>
+    <string name="save_all_partial">Saved %1$d, failed %2$d</string>
 
-    <!-- 保存菜单 -->
+    <!-- Help -->
+    <string name="menu_help">Help</string>
+    <string name="help_title">Help</string>
+    <string name="help_intro">PlainPad is a lightweight, pure, offline plain text editor. Below is the guide for all features. Tap the back arrow or press Back to exit.</string>
 
-    <string name="menu_save_current">保存当前</string>
-    <string name="menu_save_all">全部保存</string>
-    <string name="save_all_nothing">没有需要保存的已命名文件</string>
-    <string name="save_all_success">已保存 %1$d 个文件</string>
-    <string name="save_all_partial">已保存 %1$d 个，%2$d 个失败</string>
+    <string name="help_section_file">File Operations</string>
+    <string name="help_file_content">• New: Menu → New, or the + at the end of tab bar\n• Open: Menu → Open… via system file picker\n• Save: Top bar save icon → Save Current\n• Save All: Save all named and modified tabs\n• Save As: Choose encoding then save location\n• Close Tab: Tap × on the tab, or Menu → Close Tab\n• Recent Files: Menu → Recent Files (last 10)\n• Set Default: Menu → Set as Default Editor</string>
 
-    <!-- ========== 帮助菜单 ========== -->
-    <string name="menu_help">帮助</string>
-    <string name="help_title">帮助</string>
-    <string name="help_intro">PlainPad 是一个轻量、纯粹、离线的纯文本编辑器。以下是各项功能的说明。点击左上角返回箭头或按返回键退出。</string>
+    <string name="help_section_edit">Editing</string>
+    <string name="help_edit_content">• Undo / Redo: Top bar arrows, up to 100 steps\n• Find: Top bar magnifier, supports up/down\n• Replace: Menu → Replace, one or all\n• Go to Line: Menu → Go to Line\n• Insert Special Char: ⊕ in status bar\n• Show Special Chars: Enable in settings\n• Statistics: Tap the status text in bottom-left</string>
 
-    <!-- 文件操作 -->
-    <string name="help_section_file">文件操作</string>
-    <string name="help_file_content">• 新建：菜单 → 新建，或标签栏末尾的 + 号\n• 打开：菜单 → 打开…，通过系统文件选择器选择 txt 文件\n• 保存：点击顶栏保存图标 → 保存当前\n• 全部保存：一次性保存所有已命名且被修改的标签，未命名文件会跳过\n• 另存为：选择保存编码后再选择保存位置\n• 关闭标签：点击标签上的 × 号，或菜单 → 关闭当前标签\n• 最近文件：菜单 → 最近文件，可快速打开最近 10 个文件\n• 设为默认：菜单 → 设为默认文本编辑器，跳转到系统设置页</string>
+    <string name="help_section_stats">Statistics</string>
+    <string name="help_stats_content">Tap the status text to pop up statistics:\n• Chars (with / without space)\n• Visible / Invisible chars\n• Letters, digits, Chinese chars\n• Words, total/non-empty lines, paragraphs\n• Max line width\n\nYou can choose which 2 items to show in Settings → Editing.</string>
 
-    <!-- 编辑功能 -->
-    <string name="help_section_edit">编辑功能</string>
-    <string name="help_edit_content">• 撤销 / 重做：顶栏左右箭头图标，最多 100 步，连续输入合并为一步\n• 查找：顶栏放大镜图标，支持向上 / 向下查找\n• 替换：菜单 → 替换，支持单个替换与全部替换\n• 跳转到行：菜单 → 跳转到行，输入行号即可定位\n• 插入特殊字符：底栏最右的 ⊕ 图标，可插入换行、制表符、零宽字符、不换行空格等\n• 统计信息：点击底栏左下角的状态文字，弹出详细统计</string>
+    <string name="help_section_tabs">Tabs</string>
+    <string name="help_tabs_content">• New Tab: Tap + or Menu → New\n• Switch Tab: Tap tab, cursor/scroll is auto-saved\n• Close Tab: Tap ×, unsaved changes will prompt\n• Plus Behavior: Reuse empty tab or always new\n• Startup Mode: Restore, new &amp; discard, or new &amp; keep</string>
 
-    <!-- 统计信息 -->
-    <string name="help_section_stats">统计信息</string>
-    <string name="help_stats_content">点击底栏左下角的状态文字，弹出详细统计：\n• 字符数（含 / 不含空格）\n• 可见 / 不可见字符\n• 英文字母、数字、中文字符数\n• 词数、总行数、非空行数、段落数\n• 最长行（按半角宽计算）\n\n可在设置 → 编辑体验 中勾选底栏默认显示哪 2 项指标。</string>
+    <string name="help_section_appearance">Appearance</string>
+    <string name="help_appearance_content">• Theme Color: 8 preset colors. Icon switches automatically (Android 12+)\n• Font Size: Settings → Font Size, 10 ~ 40 sp\n• Editor Theme: Follow app, White, Sepia, Green, OLED, Dark Gray, Midnight Blue\n• Editor Font: Monospace, Sans Serif, Serif\n• Show Line Numbers: Width is fixed, strictly aligned\n• Word Wrap: Settings → Word Wrap\n• App Theme: System / Light / Dark</string>
 
-    <!-- 标签页 -->
-    <string name="help_section_tabs">标签页</string>
-    <string name="help_tabs_content">• 新建标签：点击标签栏末尾的 + 号，或菜单 → 新建\n• 切换标签：点击对应标签，切换时自动保存光标、滚动位置\n• 关闭标签：点击标签上的 × 号；若有未保存修改会询问\n• 加号行为：可在设置中选"优先切换已有空标签"或"总是新建"\n• 启动模式：可在设置中配置冷启动时是恢复标签、新建并丢弃历史、还是新建并保留历史</string>
+    <string name="help_section_gesture">Gestures</string>
+    <string name="help_gesture_content">• Pinch to Zoom: Two fingers in editor area\n• Right Scrollbar: Drag to scroll, has inertia\n• Long Press: Select, copy, paste as system default\n• Tab Scroll: Swipe horizontally when too many tabs</string>
 
-    <!-- 外观设置 -->
-    <string name="help_section_appearance">外观设置</string>
-    <string name="help_appearance_content">• 字体大小：设置 → 字体大小，10 ~ 40 sp\n• 编辑区主题：跟随应用主题、纯白、米黄护眼、淡绿护眼、纯黑 OLED、深灰、午夜蓝\n• 编辑区字体：等宽、无衬线、衬线\n• 显示行号：行号栏宽度固定，不随字号变化，数字与文本严格对齐\n• 自动换行：设置 → 自动换行\n• 应用主题：跟随系统 / 浅色 / 深色</string>
+    <string name="help_section_autosave">Auto Save</string>
+    <string name="help_autosave_content">Enable in Settings → Saving:\n• Save on background\n• Save on tab switch\n• Save on edit (2s debounce)\n• Interval save (15s ~ 10min)\n\nNote: Only named files are auto-saved. Status bar shows last save time.</string>
 
-    <!-- 手势与操作 -->
-    <string name="help_section_gesture">手势与操作</string>
-    <string name="help_gesture_content">• 双指缩放：在编辑区用两根手指张开 / 收拢，实时调整字号\n• 右侧滚动条：手指按住拖动可快速定位，松手后有惯性滑动；条的颜色跟随文字颜色\n• 长按选中：与系统一致，可选中文字、复制、粘贴\n• 标签栏滑动：标签过多时可左右滑动浏览</string>
+    <string name="help_section_encoding">Encoding Support</string>
+    <string name="help_encoding_content">Auto-detects BOM and decodes as UTF-8 first, falls back to GBK.\nSave options: UTF-8, UTF-16LE, UTF-16BE, GBK, GB2312.\nCurrent encoding is shown in bottom-right.</string>
 
-    <!-- 自动保存 -->
-    <string name="help_section_autosave">自动保存</string>
-    <string name="help_autosave_content">在设置 → 保存 中开启自动保存后，可选以下触发方式：\n• 切到后台时保存\n• 切换标签时保存\n• 内容变化时保存：停止输入约 2 秒后自动写盘（防抖）\n• 定时保存：可设置 15 秒 ~ 10 分钟的间隔\n\n注意：只有"已命名过"（已有文件路径）的标签才会被自动保存；未命名标签会跳过。底栏会显示"上一次自动保存于 HH:MM"。</string>
+    <!-- ★ 补回的换行符帮助 -->
+    <string name="help_section_eol">End of Line (EOL)</string>
+    <string name="help_eol_content">The current EOL format (CRLF or LF) is displayed in the bottom bar next to the encoding.\n• Windows uses CRLF (\\r\\n)\n• Unix / macOS uses LF (\\n)\n\nTap the CRLF or LF label in the bottom bar to convert between them to prevent formatting issues across different operating systems.</string>
 
-    <!-- 编码支持 -->
-    <string name="help_section_encoding">编码支持</string>
-    <string name="help_encoding_content">打开文件时自动识别 BOM 并优先按 UTF-8 解码，失败时回退 GBK，避免中文乱码。\n保存时可选择：UTF-8、UTF-16LE、UTF-16BE、GBK、GB2312。\n底栏右侧会显示当前文件的编码。</string>
+    <!-- ★ 补回的大文件模式帮助 -->
+    <string name="help_section_large_file">Large File Mode</string>
+    <string name="help_large_file_content">To ensure extreme smoothness on mobile devices, PlainPad has special handling for very large texts:\n• Read limit: Up to 20MB. Excess will be truncated with a prompt.\n• Performance protection: When a single file exceeds 1 million chars, it automatically enters "Large File Mode".\n• Restricted features: To prevent lag or OOM (Out of Memory), line numbers, undo/redo, pinch-to-zoom, special char rendering, and statistics are disabled in this mode.</string>
 
-    <!-- 换行符格式 (新增) -->
-    <string name="help_section_eol">换行符格式</string>
-    <string name="help_eol_content">底栏编码右侧会实时显示当前文件的换行符格式（CRLF 或 LF）。\n• Windows 使用 CRLF (\\r\\n)\n• Unix / macOS 使用 LF (\\n)\n\n点击底栏的 CRLF 或 LF 标签，可以在两种格式之间一键转换，防止在不同操作系统间传输文件时出现排版错乱。</string>
+    <string name="help_section_immersive">Immersive Mode</string>
+    <string name="help_immersive_content">Menu → Immersive Mode hides all bars. \nExit with the button in bottom-right or press Back.</string>
 
-    <!-- 大文件模式 (新增) -->
-    <string name="help_section_large_file">大文件模式</string>
-    <string name="help_large_file_content">为保证在移动设备上的极致流畅，PlainPad 对超大文本做了特殊处理：\n• 读取上限：最大支持打开 20MB 的文本文件，超出部分会截断并提示。\n• 性能保护：当单文件字符数超过 100 万时，会自动进入“大文件模式”。\n• 受限功能：在该模式下，为保证不发生卡顿或 OOM（内存溢出），将禁用行号、撤销/重做、双指缩放、特殊字符渲染及统计功能。</string>
+    <!-- Onboarding -->
+    <string name="onboard_skip">Skip</string>
+    <string name="onboard_next">Next</string>
+    <string name="onboard_start">Get Started</string>
 
-    <!-- 沉浸阅读 -->
-    <string name="help_section_immersive">沉浸阅读</string>
-    <string name="help_immersive_content">菜单 → 沉浸阅读，隐藏顶栏、标签栏、状态栏与系统状态栏，只留纯文本。\n右下角会出现"退出阅读"按钮，按返回键也能退出。</string>
+    <string name="onboard_welcome_title">Welcome to PlainPad</string>
+    <string name="onboard_welcome_desc">A lightweight, pure, offline plain text editor.\n\nNo ads, no account, no cloud sync. All data stays on your device.</string>
 
-    <!-- ========== 新手引导 ========== -->
-    <string name="onboard_skip">跳过</string>
-    <string name="onboard_next">下一步</string>
-    <string name="onboard_start">开始使用</string>
+    <string name="onboard_tabs_title">Multi-Tab Editing</string>
+    <string name="onboard_tabs_desc">Tap + at the end of tab bar to create a new tab.\n\nCursor and scroll position are saved when switching tabs.\n\nTap × to close.</string>
 
-    <string name="onboard_welcome_title">欢迎使用 PlainPad</string>
-    <string name="onboard_welcome_desc">一个轻量、纯粹、离线的纯文本编辑器。\n\n没有广告、没有账号、没有云同步，所有内容都保存在你的设备上。</string>
+    <string name="onboard_save_title">Saving &amp; Auto Save</string>
+    <string name="onboard_save_desc">The save button supports Save All, Save Current, and Save As.\n\nEnable Auto Save to write to disk on background, tab switch, typing stop (2s), or interval.</string>
 
-    <string name="onboard_tabs_title">多标签编辑</string>
-    <string name="onboard_tabs_desc">点标签栏末尾的 + 号即可新建标签。\n\n切换标签会自动保留光标和滚动位置。标签栏可左右滑动浏览。\n\n点击标签上的 × 号即可关闭。</string>
+    <string name="onboard_prev">Previous</string>
+    <string name="auto_save_never">Not saved yet</string>
+    <string name="onboard_find_title">Find, Replace, Go to Line</string>
+    <string name="onboard_find_desc">Tap the magnifier to find.\n\nMore menu contains Replace and Go to Line.\n\nSearch supports up/down.</string>
 
-    <string name="onboard_save_title">保存与自动保存</string>
-    <string name="onboard_save_desc">顶栏的保存按钮可以"全部保存"、"保存当前"或"另存为"。\n\n开启自动保存后，可以在切到后台、切换标签、内容变化（停止输入 2 秒）、或定时等条件下自动写盘。</string>
+    <string name="onboard_appearance_title">Personalize</string>
+    <string name="onboard_appearance_desc">Adjust font size, font family, and themes in settings.\n\nEditor themes: White, Sepia, Green, OLED, Dark Gray, Midnight Blue.\n\nLine number width is fixed and doesn\'t jump with font size.</string>
 
-    <string name="onboard_prev">上一步</string>
-    <string name="auto_save_never">尚未保存</string>
-    <string name="onboard_find_title">查找、替换、跳转</string>
-    <string name="onboard_find_desc">顶栏的放大镜图标用于查找。\n\n更多菜单里有替换与跳转到行。\n\n查找支持向上 / 向下，替换支持单个替换与全部替换。</string>
+    <string name="onboard_gesture_title">Gestures</string>
+    <string name="onboard_gesture_desc">Pinch to zoom in the editor.\n\nThe custom scrollbar is thicker and easier to grab, with inertia.\n\nTap the status text to see statistics.</string>
 
-    <string name="onboard_appearance_title">个性化外观</string>
-    <string name="onboard_appearance_desc">设置里可以调整字号、字体、应用主题。\n\n编辑区主题提供：纯白、米黄护眼、淡绿护眼、纯黑 OLED、深灰、午夜蓝。\n\n行号栏宽度固定，不随字号缩放而跳动。</string>
+    <string name="onboard_special_title">Insert Special Chars</string>
+    <string name="onboard_special_desc">Use the ⊕ icon in the status bar to insert:\n\nLF, CR, TAB, Zero Width Space, Non-breaking Space, Full-width Space, BOM, etc.</string>
 
-    <string name="onboard_gesture_title">手势操作</string>
-    <string name="onboard_gesture_desc">编辑区双指张开 / 收拢可实时调整字号。\n\n右侧滚动条比系统自带的更宽更好抓，拖动时松手会有惯性滑动。\n\n点击左下角的状态文字可弹出详细统计。</string>
+    <string name="onboard_done_title">Get Started</string>
+    <string name="onboard_done_desc">All features can be viewed anytime in Menu → Help.\n\nClick the button below to start now!</string>
 
-    <string name="onboard_special_title">插入特殊字符</string>
-    <string name="onboard_special_desc">底栏右侧的 ⊕ 图标可以快速插入：\n\n换行 LF、回车 CR、制表符 TAB、零宽空格、不换行空格、全角空格、BOM 等不可见字符。</string>
+    <!-- Special Char Panel -->
+    <string name="special_chars_title">Special Characters</string>
+    <string name="special_chars_show">Show Special Chars</string>
+    <string name="special_chars_show_hint">Display invisible chars as symbols (doesn\'t modify content)</string>
+    <string name="special_chars_replace_rules_title">Replace Rules</string>
+    <string name="special_chars_replace_rules">TAB → ⇥\nIdeographic Space (U+3000) → □\nNBSP → ◦\nZWSP → ·\nZWNJ → ·\nZWJ → ·\nNon-breaking Hyphen (U+2011) → ‑\nBOM → ⟪\nLRM → ▸\nRLM → ◂\n\nNormal space and line breaks are not replaced</string>
+    <string name="special_chars_insert_section">Tap to select, tap OK to insert</string>
 
-    <string name="onboard_done_title">开始使用</string>
-    <string name="onboard_done_desc">所有功能都可以随时通过"菜单 → 帮助"重新查看。\n\n现在，点击下方按钮开始吧！</string>
+    <string name="settings_no_result">No matching settings</string>
 
-    <!-- 关于 -->
+    <!-- Search -->
+    <string name="settings_search_title">Search Settings</string>
+    <string name="settings_search_hint">Search settings or descriptions</string>
+    <string name="settings_search_empty_hint">Type to start searching</string>
+    <string name="settings_search_no_result">No matching settings found</string>
+    <string name="settings_search_section_prefix">Category: %1$s</string>
 
+    <string name="settings_font_size_desc">Adjust default font size of the editor</string>
+    <string name="settings_wrap_desc">Disable to scroll horizontally</string>
+    <string name="settings_replace_rules_desc">View replacement rules for special chars</string>
+    <string name="settings_editor_theme_desc">Editor background and text color</string>
+    <string name="settings_editor_font_desc">Monospace, sans serif, or serif</string>
+    <string name="settings_theme_desc">Follow system, light, or dark</string>
 
-    <!-- 特殊字符面板 -->
-    <string name="special_chars_title">特殊字符</string>
-    <string name="special_chars_show">显示特殊字符</string>
-    <string name="special_chars_show_hint">将不可见字符以符号形式显示（不影响内容）</string>
-    <string name="special_chars_replace_rules_title">替换规则</string>
-    <string name="special_chars_replace_rules">制表符 (TAB) → ⇥\n全角空格 (U+3000) → □\n不换行空格 (NBSP) → ◦\n零宽空格 (ZWSP) → ·\n零宽不连字 (ZWNJ) → ·\n零宽连字 (ZWJ) → ·\n不间断连字符 (U+2011) → ‑\n字节顺序标记 (BOM) → ⟪\n左至右标记 (LRM) → ▸\n右至左标记 (RLM) → ◂\n\n普通空格和换行符不参与替换</string>
-    <string name="special_chars_insert_section">点击选择，点确定插入</string>
+    <!-- Theme Color -->
+    <string name="settings_theme_color">Theme Color</string>
+    <string name="theme_color_title">Choose Theme Color</string>
+    <string name="theme_color_system">System Dynamic</string>
+    <string name="theme_color_purple">Purple</string>
+    <string name="theme_color_blue">Blue</string>
+    <string name="theme_color_indigo">Indigo</string>
+    <string name="theme_color_teal">Teal</string>
+    <string name="theme_color_green">Green</string>
+    <string name="theme_color_orange">Orange</string>
+    <string name="theme_color_red">Red</string>
+    <string name="theme_color_pink">Pink</string>
+    <string name="theme_color_system_unavailable">Dynamic color unavailable (requires Android 12+)</string>
 
-    <!-- 设置页新增 -->
-    <string name="settings_no_result">没有匹配的设置项</string>
+    <string name="settings_show_special_chars">Show Special Chars</string>
+    <string name="settings_show_special_chars_hint">Display space, tab, zero-width chars as symbols</string>
 
-    <!-- ========== 设置搜索 ========== -->
-    <string name="settings_search_title">搜索设置</string>
-    <string name="settings_search_hint">搜索设置项或描述</string>
-    <string name="settings_search_empty_hint">输入关键词开始搜索</string>
-    <string name="settings_search_no_result">没有找到匹配的设置项</string>
-    <string name="settings_search_section_prefix">分类：%1$s</string>
+    <string name="help_section_about">About</string>
+    <string name="help_about_content">PlainPad aims to be lightweight, pure, offline, and ad-free. All data is kept locally.\n\nTo view version or set as default, go to Menu → About.</string>
 
-    <!-- 补充描述（用于搜索） -->
-    <string name="settings_wrap_desc">关闭后不自动换行，可横向滚动</string>
-    <string name="settings_replace_rules_desc">查看特殊字符的替换规则</string>
-    <string name="settings_editor_theme_desc">编辑区背景与文字颜色</string>
-    <string name="settings_editor_font_desc">等宽、无衬线或衬线</string>
-    <string name="settings_theme_desc">跟随系统、浅色或深色</string>
+    <!-- Newly added for code logic -->
+    <string name="large_file_mode">Large File Mode</string>
+    <string name="read_only">Read-only</string>
+    <string name="loading_large_file">Loading large file…</string>
+    <string name="large_file_stats_disabled">Statistics disabled in large file mode</string>
+    <string name="large_file_read_only_mode">File is too large, entered high-performance read-only mode</string>
+    <string name="cannot_save_large_file">Cannot save in large file or read-only mode to prevent data loss</string>
+    <string name="read_only_cannot_edit">Cannot edit in read-only mode</string>
+    <string name="large_file_cannot_edit">Large file mode only supports viewing, not editing</string>
+    <string name="convert_to_crlf">Convert to Windows (CRLF)</string>
+    <string name="convert_to_lf">Convert to Unix/MacOS (LF)</string>
+    <string name="converted_to_format">Converted to %1$s format</string>
+    <string name="already_in_format">Already in %1$s format</string>
+    <string name="large_file_cannot_resize">Font size adjustment disabled in large file mode</string>
+    <string name="cannot_convert_eol">EOL conversion not supported in current mode</string>
+    <string name="large_file_long_line_read_only">File too large or contains extremely long lines, entered read-only mode</string>
+    <string name="large_file_line_numbers_disabled">Large file, line numbers disabled for smooth performance</string>
+    <string name="file_truncated_20mb">File too large, truncated to first 20MB for performance</string>
+    <string name="large_file_feature_disabled">Feature disabled in large file mode</string>
+    <string name="chars_suffix">%1$d chars</string>
 
-    <!-- 主题色 -->
-    <string name="settings_theme_color">主题色</string>
-    <string name="theme_color_title">选择主题色</string>
-    <string name="theme_color_system">跟随系统动态色</string>
-    <string name="theme_color_purple">紫</string>
-    <string name="theme_color_blue">蓝</string>
-    <string name="theme_color_indigo">靛蓝</string>
-    <string name="theme_color_teal">青</string>
-    <string name="theme_color_green">绿</string>
-    <string name="theme_color_orange">橙</string>
-    <string name="theme_color_red">红</string>
-    <string name="theme_color_pink">粉</string>
-    <string name="theme_color_system_unavailable">当前设备不支持动态取色（需 Android 12+）</string>
+    <string name="eol_convert_empty">File is empty, no need to convert</string>
+    <string name="eol_convert_no_newline">File has no line breaks, no need to convert</string>
 
-    <!-- 设置页 -->
-    <string name="settings_show_special_chars">显示特殊字符</string>
-    <string name="settings_show_special_chars_hint">将空格、制表符、零宽字符以符号形式显示</string>
+    <string name="settings_language">Language</string>
+    <string name="language_title">Select Language</string>
+    <string name="language_system">Follow System</string>
+    <string name="language_zh">简体中文</string>
+    <string name="language_en">English</string>
 
-    <string name="help_section_about">关于</string>
-    <string name="help_about_content">PlainPad 力求轻量、纯粹、离线、无广告。所有数据都保存在本地，不上传、不联网。\n\n如需查看版本号或设为默认应用，请到菜单 → 关于。</string>
+    <string name="font_custom">Custom (Imported)</string>
+    <string name="import_font">Import Custom Font</string>
+    <string name="import_font_success">Font imported successfully</string>
+    <string name="import_font_fail">Failed to import font</string>
 </resources>

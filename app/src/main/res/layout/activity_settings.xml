@@ -7,10 +7,19 @@
     android:orientation="vertical"
     android:background="?attr/colorSurface">
 
+    <!-- ★ 顶部状态栏纯色填充 -->
+    <View
+        android:id="@+id/statusBarFill"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary" />
+
     <!-- 顶栏：返回 + 标题 + 搜索 -->
     <LinearLayout
+        android:id="@+id/settingsTopBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="?attr/colorSurface"
@@ -852,14 +861,89 @@
                                     android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp" />
 
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical">
+
+                                    <TextView
+                                        android:id="@+id/tvThemeColorValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:textColor="?android:attr/textColorSecondary"
+                                        android:textSize="14sp"
+                                        tools:text="跟随系统动态色" />
+
+                                    <View
+                                        android:id="@+id/viewThemeColorPreview"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="16dp"
+                                android:background="?attr/colorOutlineVariant" />
+
+                            <!-- 语言 -->
+                            <LinearLayout
+                                android:id="@+id/rowLanguage"
+                                android:tag="search:language"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="16dp"
+                                android:background="?attr/selectableItemBackground">
+
                                 <TextView
-                                    android:id="@+id/tvThemeColorValue"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/settings_language"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/tvLanguageValue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="4dp"
                                     android:textColor="?android:attr/textColorSecondary"
                                     android:textSize="14sp"
-                                    tools:text="跟随系统动态色" />
+                                    tools:text="跟随系统" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="16dp"
+                                android:background="?attr/colorOutlineVariant" />
+
+                            <!-- 导入自定义字体 -->
+                            <LinearLayout
+                                android:id="@+id/rowImportFont"
+                                android:tag="search:import_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="16dp"
+                                android:background="?attr/selectableItemBackground">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/import_font"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textSize="16sp" />
                             </LinearLayout>
 
                             <View

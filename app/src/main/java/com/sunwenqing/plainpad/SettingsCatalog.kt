@@ -2,10 +2,6 @@ package com.sunwenqing.plainpad
 
 import androidx.annotation.StringRes
 
-/**
- * 设置项目录。
- * key 与 activity_settings.xml 里 android:tag="search:key" 中的 key 一致。
- */
 data class SettingsItem(
     val key: String,
     @StringRes val titleRes: Int,
@@ -17,7 +13,7 @@ object SettingsCatalog {
 
     val ALL = listOf(
         // 编辑体验
-        SettingsItem("font_size", R.string.settings_font_size_title, R.string.font_size_label, "editing"),
+        SettingsItem("font_size", R.string.settings_font_size_title, R.string.settings_font_size_desc, "editing"),
         SettingsItem("wrap", R.string.menu_wrap, R.string.settings_wrap_desc, "editing"),
         SettingsItem("line_numbers", R.string.menu_show_line_numbers, 0, "editing"),
         SettingsItem("show_special_chars", R.string.settings_show_special_chars, R.string.settings_show_special_chars_hint, "editing"),

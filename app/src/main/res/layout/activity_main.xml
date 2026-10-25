@@ -9,19 +9,28 @@
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="?attr/colorSurface">
 
-        <!-- 顶栏：左侧 App 名，右侧紧凑按钮 -->
+        <!-- ★ 顶部状态栏填充 -->
+        <View
+            android:id="@+id/statusBarFill"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/colorPrimary" />
+
+        <!-- 顶栏 -->
         <LinearLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:background="?attr/colorSurface"
             android:paddingStart="16dp"
             android:paddingEnd="4dp">
-
+            <!-- ... 内部代码不变 ... -->
             <TextView
                 android:id="@+id/tvAppName"
                 android:layout_width="0dp"
@@ -34,66 +43,12 @@
                 android:fontFamily="sans-serif-medium"
                 android:maxLines="1"
                 android:ellipsize="end" />
-
-            <ImageButton
-                android:id="@+id/btnUndo"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_undo"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/menu_undo"
-                app:tint="?attr/colorOnSurface" />
-
-            <ImageButton
-                android:id="@+id/btnRedo"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_redo"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/menu_redo"
-                app:tint="?attr/colorOnSurface" />
-
-            <ImageButton
-                android:id="@+id/btnFind"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_search"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/menu_find"
-                app:tint="?attr/colorOnSurface" />
-
-            <ImageButton
-                android:id="@+id/btnSave"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_save"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/menu_save"
-                app:tint="?attr/colorOnSurface" />
-
-            <ImageButton
-                android:id="@+id/btnSettings"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_settings"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/menu_settings"
-                app:tint="?attr/colorOnSurface" />
-
-            <ImageButton
-                android:id="@+id/btnMore"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_more_vert"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/menu_more"
-                app:tint="?attr/colorOnSurface" />
+            <ImageButton android:id="@+id/btnUndo" android:layout_width="38dp" android:layout_height="38dp" android:padding="8dp" android:src="@drawable/ic_undo" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/menu_undo" app:tint="?attr/colorOnSurface" />
+            <ImageButton android:id="@+id/btnRedo" android:layout_width="38dp" android:layout_height="38dp" android:padding="8dp" android:src="@drawable/ic_redo" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/menu_redo" app:tint="?attr/colorOnSurface" />
+            <ImageButton android:id="@+id/btnFind" android:layout_width="38dp" android:layout_height="38dp" android:padding="8dp" android:src="@drawable/ic_search" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/menu_find" app:tint="?attr/colorOnSurface" />
+            <ImageButton android:id="@+id/btnSave" android:layout_width="38dp" android:layout_height="38dp" android:padding="8dp" android:src="@drawable/ic_save" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/menu_save" app:tint="?attr/colorOnSurface" />
+            <ImageButton android:id="@+id/btnSettings" android:layout_width="38dp" android:layout_height="38dp" android:padding="8dp" android:src="@drawable/ic_settings" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/menu_settings" app:tint="?attr/colorOnSurface" />
+            <ImageButton android:id="@+id/btnMore" android:layout_width="38dp" android:layout_height="38dp" android:padding="8dp" android:src="@drawable/ic_more_vert" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/menu_more" app:tint="?attr/colorOnSurface" />
         </LinearLayout>
 
         <View
@@ -101,7 +56,7 @@
             android:layout_height="1dp"
             android:background="?attr/colorOutlineVariant" />
 
-        <!-- 标签栏：横向滚动 -->
+        <!-- 标签栏 -->
         <HorizontalScrollView
             android:id="@+id/tabScroll"
             android:layout_width="match_parent"
@@ -109,7 +64,6 @@
             android:background="?attr/colorSurface"
             android:scrollbars="none"
             android:fillViewport="false">
-
             <LinearLayout
                 android:id="@+id/tabContainer"
                 android:layout_width="wrap_content"
@@ -133,13 +87,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:paddingEnd="18dp">
-
                 <com.sunwenqing.plainpad.LineNumberView
                     android:id="@+id/tvLineNumbers"
                     android:layout_width="wrap_content"
@@ -149,8 +101,6 @@
                     android:paddingEnd="8dp"
                     android:background="?attr/colorSurfaceVariant"
                     android:visibility="gone" />
-
-                <!-- 小文件：正常可编辑 -->
                 <com.sunwenqing.plainpad.PlainEditText
                     android:id="@+id/editor"
                     android:layout_width="0dp"
@@ -168,8 +118,6 @@
                     android:textSize="16sp"
                     android:lineSpacingMultiplier="1.0"
                     tools:ignore="LabelFor" />
-
-                <!-- 大文件：高性能只读渲染 -->
                 <com.sunwenqing.plainpad.LargeTextView
                     android:id="@+id/largeTextView"
                     android:layout_width="0dp"
@@ -178,7 +126,6 @@
                     android:padding="16dp"
                     android:visibility="gone" />
             </LinearLayout>
-
             <com.sunwenqing.plainpad.FastScrollBarView
                 android:id="@+id/fastScrollBar"
                 android:layout_width="16dp"
@@ -194,79 +141,33 @@
             android:layout_height="1dp"
             android:background="?attr/colorOutlineVariant" />
 
-        <!-- 状态栏 -->
+        <!-- 底部状态栏 -->
         <LinearLayout
             android:id="@+id/statusBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="36dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:background="?attr/colorSurface"
             android:paddingHorizontal="16dp"
             android:paddingVertical="6dp">
-
-            <TextView
-                android:id="@+id/tvStatus"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="12sp"
-                tools:text="0 字符 · 1 行" />
-
-            <TextView
-                android:id="@+id/tvAutoSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:maxWidth="120dp"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="9sp"
-                android:visibility="visible"
-                tools:text="上次保存于12:34" />
-
-            <TextView
-                android:id="@+id/tvEncoding"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:background="?attr/colorSurfaceVariant"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="12sp"
-                android:fontFamily="monospace"
-                tools:text="UTF-8" />
-
-            <TextView
-                android:id="@+id/tvEol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp"
-                android:background="?attr/colorSurfaceVariant"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="12sp"
-                android:fontFamily="monospace"
-                tools:text="CRLF" />
-
-            <ImageButton
-                android:id="@+id/btnInsertSpecial"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="6dp"
-                android:padding="6dp"
-                android:src="@drawable/ic_insert_special"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/insert_special_cd"
-                app:tint="?android:attr/textColorSecondary" />
+            <TextView android:id="@+id/tvStatus" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textColor="?android:attr/textColorSecondary" android:textSize="12sp" tools:text="0 字符 · 1 行" />
+            <TextView android:id="@+id/tvAutoSave" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingHorizontal="6dp" android:paddingVertical="2dp" android:maxLines="1" android:ellipsize="end" android:maxWidth="120dp" android:textColor="?android:attr/textColorSecondary" android:textSize="9sp" android:visibility="visible" tools:text="上次保存于12:34" />
+            <TextView android:id="@+id/tvEncoding" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:background="?attr/colorSurfaceVariant" android:textColor="?android:attr/textColorSecondary" android:textSize="12sp" android:fontFamily="monospace" tools:text="UTF-8" />
+            <TextView android:id="@+id/tvEol" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:paddingHorizontal="6dp" android:paddingVertical="2dp" android:background="?attr/colorSurfaceVariant" android:textColor="?android:attr/textColorSecondary" android:textSize="12sp" android:fontFamily="monospace" tools:text="CRLF" />
+            <ImageButton android:id="@+id/btnInsertSpecial" android:layout_width="32dp" android:layout_height="32dp" android:layout_marginStart="6dp" android:padding="6dp" android:src="@drawable/ic_insert_special" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/insert_special_cd" app:tint="?android:attr/textColorSecondary" />
         </LinearLayout>
+
+        <!-- ★ 底部导航栏填充 -->
+        <View
+            android:id="@+id/navigationBarFill"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/colorPrimary" />
+
     </LinearLayout>
 
-    <!-- 沉浸阅读模式下的退出按钮 -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnExitImmersive"
         android:layout_width="wrap_content"
@@ -279,7 +180,6 @@
         app:cornerRadius="24dp"
         tools:visibility="visible" />
 
-    <!-- ★ 新增：大文件加载遮罩层 -->
     <FrameLayout
         android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"
@@ -289,26 +189,14 @@
         android:focusable="true"
         android:visibility="gone"
         android:elevation="100dp">
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
             android:gravity="center">
-
-            <ProgressBar
-                android:layout_width="48dp"
-                android:layout_height="48dp" />
-
-            <TextView
-                android:id="@+id/tvLoadingText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
+            <ProgressBar android:layout_width="48dp" android:layout_height="48dp" />
+            <TextView android:id="@+id/tvLoadingText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:textColor="#FFFFFF" android:textSize="14sp" />
         </LinearLayout>
     </FrameLayout>
-
 </FrameLayout>

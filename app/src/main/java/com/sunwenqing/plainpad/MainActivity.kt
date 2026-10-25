@@ -106,6 +106,8 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         if (!prefs.onboardingDone && savedInstanceState == null) {
             startActivity(Intent(this, OnboardingActivity::class.java))
             finish()
@@ -114,6 +116,11 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // ★ 初始化顶部和底部纯色填充
+        binding.statusBarFill.setStatusBarHeight()
+        binding.navigationBarFill.setNavigationBarHeight()
+
         ThemeColorHelper.applySystemBars(this)
 
         undoManager = UndoManager(binding.editor)
@@ -142,6 +149,10 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             restoreState(savedInstanceState)
+            loadMissingTextsAsync()
+            if (intent != null && intent.action != Intent.ACTION_MAIN) {
+                handleIncomingIntent(intent)
+            }
         } else {
             initializeFromStartupMode()
             handleIncomingIntent(intent)
@@ -207,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                     binding.editor,
                     binding.tvLineNumbers
                 )
-                val tf = Typeface.create(prefs.editorFontFamily, Typeface.NORMAL)
+                val tf = FontHelper.getTypeface(prefs)
                 val textColor = binding.editor.currentTextColor
                 val textSizePx = prefs.fontSize * resources.displayMetrics.scaledDensity
                 binding.largeTextView.setTextAppearance(tf, textSizePx, textColor)
@@ -279,7 +290,7 @@ class MainActivity : AppCompatActivity() {
                 if (!suppressWatcher && !isLargeFileMode) {
                     val doc = currentDoc() ?: return
                     if (doc.isReadOnly) {
-                        showTip("只读模式不可编辑")
+                        showTip(getString(R.string.read_only_cannot_edit))
                         suppressWatcher = true
                         binding.editor.setText(doc.text)
                         binding.editor.setSelection(doc.selStart.coerceIn(0, doc.text.length))
@@ -363,16 +374,21 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnMore.setOnClickListener { showMoreMenu() }
         binding.tvStatus.setOnClickListener {
-            if (isLargeFileMode) showTip("大文件模式已禁用统计") else showStats()
+            if (isLargeFileMode) showTip(getString(R.string.large_file_stats_disabled)) else showStats()
         }
         binding.btnInsertSpecial.setOnClickListener {
-            if (isLargeFileMode || currentDoc()?.isReadOnly == true) showTip("当前模式下已禁用此功能") else showSpecialCharPanel()
+            if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
+                showTip(getString(R.string.large_file_feature_disabled))
+            } else {
+                showSpecialCharPanel()
+            }
         }
         binding.tvEol.setOnClickListener { showEolMenu() }
     }
 
     private fun showLoading() {
-        binding.tvLoadingText.text = "正在加载大文件..."
+        binding.tvLoadingText.text = getString(R.string.loading_large_file)
+        binding.loadingOverlay.alpha = 0f
         binding.loadingOverlay.visibility = View.VISIBLE
         binding.loadingOverlay.animate().alpha(1f).setDuration(200).start()
     }
@@ -437,12 +453,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showEolMenu() {
         if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
-            showTip("当前模式下不支持转换换行符")
+            showTip(getString(R.string.cannot_convert_eol))
             return
         }
         val items = listOf(
-            "转为 Windows (CRLF)" to { convertEol("\r\n") },
-            "转为 Unix/MacOS (LF)" to { convertEol("\n") }
+            getString(R.string.convert_to_crlf) to { convertEol("\r\n") },
+            getString(R.string.convert_to_lf) to { convertEol("\n") }
         )
         showCustomMenu(binding.tvEol, items)
     }
@@ -451,22 +467,36 @@ class MainActivity : AppCompatActivity() {
         if (isLargeFileMode) return
         val doc = currentDoc() ?: return
         if (doc.isReadOnly) {
-            showTip("只读模式不可修改")
+            showTip(getString(R.string.read_only_cannot_edit))
             return
         }
 
         val editor = binding.editor
         val text = editor.text.toString()
-        if (text.isEmpty()) return
+
+        if (text.isEmpty()) {
+            showTip(getString(R.string.eol_convert_empty))
+            return
+        }
+
+        if (!text.contains('\n')) {
+            showTip(getString(R.string.eol_convert_no_newline))
+            return
+        }
 
         val targetLabel = if (targetEol == "\r\n") "CRLF" else "LF"
         if (currentEol == targetLabel) {
-            showTip("当前已是 $targetLabel 格式")
+            showTip(getString(R.string.already_in_format, targetLabel))
             return
         }
 
         val normalized = text.replace("\r\n", "\n")
         val newText = if (targetEol == "\r\n") normalized.replace("\n", "\r\n") else normalized
+
+        if (newText == text) {
+            showTip(getString(R.string.already_in_format, targetLabel))
+            return
+        }
 
         val selStart = editor.selectionStart
 
@@ -485,7 +515,7 @@ class MainActivity : AppCompatActivity() {
 
         updateEolLabel()
         triggerStatusUpdate()
-        showTip("已转为 $targetLabel 格式")
+        showTip(getString(R.string.converted_to_format, targetLabel))
     }
 
     private fun showSaveMenu() {
@@ -546,7 +576,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun commitFontSize(sizeSp: Int) {
         if (isLargeFileMode) {
-            showTip("大文件模式下不支持调整字号")
+            showTip(getString(R.string.large_file_cannot_resize))
             return
         }
         val finalSize = sizeSp.coerceIn(10, 40)
@@ -645,6 +675,8 @@ class MainActivity : AppCompatActivity() {
         if (on == isImmersive) return
         isImmersive = on
         if (on) {
+            binding.statusBarFill.visibility = View.GONE
+            binding.navigationBarFill.visibility = View.GONE
             binding.topBar.visibility = View.GONE
             binding.tabScroll.visibility = View.GONE
             binding.statusBar.visibility = View.GONE
@@ -656,13 +688,15 @@ class MainActivity : AppCompatActivity() {
                 systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         } else {
+            binding.statusBarFill.visibility = View.VISIBLE
+            binding.navigationBarFill.visibility = View.VISIBLE
             binding.topBar.visibility = View.VISIBLE
             binding.tabScroll.visibility = View.VISIBLE
             binding.statusBar.visibility = View.VISIBLE
             binding.tvLineNumbers.visibility =
                 if (prefs.showLineNumbers && !isLargeFileMode) View.VISIBLE else View.GONE
             binding.btnExitImmersive.visibility = View.GONE
-            WindowCompat.setDecorFitsSystemWindows(window, true)
+            WindowCompat.setDecorFitsSystemWindows(window, false)
             WindowInsetsControllerCompat(window, window.decorView).show(WindowInsetsCompat.Type.systemBars())
             ThemeColorHelper.applySystemBars(this)
         }
@@ -777,6 +811,9 @@ class MainActivity : AppCompatActivity() {
                 refreshTabBar()
                 refreshCurrentView()
                 prefs.addRecentFile(uri, name)
+                if (result.isTruncated) {
+                    showTip(getString(R.string.file_truncated_20mb))
+                }
             } catch (e: Exception) {
                 hideLoading()
                 showTip(getString(R.string.err_open, e.message ?: ""))
@@ -842,8 +879,6 @@ class MainActivity : AppCompatActivity() {
     private fun loadDocIntoEditor(doc: OpenDocument) {
         val isLargeLen = doc.text.length > LARGE_FILE_THRESHOLD
 
-        // ★ 智能检测：如果存在超过 10000 字符且没有换行的超长单行，必须进只读
-        // 检查前 100000 个字符，寻找最长的行，避免全量遍历
         var maxLineLength = 0
         var currentLineLength = 0
         val checkLen = minOf(doc.text.length, 100_000)
@@ -858,18 +893,14 @@ class MainActivity : AppCompatActivity() {
         }
         maxLineLength = maxOf(maxLineLength, currentLineLength)
 
-        // 只有长度超标，或包含极长单行，才进入只读
         val isLarge = isLargeLen || maxLineLength > 10000
         isLargeFileMode = isLarge
 
-        Log.e("PlainPad", "=== loadDocIntoEditor: len=${doc.text.length}, maxLine=$maxLineLength, isLarge=$isLarge ===")
-
         applyWrap(if (isLarge) false else prefs.wrap)
-        val tf = Typeface.create(prefs.editorFontFamily, Typeface.NORMAL)
+        val tf = FontHelper.getTypeface(prefs)
         val textColor = binding.editor.currentTextColor
 
         if (isLarge) {
-            // ★ 超大文本/超长单行：使用 LargeTextView 只读模式
             binding.editor.setText("")
             binding.editor.visibility = View.GONE
             binding.largeTextView.visibility = View.VISIBLE
@@ -890,9 +921,8 @@ class MainActivity : AppCompatActivity() {
             binding.fastScrollBar.attachLargeTextView(binding.largeTextView)
 
             binding.tvLineNumbers.visibility = View.GONE
-            showTip("文件过大或包含超长单行，已进入高性能只读阅读模式")
+            showTip(getString(R.string.large_file_long_line_read_only))
         } else {
-            // ★ 正常文本（哪怕有 200 万字符）：使用 EditText 继续编辑
             binding.largeTextView.visibility = View.GONE
             binding.editor.visibility = View.VISIBLE
             binding.fastScrollBar.attach(binding.editor)
@@ -909,10 +939,9 @@ class MainActivity : AppCompatActivity() {
 
             undoManager.reset(doc.text)
 
-            // ★ 100万到300万字符之间，算是重度文件，关闭行号保证滑动不卡
             if (doc.text.length > 1_000_000) {
                 binding.tvLineNumbers.visibility = View.GONE
-                showTip("文件较大，已自动关闭行号以保证流畅")
+                showTip(getString(R.string.large_file_line_numbers_disabled))
             } else {
                 binding.tvLineNumbers.visibility =
                     if (prefs.showLineNumbers && !isImmersive) View.VISIBLE else View.GONE
@@ -955,9 +984,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateStatus() {
         if (isLargeFileMode) {
-            val readOnlyText = if (currentDoc()?.isReadOnly == true) "（只读）" else ""
+            val readOnlyText = if (currentDoc()?.isReadOnly == true) "(${getString(R.string.read_only)})" else ""
             val length = currentDoc()?.text?.length ?: 0
-            binding.tvStatus.text = "大文件模式$readOnlyText · $length 字符"
+            binding.tvStatus.text = "${getString(R.string.large_file_mode)}$readOnlyText · ${getString(R.string.chars_suffix, length)}"
             return
         }
         val text = binding.editor.text ?: return
@@ -1028,7 +1057,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun undo() {
         if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
-            showTip("当前模式下不可撤销")
+            showTip(getString(R.string.no_undo))
             return
         }
         val snap = EditorCommands.undo(undoManager) ?: run { showTip(getString(R.string.no_undo)); return }
@@ -1037,7 +1066,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun redo() {
         if (isLargeFileMode || currentDoc()?.isReadOnly == true) {
-            showTip("当前模式下不可重做")
+            showTip(getString(R.string.no_redo))
             return
         }
         val snap = EditorCommands.redo(undoManager) ?: run { showTip(getString(R.string.no_redo)); return }
@@ -1097,7 +1126,7 @@ class MainActivity : AppCompatActivity() {
     private fun saveCurrent() {
         val doc = currentDoc() ?: return
         if (doc.isReadOnly || isLargeFileMode) {
-            showTip("大文件或只读模式下禁止保存，以免损坏原文件")
+            showTip(getString(R.string.cannot_save_large_file))
             return
         }
         if (doc.uri == null) chooseEncodingThenSaveAs()
@@ -1178,7 +1207,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showReplace() {
         if (currentDoc()?.isReadOnly == true || isLargeFileMode) {
-            showTip("当前模式下不可替换")
+            showTip(getString(R.string.large_file_feature_disabled))
             return
         }
         EditorDialogs.showReplace(
@@ -1214,7 +1243,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showStats() {
         if (isLargeFileMode) {
-            showTip("大文件模式已禁用统计")
+            showTip(getString(R.string.large_file_stats_disabled))
             return
         }
         val doc = currentDoc() ?: return
