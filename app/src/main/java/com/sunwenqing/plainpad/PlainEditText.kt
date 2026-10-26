@@ -1,5 +1,6 @@
 package com.sunwenqing.plainpad
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -111,7 +112,6 @@ class PlainEditText @JvmOverloads constructor(
         if (!allowBring) {
             post { ensureCursorVisible() }
         }
-        // 主题色切换或选区变化后重设一次，开销很小
         post { applyThemedCursorAndHandles() }
     }
 
@@ -123,7 +123,6 @@ class PlainEditText @JvmOverloads constructor(
             0xFF6750A4.toInt()
         )
 
-        // 1. 光标竖线
         val cursor = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
             setSize(dp(2), 0)
@@ -131,7 +130,6 @@ class PlainEditText @JvmOverloads constructor(
         }
         setCursorDrawableCompat(cursor)
 
-        // 2. 三个手柄：使用 AppCompat 官方标准形状 + 代码 tint
         val middle = ContextCompat.getDrawable(
             context, androidx.appcompat.R.drawable.abc_text_select_handle_middle_mtrl
         )
@@ -157,6 +155,7 @@ class PlainEditText @JvmOverloads constructor(
         return d
     }
 
+    @SuppressLint("BlockedPrivateApi")
     private fun setCursorDrawableCompat(d: Drawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             textCursorDrawable = d
@@ -169,6 +168,7 @@ class PlainEditText @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("BlockedPrivateApi")
     private fun setSelectHandleCompat(middle: Drawable, left: Drawable, right: Drawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             try {
@@ -182,6 +182,7 @@ class PlainEditText @JvmOverloads constructor(
         setHandleField("mTextSelectHandleRight", right)
     }
 
+    @SuppressLint("BlockedPrivateApi")
     private fun setHandleField(name: String, d: Drawable) {
         try {
             val f = TextView::class.java.getDeclaredField(name)
@@ -216,6 +217,7 @@ class PlainEditText @JvmOverloads constructor(
 
     // ---------------- 放大镜 ----------------
 
+    @SuppressLint("BlockedPrivateApi")
     private fun disableMagnifier() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
         try {
