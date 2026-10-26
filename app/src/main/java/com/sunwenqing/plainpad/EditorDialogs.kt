@@ -4,6 +4,7 @@ import android.app.Activity
 import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.SeekBar
@@ -11,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.widget.doAfterTextChanged
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sunwenqing.plainpad.databinding.DialogChoiceBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
@@ -61,8 +64,10 @@ object EditorDialogs {
         val density = activity.resources.displayMetrics.density
         val container = LinearLayout(activity).apply {
             orientation = LinearLayout.VERTICAL
-            // ★ 修复：使用 24dp 的左右边距，与 Material 3 Title 对齐
-            setPadding((24 * density).toInt(), (8 * density).toInt(), (24 * density).toInt(), (8 * density).toInt())
+            setPadding(
+                (24 * density).toInt(), (8 * density).toInt(),
+                (24 * density).toInt(), (8 * density).toInt()
+            )
         }
         val tvValue = TextView(activity).apply {
             text = activity.getString(R.string.font_size_label, initial)
@@ -188,15 +193,109 @@ object EditorDialogs {
 
     // ---------------- 查找 ----------------
 
-    fun showFind(activity: Activity, onFind: (String, Boolean) -> Unit) {
+    fun showFind(
+        activity: Activity,
+        onFind: (query: String, forward: Boolean, options: SearchOptions, isFirstSearch: Boolean) -> EditorSearchHelper.FindFeedback
+    ) {
         val binding = DialogFindBinding.inflate(activity.layoutInflater)
         val dialog = MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.menu_find)
             .setView(binding.root)
             .setNegativeButton(R.string.close, null)
             .create()
-        binding.btnFindNext.setOnClickListener { onFind(binding.etFind.text.toString(), true) }
-        binding.btnFindPrev.setOnClickListener { onFind(binding.etFind.text.toString(), false) }
+
+        var hasSearched = false
+
+        fun options() = SearchOptions(
+            regex = binding.cbRegex.isChecked,
+            caseSensitive = binding.cbCaseSensitive.isChecked,
+            fromStart = binding.cbFromStart.isChecked
+        )
+
+        fun updateHint() {
+            val o = options()
+            binding.tvSearchHint.text = activity.getString(
+                when {
+                    o.regex && o.caseSensitive -> R.string.search_hint_regex_case
+                    o.regex -> R.string.search_hint_regex
+                    o.caseSensitive -> R.string.search_hint_case
+                    else -> R.string.search_hint_plain
+                }
+            )
+        }
+
+        fun updateInitialStatus() {
+            val fromStart = binding.cbFromStart.isChecked
+            showStatusNeutral(
+                binding.tvSearchStatus,
+                activity.getString(
+                    if (fromStart) R.string.search_status_initial_from_start
+                    else R.string.search_status_initial_from_cursor
+                )
+            )
+        }
+
+        fun updatePrevButtonState() {
+            // 首次且勾选"从头开始"时，"查找上一个"禁用
+            val disablePrev = !hasSearched && binding.cbFromStart.isChecked
+            binding.btnFindPrev.isEnabled = !disablePrev
+            binding.btnFindPrev.alpha = if (disablePrev) 0.4f else 1f
+        }
+
+        fun resetToInitialState() {
+            hasSearched = false
+            updateInitialStatus()
+            updatePrevButtonState()
+        }
+
+        binding.cbRegex.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
+        binding.cbCaseSensitive.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
+        binding.cbFromStart.setOnCheckedChangeListener { _, _ -> resetToInitialState() }
+        binding.etFind.doAfterTextChanged { resetToInitialState() }
+
+        fun runFind(forward: Boolean) {
+            val query = binding.etFind.text?.toString().orEmpty()
+            if (query.isEmpty()) {
+                showStatusError(
+                    binding.tvSearchStatus,
+                    activity.getString(R.string.search_empty_query)
+                )
+                return
+            }
+
+            val isFirst = !hasSearched
+            hasSearched = true
+            updatePrevButtonState()
+
+            when (val fb = onFind(query, forward, options(), isFirst)) {
+                is EditorSearchHelper.FindFeedback.Found ->
+                    showStatusPrimary(
+                        binding.tvSearchStatus,
+                        activity.getString(R.string.search_status_found)
+                    )
+                is EditorSearchHelper.FindFeedback.NotFound ->
+                    showStatusError(
+                        binding.tvSearchStatus,
+                        activity.getString(R.string.search_status_not_found)
+                    )
+                is EditorSearchHelper.FindFeedback.Invalid ->
+                    showStatusError(
+                        binding.tvSearchStatus,
+                        activity.getString(R.string.search_status_invalid_regex, fb.message)
+                    )
+            }
+        }
+
+        binding.btnFindNext.setOnClickListener { runFind(true) }
+        binding.btnFindPrev.setOnClickListener { runFind(false) }
+
+        updateHint()
+        resetToInitialState()
+
+        dialog.setOnShowListener {
+            binding.etFind.requestFocus()
+            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        }
         dialog.show()
     }
 
@@ -204,8 +303,8 @@ object EditorDialogs {
 
     fun showReplace(
         activity: Activity,
-        onReplace: (String, String) -> Unit,
-        onReplaceAll: (String, String) -> Unit
+        onReplace: (query: String, replacement: String, options: SearchOptions, isFirstSearch: Boolean) -> EditorSearchHelper.ReplaceFeedback,
+        onReplaceAll: (query: String, replacement: String, options: SearchOptions) -> EditorSearchHelper.ReplaceFeedback
     ) {
         val binding = DialogReplaceBinding.inflate(activity.layoutInflater)
         val dialog = MaterialAlertDialogBuilder(activity)
@@ -213,11 +312,114 @@ object EditorDialogs {
             .setView(binding.root)
             .setNegativeButton(R.string.close, null)
             .create()
-        binding.btnReplace.setOnClickListener {
-            onReplace(binding.etFind.text.toString(), binding.etReplace.text.toString())
+
+        var hasSearched = false
+
+        fun options() = SearchOptions(
+            regex = binding.cbRegex.isChecked,
+            caseSensitive = binding.cbCaseSensitive.isChecked,
+            fromStart = binding.cbFromStart.isChecked
+        )
+
+        fun updateHint() {
+            val o = options()
+            binding.tvSearchHint.text = activity.getString(
+                when {
+                    o.regex && o.caseSensitive -> R.string.search_hint_regex_case
+                    o.regex -> R.string.search_hint_regex
+                    o.caseSensitive -> R.string.search_hint_case
+                    else -> R.string.search_hint_plain
+                }
+            )
         }
+
+        fun resetToInitialState() {
+            hasSearched = false
+            val fromStart = binding.cbFromStart.isChecked
+            showStatusNeutral(
+                binding.tvSearchStatus,
+                activity.getString(
+                    if (fromStart) R.string.search_status_initial_from_start
+                    else R.string.search_status_initial_from_cursor
+                )
+            )
+        }
+
+        binding.cbRegex.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
+        binding.cbCaseSensitive.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
+        binding.cbFromStart.setOnCheckedChangeListener { _, _ -> resetToInitialState() }
+        binding.etFind.doAfterTextChanged { resetToInitialState() }
+        binding.etReplace.doAfterTextChanged { resetToInitialState() }
+
+        fun render(fb: EditorSearchHelper.ReplaceFeedback) {
+            when (fb) {
+                is EditorSearchHelper.ReplaceFeedback.Replaced -> {
+                    hasSearched = true
+                    if (fb.count == 1) {
+                        showStatusPrimary(
+                            binding.tvSearchStatus,
+                            activity.getString(R.string.replace_status_replaced_current)
+                        )
+                    } else {
+                        showStatusPrimary(
+                            binding.tvSearchStatus,
+                            activity.getString(R.string.replace_status_replaced, fb.count)
+                        )
+                    }
+                }
+                is EditorSearchHelper.ReplaceFeedback.Located -> {
+                    hasSearched = true
+                    showStatusPrimary(
+                        binding.tvSearchStatus,
+                        activity.getString(R.string.replace_status_located)
+                    )
+                }
+                is EditorSearchHelper.ReplaceFeedback.NotFound ->
+                    showStatusError(
+                        binding.tvSearchStatus,
+                        activity.getString(R.string.search_status_not_found)
+                    )
+                is EditorSearchHelper.ReplaceFeedback.Invalid ->
+                    showStatusError(
+                        binding.tvSearchStatus,
+                        activity.getString(R.string.search_status_invalid_regex, fb.message)
+                    )
+            }
+        }
+
+        binding.btnReplace.setOnClickListener {
+            val q = binding.etFind.text?.toString().orEmpty()
+            if (q.isEmpty()) {
+                showStatusError(
+                    binding.tvSearchStatus,
+                    activity.getString(R.string.search_empty_query)
+                )
+                return@setOnClickListener
+            }
+            val r = binding.etReplace.text?.toString().orEmpty()
+            val isFirst = !hasSearched
+            render(onReplace(q, r, options(), isFirst))
+        }
+
         binding.btnReplaceAll.setOnClickListener {
-            onReplaceAll(binding.etFind.text.toString(), binding.etReplace.text.toString())
+            val q = binding.etFind.text?.toString().orEmpty()
+            if (q.isEmpty()) {
+                showStatusError(
+                    binding.tvSearchStatus,
+                    activity.getString(R.string.search_empty_query)
+                )
+                return@setOnClickListener
+            }
+            val r = binding.etReplace.text?.toString().orEmpty()
+            render(onReplaceAll(q, r, options()))
+        }
+
+        updateHint()
+        resetToInitialState()
+
+        dialog.setOnShowListener {
+            binding.etFind.requestFocus()
+            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         }
         dialog.show()
     }
@@ -232,8 +434,10 @@ object EditorDialogs {
         val density = activity.resources.displayMetrics.density
         val container = LinearLayout(activity).apply {
             orientation = LinearLayout.VERTICAL
-            // ★ 修复：使用 24dp 的左右边距，与 Material 3 Title 对齐
-            setPadding((24 * density).toInt(), (8 * density).toInt(), (24 * density).toInt(), (8 * density).toInt())
+            setPadding(
+                (24 * density).toInt(), (8 * density).toInt(),
+                (24 * density).toInt(), (8 * density).toInt()
+            )
         }
 
         val tip = TextView(activity).apply {
@@ -363,6 +567,29 @@ object EditorDialogs {
         dialog.window?.setLayout(
             (activity.resources.displayMetrics.widthPixels * 0.9).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
+
+    // ---------------- 状态文字颜色辅助 ----------------
+
+    private fun showStatusError(tv: TextView, text: String) {
+        tv.text = text
+        tv.setTextColor(
+            MaterialColors.getColor(tv, com.google.android.material.R.attr.colorError)
+        )
+    }
+
+    private fun showStatusPrimary(tv: TextView, text: String) {
+        tv.text = text
+        tv.setTextColor(
+            MaterialColors.getColor(tv, com.google.android.material.R.attr.colorPrimary)
+        )
+    }
+
+    private fun showStatusNeutral(tv: TextView, text: String) {
+        tv.text = text
+        tv.setTextColor(
+            MaterialColors.getColor(tv, com.google.android.material.R.attr.colorOnSurfaceVariant)
         )
     }
 }

@@ -793,10 +793,17 @@
                                     android:id="@+id/tvEditorThemeValue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="4dp"
+                                    android:layout_marginEnd="8dp"
                                     android:textColor="?android:attr/textColorSecondary"
                                     android:textSize="14sp"
                                     tools:text="跟随应用主题" />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_chevron_right"
+                                    android:contentDescription="@null"
+                                    app:tint="?android:attr/textColorSecondary" />
                             </LinearLayout>
 
                             <View
@@ -829,10 +836,17 @@
                                     android:id="@+id/tvEditorFontValue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="4dp"
+                                    android:layout_marginEnd="8dp"
                                     android:textColor="?android:attr/textColorSecondary"
                                     android:textSize="14sp"
                                     tools:text="等宽" />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_chevron_right"
+                                    android:contentDescription="@null"
+                                    app:tint="?android:attr/textColorSecondary" />
                             </LinearLayout>
 
                             <View
@@ -913,10 +927,17 @@
                                     android:id="@+id/tvLanguageValue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="4dp"
+                                    android:layout_marginEnd="8dp"
                                     android:textColor="?android:attr/textColorSecondary"
                                     android:textSize="14sp"
                                     tools:text="跟随系统" />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_chevron_right"
+                                    android:contentDescription="@null"
+                                    app:tint="?android:attr/textColorSecondary" />
                             </LinearLayout>
 
                             <View
@@ -944,6 +965,21 @@
                                     android:text="@string/import_font"
                                     android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:text="@string/font_import"
+                                    android:textColor="?android:attr/textColorSecondary"
+                                    android:textSize="14sp" />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_chevron_right"
+                                    android:contentDescription="@null"
+                                    app:tint="?android:attr/textColorSecondary" />
                             </LinearLayout>
 
                             <View

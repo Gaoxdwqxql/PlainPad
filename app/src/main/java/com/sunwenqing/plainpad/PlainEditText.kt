@@ -1,6 +1,8 @@
 package com.sunwenqing.plainpad
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.text.Layout
 import android.util.AttributeSet
@@ -11,10 +13,10 @@ import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputConnectionWrapper
 import android.view.textclassifier.TextClassifier
-import android.widget.EditText
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 
 class PlainEditText @JvmOverloads constructor(
     context: Context,
@@ -27,6 +29,8 @@ class PlainEditText @JvmOverloads constructor(
 
     private val MAX_IME_TEXT_LENGTH = 100_000
 
+    private var lastClassifierNoOp: Boolean? = null
+
     var isReadOnlyMode = false
         set(value) {
             field = value
@@ -34,7 +38,6 @@ class PlainEditText @JvmOverloads constructor(
             showSoftInputOnFocus = !value
         }
 
-    // ★ 新增：完全禁用编辑器交互（针对大文件模式）
     var isInteractionDisabled = false
         set(value) {
             field = value
@@ -43,7 +46,6 @@ class PlainEditText @JvmOverloads constructor(
                 isFocusableInTouchMode = false
                 isLongClickable = false
                 setTextIsSelectable(false)
-                // 隐藏光标
                 isCursorVisible = false
             } else {
                 isFocusable = true
@@ -55,7 +57,7 @@ class PlainEditText @JvmOverloads constructor(
 
     init {
         disableMagnifier()
-        disableTextClassifier()
+        applyTextClassifierByLength()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             breakStrategy = Layout.BREAK_STRATEGY_SIMPLE
@@ -63,59 +65,45 @@ class PlainEditText @JvmOverloads constructor(
         }
     }
 
-    // ★ 拦截触摸事件：如果交互被禁用，直接 return true 吞掉事件，防止底层去算长按和分词
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        applyThemedCursorAndHandles()
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (isInteractionDisabled) {
-            // 只允许滑动和滚动（通过父容器或自身的滚动机制），不允许点击或长按
-            return true
-        }
+        if (isInteractionDisabled) return true
         return super.onTouchEvent(event)
     }
 
-    override fun getDefaultEditable(): Boolean {
-        return !isReadOnlyMode
-    }
+    override fun getDefaultEditable(): Boolean = !isReadOnlyMode
 
     override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection? {
         val superConnection = super.onCreateInputConnection(outAttrs) ?: return null
         return object : InputConnectionWrapper(superConnection, false) {
-            override fun getExtractedText(request: ExtractedTextRequest?, flags: Int): ExtractedText? {
+            override fun getExtractedText(
+                request: ExtractedTextRequest?,
+                flags: Int
+            ): ExtractedText? {
                 if ((text?.length ?: 0) > MAX_IME_TEXT_LENGTH) return null
                 return super.getExtractedText(request, flags)
             }
-            override fun getTextBeforeCursor(n: Int, flags: Int): CharSequence? {
-                return super.getTextBeforeCursor(n.coerceAtMost(1000), flags)
-            }
-            override fun getTextAfterCursor(n: Int, flags: Int): CharSequence? {
-                return super.getTextAfterCursor(n.coerceAtMost(1000), flags)
-            }
+
+            override fun getTextBeforeCursor(n: Int, flags: Int): CharSequence? =
+                super.getTextBeforeCursor(n.coerceAtMost(1000), flags)
+
+            override fun getTextAfterCursor(n: Int, flags: Int): CharSequence? =
+                super.getTextAfterCursor(n.coerceAtMost(1000), flags)
         }
     }
 
-    private fun disableMagnifier() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
-        try {
-            val method = TextView::class.java.getDeclaredMethod("setMagnifierEnabled", Boolean::class.javaPrimitiveType)
-            method.isAccessible = true
-            method.invoke(this, false)
-        } catch (_: Exception) {}
-    }
-
-    private fun disableTextClassifier() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            TextClassifierDisabler.disable(this)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private object TextClassifierDisabler {
-        fun disable(editText: EditText) {
-            editText.setTextClassifier(TextClassifier.NO_OP)
-        }
-    }
-
-    override fun bringPointIntoView(offset: Int): Boolean {
-        return if (allowBring) super.bringPointIntoView(offset) else false
+    override fun onTextChanged(
+        text: CharSequence?,
+        start: Int,
+        lengthBefore: Int,
+        lengthAfter: Int
+    ) {
+        super.onTextChanged(text, start, lengthBefore, lengthAfter)
+        applyTextClassifierByLength()
     }
 
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
@@ -123,7 +111,127 @@ class PlainEditText @JvmOverloads constructor(
         if (!allowBring) {
             post { ensureCursorVisible() }
         }
+        // 主题色切换或选区变化后重设一次，开销很小
+        post { applyThemedCursorAndHandles() }
     }
+
+    // ---------------- 主题色 cursor / handle ----------------
+
+    private fun applyThemedCursorAndHandles() {
+        val color = resolveColor(
+            androidx.appcompat.R.attr.colorControlActivated,
+            0xFF6750A4.toInt()
+        )
+
+        // 1. 光标竖线
+        val cursor = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            setSize(dp(2), 0)
+            setColor(color)
+        }
+        setCursorDrawableCompat(cursor)
+
+        // 2. 三个手柄：使用 AppCompat 官方标准形状 + 代码 tint
+        val middle = ContextCompat.getDrawable(
+            context, androidx.appcompat.R.drawable.abc_text_select_handle_middle_mtrl
+        )
+        val left = ContextCompat.getDrawable(
+            context, androidx.appcompat.R.drawable.abc_text_select_handle_left_mtrl
+        )
+        val right = ContextCompat.getDrawable(
+            context, androidx.appcompat.R.drawable.abc_text_select_handle_right_mtrl
+        )
+
+        if (middle != null && left != null && right != null) {
+            setSelectHandleCompat(
+                tintDrawable(middle.mutate(), color),
+                tintDrawable(left.mutate(), color),
+                tintDrawable(right.mutate(), color)
+            )
+        }
+    }
+
+    private fun tintDrawable(src: Drawable, color: Int): Drawable {
+        val d = DrawableCompat.wrap(src).mutate()
+        DrawableCompat.setTint(d, color)
+        return d
+    }
+
+    private fun setCursorDrawableCompat(d: Drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            textCursorDrawable = d
+        } else {
+            try {
+                val f = TextView::class.java.getDeclaredField("mCursorDrawable")
+                f.isAccessible = true
+                f.set(this, arrayOf(d, d))
+            } catch (_: Exception) {}
+        }
+    }
+
+    private fun setSelectHandleCompat(middle: Drawable, left: Drawable, right: Drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try {
+                setTextSelectHandle(middle)
+                setTextSelectHandleLeft(left)
+                setTextSelectHandleRight(right)
+            } catch (_: Exception) {}
+        }
+        setHandleField("mTextSelectHandle", middle)
+        setHandleField("mTextSelectHandleLeft", left)
+        setHandleField("mTextSelectHandleRight", right)
+    }
+
+    private fun setHandleField(name: String, d: Drawable) {
+        try {
+            val f = TextView::class.java.getDeclaredField(name)
+            f.isAccessible = true
+            f.set(this, d)
+        } catch (_: Exception) {}
+    }
+
+    private fun resolveColor(attr: Int, fallback: Int): Int {
+        val tv = android.util.TypedValue()
+        return if (context.theme.resolveAttribute(attr, tv, true)) {
+            if (tv.resourceId != 0) ContextCompat.getColor(context, tv.resourceId)
+            else tv.data
+        } else fallback
+    }
+
+    private fun dp(v: Int): Int =
+        (v * resources.displayMetrics.density).toInt().coerceAtLeast(1)
+
+    // ---------------- TextClassifier ----------------
+
+    private fun applyTextClassifierByLength() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        val len = text?.length ?: 0
+        val shouldNoOp = len > MAX_IME_TEXT_LENGTH
+        if (lastClassifierNoOp == shouldNoOp) return
+        lastClassifierNoOp = shouldNoOp
+        try {
+            setTextClassifier(if (shouldNoOp) TextClassifier.NO_OP else null)
+        } catch (_: Exception) {}
+    }
+
+    // ---------------- 放大镜 ----------------
+
+    private fun disableMagnifier() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
+        try {
+            val method = TextView::class.java.getDeclaredMethod(
+                "setMagnifierEnabled",
+                Boolean::class.javaPrimitiveType
+            )
+            method.isAccessible = true
+            method.invoke(this, false)
+        } catch (_: Exception) {}
+    }
+
+    // ---------------- 光标可见性 ----------------
+
+    override fun bringPointIntoView(offset: Int): Boolean =
+        if (allowBring) super.bringPointIntoView(offset) else false
 
     private fun ensureCursorVisible() {
         val layout = layout ?: return

@@ -47,4 +47,14 @@
     <color name="tc_pink_on_primary">#65002F</color>
     <color name="tc_pink_primary_container">#8E0045</color>
     <color name="tc_pink_on_primary_container">#FFD9E2</color>
+
+    <!-- 选中文字背景高亮（带 20% alpha 的主题色） -->
+    <color name="tc_purple_highlight">#33D0BCFF</color>
+    <color name="tc_blue_highlight">#33A9C7FF</color>
+    <color name="tc_indigo_highlight">#33BBC3FF</color>
+    <color name="tc_teal_highlight">#3380CBC4</color>
+    <color name="tc_green_highlight">#33A5D6A7</color>
+    <color name="tc_orange_highlight">#33FFB77C</color>
+    <color name="tc_red_highlight">#33FFB4AB</color>
+    <color name="tc_pink_highlight">#33FFB0C8</color>
 </resources>

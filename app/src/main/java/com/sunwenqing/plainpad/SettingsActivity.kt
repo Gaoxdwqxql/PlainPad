@@ -1,7 +1,6 @@
 package com.sunwenqing.plainpad
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -15,13 +14,16 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sunwenqing.plainpad.databinding.ActivitySettingsBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
-import java.io.File
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -53,6 +55,10 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
+
+        // ★ 迁移旧版单字体数据（customFontPath -> customFonts）
+        FontManager.migrateLegacy(this, prefs)
+
         ThemeColorHelper.apply(this, prefs.themeColor)
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
@@ -370,26 +376,32 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setupImportFont() {
         binding.rowImportFont.setOnClickListener {
-            importFontLauncher.launch("font/*")
+            // ★ 使用 */*，兼容更多文件管理器对字体 MIME 的识别差异
+            importFontLauncher.launch("*/*")
         }
     }
 
     private fun importFont(uri: Uri) {
-        try {
-            val destFile = File(filesDir, "custom_font")
-            contentResolver.openInputStream(uri)?.use { input ->
-                destFile.outputStream().use { output ->
-                    input.copyTo(output)
-                }
+        lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                FontManager.importFont(this@SettingsActivity, prefs, uri)
             }
-            Typeface.createFromFile(destFile)
 
-            prefs.customFontPath = destFile.absolutePath
-            prefs.editorFontFamily = "custom"
-            updateEditorFontLabel()
-            Toast.makeText(this, R.string.import_font_success, Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Toast.makeText(this, R.string.import_font_fail, Toast.LENGTH_SHORT).show()
+            result.onSuccess { font ->
+                prefs.editorFontFamily = FontManager.key(font)
+                updateEditorFontLabel()
+                Toast.makeText(
+                    this@SettingsActivity,
+                    R.string.import_font_success,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }.onFailure { e ->
+                Toast.makeText(
+                    this@SettingsActivity,
+                    getString(R.string.font_import_fail_reason, e.message ?: ""),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
@@ -414,38 +426,29 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setupEditorFont() {
         updateEditorFontLabel()
-        binding.rowEditorFont.setOnClickListener { showEditorFontDialog() }
+        // ★ 进入字体管理页，统一处理内置字体、自定义字体列表、导入、删除
+        binding.rowEditorFont.setOnClickListener {
+            startActivity(Intent(this, FontManagerActivity::class.java))
+        }
     }
 
     private fun updateEditorFontLabel() {
-        if (prefs.customFontPath.isNotEmpty() && prefs.editorFontFamily == "custom") {
-            binding.tvEditorFontValue.text = getString(R.string.font_custom)
-        } else {
-            binding.tvEditorFontValue.text = getString(EditorThemes.fontNameRes(prefs.editorFontFamily))
-        }
-    }
+        val key = prefs.editorFontFamily
 
-    private fun showEditorFontDialog() {
-        val hasCustomFont = prefs.customFontPath.isNotEmpty()
-        val names = if (hasCustomFont) {
-            EditorThemes.FONTS.map { getString(it.second) } + getString(R.string.font_custom)
-        } else {
-            EditorThemes.FONTS.map { getString(it.second) }
-        }
-
-        val current = if (prefs.editorFontFamily == "custom") {
-            names.size - 1
-        } else {
-            EditorThemes.FONTS.indexOfFirst { it.first == prefs.editorFontFamily }.coerceAtLeast(0)
-        }
-
-        showChoiceDialog(R.string.settings_editor_font, names.toTypedArray(), current) { which ->
-            if (which < EditorThemes.FONTS.size) {
-                prefs.editorFontFamily = EditorThemes.FONTS[which].first
-            } else {
-                prefs.editorFontFamily = "custom"
+        when {
+            key.startsWith(FontManager.CUSTOM_PREFIX) -> {
+                val fileName = key.removePrefix(FontManager.CUSTOM_PREFIX)
+                val font = FontManager.list(prefs).firstOrNull { it.fileName == fileName }
+                binding.tvEditorFontValue.text = font?.displayName
+                    ?: getString(R.string.font_custom)
             }
-            updateEditorFontLabel()
+            key == "custom" -> {
+                // 旧版兼容：迁移完成前可能还是 custom
+                binding.tvEditorFontValue.text = getString(R.string.font_custom)
+            }
+            else -> {
+                binding.tvEditorFontValue.text = getString(EditorThemes.fontNameRes(key))
+            }
         }
     }
 

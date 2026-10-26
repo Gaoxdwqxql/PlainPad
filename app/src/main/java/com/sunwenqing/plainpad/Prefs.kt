@@ -6,13 +6,18 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 
 data class RecentFile(val uri: String, val name: String, val timestamp: Long)
 
 class Prefs(context: Context) {
 
-    private val sp = context.applicationContext
-        .getSharedPreferences("plainpad_prefs", Context.MODE_PRIVATE)
+    private val appContext = context.applicationContext
+    private val sp = appContext.getSharedPreferences("plainpad_prefs", Context.MODE_PRIVATE)
+
+    /** 自定义字体文件统一存放目录：filesDir/fonts */
+    fun fontFile(fileName: String): File =
+        File(File(appContext.filesDir, "fonts"), fileName)
 
     // ---------------- 编辑器基础设置 ----------------
 
@@ -44,14 +49,52 @@ class Prefs(context: Context) {
         get() = sp.getString(KEY_EDITOR_THEME, "default") ?: "default"
         set(v) = sp.edit { putString(KEY_EDITOR_THEME, v) }
 
+    /**
+     * 编辑区字体 key。
+     * - 内置："monospace" / "sans-serif" / "serif"
+     * - 自定义："custom:<fileName>"（新版）
+     * - 旧版兼容："custom"（配合 customFontPath，仅用于迁移前的回退）
+     */
     var editorFontFamily: String
         get() = sp.getString(KEY_EDITOR_FONT, "monospace") ?: "monospace"
         set(v) = sp.edit { putString(KEY_EDITOR_FONT, v) }
 
-    // ★ 新增：自定义字体路径
+    /** 旧版单字体路径，保留用于迁移，新代码请使用 customFonts */
     var customFontPath: String
         get() = sp.getString(KEY_CUSTOM_FONT_PATH, "") ?: ""
         set(v) = sp.edit { putString(KEY_CUSTOM_FONT_PATH, v) }
+
+    /** ★ 新增：已导入的自定义字体列表 */
+    var customFonts: List<CustomFont>
+        get() {
+            val json = sp.getString(KEY_CUSTOM_FONTS, "[]") ?: "[]"
+            return try {
+                val arr = JSONArray(json)
+                val list = ArrayList<CustomFont>(arr.length())
+                for (i in 0 until arr.length()) {
+                    val o = arr.getJSONObject(i)
+                    val file = o.optString("file", "")
+                    if (file.isNotEmpty()) {
+                        val name = o.optString("name", file).ifEmpty { file }
+                        list.add(CustomFont(name, file))
+                    }
+                }
+                list
+            } catch (_: Exception) {
+                emptyList()
+            }
+        }
+        set(v) {
+            val arr = JSONArray()
+            for (f in v) {
+                arr.put(
+                    JSONObject()
+                        .put("name", f.displayName)
+                        .put("file", f.fileName)
+                )
+            }
+            sp.edit { putString(KEY_CUSTOM_FONTS, arr.toString()) }
+        }
 
     // ---------------- 启动模式 ----------------
 
@@ -223,6 +266,7 @@ class Prefs(context: Context) {
         const val KEY_EDITOR_THEME = "editor_theme_id"
         const val KEY_EDITOR_FONT = "editor_font_family"
         const val KEY_CUSTOM_FONT_PATH = "custom_font_path"
+        const val KEY_CUSTOM_FONTS = "custom_fonts"   // ★ 新增：多字体列表
         const val KEY_STARTUP_MODE = "startup_mode"
         const val KEY_PLUS_REUSE_EMPTY = "plus_reuse_empty"
         const val KEY_STATUS_BAR_ITEMS = "status_bar_items"

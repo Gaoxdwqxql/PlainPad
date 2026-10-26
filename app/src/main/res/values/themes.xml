@@ -1,39 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 应用主主题 -->
+    <!-- ============================================================ -->
+    <!--                        应用主主题                              -->
+    <!-- ============================================================ -->
+
     <style name="Theme.PlainPad" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- ★ 全局配置对话框样式（圆角+描边） -->
+
+        <!-- ★ 全局覆盖所有 EditText 的默认样式 -->
+        <item name="editTextStyle">@style/Widget.PlainPad.EditText</item>
+
+        <!-- Dialog 统一圆角与描边 -->
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.PlainPad.MaterialAlertDialog</item>
 
-        <!-- PopupMenu 背景 -->
-        <item name="popupMenuBackground">@drawable/bg_popup_menu</item>
-        <item name="android:popupBackground">@drawable/bg_popup_menu</item>
     </style>
 
-    <!-- ★ 对话框的 ThemeOverlay -->
+    <!-- ============================================================ -->
+    <!--                    EditText 样式                               -->
+    <!-- ============================================================ -->
+
+    <style name="Widget.PlainPad.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textAppearance">@style/TextAppearance.PlainPad.EditText</item>
+        <item name="android:textSelectHandle">@drawable/ic_select_handle</item>
+        <item name="android:textSelectHandleLeft">@drawable/ic_select_handle</item>
+        <item name="android:textSelectHandleRight">@drawable/ic_select_handle</item>
+        <item name="android:textCursorDrawable">@drawable/ic_cursor</item>
+    </style>
+
+    <style name="TextAppearance.PlainPad.EditText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSelectHandle">@drawable/ic_select_handle</item>
+        <item name="android:textSelectHandleLeft">@drawable/ic_select_handle</item>
+        <item name="android:textSelectHandleRight">@drawable/ic_select_handle</item>
+    </style>
+
+    <style name="TextAppearance.PlainPad.Editor" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSelectHandle">@drawable/ic_select_handle</item>
+        <item name="android:textSelectHandleLeft">@drawable/ic_select_handle</item>
+        <item name="android:textSelectHandleRight">@drawable/ic_select_handle</item>
+    </style>
+
+    <!-- ============================================================ -->
+    <!--                    Dialog 圆角与描边                           -->
+    <!-- ============================================================ -->
+
     <style name="ThemeOverlay.PlainPad.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.PlainPad.Dialog</item>
     </style>
 
-    <!-- ★ 对话框的 Shape 配置（控制圆角和描边） -->
     <style name="ShapeAppearance.PlainPad.Dialog" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">18dp</item>
-        <item name="strokeWidth">1dp</item>
-        <item name="strokeColor">?attr/colorOutlineVariant</item>
+        <item name="cornerSize">24dp</item>
     </style>
 
-    <!-- 以下为原有的 8 色主题色覆盖（无需改动） -->
+    <!-- ============================================================ -->
+    <!--                    主题色 Overlay（8 种）                      -->
+    <!--                    colorPrimary / colorControlActivated       -->
+    <!--                    textColorHighlight 三者一起覆盖             -->
+    <!-- ============================================================ -->
+
     <style name="ThemeOverlay.PlainPad.Color.Purple" parent="">
         <item name="colorPrimary">@color/tc_purple_primary</item>
         <item name="colorOnPrimary">@color/tc_purple_on_primary</item>
         <item name="colorPrimaryContainer">@color/tc_purple_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/tc_purple_on_primary_container</item>
-        <item name="colorSecondary">@color/tc_purple_primary</item>
-        <item name="colorOnSecondary">@color/tc_purple_on_primary</item>
-        <item name="colorSecondaryContainer">@color/tc_purple_primary_container</item>
-        <item name="colorOnSecondaryContainer">@color/tc_purple_on_primary_container</item>
+        <item name="colorControlActivated">@color/tc_purple_primary</item>
+        <item name="android:textColorHighlight">@color/tc_purple_highlight</item>
     </style>
 
     <style name="ThemeOverlay.PlainPad.Color.Blue" parent="">
@@ -41,10 +72,8 @@
         <item name="colorOnPrimary">@color/tc_blue_on_primary</item>
         <item name="colorPrimaryContainer">@color/tc_blue_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/tc_blue_on_primary_container</item>
-        <item name="colorSecondary">@color/tc_blue_primary</item>
-        <item name="colorOnSecondary">@color/tc_blue_on_primary</item>
-        <item name="colorSecondaryContainer">@color/tc_blue_primary_container</item>
-        <item name="colorOnSecondaryContainer">@color/tc_blue_on_primary_container</item>
+        <item name="colorControlActivated">@color/tc_blue_primary</item>
+        <item name="android:textColorHighlight">@color/tc_blue_highlight</item>
     </style>
 
     <style name="ThemeOverlay.PlainPad.Color.Indigo" parent="">
@@ -52,10 +81,8 @@
         <item name="colorOnPrimary">@color/tc_indigo_on_primary</item>
         <item name="colorPrimaryContainer">@color/tc_indigo_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/tc_indigo_on_primary_container</item>
-        <item name="colorSecondary">@color/tc_indigo_primary</item>
-        <item name="colorOnSecondary">@color/tc_indigo_on_primary</item>
-        <item name="colorSecondaryContainer">@color/tc_indigo_primary_container</item>
-        <item name="colorOnSecondaryContainer">@color/tc_indigo_on_primary_container</item>
+        <item name="colorControlActivated">@color/tc_indigo_primary</item>
+        <item name="android:textColorHighlight">@color/tc_indigo_highlight</item>
     </style>
 
     <style name="ThemeOverlay.PlainPad.Color.Teal" parent="">
@@ -63,10 +90,8 @@
         <item name="colorOnPrimary">@color/tc_teal_on_primary</item>
         <item name="colorPrimaryContainer">@color/tc_teal_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/tc_teal_on_primary_container</item>
-        <item name="colorSecondary">@color/tc_teal_primary</item>
-        <item name="colorOnSecondary">@color/tc_teal_on_primary</item>
-        <item name="colorSecondaryContainer">@color/tc_teal_primary_container</item>
-        <item name="colorOnSecondaryContainer">@color/tc_teal_on_primary_container</item>
+        <item name="colorControlActivated">@color/tc_teal_primary</item>
+        <item name="android:textColorHighlight">@color/tc_teal_highlight</item>
     </style>
 
     <style name="ThemeOverlay.PlainPad.Color.Green" parent="">
@@ -74,10 +99,8 @@
         <item name="colorOnPrimary">@color/tc_green_on_primary</item>
         <item name="colorPrimaryContainer">@color/tc_green_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/tc_green_on_primary_container</item>
-        <item name="colorSecondary">@color/tc_green_primary</item>
-        <item name="colorOnSecondary">@color/tc_green_on_primary</item>
-        <item name="colorSecondaryContainer">@color/tc_green_primary_container</item>
-        <item name="colorOnSecondaryContainer">@color/tc_green_on_primary_container</item>
+        <item name="colorControlActivated">@color/tc_green_primary</item>
+        <item name="android:textColorHighlight">@color/tc_green_highlight</item>
     </style>
 
     <style name="ThemeOverlay.PlainPad.Color.Orange" parent="">
@@ -85,10 +108,8 @@
         <item name="colorOnPrimary">@color/tc_orange_on_primary</item>
         <item name="colorPrimaryContainer">@color/tc_orange_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/tc_orange_on_primary_container</item>
-        <item name="colorSecondary">@color/tc_orange_primary</item>
-        <item name="colorOnSecondary">@color/tc_orange_on_primary</item>
-        <item name="colorSecondaryContainer">@color/tc_orange_primary_container</item>
-        <item name="colorOnSecondaryContainer">@color/tc_orange_on_primary_container</item>
+        <item name="colorControlActivated">@color/tc_orange_primary</item>
+        <item name="android:textColorHighlight">@color/tc_orange_highlight</item>
     </style>
 
     <style name="ThemeOverlay.PlainPad.Color.Red" parent="">
@@ -96,10 +117,8 @@
         <item name="colorOnPrimary">@color/tc_red_on_primary</item>
         <item name="colorPrimaryContainer">@color/tc_red_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/tc_red_on_primary_container</item>
-        <item name="colorSecondary">@color/tc_red_primary</item>
-        <item name="colorOnSecondary">@color/tc_red_on_primary</item>
-        <item name="colorSecondaryContainer">@color/tc_red_primary_container</item>
-        <item name="colorOnSecondaryContainer">@color/tc_red_on_primary_container</item>
+        <item name="colorControlActivated">@color/tc_red_primary</item>
+        <item name="android:textColorHighlight">@color/tc_red_highlight</item>
     </style>
 
     <style name="ThemeOverlay.PlainPad.Color.Pink" parent="">
@@ -107,10 +126,8 @@
         <item name="colorOnPrimary">@color/tc_pink_on_primary</item>
         <item name="colorPrimaryContainer">@color/tc_pink_primary_container</item>
         <item name="colorOnPrimaryContainer">@color/tc_pink_on_primary_container</item>
-        <item name="colorSecondary">@color/tc_pink_primary</item>
-        <item name="colorOnSecondary">@color/tc_pink_on_primary</item>
-        <item name="colorSecondaryContainer">@color/tc_pink_primary_container</item>
-        <item name="colorOnSecondaryContainer">@color/tc_pink_on_primary_container</item>
+        <item name="colorControlActivated">@color/tc_pink_primary</item>
+        <item name="android:textColorHighlight">@color/tc_pink_highlight</item>
     </style>
 
 </resources>

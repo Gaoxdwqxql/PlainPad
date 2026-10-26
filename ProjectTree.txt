@@ -1,0 +1,3543 @@
+文件夹 PATH 列表
+卷序列号为 14F4-B053
+C:\USERS\SWQ\ANDROIDSTUDIOPROJECTS\PLAINPAD
+│  .gitignore
+│  build.gradle.kts
+│  gradle.properties
+│  gradlew
+│  gradlew.bat
+│  LICENSE
+│  local.properties
+│  ProjectTree.txt
+│  README.md
+│  settings.gradle.kts
+│  
+├─.gradle
+│  │  file-system.probe
+│  │  
+│  ├─9.5.0
+│  │  │  gc.properties
+│  │  │  
+│  │  ├─checksums
+│  │  │      checksums.lock
+│  │  │      md5-checksums.bin
+│  │  │      sha1-checksums.bin
+│  │  │      
+│  │  ├─executionHistory
+│  │  │      executionHistory.bin
+│  │  │      executionHistory.lock
+│  │  │      
+│  │  ├─expanded
+│  │  ├─fileChanges
+│  │  │      last-build.bin
+│  │  │      
+│  │  ├─fileHashes
+│  │  │      fileHashes.bin
+│  │  │      fileHashes.lock
+│  │  │      resourceHashesCache.bin
+│  │  │      
+│  │  ├─kotlin-dsl-plugin-entries
+│  │  │      jar-entries.bin
+│  │  │      kotlin-dsl-plugin-entries.lock
+│  │  │      
+│  │  └─vcsMetadata
+│  ├─buildOutputCleanup
+│  │      buildOutputCleanup.lock
+│  │      cache.properties
+│  │      outputFiles.bin
+│  │      
+│  ├─configuration-cache
+│  │  │  configuration-cache.lock
+│  │  │  gc.properties
+│  │  │  
+│  │  ├─0365d579-e3f5-4059-8f70-49087d118c12
+│  │  ├─105a5be6-3e55-4c59-bc98-3535d45d487e
+│  │  │      .globals.work.bin
+│  │  │      .strings.work.bin
+│  │  │      buildfingerprint.bin
+│  │  │      classloaderscopes.bin
+│  │  │      entry.bin
+│  │  │      projectfingerprint.bin
+│  │  │      work.bin
+│  │  │      _app.work.bin
+│  │  │      
+│  │  ├─119554fb-1d21-4f2c-be42-88da821eccb0
+│  │  ├─12035370-27dd-4d38-b957-25d26b105d62
+│  │  ├─1861f7a7-d56b-4b98-af0c-c4880faa0538
+│  │  ├─215aa021-e4d1-4807-bd37-2e2499a6f79c
+│  │  ├─29e349bd-bc0e-4255-bd74-4e2cb9172b34
+│  │  ├─2ae3fb8a-1585-49af-bb12-dc81e11d65b1
+│  │  ├─2c44ac87-1858-4ac9-8a7f-7d591ba13566
+│  │  ├─2da6df85-2e08-48aa-a260-f8876c8a0e70
+│  │  ├─31396674-5625-499c-af8a-d1376a6eb0b6
+│  │  ├─31d3373e-0baf-411b-97c9-92f40eba7513
+│  │  ├─42c88265-ea74-4816-9848-b2c947940443
+│  │  ├─48c6b1a4-a8ec-4be8-986d-9aa2b981d753
+│  │  ├─4b485805-ab9b-4637-98eb-ac527699e00b
+│  │  │      .globals.work.bin
+│  │  │      .strings.work.bin
+│  │  │      build.work.bin
+│  │  │      buildfingerprint.bin
+│  │  │      classloaderscopes.bin
+│  │  │      entry.bin
+│  │  │      projectfingerprint.bin
+│  │  │      work.bin
+│  │  │      _app.work.bin
+│  │  │      
+│  │  ├─4de72a30-ff77-41c0-9f6c-a81a7b9f0cd9
+│  │  ├─59d48dd2-8788-481c-ace0-d41551f0daef
+│  │  ├─5b44b48a-c0bc-4a1e-a382-c2b712d1828b
+│  │  ├─6310ea5c-140c-45cd-9544-b4e9589988ba
+│  │  ├─6fce900d-2964-4a35-a179-363f6be06206
+│  │  ├─7130e543-08e7-4ace-b3f7-7df3207c6ada
+│  │  ├─745bd8df-2e6a-4f55-995b-629dfb95ce8f
+│  │  ├─7d58502f-01f1-42e2-a45b-cc06ff4d4d4e
+│  │  ├─82c4853b-977b-499f-b5bf-b1d658d17d11
+│  │  ├─850fc655-56aa-4099-b1e1-d1228422f3f7
+│  │  ├─87a5e305-5d07-4a77-9de2-08fa8baa3f76
+│  │  ├─8c3c8aa1-08b0-453b-8e93-432ddb2499fe
+│  │  │      .globals.work.bin
+│  │  │      .strings.work.bin
+│  │  │      buildfingerprint.bin
+│  │  │      classloaderscopes.bin
+│  │  │      entry.bin
+│  │  │      projectfingerprint.bin
+│  │  │      work.bin
+│  │  │      _app.work.bin
+│  │  │      
+│  │  ├─8fe465rd0y3ququ6hxkewlgrl
+│  │  │      candidates.bin
+│  │  │      
+│  │  ├─94321a43-2e64-4c89-92c3-339464a8f07f
+│  │  ├─9981321f-a516-4234-a6e9-4474f758ce23
+│  │  ├─9c769dac-40ab-440f-8780-8f363352a15c
+│  │  ├─9f913cf6-9854-4202-8a11-a672d694c2d6
+│  │  ├─b4e71ed0-3b40-4bd1-b65f-58f9d10866d4
+│  │  ├─b89c4dba-ce83-49ee-a088-e503fc5bf01a
+│  │  ├─c818b795-9d22-4caf-8628-cd4c607d6182
+│  │  ├─c8bf84a1-31ef-433e-86f9-e5cc1d1e7d7c
+│  │  ├─d122453a-20b3-4769-a339-1a60a02d27c1
+│  │  ├─da7b9a6a-e3da-455e-afc3-2b74279f920f
+│  │  ├─dhfz8irhxhujmyk9x133eus6r
+│  │  │      candidates.bin
+│  │  │      
+│  │  ├─e0475bee-94d5-4b39-b22c-298579a82f4f
+│  │  ├─e085b8c0-59f1-4b47-8102-681f16a3e04c
+│  │  ├─edb2e32e-5abb-42ca-9729-363161b9eb4d
+│  │  └─ekvnmp8i10619bwpejwul9qv1
+│  │          candidates.bin
+│  │          
+│  └─vcs-1
+│          gc.properties
+│          
+├─.idea
+│  │  .gitignore
+│  │  AndroidProjectSystem.xml
+│  │  compiler.xml
+│  │  deploymentTargetSelector.xml
+│  │  deviceManager.xml
+│  │  gradle.xml
+│  │  misc.xml
+│  │  runConfigurations.xml
+│  │  vcs.xml
+│  │  workspace.xml
+│  │  
+│  ├─codeStyles
+│  │      codeStyleConfig.xml
+│  │      Project.xml
+│  │      
+│  └─dictionaries
+│          project.xml
+│          
+├─.kotlin
+│  └─sessions
+├─app
+│  │  .gitignore
+│  │  build.gradle.kts
+│  │  
+│  ├─build
+│  │  ├─generated
+│  │  │  ├─ap_generated_sources
+│  │  │  │  ├─debug
+│  │  │  │  │  └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─out
+│  │  │  │  └─release
+│  │  │  │      └─out
+│  │  │  ├─data_binding_base_class_source_out
+│  │  │  │  ├─debug
+│  │  │  │  │  └─out
+│  │  │  │  │      └─com
+│  │  │  │  │          └─sunwenqing
+│  │  │  │  │              └─plainpad
+│  │  │  │  │                  └─databinding
+│  │  │  │  │                          ActivityAboutBinding.java
+│  │  │  │  │                          ActivityHelpBinding.java
+│  │  │  │  │                          ActivityMainBinding.java
+│  │  │  │  │                          ActivityOnboardingBinding.java
+│  │  │  │  │                          ActivitySettingsBinding.java
+│  │  │  │  │                          ActivitySettingsSearchBinding.java
+│  │  │  │  │                          DialogChoiceBinding.java
+│  │  │  │  │                          DialogChoiceItemBinding.java
+│  │  │  │  │                          DialogEncodingBinding.java
+│  │  │  │  │                          DialogFindBinding.java
+│  │  │  │  │                          DialogReplaceBinding.java
+│  │  │  │  │                          DialogSpecialCharBinding.java
+│  │  │  │  │                          DialogStatsBinding.java
+│  │  │  │  │                          ItemOnboardingBinding.java
+│  │  │  │  │                          ItemOnboardingDotBinding.java
+│  │  │  │  │                          ItemSettingsSearchBinding.java
+│  │  │  │  │                          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─out
+│  │  │  │  └─release
+│  │  │  │      └─out
+│  │  │  │          └─com
+│  │  │  │              └─sunwenqing
+│  │  │  │                  └─plainpad
+│  │  │  │                      └─databinding
+│  │  │  │                              ActivityAboutBinding.java
+│  │  │  │                              ActivityHelpBinding.java
+│  │  │  │                              ActivityMainBinding.java
+│  │  │  │                              ActivityOnboardingBinding.java
+│  │  │  │                              ActivitySettingsBinding.java
+│  │  │  │                              ActivitySettingsSearchBinding.java
+│  │  │  │                              DialogChoiceBinding.java
+│  │  │  │                              DialogChoiceItemBinding.java
+│  │  │  │                              DialogEncodingBinding.java
+│  │  │  │                              DialogFindBinding.java
+│  │  │  │                              DialogReplaceBinding.java
+│  │  │  │                              DialogSpecialCharBinding.java
+│  │  │  │                              DialogStatsBinding.java
+│  │  │  │                              ItemOnboardingBinding.java
+│  │  │  │                              ItemOnboardingDotBinding.java
+│  │  │  │                              ItemSettingsSearchBinding.java
+│  │  │  │                              
+│  │  │  ├─res
+│  │  │  │  └─pngs
+│  │  │  │      ├─debug
+│  │  │  │      └─release
+│  │  │  ├─source
+│  │  │  │  └─buildConfig
+│  │  │  │      ├─androidTest
+│  │  │  │      │  └─debug
+│  │  │  │      │      └─com
+│  │  │  │      │          └─sunwenqing
+│  │  │  │      │              └─plainpad
+│  │  │  │      │                  └─test
+│  │  │  │      │                          BuildConfig.java
+│  │  │  │      │                          
+│  │  │  │      ├─debug
+│  │  │  │      │  └─com
+│  │  │  │      │      └─sunwenqing
+│  │  │  │      │          └─plainpad
+│  │  │  │      │                  BuildConfig.java
+│  │  │  │      │                  
+│  │  │  │      └─release
+│  │  │  │          └─com
+│  │  │  │              └─sunwenqing
+│  │  │  │                  └─plainpad
+│  │  │  │                          BuildConfig.java
+│  │  │  │                          
+│  │  │  └─updated_navigation_xml
+│  │  │      ├─debug
+│  │  │      ├─debugAndroidTest
+│  │  │      └─release
+│  │  ├─intermediates
+│  │  │  ├─aar_metadata_check
+│  │  │  │  ├─debug
+│  │  │  │  │  └─checkDebugAarMetadata
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─checkDebugAndroidTestAarMetadata
+│  │  │  │  └─release
+│  │  │  │      └─checkReleaseAarMetadata
+│  │  │  ├─android_res_source_set_path_map
+│  │  │  │  ├─debug
+│  │  │  │  │  └─mapDebugSourceSetPaths
+│  │  │  │  │          file-map.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mapDebugAndroidTestSourceSetPaths
+│  │  │  │  │          file-map.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─mapReleaseSourceSetPaths
+│  │  │  │              file-map.txt
+│  │  │  │              
+│  │  │  ├─annotation_processor_list
+│  │  │  │  ├─debug
+│  │  │  │  │  └─javaPreCompileDebug
+│  │  │  │  │          annotationProcessors.json
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─javaPreCompileDebugAndroidTest
+│  │  │  │  │          annotationProcessors.json
+│  │  │  │  │          
+│  │  │  │  ├─debugUnitTest
+│  │  │  │  │  └─javaPreCompileDebugUnitTest
+│  │  │  │  │          annotationProcessors.json
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─javaPreCompileRelease
+│  │  │  │              annotationProcessors.json
+│  │  │  │              
+│  │  │  ├─apk_ide_redirect_file
+│  │  │  │  ├─debug
+│  │  │  │  │  └─createDebugApkListingFileRedirect
+│  │  │  │  │          redirect.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─createDebugAndroidTestApkListingFileRedirect
+│  │  │  │  │          redirect.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─createReleaseApkListingFileRedirect
+│  │  │  │              redirect.txt
+│  │  │  │              
+│  │  │  ├─app_metadata
+│  │  │  │  ├─debug
+│  │  │  │  │  └─writeDebugAppMetadata
+│  │  │  │  │          app-metadata.properties
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─writeReleaseAppMetadata
+│  │  │  │              app-metadata.properties
+│  │  │  │              
+│  │  │  ├─assets
+│  │  │  │  ├─debug
+│  │  │  │  │  └─mergeDebugAssets
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mergeDebugAndroidTestAssets
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseAssets
+│  │  │  ├─binary_art_profile
+│  │  │  │  └─release
+│  │  │  │      └─compileReleaseArtProfile
+│  │  │  │              baseline.prof
+│  │  │  │              
+│  │  │  ├─binary_art_profile_metadata
+│  │  │  │  └─release
+│  │  │  │      └─compileReleaseArtProfile
+│  │  │  │              baseline.profm
+│  │  │  │              
+│  │  │  ├─built_in_kotlinc
+│  │  │  │  ├─debug
+│  │  │  │  │  └─compileDebugKotlin
+│  │  │  │  │      └─classes
+│  │  │  │  │          ├─com
+│  │  │  │  │          │  └─sunwenqing
+│  │  │  │  │          │      └─plainpad
+│  │  │  │  │          │              AboutActivity.class
+│  │  │  │  │          │              EditorCommands$EditorStats.class
+│  │  │  │  │          │              EditorCommands.class
+│  │  │  │  │          │              EditorDialogs$showFontSize$1.class
+│  │  │  │  │          │              EditorDialogs.class
+│  │  │  │  │          │              EditorFileIO$LoadResult.class
+│  │  │  │  │          │              EditorFileIO.class
+│  │  │  │  │          │              EditorSearchHelper.class
+│  │  │  │  │          │              EditorStyler.class
+│  │  │  │  │          │              EditorThemes$Theme.class
+│  │  │  │  │          │              EditorThemes.class
+│  │  │  │  │          │              FastScrollBarView$attach$2.class
+│  │  │  │  │          │              FastScrollBarView.class
+│  │  │  │  │          │              FontHelper.class
+│  │  │  │  │          │              FuzzyMatcher.class
+│  │  │  │  │          │              HelpActivity.class
+│  │  │  │  │          │              IconSwitcher.class
+│  │  │  │  │          │              InstanceStateStore$RestoredState.class
+│  │  │  │  │          │              InstanceStateStore.class
+│  │  │  │  │          │              LargeTextView.class
+│  │  │  │  │          │              LineNumberView$attach$1.class
+│  │  │  │  │          │              LineNumberView.class
+│  │  │  │  │          │              MainActivity$autoSaveCurrent$1$1.class
+│  │  │  │  │          │              MainActivity$autoSaveCurrent$1.class
+│  │  │  │  │          │              MainActivity$loadMissingTextsAsync$1$1$result$1.class
+│  │  │  │  │          │              MainActivity$loadMissingTextsAsync$1$1.class
+│  │  │  │  │          │              MainActivity$openDocumentIntoNewTab$1$result$1.class
+│  │  │  │  │          │              MainActivity$openDocumentIntoNewTab$1.class
+│  │  │  │  │          │              MainActivity$saveAll$1$1.class
+│  │  │  │  │          │              MainActivity$saveAll$1.class
+│  │  │  │  │          │              MainActivity$saveCurrentToUri$1$1.class
+│  │  │  │  │          │              MainActivity$saveCurrentToUri$1.class
+│  │  │  │  │          │              MainActivity$scheduleAutoSave$r$1.class
+│  │  │  │  │          │              MainActivity$setupBackHandler$1.class
+│  │  │  │  │          │              MainActivity$setupEditor$1.class
+│  │  │  │  │          │              MainActivity$showCustomMenu$1.class
+│  │  │  │  │          │              MainActivity.class
+│  │  │  │  │          │              OnboardingActivity$OnboardingAdapter$VH.class
+│  │  │  │  │          │              OnboardingActivity$OnboardingAdapter.class
+│  │  │  │  │          │              OnboardingActivity$onCreate$1.class
+│  │  │  │  │          │              OnboardingActivity$Page.class
+│  │  │  │  │          │              OnboardingActivity.class
+│  │  │  │  │          │              OpenDocument.class
+│  │  │  │  │          │              PlainEditText$onCreateInputConnection$1.class
+│  │  │  │  │          │              PlainEditText$TextClassifierDisabler.class
+│  │  │  │  │          │              PlainEditText.class
+│  │  │  │  │          │              Prefs$Companion.class
+│  │  │  │  │          │              Prefs.class
+│  │  │  │  │          │              RecentFile.class
+│  │  │  │  │          │              SettingsActivity$setupFontSize$1.class
+│  │  │  │  │          │              SettingsActivity.class
+│  │  │  │  │          │              SettingsCatalog.class
+│  │  │  │  │          │              SettingsItem.class
+│  │  │  │  │          │              SettingsSearchActivity$Companion.class
+│  │  │  │  │          │              SettingsSearchActivity$onCreate$$inlined$doAfterTextChanged$1.class
+│  │  │  │  │          │              SettingsSearchActivity$Result.class
+│  │  │  │  │          │              SettingsSearchActivity$SearchResultAdapter$VH.class
+│  │  │  │  │          │              SettingsSearchActivity$SearchResultAdapter.class
+│  │  │  │  │          │              SettingsSearchActivity.class
+│  │  │  │  │          │              Snapshot.class
+│  │  │  │  │          │              SpecialCharRenderer$SymbolSpan.class
+│  │  │  │  │          │              SpecialCharRenderer.class
+│  │  │  │  │          │              TabBarRenderer.class
+│  │  │  │  │          │              TextCodec$Result.class
+│  │  │  │  │          │              TextCodec.class
+│  │  │  │  │          │              ThemeColorHelper.class
+│  │  │  │  │          │              UndoManager.class
+│  │  │  │  │          │              ViewExtKt.class
+│  │  │  │  │          │              ZoomGestureHandler.class
+│  │  │  │  │          │              
+│  │  │  │  │          └─META-INF
+│  │  │  │  │                  app.kotlin_module
+│  │  │  │  │                  
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─compileDebugAndroidTestKotlin
+│  │  │  │  │      └─classes
+│  │  │  │  │          ├─com
+│  │  │  │  │          │  └─sunwenqing
+│  │  │  │  │          │      └─plainpad
+│  │  │  │  │          │              ExampleInstrumentedTest.class
+│  │  │  │  │          │              
+│  │  │  │  │          └─META-INF
+│  │  │  │  │                  app.kotlin_module
+│  │  │  │  │                  
+│  │  │  │  ├─debugUnitTest
+│  │  │  │  │  └─compileDebugUnitTestKotlin
+│  │  │  │  │      └─classes
+│  │  │  │  │          ├─com
+│  │  │  │  │          │  └─sunwenqing
+│  │  │  │  │          │      └─plainpad
+│  │  │  │  │          │              ExampleUnitTest.class
+│  │  │  │  │          │              
+│  │  │  │  │          └─META-INF
+│  │  │  │  │                  app.kotlin_module
+│  │  │  │  │                  
+│  │  │  │  └─release
+│  │  │  │      └─compileReleaseKotlin
+│  │  │  │          └─classes
+│  │  │  │              ├─com
+│  │  │  │              │  └─sunwenqing
+│  │  │  │              │      └─plainpad
+│  │  │  │              │              AboutActivity.class
+│  │  │  │              │              EditorCommands$EditorStats.class
+│  │  │  │              │              EditorCommands.class
+│  │  │  │              │              EditorDialogs$showFontSize$1.class
+│  │  │  │              │              EditorDialogs.class
+│  │  │  │              │              EditorFileIO$LoadResult.class
+│  │  │  │              │              EditorFileIO.class
+│  │  │  │              │              EditorSearchHelper.class
+│  │  │  │              │              EditorStyler.class
+│  │  │  │              │              EditorThemes$Theme.class
+│  │  │  │              │              EditorThemes.class
+│  │  │  │              │              FastScrollBarView$attach$2.class
+│  │  │  │              │              FastScrollBarView.class
+│  │  │  │              │              FuzzyMatcher.class
+│  │  │  │              │              HelpActivity.class
+│  │  │  │              │              IconSwitcher.class
+│  │  │  │              │              InstanceStateStore$RestoredState.class
+│  │  │  │              │              InstanceStateStore.class
+│  │  │  │              │              LargeTextView.class
+│  │  │  │              │              LineNumberView$attach$1.class
+│  │  │  │              │              LineNumberView.class
+│  │  │  │              │              MainActivity$autoSaveCurrent$1$1.class
+│  │  │  │              │              MainActivity$autoSaveCurrent$1.class
+│  │  │  │              │              MainActivity$loadMissingTextsAsync$1$1$result$1.class
+│  │  │  │              │              MainActivity$loadMissingTextsAsync$1$1.class
+│  │  │  │              │              MainActivity$openDocumentIntoNewTab$1$result$1.class
+│  │  │  │              │              MainActivity$openDocumentIntoNewTab$1.class
+│  │  │  │              │              MainActivity$saveAll$1$1.class
+│  │  │  │              │              MainActivity$saveAll$1.class
+│  │  │  │              │              MainActivity$saveCurrentToUri$1$1.class
+│  │  │  │              │              MainActivity$saveCurrentToUri$1.class
+│  │  │  │              │              MainActivity$scheduleAutoSave$r$1.class
+│  │  │  │              │              MainActivity$setupBackHandler$1.class
+│  │  │  │              │              MainActivity$setupEditor$1.class
+│  │  │  │              │              MainActivity$showCustomMenu$1.class
+│  │  │  │              │              MainActivity.class
+│  │  │  │              │              OnboardingActivity$OnboardingAdapter$VH.class
+│  │  │  │              │              OnboardingActivity$OnboardingAdapter.class
+│  │  │  │              │              OnboardingActivity$onCreate$1.class
+│  │  │  │              │              OnboardingActivity$Page.class
+│  │  │  │              │              OnboardingActivity.class
+│  │  │  │              │              OpenDocument.class
+│  │  │  │              │              PlainEditText$onCreateInputConnection$1.class
+│  │  │  │              │              PlainEditText$TextClassifierDisabler.class
+│  │  │  │              │              PlainEditText.class
+│  │  │  │              │              Prefs$Companion.class
+│  │  │  │              │              Prefs.class
+│  │  │  │              │              RecentFile.class
+│  │  │  │              │              SettingsActivity$setupFontSize$1.class
+│  │  │  │              │              SettingsActivity.class
+│  │  │  │              │              SettingsCatalog.class
+│  │  │  │              │              SettingsItem.class
+│  │  │  │              │              SettingsSearchActivity$Companion.class
+│  │  │  │              │              SettingsSearchActivity$onCreate$$inlined$doAfterTextChanged$1.class
+│  │  │  │              │              SettingsSearchActivity$Result.class
+│  │  │  │              │              SettingsSearchActivity$SearchResultAdapter$VH.class
+│  │  │  │              │              SettingsSearchActivity$SearchResultAdapter.class
+│  │  │  │              │              SettingsSearchActivity.class
+│  │  │  │              │              Snapshot.class
+│  │  │  │              │              SpecialCharRenderer$SymbolSpan.class
+│  │  │  │              │              SpecialCharRenderer.class
+│  │  │  │              │              TabBarRenderer.class
+│  │  │  │              │              TextCodec$Result.class
+│  │  │  │              │              TextCodec.class
+│  │  │  │              │              ThemeColorHelper.class
+│  │  │  │              │              UndoManager.class
+│  │  │  │              │              ZoomGestureHandler.class
+│  │  │  │              │              
+│  │  │  │              └─META-INF
+│  │  │  │                      app.kotlin_module
+│  │  │  │                      
+│  │  │  ├─combined_art_profile
+│  │  │  │  └─release
+│  │  │  │      └─compileReleaseArtProfile
+│  │  │  │              baseline-prof.txt
+│  │  │  │              
+│  │  │  ├─compatible_screen_manifest
+│  │  │  │  ├─debug
+│  │  │  │  │  └─createDebugCompatibleScreenManifests
+│  │  │  │  │          output-metadata.json
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─createReleaseCompatibleScreenManifests
+│  │  │  │              output-metadata.json
+│  │  │  │              
+│  │  │  ├─compiled_navigation_res
+│  │  │  │  ├─debug
+│  │  │  │  │  └─compileDebugNavigationResources
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─compileDebugAndroidTestNavigationResources
+│  │  │  │  └─release
+│  │  │  │      └─compileReleaseNavigationResources
+│  │  │  ├─compile_and_runtime_r_class_jar
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugResources
+│  │  │  │  │          R.jar
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─processDebugAndroidTestResources
+│  │  │  │  │          R.jar
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseResources
+│  │  │  │              R.jar
+│  │  │  │              
+│  │  │  ├─compile_app_classes_jar
+│  │  │  │  └─debug
+│  │  │  │      └─bundleDebugClassesToCompileJar
+│  │  │  │              classes.jar
+│  │  │  │              
+│  │  │  ├─compile_r_class_jar
+│  │  │  │  ├─debug
+│  │  │  │  │  └─generateDebugRFile
+│  │  │  │  │          R.jar
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─generateDebugAndroidTestRFile
+│  │  │  │  │          R.jar
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─generateReleaseRFile
+│  │  │  │              R.jar
+│  │  │  │              
+│  │  │  ├─compile_symbol_list
+│  │  │  │  ├─debug
+│  │  │  │  │  └─generateDebugRFile
+│  │  │  │  │          R.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─generateDebugAndroidTestRFile
+│  │  │  │  │          R.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─generateReleaseRFile
+│  │  │  │              R.txt
+│  │  │  │              
+│  │  │  ├─compressed_assets
+│  │  │  │  ├─debug
+│  │  │  │  │  └─compressDebugAssets
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─compressDebugAndroidTestAssets
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─compressReleaseAssets
+│  │  │  │          └─out
+│  │  │  ├─d8_metadata
+│  │  │  │  └─release
+│  │  │  │      └─mergeDexRelease
+│  │  │  │              d8-metadata.dat
+│  │  │  │              
+│  │  │  ├─data_binding_base_class_log_artifact
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dataBindingGenBaseClassesDebug
+│  │  │  │  │      └─out
+│  │  │  │  │              com.sunwenqing.plainpad-binding_classes.json
+│  │  │  │  │              
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dataBindingGenBaseClassesDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  │              com.sunwenqing.plainpad.test-binding_classes.json
+│  │  │  │  │              
+│  │  │  │  └─release
+│  │  │  │      └─dataBindingGenBaseClassesRelease
+│  │  │  │          └─out
+│  │  │  │                  com.sunwenqing.plainpad-binding_classes.json
+│  │  │  │                  
+│  │  │  ├─data_binding_dependency_artifacts
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dataBindingMergeDependencyArtifactsDebug
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dataBindingMergeDependencyArtifactsDebugAndroidTest
+│  │  │  │  └─release
+│  │  │  │      └─dataBindingMergeDependencyArtifactsRelease
+│  │  │  ├─data_binding_layout_info_type_merge
+│  │  │  │  ├─debug
+│  │  │  │  │  └─mergeDebugResources
+│  │  │  │  │      └─out
+│  │  │  │  │              activity_about-layout.xml
+│  │  │  │  │              activity_help-layout.xml
+│  │  │  │  │              activity_main-layout.xml
+│  │  │  │  │              activity_onboarding-layout.xml
+│  │  │  │  │              activity_settings-layout.xml
+│  │  │  │  │              activity_settings_search-layout.xml
+│  │  │  │  │              dialog_choice-layout.xml
+│  │  │  │  │              dialog_choice_item-layout.xml
+│  │  │  │  │              dialog_encoding-layout.xml
+│  │  │  │  │              dialog_find-layout.xml
+│  │  │  │  │              dialog_replace-layout.xml
+│  │  │  │  │              dialog_special_char-layout.xml
+│  │  │  │  │              dialog_stats-layout.xml
+│  │  │  │  │              item_onboarding-layout.xml
+│  │  │  │  │              item_onboarding_dot-layout.xml
+│  │  │  │  │              item_settings_search-layout.xml
+│  │  │  │  │              
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mergeDebugAndroidTestResources
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseResources
+│  │  │  │          └─out
+│  │  │  │                  activity_about-layout.xml
+│  │  │  │                  activity_help-layout.xml
+│  │  │  │                  activity_main-layout.xml
+│  │  │  │                  activity_onboarding-layout.xml
+│  │  │  │                  activity_settings-layout.xml
+│  │  │  │                  activity_settings_search-layout.xml
+│  │  │  │                  dialog_choice-layout.xml
+│  │  │  │                  dialog_choice_item-layout.xml
+│  │  │  │                  dialog_encoding-layout.xml
+│  │  │  │                  dialog_find-layout.xml
+│  │  │  │                  dialog_replace-layout.xml
+│  │  │  │                  dialog_special_char-layout.xml
+│  │  │  │                  dialog_stats-layout.xml
+│  │  │  │                  item_onboarding-layout.xml
+│  │  │  │                  item_onboarding_dot-layout.xml
+│  │  │  │                  item_settings_search-layout.xml
+│  │  │  │                  
+│  │  │  ├─data_binding_layout_info_type_package
+│  │  │  │  ├─debug
+│  │  │  │  │  └─packageDebugResources
+│  │  │  │  │      └─out
+│  │  │  │  │              activity_about-layout.xml
+│  │  │  │  │              activity_help-layout.xml
+│  │  │  │  │              activity_main-layout.xml
+│  │  │  │  │              activity_onboarding-layout.xml
+│  │  │  │  │              activity_settings-layout.xml
+│  │  │  │  │              activity_settings_search-layout.xml
+│  │  │  │  │              dialog_choice-layout.xml
+│  │  │  │  │              dialog_choice_item-layout.xml
+│  │  │  │  │              dialog_encoding-layout.xml
+│  │  │  │  │              dialog_find-layout.xml
+│  │  │  │  │              dialog_replace-layout.xml
+│  │  │  │  │              dialog_special_char-layout.xml
+│  │  │  │  │              dialog_stats-layout.xml
+│  │  │  │  │              item_onboarding-layout.xml
+│  │  │  │  │              item_onboarding_dot-layout.xml
+│  │  │  │  │              item_settings_search-layout.xml
+│  │  │  │  │              
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─packageDebugAndroidTestResources
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─packageReleaseResources
+│  │  │  │          └─out
+│  │  │  │                  activity_about-layout.xml
+│  │  │  │                  activity_help-layout.xml
+│  │  │  │                  activity_main-layout.xml
+│  │  │  │                  activity_onboarding-layout.xml
+│  │  │  │                  activity_settings-layout.xml
+│  │  │  │                  activity_settings_search-layout.xml
+│  │  │  │                  dialog_choice-layout.xml
+│  │  │  │                  dialog_choice_item-layout.xml
+│  │  │  │                  dialog_encoding-layout.xml
+│  │  │  │                  dialog_find-layout.xml
+│  │  │  │                  dialog_replace-layout.xml
+│  │  │  │                  dialog_special_char-layout.xml
+│  │  │  │                  dialog_stats-layout.xml
+│  │  │  │                  item_onboarding-layout.xml
+│  │  │  │                  item_onboarding_dot-layout.xml
+│  │  │  │                  item_settings_search-layout.xml
+│  │  │  │                  
+│  │  │  ├─default_proguard_files
+│  │  │  │  └─global
+│  │  │  │          proguard-android-optimize.txt-9.3.0
+│  │  │  │          proguard-android.txt-9.3.0
+│  │  │  │          
+│  │  │  ├─desugar_graph
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  │          ├─currentProject
+│  │  │  │  │          │  ├─dirs_bucket_0
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_1
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_2
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_3
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─jar_bcc9dcbe2289a5085df93df819b7e256751004c674b992fa6ae2ea0d4bdc16ff_bucket_0
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─jar_bcc9dcbe2289a5085df93df819b7e256751004c674b992fa6ae2ea0d4bdc16ff_bucket_1
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─jar_bcc9dcbe2289a5085df93df819b7e256751004c674b992fa6ae2ea0d4bdc16ff_bucket_2
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  └─jar_bcc9dcbe2289a5085df93df819b7e256751004c674b992fa6ae2ea0d4bdc16ff_bucket_3
+│  │  │  │  │          │          graph.bin
+│  │  │  │  │          │          
+│  │  │  │  │          ├─externalLibs
+│  │  │  │  │          │  ├─dirs_bucket_0
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_1
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_2
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  └─dirs_bucket_3
+│  │  │  │  │          │          graph.bin
+│  │  │  │  │          │          
+│  │  │  │  │          ├─mixedScopes
+│  │  │  │  │          │  ├─dirs_bucket_0
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_1
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_2
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  └─dirs_bucket_3
+│  │  │  │  │          │          graph.bin
+│  │  │  │  │          │          
+│  │  │  │  │          └─otherProjects
+│  │  │  │  │              ├─dirs_bucket_0
+│  │  │  │  │              │      graph.bin
+│  │  │  │  │              │      
+│  │  │  │  │              ├─dirs_bucket_1
+│  │  │  │  │              │      graph.bin
+│  │  │  │  │              │      
+│  │  │  │  │              ├─dirs_bucket_2
+│  │  │  │  │              │      graph.bin
+│  │  │  │  │              │      
+│  │  │  │  │              └─dirs_bucket_3
+│  │  │  │  │                      graph.bin
+│  │  │  │  │                      
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  │          ├─currentProject
+│  │  │  │  │          │  ├─dirs_bucket_0
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_1
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_2
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_3
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─jar_e693a2b45149d1718a19655cc5fbfb0ff46fb9c15d23d565455e5728b9774bdc_bucket_0
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─jar_e693a2b45149d1718a19655cc5fbfb0ff46fb9c15d23d565455e5728b9774bdc_bucket_1
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─jar_e693a2b45149d1718a19655cc5fbfb0ff46fb9c15d23d565455e5728b9774bdc_bucket_2
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  └─jar_e693a2b45149d1718a19655cc5fbfb0ff46fb9c15d23d565455e5728b9774bdc_bucket_3
+│  │  │  │  │          │          graph.bin
+│  │  │  │  │          │          
+│  │  │  │  │          ├─externalLibs
+│  │  │  │  │          │  ├─dirs_bucket_0
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_1
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_2
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  └─dirs_bucket_3
+│  │  │  │  │          │          graph.bin
+│  │  │  │  │          │          
+│  │  │  │  │          ├─mixedScopes
+│  │  │  │  │          │  ├─dirs_bucket_0
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_1
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  ├─dirs_bucket_2
+│  │  │  │  │          │  │      graph.bin
+│  │  │  │  │          │  │      
+│  │  │  │  │          │  └─dirs_bucket_3
+│  │  │  │  │          │          graph.bin
+│  │  │  │  │          │          
+│  │  │  │  │          └─otherProjects
+│  │  │  │  │              ├─dirs_bucket_0
+│  │  │  │  │              │      graph.bin
+│  │  │  │  │              │      
+│  │  │  │  │              ├─dirs_bucket_1
+│  │  │  │  │              │      graph.bin
+│  │  │  │  │              │      
+│  │  │  │  │              ├─dirs_bucket_2
+│  │  │  │  │              │      graph.bin
+│  │  │  │  │              │      
+│  │  │  │  │              └─dirs_bucket_3
+│  │  │  │  │                      graph.bin
+│  │  │  │  │                      
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  │              ├─currentProject
+│  │  │  │              │  ├─dirs_bucket_0
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─dirs_bucket_1
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─dirs_bucket_2
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─dirs_bucket_3
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─jar_99b3f9d2af6ed359a6f816951cd87f710f0f59c6ef30db2ebdfe4d49a10621e9_bucket_0
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─jar_99b3f9d2af6ed359a6f816951cd87f710f0f59c6ef30db2ebdfe4d49a10621e9_bucket_1
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─jar_99b3f9d2af6ed359a6f816951cd87f710f0f59c6ef30db2ebdfe4d49a10621e9_bucket_2
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  └─jar_99b3f9d2af6ed359a6f816951cd87f710f0f59c6ef30db2ebdfe4d49a10621e9_bucket_3
+│  │  │  │              │          graph.bin
+│  │  │  │              │          
+│  │  │  │              ├─externalLibs
+│  │  │  │              │  ├─dirs_bucket_0
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─dirs_bucket_1
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─dirs_bucket_2
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  └─dirs_bucket_3
+│  │  │  │              │          graph.bin
+│  │  │  │              │          
+│  │  │  │              ├─mixedScopes
+│  │  │  │              │  ├─dirs_bucket_0
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─dirs_bucket_1
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  ├─dirs_bucket_2
+│  │  │  │              │  │      graph.bin
+│  │  │  │              │  │      
+│  │  │  │              │  └─dirs_bucket_3
+│  │  │  │              │          graph.bin
+│  │  │  │              │          
+│  │  │  │              └─otherProjects
+│  │  │  │                  ├─dirs_bucket_0
+│  │  │  │                  │      graph.bin
+│  │  │  │                  │      
+│  │  │  │                  ├─dirs_bucket_1
+│  │  │  │                  │      graph.bin
+│  │  │  │                  │      
+│  │  │  │                  ├─dirs_bucket_2
+│  │  │  │                  │      graph.bin
+│  │  │  │                  │      
+│  │  │  │                  └─dirs_bucket_3
+│  │  │  │                          graph.bin
+│  │  │  │                          
+│  │  │  ├─dex
+│  │  │  │  ├─debug
+│  │  │  │  │  ├─mergeExtDexDebug
+│  │  │  │  │  │      classes.dex
+│  │  │  │  │  │      
+│  │  │  │  │  ├─mergeLibDexDebug
+│  │  │  │  │  │  ├─0
+│  │  │  │  │  │  ├─1
+│  │  │  │  │  │  ├─10
+│  │  │  │  │  │  ├─11
+│  │  │  │  │  │  ├─12
+│  │  │  │  │  │  ├─13
+│  │  │  │  │  │  ├─14
+│  │  │  │  │  │  ├─15
+│  │  │  │  │  │  ├─2
+│  │  │  │  │  │  ├─3
+│  │  │  │  │  │  ├─4
+│  │  │  │  │  │  ├─5
+│  │  │  │  │  │  ├─6
+│  │  │  │  │  │  ├─7
+│  │  │  │  │  │  ├─8
+│  │  │  │  │  │  └─9
+│  │  │  │  │  └─mergeProjectDexDebug
+│  │  │  │  │      ├─0
+│  │  │  │  │      │      classes.dex
+│  │  │  │  │      │      
+│  │  │  │  │      ├─1
+│  │  │  │  │      ├─10
+│  │  │  │  │      ├─11
+│  │  │  │  │      ├─12
+│  │  │  │  │      ├─13
+│  │  │  │  │      ├─14
+│  │  │  │  │      ├─15
+│  │  │  │  │      ├─2
+│  │  │  │  │      ├─3
+│  │  │  │  │      ├─4
+│  │  │  │  │      ├─5
+│  │  │  │  │      ├─6
+│  │  │  │  │      │      classes.dex
+│  │  │  │  │      │      
+│  │  │  │  │      ├─7
+│  │  │  │  │      ├─8
+│  │  │  │  │      └─9
+│  │  │  │  │              classes.dex
+│  │  │  │  │              
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  ├─mergeExtDexDebugAndroidTest
+│  │  │  │  │  │      classes.dex
+│  │  │  │  │  │      
+│  │  │  │  │  ├─mergeLibDexDebugAndroidTest
+│  │  │  │  │  │  ├─0
+│  │  │  │  │  │  ├─1
+│  │  │  │  │  │  ├─10
+│  │  │  │  │  │  ├─11
+│  │  │  │  │  │  ├─12
+│  │  │  │  │  │  ├─13
+│  │  │  │  │  │  ├─14
+│  │  │  │  │  │  ├─15
+│  │  │  │  │  │  ├─2
+│  │  │  │  │  │  ├─3
+│  │  │  │  │  │  ├─4
+│  │  │  │  │  │  ├─5
+│  │  │  │  │  │  ├─6
+│  │  │  │  │  │  ├─7
+│  │  │  │  │  │  ├─8
+│  │  │  │  │  │  └─9
+│  │  │  │  │  └─mergeProjectDexDebugAndroidTest
+│  │  │  │  │      ├─0
+│  │  │  │  │      │      classes.dex
+│  │  │  │  │      │      
+│  │  │  │  │      ├─1
+│  │  │  │  │      ├─10
+│  │  │  │  │      ├─11
+│  │  │  │  │      ├─12
+│  │  │  │  │      ├─13
+│  │  │  │  │      ├─14
+│  │  │  │  │      ├─15
+│  │  │  │  │      ├─2
+│  │  │  │  │      ├─3
+│  │  │  │  │      │      classes.dex
+│  │  │  │  │      │      
+│  │  │  │  │      ├─4
+│  │  │  │  │      ├─5
+│  │  │  │  │      ├─6
+│  │  │  │  │      │      classes.dex
+│  │  │  │  │      │      
+│  │  │  │  │      ├─7
+│  │  │  │  │      ├─8
+│  │  │  │  │      └─9
+│  │  │  │  └─release
+│  │  │  │      └─mergeDexRelease
+│  │  │  │              classes.dex
+│  │  │  │              
+│  │  │  ├─dex_archive_input_jar_hashes
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │          out
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │          out
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │              out
+│  │  │  │              
+│  │  │  ├─dex_metadata_directory
+│  │  │  │  └─release
+│  │  │  │      └─compileReleaseArtProfile
+│  │  │  │          │  dex-metadata-map.properties
+│  │  │  │          │  
+│  │  │  │          ├─0
+│  │  │  │          │      .dm
+│  │  │  │          │      
+│  │  │  │          └─1
+│  │  │  │                  .dm
+│  │  │  │                  
+│  │  │  ├─dex_number_of_buckets_file
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │          out
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │          out
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │              out
+│  │  │  │              
+│  │  │  ├─duplicate_classes_check
+│  │  │  │  ├─debug
+│  │  │  │  │  └─checkDebugDuplicateClasses
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─checkDebugAndroidTestDuplicateClasses
+│  │  │  │  └─release
+│  │  │  │      └─checkReleaseDuplicateClasses
+│  │  │  ├─external_file_lib_dex_archives
+│  │  │  │  ├─debug
+│  │  │  │  │  └─desugarDebugFileDependencies
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─desugarDebugAndroidTestFileDependencies
+│  │  │  │  └─release
+│  │  │  │      └─desugarReleaseFileDependencies
+│  │  │  ├─external_libs_dex
+│  │  │  │  └─release
+│  │  │  │      └─mergeExtDexRelease
+│  │  │  │              classes.dex
+│  │  │  │              
+│  │  │  ├─external_libs_dex_archive
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─external_libs_dex_archive_with_artifact_transforms
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─global_synthetics_dex
+│  │  │  │  ├─debug
+│  │  │  │  │  └─generateDebugGlobalSynthetics
+│  │  │  │  │          classes.dex
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─generateDebugAndroidTestGlobalSynthetics
+│  │  │  │  │          classes.dex
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseGlobalSynthetics
+│  │  │  ├─global_synthetics_external_lib
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─global_synthetics_external_libs_artifact_transform
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─global_synthetics_file_lib
+│  │  │  │  ├─debug
+│  │  │  │  │  └─desugarDebugFileDependencies
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─desugarDebugAndroidTestFileDependencies
+│  │  │  │  └─release
+│  │  │  │      └─desugarReleaseFileDependencies
+│  │  │  ├─global_synthetics_mixed_scope
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─global_synthetics_project
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─global_synthetics_subproject
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─incremental
+│  │  │  │  ├─dataBindingGenBaseClassesDebug
+│  │  │  │  │      base_builder_log.json
+│  │  │  │  │      
+│  │  │  │  ├─dataBindingGenBaseClassesDebugAndroidTest
+│  │  │  │  │      base_builder_log.json
+│  │  │  │  │      
+│  │  │  │  ├─dataBindingGenBaseClassesRelease
+│  │  │  │  │      base_builder_log.json
+│  │  │  │  │      
+│  │  │  │  ├─debug
+│  │  │  │  │  ├─mergeDebugResources
+│  │  │  │  │  │  │  compile-file-map.properties
+│  │  │  │  │  │  │  merger.xml
+│  │  │  │  │  │  │  
+│  │  │  │  │  │  ├─merged.dir
+│  │  │  │  │  │  └─stripped.dir
+│  │  │  │  │  │      └─layout
+│  │  │  │  │  │              activity_onboarding.xml
+│  │  │  │  │  │              activity_settings.xml
+│  │  │  │  │  │              
+│  │  │  │  │  └─packageDebugResources
+│  │  │  │  │      │  compile-file-map.properties
+│  │  │  │  │      │  merger.xml
+│  │  │  │  │      │  
+│  │  │  │  │      ├─merged.dir
+│  │  │  │  │      └─stripped.dir
+│  │  │  │  │          └─layout
+│  │  │  │  │                  activity_onboarding.xml
+│  │  │  │  │                  activity_settings.xml
+│  │  │  │  │                  
+│  │  │  │  ├─debug-mergeJavaRes
+│  │  │  │  │  │  merge-state
+│  │  │  │  │  │  
+│  │  │  │  │  └─zip-cache
+│  │  │  │  │          066dVCkl+iw7MwIEpbiy5g==
+│  │  │  │  │          0qQJAT5jUSIfNVoi6xok3Q==
+│  │  │  │  │          2XBI0_HsHgs7vZXC30JYbg==
+│  │  │  │  │          4aToaXgsI+RX64SK+BAH9w==
+│  │  │  │  │          4mqcT61G_IlQGQgqhPAyaA==
+│  │  │  │  │          6aZprGUthFBbVE84iuU21A==
+│  │  │  │  │          6bBq7sE5A4QRf1_KnOQBVw==
+│  │  │  │  │          7b3eGsbM5Ki00wSfLgGrtg==
+│  │  │  │  │          8BWIs6Fnzb5GGCYpoUMS+Q==
+│  │  │  │  │          8VqDNpR_Fa6zP0CVKFwaBA==
+│  │  │  │  │          9c7J4gVOxArEDZa1ek5v1g==
+│  │  │  │  │          9X0XBiSXoC8JCcV1632T3g==
+│  │  │  │  │          AEfnoyyM9zVHQX9uJ994pA==
+│  │  │  │  │          AOJzkq1d2fvREShGcIsrNw==
+│  │  │  │  │          aqW+ov_x2+VjQyTXgER1CA==
+│  │  │  │  │          Au9OIWez+xjFZkY+Icm2tQ==
+│  │  │  │  │          aYbqsXPESqOwvD0PS8jerQ==
+│  │  │  │  │          BYgPKMoScVKLvCBCHoGgIg==
+│  │  │  │  │          dETt0DL9mK2c+Vx9rLvf9A==
+│  │  │  │  │          ELK5GRKIu7t5lrru_YDk0w==
+│  │  │  │  │          eXqt5q76x3O2CKjg3grBxw==
+│  │  │  │  │          FafZOGvYqiAEi1wTKgoRtg==
+│  │  │  │  │          GAC7oXeY0mxQU2RahrWInw==
+│  │  │  │  │          GFsK3sscF_H+1ZclY75bwQ==
+│  │  │  │  │          HbKVn_8ODaiWADS+7GJK8A==
+│  │  │  │  │          hj5qRHwE5fEeq5if2vRp8Q==
+│  │  │  │  │          HyLJd4eKzUZfJy_9smDoXw==
+│  │  │  │  │          JIWhx4x+5_JGsCeWq8+lHA==
+│  │  │  │  │          J_7Zw7KitYD5+NWFWh27cA==
+│  │  │  │  │          KbjNqGnb1gg31usQQ6wEPA==
+│  │  │  │  │          kEu_Is1SjiS_n42SPil3MA==
+│  │  │  │  │          kQj_LHrIWvP+3ZC8xLbImw==
+│  │  │  │  │          KUpC32k+4tci7+rN+nLgrw==
+│  │  │  │  │          K_ggQ+TkeCSuMQOqjH39uQ==
+│  │  │  │  │          N3s9qZwjXkZxYOyB_LxvWA==
+│  │  │  │  │          NH4VkFdX_q+Ed1gpufr6lA==
+│  │  │  │  │          nhJZm7EKfQg4Aronk131bQ==
+│  │  │  │  │          NLPw0YNxOpAyj2kMxTUycw==
+│  │  │  │  │          nWL6cCSF9LWcirTQ6vHfvA==
+│  │  │  │  │          Nx4C4smtv82dZyvakzcvAQ==
+│  │  │  │  │          o5OLNGrczYbDys1_dRDptw==
+│  │  │  │  │          oArvlTaCI5kIGNj9IDRsew==
+│  │  │  │  │          odfrUc+FYjZMFbhkzeyCag==
+│  │  │  │  │          Or61VOGf3MhdfLsi37KCpA==
+│  │  │  │  │          OzjZ8Sfwq_5NKrbiQNYjfg==
+│  │  │  │  │          ptz3kPI6g+2acoa2unki6Q==
+│  │  │  │  │          rTXlWdhKckydCwHUdaqI7w==
+│  │  │  │  │          rVgOP854akbjjhiPR7v7Gw==
+│  │  │  │  │          RwQBfNspzo6VzLBQZr6LPA==
+│  │  │  │  │          tL8MOM2xQxcXQKGQAaYuxg==
+│  │  │  │  │          UCNjczxAoICx52aZznsCpA==
+│  │  │  │  │          ul5jq1lRZOHHhDC2jVtnSw==
+│  │  │  │  │          us4Wy1gMXFscQMNOjMqJcg==
+│  │  │  │  │          vIljXslzPsuzwpCQ0B003Q==
+│  │  │  │  │          vmWj9C7uomGsjPWJT+YOhA==
+│  │  │  │  │          VOdpTTaXJuAagjVAPPG8eQ==
+│  │  │  │  │          Wf6kTE1wfWyaOc9paLDG4A==
+│  │  │  │  │          WyHCzzMtWNh5KV2PeZz7cQ==
+│  │  │  │  │          yJuYl+V6JvIQYeZOIkAfjA==
+│  │  │  │  │          yqbBMYVGtGzfQsyNSCrVzw==
+│  │  │  │  │          YQy8F3dhV1MII_OwjKmn+A==
+│  │  │  │  │          YUi8eOPkMmNsU_iaTfKYGQ==
+│  │  │  │  │          ywF4O4pF_gyJYjfRl+pylA==
+│  │  │  │  │          yx0jMn0Nof9Km+tnXK89Dg==
+│  │  │  │  │          z1nOTg90DLmdYThnyKMtbg==
+│  │  │  │  │          _0kydxcF7D0oDaVSbcWdwQ==
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  ├─mergeDebugAndroidTestResources
+│  │  │  │  │  │  │  compile-file-map.properties
+│  │  │  │  │  │  │  merger.xml
+│  │  │  │  │  │  │  
+│  │  │  │  │  │  ├─merged.dir
+│  │  │  │  │  │  │  ├─values
+│  │  │  │  │  │  │  │      values.xml
+│  │  │  │  │  │  │  │      
+│  │  │  │  │  │  │  ├─values-v18
+│  │  │  │  │  │  │  │      values-v18.xml
+│  │  │  │  │  │  │  │      
+│  │  │  │  │  │  │  ├─values-v21
+│  │  │  │  │  │  │  │      values-v21.xml
+│  │  │  │  │  │  │  │      
+│  │  │  │  │  │  │  └─values-v28
+│  │  │  │  │  │  │          values-v28.xml
+│  │  │  │  │  │  │          
+│  │  │  │  │  │  └─stripped.dir
+│  │  │  │  │  └─packageDebugAndroidTestResources
+│  │  │  │  │      │  compile-file-map.properties
+│  │  │  │  │      │  merger.xml
+│  │  │  │  │      │  
+│  │  │  │  │      ├─merged.dir
+│  │  │  │  │      └─stripped.dir
+│  │  │  │  ├─debugAndroidTest-mergeJavaRes
+│  │  │  │  │  │  merge-state
+│  │  │  │  │  │  
+│  │  │  │  │  └─zip-cache
+│  │  │  │  │          +edNXWBrnAGIncSXgfvRVQ==
+│  │  │  │  │          2auY01GwM7PocioQ7yBFQg==
+│  │  │  │  │          4wCEqvewAjgbg8aUIGi92w==
+│  │  │  │  │          5gp1EzOIErSYDiZuSipofg==
+│  │  │  │  │          9TQrovo5o7tr68wDftvK3A==
+│  │  │  │  │          ACRksTC5aI29hA1gwpMlMw==
+│  │  │  │  │          dEcdHucGE7B94hYCgzcqoA==
+│  │  │  │  │          f2DHCPl3jTqDJ6Ae25yf_g==
+│  │  │  │  │          jLRiVKp__kJKfklBLREjDA==
+│  │  │  │  │          MeEszbQnrtjvo1Gu86BY9A==
+│  │  │  │  │          pL9PVJxprikXrTDQpjwOQA==
+│  │  │  │  │          pNUm93Fatk2CL29Lf9eYoQ==
+│  │  │  │  │          qFHhzD9uHcsJKk4BxGrhbQ==
+│  │  │  │  │          RS_DH_dvdYjlwtR2VSdt4g==
+│  │  │  │  │          tj+U1EOLRIPg3Un_sgC65A==
+│  │  │  │  │          
+│  │  │  │  ├─lintVitalAnalyzeRelease
+│  │  │  │  │      module.xml
+│  │  │  │  │      release-artifact-dependencies.xml
+│  │  │  │  │      release-artifact-libraries.xml
+│  │  │  │  │      release.xml
+│  │  │  │  │      
+│  │  │  │  ├─mergeDebugAndroidTestAssets
+│  │  │  │  │      merger.xml
+│  │  │  │  │      
+│  │  │  │  ├─mergeDebugAndroidTestJniLibFolders
+│  │  │  │  │      merger.xml
+│  │  │  │  │      
+│  │  │  │  ├─mergeDebugAssets
+│  │  │  │  │      merger.xml
+│  │  │  │  │      
+│  │  │  │  ├─mergeDebugJniLibFolders
+│  │  │  │  │      merger.xml
+│  │  │  │  │      
+│  │  │  │  ├─mergeReleaseAssets
+│  │  │  │  │      merger.xml
+│  │  │  │  │      
+│  │  │  │  ├─mergeReleaseJniLibFolders
+│  │  │  │  │      merger.xml
+│  │  │  │  │      
+│  │  │  │  ├─packageDebug
+│  │  │  │  │  └─tmp
+│  │  │  │  │      └─debug
+│  │  │  │  │          │  dex-renamer-state.txt
+│  │  │  │  │          │  
+│  │  │  │  │          └─zip-cache
+│  │  │  │  │                  androidResources
+│  │  │  │  │                  javaResources0
+│  │  │  │  │                  
+│  │  │  │  ├─packageDebugAndroidTest
+│  │  │  │  │  └─tmp
+│  │  │  │  │      └─debugAndroidTest
+│  │  │  │  │          │  dex-renamer-state.txt
+│  │  │  │  │          │  
+│  │  │  │  │          └─zip-cache
+│  │  │  │  │                  androidResources
+│  │  │  │  │                  javaResources0
+│  │  │  │  │                  
+│  │  │  │  ├─packageRelease
+│  │  │  │  │  └─tmp
+│  │  │  │  │      └─release
+│  │  │  │  │          │  dex-renamer-state.txt
+│  │  │  │  │          │  
+│  │  │  │  │          └─zip-cache
+│  │  │  │  │                  androidResources
+│  │  │  │  │                  javaResources0
+│  │  │  │  │                  
+│  │  │  │  ├─processDebugResources
+│  │  │  │  │      resources-list-for-linked-resources-binary-format-debug.ap_.txt
+│  │  │  │  │      
+│  │  │  │  ├─release
+│  │  │  │  │  ├─mergeReleaseResources
+│  │  │  │  │  │  │  compile-file-map.properties
+│  │  │  │  │  │  │  merger.xml
+│  │  │  │  │  │  │  
+│  │  │  │  │  │  ├─merged.dir
+│  │  │  │  │  │  └─stripped.dir
+│  │  │  │  │  │      └─layout
+│  │  │  │  │  │              activity_main.xml
+│  │  │  │  │  │              
+│  │  │  │  │  └─packageReleaseResources
+│  │  │  │  │      │  compile-file-map.properties
+│  │  │  │  │      │  merger.xml
+│  │  │  │  │      │  
+│  │  │  │  │      ├─merged.dir
+│  │  │  │  │      └─stripped.dir
+│  │  │  │  │          └─layout
+│  │  │  │  │                  activity_main.xml
+│  │  │  │  │                  
+│  │  │  │  └─release-mergeJavaRes
+│  │  │  │      │  merge-state
+│  │  │  │      │  
+│  │  │  │      └─zip-cache
+│  │  │  │              066dVCkl+iw7MwIEpbiy5g==
+│  │  │  │              0qQJAT5jUSIfNVoi6xok3Q==
+│  │  │  │              2XBI0_HsHgs7vZXC30JYbg==
+│  │  │  │              4aToaXgsI+RX64SK+BAH9w==
+│  │  │  │              4mqcT61G_IlQGQgqhPAyaA==
+│  │  │  │              6aZprGUthFBbVE84iuU21A==
+│  │  │  │              6bBq7sE5A4QRf1_KnOQBVw==
+│  │  │  │              7b3eGsbM5Ki00wSfLgGrtg==
+│  │  │  │              8BWIs6Fnzb5GGCYpoUMS+Q==
+│  │  │  │              8VqDNpR_Fa6zP0CVKFwaBA==
+│  │  │  │              9c7J4gVOxArEDZa1ek5v1g==
+│  │  │  │              9X0XBiSXoC8JCcV1632T3g==
+│  │  │  │              AEfnoyyM9zVHQX9uJ994pA==
+│  │  │  │              AOJzkq1d2fvREShGcIsrNw==
+│  │  │  │              aqW+ov_x2+VjQyTXgER1CA==
+│  │  │  │              Au9OIWez+xjFZkY+Icm2tQ==
+│  │  │  │              aYbqsXPESqOwvD0PS8jerQ==
+│  │  │  │              dETt0DL9mK2c+Vx9rLvf9A==
+│  │  │  │              eXqt5q76x3O2CKjg3grBxw==
+│  │  │  │              FafZOGvYqiAEi1wTKgoRtg==
+│  │  │  │              GAC7oXeY0mxQU2RahrWInw==
+│  │  │  │              GFsK3sscF_H+1ZclY75bwQ==
+│  │  │  │              HbKVn_8ODaiWADS+7GJK8A==
+│  │  │  │              hj5qRHwE5fEeq5if2vRp8Q==
+│  │  │  │              HyLJd4eKzUZfJy_9smDoXw==
+│  │  │  │              JIWhx4x+5_JGsCeWq8+lHA==
+│  │  │  │              J_7Zw7KitYD5+NWFWh27cA==
+│  │  │  │              KbjNqGnb1gg31usQQ6wEPA==
+│  │  │  │              kEu_Is1SjiS_n42SPil3MA==
+│  │  │  │              kQj_LHrIWvP+3ZC8xLbImw==
+│  │  │  │              KUpC32k+4tci7+rN+nLgrw==
+│  │  │  │              K_ggQ+TkeCSuMQOqjH39uQ==
+│  │  │  │              N3s9qZwjXkZxYOyB_LxvWA==
+│  │  │  │              NH4VkFdX_q+Ed1gpufr6lA==
+│  │  │  │              nhJZm7EKfQg4Aronk131bQ==
+│  │  │  │              nWL6cCSF9LWcirTQ6vHfvA==
+│  │  │  │              Nx4C4smtv82dZyvakzcvAQ==
+│  │  │  │              o5OLNGrczYbDys1_dRDptw==
+│  │  │  │              oArvlTaCI5kIGNj9IDRsew==
+│  │  │  │              odfrUc+FYjZMFbhkzeyCag==
+│  │  │  │              Or61VOGf3MhdfLsi37KCpA==
+│  │  │  │              OzjZ8Sfwq_5NKrbiQNYjfg==
+│  │  │  │              ptz3kPI6g+2acoa2unki6Q==
+│  │  │  │              rTXlWdhKckydCwHUdaqI7w==
+│  │  │  │              rVgOP854akbjjhiPR7v7Gw==
+│  │  │  │              RwQBfNspzo6VzLBQZr6LPA==
+│  │  │  │              tL8MOM2xQxcXQKGQAaYuxg==
+│  │  │  │              UCNjczxAoICx52aZznsCpA==
+│  │  │  │              ul5jq1lRZOHHhDC2jVtnSw==
+│  │  │  │              us4Wy1gMXFscQMNOjMqJcg==
+│  │  │  │              vIljXslzPsuzwpCQ0B003Q==
+│  │  │  │              vmWj9C7uomGsjPWJT+YOhA==
+│  │  │  │              VOdpTTaXJuAagjVAPPG8eQ==
+│  │  │  │              Wf6kTE1wfWyaOc9paLDG4A==
+│  │  │  │              WyHCzzMtWNh5KV2PeZz7cQ==
+│  │  │  │              yJuYl+V6JvIQYeZOIkAfjA==
+│  │  │  │              yqbBMYVGtGzfQsyNSCrVzw==
+│  │  │  │              YQy8F3dhV1MII_OwjKmn+A==
+│  │  │  │              YUi8eOPkMmNsU_iaTfKYGQ==
+│  │  │  │              ywF4O4pF_gyJYjfRl+pylA==
+│  │  │  │              yx0jMn0Nof9Km+tnXK89Dg==
+│  │  │  │              z1nOTg90DLmdYThnyKMtbg==
+│  │  │  │              _0kydxcF7D0oDaVSbcWdwQ==
+│  │  │  │              
+│  │  │  ├─javac
+│  │  │  │  ├─debug
+│  │  │  │  │  └─compileDebugJavaWithJavac
+│  │  │  │  │      └─classes
+│  │  │  │  │          └─com
+│  │  │  │  │              └─sunwenqing
+│  │  │  │  │                  └─plainpad
+│  │  │  │  │                      │  BuildConfig.class
+│  │  │  │  │                      │  
+│  │  │  │  │                      └─databinding
+│  │  │  │  │                              ActivityAboutBinding.class
+│  │  │  │  │                              ActivityHelpBinding.class
+│  │  │  │  │                              ActivityMainBinding.class
+│  │  │  │  │                              ActivityOnboardingBinding.class
+│  │  │  │  │                              ActivitySettingsBinding.class
+│  │  │  │  │                              ActivitySettingsSearchBinding.class
+│  │  │  │  │                              DialogChoiceBinding.class
+│  │  │  │  │                              DialogChoiceItemBinding.class
+│  │  │  │  │                              DialogEncodingBinding.class
+│  │  │  │  │                              DialogFindBinding.class
+│  │  │  │  │                              DialogReplaceBinding.class
+│  │  │  │  │                              DialogSpecialCharBinding.class
+│  │  │  │  │                              DialogStatsBinding.class
+│  │  │  │  │                              ItemOnboardingBinding.class
+│  │  │  │  │                              ItemOnboardingDotBinding.class
+│  │  │  │  │                              ItemSettingsSearchBinding.class
+│  │  │  │  │                              
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─compileDebugAndroidTestJavaWithJavac
+│  │  │  │  │      └─classes
+│  │  │  │  │          └─com
+│  │  │  │  │              └─sunwenqing
+│  │  │  │  │                  └─plainpad
+│  │  │  │  │                      └─test
+│  │  │  │  │                              BuildConfig.class
+│  │  │  │  │                              
+│  │  │  │  └─release
+│  │  │  │      └─compileReleaseJavaWithJavac
+│  │  │  │          └─classes
+│  │  │  │              └─com
+│  │  │  │                  └─sunwenqing
+│  │  │  │                      └─plainpad
+│  │  │  │                          │  BuildConfig.class
+│  │  │  │                          │  
+│  │  │  │                          └─databinding
+│  │  │  │                                  ActivityAboutBinding.class
+│  │  │  │                                  ActivityHelpBinding.class
+│  │  │  │                                  ActivityMainBinding.class
+│  │  │  │                                  ActivityOnboardingBinding.class
+│  │  │  │                                  ActivitySettingsBinding.class
+│  │  │  │                                  ActivitySettingsSearchBinding.class
+│  │  │  │                                  DialogChoiceBinding.class
+│  │  │  │                                  DialogChoiceItemBinding.class
+│  │  │  │                                  DialogEncodingBinding.class
+│  │  │  │                                  DialogFindBinding.class
+│  │  │  │                                  DialogReplaceBinding.class
+│  │  │  │                                  DialogSpecialCharBinding.class
+│  │  │  │                                  DialogStatsBinding.class
+│  │  │  │                                  ItemOnboardingBinding.class
+│  │  │  │                                  ItemOnboardingDotBinding.class
+│  │  │  │                                  ItemSettingsSearchBinding.class
+│  │  │  │                                  
+│  │  │  ├─java_res
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugJavaRes
+│  │  │  │  │      └─out
+│  │  │  │  │          ├─com
+│  │  │  │  │          │  └─sunwenqing
+│  │  │  │  │          │      └─plainpad
+│  │  │  │  │          └─META-INF
+│  │  │  │  │                  app.kotlin_module
+│  │  │  │  │                  
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─processDebugAndroidTestJavaRes
+│  │  │  │  │      └─out
+│  │  │  │  │          ├─com
+│  │  │  │  │          │  └─sunwenqing
+│  │  │  │  │          │      └─plainpad
+│  │  │  │  │          └─META-INF
+│  │  │  │  │                  app.kotlin_module
+│  │  │  │  │                  
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseJavaRes
+│  │  │  │          └─out
+│  │  │  │              ├─com
+│  │  │  │              │  └─sunwenqing
+│  │  │  │              │      └─plainpad
+│  │  │  │              └─META-INF
+│  │  │  │                      app.kotlin_module
+│  │  │  │                      
+│  │  │  ├─linked_resources_binary_format
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugResources
+│  │  │  │  │          linked-resources-binary-format-debug.ap_
+│  │  │  │  │          output-metadata.json
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─processDebugAndroidTestResources
+│  │  │  │  │          linked-resources-binary-format.ap_
+│  │  │  │  │          output-metadata.json
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseResources
+│  │  │  │              linked-resources-binary-format-release.ap_
+│  │  │  │              output-metadata.json
+│  │  │  │              
+│  │  │  ├─lint-cache
+│  │  │  │  ├─lintVitalAnalyzeRelease
+│  │  │  │  │  │  lint-cache-version.txt
+│  │  │  │  │  │  private-apis-18-7541949.bin
+│  │  │  │  │  │  
+│  │  │  │  │  ├─maven.google
+│  │  │  │  │  └─sdk_index
+│  │  │  │  │          snapshot.gz
+│  │  │  │  │          
+│  │  │  │  └─lintVitalReportRelease
+│  │  │  │          lint-cache-version.txt
+│  │  │  │          
+│  │  │  ├─lint_vital_intermediate_text_report
+│  │  │  │  └─release
+│  │  │  │      └─lintVitalReportRelease
+│  │  │  │              lint-results-release.txt
+│  │  │  │              
+│  │  │  ├─lint_vital_output
+│  │  │  │  └─release
+│  │  │  │      └─lintVitalRelease
+│  │  │  │              lint-vital-output.dat
+│  │  │  │              
+│  │  │  ├─lint_vital_partial_results
+│  │  │  │  └─release
+│  │  │  │      └─lintVitalAnalyzeRelease
+│  │  │  │          └─out
+│  │  │  │                  lint-resources.xml
+│  │  │  │                  
+│  │  │  ├─lint_vital_report_lint_model
+│  │  │  │  └─release
+│  │  │  │      └─generateReleaseLintVitalReportModel
+│  │  │  │              module.xml
+│  │  │  │              release-artifact-dependencies.xml
+│  │  │  │              release-artifact-libraries.xml
+│  │  │  │              release.xml
+│  │  │  │              
+│  │  │  ├─lint_vital_return_value
+│  │  │  │  └─release
+│  │  │  │      └─lintVitalReportRelease
+│  │  │  │              return-value-release.txt
+│  │  │  │              
+│  │  │  ├─local_only_symbol_list
+│  │  │  │  ├─debug
+│  │  │  │  │  └─parseDebugLocalResources
+│  │  │  │  │          R-def.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─parseDebugAndroidTestLocalResources
+│  │  │  │  │          R-def.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─parseReleaseLocalResources
+│  │  │  │              R-def.txt
+│  │  │  │              
+│  │  │  ├─manifest_merge_blame_file
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugMainManifest
+│  │  │  │  │          manifest-merger-blame-debug-report.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mergeDebugAndroidTestManifest
+│  │  │  │  │          manifest-merger-blame-debug-androidTest-report.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseMainManifest
+│  │  │  │              manifest-merger-blame-release-report.txt
+│  │  │  │              
+│  │  │  ├─merged_art_profile
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseArtProfile
+│  │  │  │              baseline-prof.txt
+│  │  │  │              
+│  │  │  ├─merged_java_res
+│  │  │  │  ├─debug
+│  │  │  │  │  └─mergeDebugJavaResource
+│  │  │  │  │          base.jar
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mergeDebugAndroidTestJavaResource
+│  │  │  │  │          feature-app.jar
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseJavaResource
+│  │  │  │              base.jar
+│  │  │  │              
+│  │  │  ├─merged_jni_libs
+│  │  │  │  ├─debug
+│  │  │  │  │  └─mergeDebugJniLibFolders
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mergeDebugAndroidTestJniLibFolders
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseJniLibFolders
+│  │  │  │          └─out
+│  │  │  ├─merged_manifest
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugMainManifest
+│  │  │  │  │          AndroidManifest.xml
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mergeDebugAndroidTestManifest
+│  │  │  │  │          AndroidManifest.xml
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseMainManifest
+│  │  │  │              AndroidManifest.xml
+│  │  │  │              
+│  │  │  ├─merged_manifests
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugManifest
+│  │  │  │  │          AndroidManifest.xml
+│  │  │  │  │          output-metadata.json
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseManifest
+│  │  │  │              AndroidManifest.xml
+│  │  │  │              output-metadata.json
+│  │  │  │              
+│  │  │  ├─merged_res
+│  │  │  │  ├─debug
+│  │  │  │  │  └─mergeDebugResources
+│  │  │  │  │          drawable_bg_dialog.xml.flat
+│  │  │  │  │          drawable_bg_onboarding_dot.xml.flat
+│  │  │  │  │          drawable_bg_onboarding_icon.xml.flat
+│  │  │  │  │          drawable_bg_popup_menu.xml.flat
+│  │  │  │  │          drawable_ic_arrow_back.xml.flat
+│  │  │  │  │          drawable_ic_check.xml.flat
+│  │  │  │  │          drawable_ic_close.xml.flat
+│  │  │  │  │          drawable_ic_expand_more.xml.flat
+│  │  │  │  │          drawable_ic_immersive.xml.flat
+│  │  │  │  │          drawable_ic_insert_special.xml.flat
+│  │  │  │  │          drawable_ic_launcher.xml.flat
+│  │  │  │  │          drawable_ic_launcher_background.xml.flat
+│  │  │  │  │          drawable_ic_launcher_blue.xml.flat
+│  │  │  │  │          drawable_ic_launcher_foreground.xml.flat
+│  │  │  │  │          drawable_ic_launcher_green.xml.flat
+│  │  │  │  │          drawable_ic_launcher_indigo.xml.flat
+│  │  │  │  │          drawable_ic_launcher_orange.xml.flat
+│  │  │  │  │          drawable_ic_launcher_pink.xml.flat
+│  │  │  │  │          drawable_ic_launcher_purple.xml.flat
+│  │  │  │  │          drawable_ic_launcher_red.xml.flat
+│  │  │  │  │          drawable_ic_launcher_teal.xml.flat
+│  │  │  │  │          drawable_ic_more_vert.xml.flat
+│  │  │  │  │          drawable_ic_onboard_appearance.xml.flat
+│  │  │  │  │          drawable_ic_onboard_done.xml.flat
+│  │  │  │  │          drawable_ic_onboard_find.xml.flat
+│  │  │  │  │          drawable_ic_onboard_gesture.xml.flat
+│  │  │  │  │          drawable_ic_onboard_save.xml.flat
+│  │  │  │  │          drawable_ic_onboard_special.xml.flat
+│  │  │  │  │          drawable_ic_onboard_tabs.xml.flat
+│  │  │  │  │          drawable_ic_onboard_welcome.xml.flat
+│  │  │  │  │          drawable_ic_redo.xml.flat
+│  │  │  │  │          drawable_ic_save.xml.flat
+│  │  │  │  │          drawable_ic_search.xml.flat
+│  │  │  │  │          drawable_ic_settings.xml.flat
+│  │  │  │  │          drawable_ic_settings_appearance.xml.flat
+│  │  │  │  │          drawable_ic_settings_edit.xml.flat
+│  │  │  │  │          drawable_ic_settings_save.xml.flat
+│  │  │  │  │          drawable_ic_settings_tabs.xml.flat
+│  │  │  │  │          drawable_ic_undo.xml.flat
+│  │  │  │  │          layout_activity_about.xml.flat
+│  │  │  │  │          layout_activity_help.xml.flat
+│  │  │  │  │          layout_activity_main.xml.flat
+│  │  │  │  │          layout_activity_onboarding.xml.flat
+│  │  │  │  │          layout_activity_settings.xml.flat
+│  │  │  │  │          layout_activity_settings_search.xml.flat
+│  │  │  │  │          layout_dialog_choice.xml.flat
+│  │  │  │  │          layout_dialog_choice_item.xml.flat
+│  │  │  │  │          layout_dialog_encoding.xml.flat
+│  │  │  │  │          layout_dialog_find.xml.flat
+│  │  │  │  │          layout_dialog_replace.xml.flat
+│  │  │  │  │          layout_dialog_special_char.xml.flat
+│  │  │  │  │          layout_dialog_stats.xml.flat
+│  │  │  │  │          layout_item_onboarding.xml.flat
+│  │  │  │  │          layout_item_onboarding_dot.xml.flat
+│  │  │  │  │          layout_item_settings_search.xml.flat
+│  │  │  │  │          menu_menu_more.xml.flat
+│  │  │  │  │          menu_menu_save.xml.flat
+│  │  │  │  │          menu_menu_settings_file_deprecated.xml.flat
+│  │  │  │  │          mipmap-anydpi-v26_ic_launcher.xml.flat
+│  │  │  │  │          mipmap-anydpi-v26_ic_launcher_round.xml.flat
+│  │  │  │  │          mipmap-hdpi_ic_launcher.webp.flat
+│  │  │  │  │          mipmap-hdpi_ic_launcher_round.webp.flat
+│  │  │  │  │          mipmap-mdpi_ic_launcher.webp.flat
+│  │  │  │  │          mipmap-mdpi_ic_launcher_round.webp.flat
+│  │  │  │  │          mipmap-xhdpi_ic_launcher.webp.flat
+│  │  │  │  │          mipmap-xhdpi_ic_launcher_round.webp.flat
+│  │  │  │  │          mipmap-xxhdpi_ic_launcher.webp.flat
+│  │  │  │  │          mipmap-xxhdpi_ic_launcher_round.webp.flat
+│  │  │  │  │          mipmap-xxxhdpi_ic_launcher.webp.flat
+│  │  │  │  │          mipmap-xxxhdpi_ic_launcher_round.webp.flat
+│  │  │  │  │          values-af_values-af.arsc.flat
+│  │  │  │  │          values-am_values-am.arsc.flat
+│  │  │  │  │          values-ar_values-ar.arsc.flat
+│  │  │  │  │          values-as_values-as.arsc.flat
+│  │  │  │  │          values-az_values-az.arsc.flat
+│  │  │  │  │          values-b+es+419_values-b+es+419.arsc.flat
+│  │  │  │  │          values-b+sr+Latn_values-b+sr+Latn.arsc.flat
+│  │  │  │  │          values-be_values-be.arsc.flat
+│  │  │  │  │          values-bg_values-bg.arsc.flat
+│  │  │  │  │          values-bn_values-bn.arsc.flat
+│  │  │  │  │          values-bs_values-bs.arsc.flat
+│  │  │  │  │          values-ca_values-ca.arsc.flat
+│  │  │  │  │          values-cs_values-cs.arsc.flat
+│  │  │  │  │          values-da_values-da.arsc.flat
+│  │  │  │  │          values-de_values-de.arsc.flat
+│  │  │  │  │          values-el_values-el.arsc.flat
+│  │  │  │  │          values-en-rAU_values-en-rAU.arsc.flat
+│  │  │  │  │          values-en-rCA_values-en-rCA.arsc.flat
+│  │  │  │  │          values-en-rGB_values-en-rGB.arsc.flat
+│  │  │  │  │          values-en-rIN_values-en-rIN.arsc.flat
+│  │  │  │  │          values-en-rXC_values-en-rXC.arsc.flat
+│  │  │  │  │          values-es-rUS_values-es-rUS.arsc.flat
+│  │  │  │  │          values-es_values-es.arsc.flat
+│  │  │  │  │          values-et_values-et.arsc.flat
+│  │  │  │  │          values-eu_values-eu.arsc.flat
+│  │  │  │  │          values-fa_values-fa.arsc.flat
+│  │  │  │  │          values-fi_values-fi.arsc.flat
+│  │  │  │  │          values-fr-rCA_values-fr-rCA.arsc.flat
+│  │  │  │  │          values-fr_values-fr.arsc.flat
+│  │  │  │  │          values-gl_values-gl.arsc.flat
+│  │  │  │  │          values-gu_values-gu.arsc.flat
+│  │  │  │  │          values-h320dp-port-v13_values-h320dp-port-v13.arsc.flat
+│  │  │  │  │          values-h360dp-land-v13_values-h360dp-land-v13.arsc.flat
+│  │  │  │  │          values-h480dp-land-v13_values-h480dp-land-v13.arsc.flat
+│  │  │  │  │          values-h550dp-port-v13_values-h550dp-port-v13.arsc.flat
+│  │  │  │  │          values-h720dp-v13_values-h720dp-v13.arsc.flat
+│  │  │  │  │          values-hdpi-v4_values-hdpi-v4.arsc.flat
+│  │  │  │  │          values-hi_values-hi.arsc.flat
+│  │  │  │  │          values-hr_values-hr.arsc.flat
+│  │  │  │  │          values-hu_values-hu.arsc.flat
+│  │  │  │  │          values-hy_values-hy.arsc.flat
+│  │  │  │  │          values-in_values-in.arsc.flat
+│  │  │  │  │          values-is_values-is.arsc.flat
+│  │  │  │  │          values-it_values-it.arsc.flat
+│  │  │  │  │          values-iw_values-iw.arsc.flat
+│  │  │  │  │          values-ja_values-ja.arsc.flat
+│  │  │  │  │          values-ka_values-ka.arsc.flat
+│  │  │  │  │          values-kk_values-kk.arsc.flat
+│  │  │  │  │          values-km_values-km.arsc.flat
+│  │  │  │  │          values-kn_values-kn.arsc.flat
+│  │  │  │  │          values-ko_values-ko.arsc.flat
+│  │  │  │  │          values-ky_values-ky.arsc.flat
+│  │  │  │  │          values-land_values-land.arsc.flat
+│  │  │  │  │          values-large-v4_values-large-v4.arsc.flat
+│  │  │  │  │          values-ldltr-v21_values-ldltr-v21.arsc.flat
+│  │  │  │  │          values-ldrtl-v17_values-ldrtl-v17.arsc.flat
+│  │  │  │  │          values-lo_values-lo.arsc.flat
+│  │  │  │  │          values-lt_values-lt.arsc.flat
+│  │  │  │  │          values-lv_values-lv.arsc.flat
+│  │  │  │  │          values-mk_values-mk.arsc.flat
+│  │  │  │  │          values-ml_values-ml.arsc.flat
+│  │  │  │  │          values-mn_values-mn.arsc.flat
+│  │  │  │  │          values-mr_values-mr.arsc.flat
+│  │  │  │  │          values-ms_values-ms.arsc.flat
+│  │  │  │  │          values-my_values-my.arsc.flat
+│  │  │  │  │          values-nb_values-nb.arsc.flat
+│  │  │  │  │          values-ne_values-ne.arsc.flat
+│  │  │  │  │          values-night-v8_values-night-v8.arsc.flat
+│  │  │  │  │          values-nl_values-nl.arsc.flat
+│  │  │  │  │          values-or_values-or.arsc.flat
+│  │  │  │  │          values-pa_values-pa.arsc.flat
+│  │  │  │  │          values-pl_values-pl.arsc.flat
+│  │  │  │  │          values-port_values-port.arsc.flat
+│  │  │  │  │          values-pt-rBR_values-pt-rBR.arsc.flat
+│  │  │  │  │          values-pt-rPT_values-pt-rPT.arsc.flat
+│  │  │  │  │          values-pt_values-pt.arsc.flat
+│  │  │  │  │          values-ro_values-ro.arsc.flat
+│  │  │  │  │          values-ru_values-ru.arsc.flat
+│  │  │  │  │          values-si_values-si.arsc.flat
+│  │  │  │  │          values-sk_values-sk.arsc.flat
+│  │  │  │  │          values-sl_values-sl.arsc.flat
+│  │  │  │  │          values-small-v4_values-small-v4.arsc.flat
+│  │  │  │  │          values-sq_values-sq.arsc.flat
+│  │  │  │  │          values-sr_values-sr.arsc.flat
+│  │  │  │  │          values-sv_values-sv.arsc.flat
+│  │  │  │  │          values-sw600dp-v13_values-sw600dp-v13.arsc.flat
+│  │  │  │  │          values-sw_values-sw.arsc.flat
+│  │  │  │  │          values-ta_values-ta.arsc.flat
+│  │  │  │  │          values-te_values-te.arsc.flat
+│  │  │  │  │          values-th_values-th.arsc.flat
+│  │  │  │  │          values-tl_values-tl.arsc.flat
+│  │  │  │  │          values-tr_values-tr.arsc.flat
+│  │  │  │  │          values-uk_values-uk.arsc.flat
+│  │  │  │  │          values-ur_values-ur.arsc.flat
+│  │  │  │  │          values-uz_values-uz.arsc.flat
+│  │  │  │  │          values-v16_values-v16.arsc.flat
+│  │  │  │  │          values-v17_values-v17.arsc.flat
+│  │  │  │  │          values-v18_values-v18.arsc.flat
+│  │  │  │  │          values-v21_values-v21.arsc.flat
+│  │  │  │  │          values-v22_values-v22.arsc.flat
+│  │  │  │  │          values-v23_values-v23.arsc.flat
+│  │  │  │  │          values-v24_values-v24.arsc.flat
+│  │  │  │  │          values-v25_values-v25.arsc.flat
+│  │  │  │  │          values-v26_values-v26.arsc.flat
+│  │  │  │  │          values-v28_values-v28.arsc.flat
+│  │  │  │  │          values-v31_values-v31.arsc.flat
+│  │  │  │  │          values-vi_values-vi.arsc.flat
+│  │  │  │  │          values-w320dp-land-v13_values-w320dp-land-v13.arsc.flat
+│  │  │  │  │          values-w360dp-port-v13_values-w360dp-port-v13.arsc.flat
+│  │  │  │  │          values-w400dp-port-v13_values-w400dp-port-v13.arsc.flat
+│  │  │  │  │          values-w600dp-land-v13_values-w600dp-land-v13.arsc.flat
+│  │  │  │  │          values-watch-v20_values-watch-v20.arsc.flat
+│  │  │  │  │          values-watch-v21_values-watch-v21.arsc.flat
+│  │  │  │  │          values-xlarge-v4_values-xlarge-v4.arsc.flat
+│  │  │  │  │          values-zh-rCN_values-zh-rCN.arsc.flat
+│  │  │  │  │          values-zh-rHK_values-zh-rHK.arsc.flat
+│  │  │  │  │          values-zh-rTW_values-zh-rTW.arsc.flat
+│  │  │  │  │          values-zh_values-zh.arsc.flat
+│  │  │  │  │          values-zu_values-zu.arsc.flat
+│  │  │  │  │          values_values.arsc.flat
+│  │  │  │  │          xml_backup_rules.xml.flat
+│  │  │  │  │          xml_data_extraction_rules.xml.flat
+│  │  │  │  │          xml_locales_config.xml.flat
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mergeDebugAndroidTestResources
+│  │  │  │  │          values-v18_values-v18.arsc.flat
+│  │  │  │  │          values-v21_values-v21.arsc.flat
+│  │  │  │  │          values-v28_values-v28.arsc.flat
+│  │  │  │  │          values_values.arsc.flat
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseResources
+│  │  │  │              drawable_bg_dialog.xml.flat
+│  │  │  │              drawable_bg_onboarding_dot.xml.flat
+│  │  │  │              drawable_bg_onboarding_icon.xml.flat
+│  │  │  │              drawable_bg_popup_menu.xml.flat
+│  │  │  │              drawable_ic_arrow_back.xml.flat
+│  │  │  │              drawable_ic_check.xml.flat
+│  │  │  │              drawable_ic_close.xml.flat
+│  │  │  │              drawable_ic_expand_more.xml.flat
+│  │  │  │              drawable_ic_immersive.xml.flat
+│  │  │  │              drawable_ic_insert_special.xml.flat
+│  │  │  │              drawable_ic_launcher.xml.flat
+│  │  │  │              drawable_ic_launcher_background.xml.flat
+│  │  │  │              drawable_ic_launcher_blue.xml.flat
+│  │  │  │              drawable_ic_launcher_foreground.xml.flat
+│  │  │  │              drawable_ic_launcher_green.xml.flat
+│  │  │  │              drawable_ic_launcher_indigo.xml.flat
+│  │  │  │              drawable_ic_launcher_orange.xml.flat
+│  │  │  │              drawable_ic_launcher_pink.xml.flat
+│  │  │  │              drawable_ic_launcher_purple.xml.flat
+│  │  │  │              drawable_ic_launcher_red.xml.flat
+│  │  │  │              drawable_ic_launcher_teal.xml.flat
+│  │  │  │              drawable_ic_more_vert.xml.flat
+│  │  │  │              drawable_ic_onboard_appearance.xml.flat
+│  │  │  │              drawable_ic_onboard_done.xml.flat
+│  │  │  │              drawable_ic_onboard_find.xml.flat
+│  │  │  │              drawable_ic_onboard_gesture.xml.flat
+│  │  │  │              drawable_ic_onboard_save.xml.flat
+│  │  │  │              drawable_ic_onboard_special.xml.flat
+│  │  │  │              drawable_ic_onboard_tabs.xml.flat
+│  │  │  │              drawable_ic_onboard_welcome.xml.flat
+│  │  │  │              drawable_ic_redo.xml.flat
+│  │  │  │              drawable_ic_save.xml.flat
+│  │  │  │              drawable_ic_search.xml.flat
+│  │  │  │              drawable_ic_settings.xml.flat
+│  │  │  │              drawable_ic_settings_appearance.xml.flat
+│  │  │  │              drawable_ic_settings_edit.xml.flat
+│  │  │  │              drawable_ic_settings_save.xml.flat
+│  │  │  │              drawable_ic_settings_tabs.xml.flat
+│  │  │  │              drawable_ic_undo.xml.flat
+│  │  │  │              layout_activity_about.xml.flat
+│  │  │  │              layout_activity_help.xml.flat
+│  │  │  │              layout_activity_main.xml.flat
+│  │  │  │              layout_activity_onboarding.xml.flat
+│  │  │  │              layout_activity_settings.xml.flat
+│  │  │  │              layout_activity_settings_search.xml.flat
+│  │  │  │              layout_dialog_choice.xml.flat
+│  │  │  │              layout_dialog_choice_item.xml.flat
+│  │  │  │              layout_dialog_encoding.xml.flat
+│  │  │  │              layout_dialog_find.xml.flat
+│  │  │  │              layout_dialog_replace.xml.flat
+│  │  │  │              layout_dialog_special_char.xml.flat
+│  │  │  │              layout_dialog_stats.xml.flat
+│  │  │  │              layout_item_onboarding.xml.flat
+│  │  │  │              layout_item_onboarding_dot.xml.flat
+│  │  │  │              layout_item_settings_search.xml.flat
+│  │  │  │              menu_menu_more.xml.flat
+│  │  │  │              menu_menu_save.xml.flat
+│  │  │  │              menu_menu_settings_file_deprecated.xml.flat
+│  │  │  │              mipmap-anydpi-v26_ic_launcher.xml.flat
+│  │  │  │              mipmap-anydpi-v26_ic_launcher_round.xml.flat
+│  │  │  │              mipmap-hdpi_ic_launcher.webp.flat
+│  │  │  │              mipmap-hdpi_ic_launcher_round.webp.flat
+│  │  │  │              mipmap-mdpi_ic_launcher.webp.flat
+│  │  │  │              mipmap-mdpi_ic_launcher_round.webp.flat
+│  │  │  │              mipmap-xhdpi_ic_launcher.webp.flat
+│  │  │  │              mipmap-xhdpi_ic_launcher_round.webp.flat
+│  │  │  │              mipmap-xxhdpi_ic_launcher.webp.flat
+│  │  │  │              mipmap-xxhdpi_ic_launcher_round.webp.flat
+│  │  │  │              mipmap-xxxhdpi_ic_launcher.webp.flat
+│  │  │  │              mipmap-xxxhdpi_ic_launcher_round.webp.flat
+│  │  │  │              values-af_values-af.arsc.flat
+│  │  │  │              values-am_values-am.arsc.flat
+│  │  │  │              values-ar_values-ar.arsc.flat
+│  │  │  │              values-as_values-as.arsc.flat
+│  │  │  │              values-az_values-az.arsc.flat
+│  │  │  │              values-b+es+419_values-b+es+419.arsc.flat
+│  │  │  │              values-b+sr+Latn_values-b+sr+Latn.arsc.flat
+│  │  │  │              values-be_values-be.arsc.flat
+│  │  │  │              values-bg_values-bg.arsc.flat
+│  │  │  │              values-bn_values-bn.arsc.flat
+│  │  │  │              values-bs_values-bs.arsc.flat
+│  │  │  │              values-ca_values-ca.arsc.flat
+│  │  │  │              values-cs_values-cs.arsc.flat
+│  │  │  │              values-da_values-da.arsc.flat
+│  │  │  │              values-de_values-de.arsc.flat
+│  │  │  │              values-el_values-el.arsc.flat
+│  │  │  │              values-en-rAU_values-en-rAU.arsc.flat
+│  │  │  │              values-en-rCA_values-en-rCA.arsc.flat
+│  │  │  │              values-en-rGB_values-en-rGB.arsc.flat
+│  │  │  │              values-en-rIN_values-en-rIN.arsc.flat
+│  │  │  │              values-en-rXC_values-en-rXC.arsc.flat
+│  │  │  │              values-es-rUS_values-es-rUS.arsc.flat
+│  │  │  │              values-es_values-es.arsc.flat
+│  │  │  │              values-et_values-et.arsc.flat
+│  │  │  │              values-eu_values-eu.arsc.flat
+│  │  │  │              values-fa_values-fa.arsc.flat
+│  │  │  │              values-fi_values-fi.arsc.flat
+│  │  │  │              values-fr-rCA_values-fr-rCA.arsc.flat
+│  │  │  │              values-fr_values-fr.arsc.flat
+│  │  │  │              values-gl_values-gl.arsc.flat
+│  │  │  │              values-gu_values-gu.arsc.flat
+│  │  │  │              values-h320dp-port-v13_values-h320dp-port-v13.arsc.flat
+│  │  │  │              values-h360dp-land-v13_values-h360dp-land-v13.arsc.flat
+│  │  │  │              values-h480dp-land-v13_values-h480dp-land-v13.arsc.flat
+│  │  │  │              values-h550dp-port-v13_values-h550dp-port-v13.arsc.flat
+│  │  │  │              values-h720dp-v13_values-h720dp-v13.arsc.flat
+│  │  │  │              values-hdpi-v4_values-hdpi-v4.arsc.flat
+│  │  │  │              values-hi_values-hi.arsc.flat
+│  │  │  │              values-hr_values-hr.arsc.flat
+│  │  │  │              values-hu_values-hu.arsc.flat
+│  │  │  │              values-hy_values-hy.arsc.flat
+│  │  │  │              values-in_values-in.arsc.flat
+│  │  │  │              values-is_values-is.arsc.flat
+│  │  │  │              values-it_values-it.arsc.flat
+│  │  │  │              values-iw_values-iw.arsc.flat
+│  │  │  │              values-ja_values-ja.arsc.flat
+│  │  │  │              values-ka_values-ka.arsc.flat
+│  │  │  │              values-kk_values-kk.arsc.flat
+│  │  │  │              values-km_values-km.arsc.flat
+│  │  │  │              values-kn_values-kn.arsc.flat
+│  │  │  │              values-ko_values-ko.arsc.flat
+│  │  │  │              values-ky_values-ky.arsc.flat
+│  │  │  │              values-land_values-land.arsc.flat
+│  │  │  │              values-large-v4_values-large-v4.arsc.flat
+│  │  │  │              values-ldltr-v21_values-ldltr-v21.arsc.flat
+│  │  │  │              values-ldrtl-v17_values-ldrtl-v17.arsc.flat
+│  │  │  │              values-lo_values-lo.arsc.flat
+│  │  │  │              values-lt_values-lt.arsc.flat
+│  │  │  │              values-lv_values-lv.arsc.flat
+│  │  │  │              values-mk_values-mk.arsc.flat
+│  │  │  │              values-ml_values-ml.arsc.flat
+│  │  │  │              values-mn_values-mn.arsc.flat
+│  │  │  │              values-mr_values-mr.arsc.flat
+│  │  │  │              values-ms_values-ms.arsc.flat
+│  │  │  │              values-my_values-my.arsc.flat
+│  │  │  │              values-nb_values-nb.arsc.flat
+│  │  │  │              values-ne_values-ne.arsc.flat
+│  │  │  │              values-night-v8_values-night-v8.arsc.flat
+│  │  │  │              values-nl_values-nl.arsc.flat
+│  │  │  │              values-or_values-or.arsc.flat
+│  │  │  │              values-pa_values-pa.arsc.flat
+│  │  │  │              values-pl_values-pl.arsc.flat
+│  │  │  │              values-port_values-port.arsc.flat
+│  │  │  │              values-pt-rBR_values-pt-rBR.arsc.flat
+│  │  │  │              values-pt-rPT_values-pt-rPT.arsc.flat
+│  │  │  │              values-pt_values-pt.arsc.flat
+│  │  │  │              values-ro_values-ro.arsc.flat
+│  │  │  │              values-ru_values-ru.arsc.flat
+│  │  │  │              values-si_values-si.arsc.flat
+│  │  │  │              values-sk_values-sk.arsc.flat
+│  │  │  │              values-sl_values-sl.arsc.flat
+│  │  │  │              values-small-v4_values-small-v4.arsc.flat
+│  │  │  │              values-sq_values-sq.arsc.flat
+│  │  │  │              values-sr_values-sr.arsc.flat
+│  │  │  │              values-sv_values-sv.arsc.flat
+│  │  │  │              values-sw600dp-v13_values-sw600dp-v13.arsc.flat
+│  │  │  │              values-sw_values-sw.arsc.flat
+│  │  │  │              values-ta_values-ta.arsc.flat
+│  │  │  │              values-te_values-te.arsc.flat
+│  │  │  │              values-th_values-th.arsc.flat
+│  │  │  │              values-tl_values-tl.arsc.flat
+│  │  │  │              values-tr_values-tr.arsc.flat
+│  │  │  │              values-uk_values-uk.arsc.flat
+│  │  │  │              values-ur_values-ur.arsc.flat
+│  │  │  │              values-uz_values-uz.arsc.flat
+│  │  │  │              values-v16_values-v16.arsc.flat
+│  │  │  │              values-v17_values-v17.arsc.flat
+│  │  │  │              values-v18_values-v18.arsc.flat
+│  │  │  │              values-v21_values-v21.arsc.flat
+│  │  │  │              values-v22_values-v22.arsc.flat
+│  │  │  │              values-v23_values-v23.arsc.flat
+│  │  │  │              values-v24_values-v24.arsc.flat
+│  │  │  │              values-v25_values-v25.arsc.flat
+│  │  │  │              values-v26_values-v26.arsc.flat
+│  │  │  │              values-v28_values-v28.arsc.flat
+│  │  │  │              values-v31_values-v31.arsc.flat
+│  │  │  │              values-vi_values-vi.arsc.flat
+│  │  │  │              values-w320dp-land-v13_values-w320dp-land-v13.arsc.flat
+│  │  │  │              values-w360dp-port-v13_values-w360dp-port-v13.arsc.flat
+│  │  │  │              values-w400dp-port-v13_values-w400dp-port-v13.arsc.flat
+│  │  │  │              values-w600dp-land-v13_values-w600dp-land-v13.arsc.flat
+│  │  │  │              values-watch-v20_values-watch-v20.arsc.flat
+│  │  │  │              values-watch-v21_values-watch-v21.arsc.flat
+│  │  │  │              values-xlarge-v4_values-xlarge-v4.arsc.flat
+│  │  │  │              values-zh-rCN_values-zh-rCN.arsc.flat
+│  │  │  │              values-zh-rHK_values-zh-rHK.arsc.flat
+│  │  │  │              values-zh-rTW_values-zh-rTW.arsc.flat
+│  │  │  │              values-zu_values-zu.arsc.flat
+│  │  │  │              values_values.arsc.flat
+│  │  │  │              xml_backup_rules.xml.flat
+│  │  │  │              xml_data_extraction_rules.xml.flat
+│  │  │  │              
+│  │  │  ├─merged_res_blame_folder
+│  │  │  │  ├─debug
+│  │  │  │  │  └─mergeDebugResources
+│  │  │  │  │      └─out
+│  │  │  │  │          ├─multi-v2
+│  │  │  │  │          │      mergeDebugResources.json
+│  │  │  │  │          │      values-af.json
+│  │  │  │  │          │      values-am.json
+│  │  │  │  │          │      values-ar.json
+│  │  │  │  │          │      values-as.json
+│  │  │  │  │          │      values-az.json
+│  │  │  │  │          │      values-b+es+419.json
+│  │  │  │  │          │      values-b+sr+Latn.json
+│  │  │  │  │          │      values-be.json
+│  │  │  │  │          │      values-bg.json
+│  │  │  │  │          │      values-bn.json
+│  │  │  │  │          │      values-bs.json
+│  │  │  │  │          │      values-ca.json
+│  │  │  │  │          │      values-cs.json
+│  │  │  │  │          │      values-da.json
+│  │  │  │  │          │      values-de.json
+│  │  │  │  │          │      values-el.json
+│  │  │  │  │          │      values-en-rAU.json
+│  │  │  │  │          │      values-en-rCA.json
+│  │  │  │  │          │      values-en-rGB.json
+│  │  │  │  │          │      values-en-rIN.json
+│  │  │  │  │          │      values-en-rXC.json
+│  │  │  │  │          │      values-es-rUS.json
+│  │  │  │  │          │      values-es.json
+│  │  │  │  │          │      values-et.json
+│  │  │  │  │          │      values-eu.json
+│  │  │  │  │          │      values-fa.json
+│  │  │  │  │          │      values-fi.json
+│  │  │  │  │          │      values-fr-rCA.json
+│  │  │  │  │          │      values-fr.json
+│  │  │  │  │          │      values-gl.json
+│  │  │  │  │          │      values-gu.json
+│  │  │  │  │          │      values-h320dp-port-v13.json
+│  │  │  │  │          │      values-h360dp-land-v13.json
+│  │  │  │  │          │      values-h480dp-land-v13.json
+│  │  │  │  │          │      values-h550dp-port-v13.json
+│  │  │  │  │          │      values-h720dp-v13.json
+│  │  │  │  │          │      values-hdpi-v4.json
+│  │  │  │  │          │      values-hi.json
+│  │  │  │  │          │      values-hr.json
+│  │  │  │  │          │      values-hu.json
+│  │  │  │  │          │      values-hy.json
+│  │  │  │  │          │      values-in.json
+│  │  │  │  │          │      values-is.json
+│  │  │  │  │          │      values-it.json
+│  │  │  │  │          │      values-iw.json
+│  │  │  │  │          │      values-ja.json
+│  │  │  │  │          │      values-ka.json
+│  │  │  │  │          │      values-kk.json
+│  │  │  │  │          │      values-km.json
+│  │  │  │  │          │      values-kn.json
+│  │  │  │  │          │      values-ko.json
+│  │  │  │  │          │      values-ky.json
+│  │  │  │  │          │      values-land.json
+│  │  │  │  │          │      values-large-v4.json
+│  │  │  │  │          │      values-ldltr-v21.json
+│  │  │  │  │          │      values-ldrtl-v17.json
+│  │  │  │  │          │      values-lo.json
+│  │  │  │  │          │      values-lt.json
+│  │  │  │  │          │      values-lv.json
+│  │  │  │  │          │      values-mk.json
+│  │  │  │  │          │      values-ml.json
+│  │  │  │  │          │      values-mn.json
+│  │  │  │  │          │      values-mr.json
+│  │  │  │  │          │      values-ms.json
+│  │  │  │  │          │      values-my.json
+│  │  │  │  │          │      values-nb.json
+│  │  │  │  │          │      values-ne.json
+│  │  │  │  │          │      values-night-v8.json
+│  │  │  │  │          │      values-nl.json
+│  │  │  │  │          │      values-or.json
+│  │  │  │  │          │      values-pa.json
+│  │  │  │  │          │      values-pl.json
+│  │  │  │  │          │      values-port.json
+│  │  │  │  │          │      values-pt-rBR.json
+│  │  │  │  │          │      values-pt-rPT.json
+│  │  │  │  │          │      values-pt.json
+│  │  │  │  │          │      values-ro.json
+│  │  │  │  │          │      values-ru.json
+│  │  │  │  │          │      values-si.json
+│  │  │  │  │          │      values-sk.json
+│  │  │  │  │          │      values-sl.json
+│  │  │  │  │          │      values-small-v4.json
+│  │  │  │  │          │      values-sq.json
+│  │  │  │  │          │      values-sr.json
+│  │  │  │  │          │      values-sv.json
+│  │  │  │  │          │      values-sw.json
+│  │  │  │  │          │      values-sw600dp-v13.json
+│  │  │  │  │          │      values-ta.json
+│  │  │  │  │          │      values-te.json
+│  │  │  │  │          │      values-th.json
+│  │  │  │  │          │      values-tl.json
+│  │  │  │  │          │      values-tr.json
+│  │  │  │  │          │      values-uk.json
+│  │  │  │  │          │      values-ur.json
+│  │  │  │  │          │      values-uz.json
+│  │  │  │  │          │      values-v16.json
+│  │  │  │  │          │      values-v17.json
+│  │  │  │  │          │      values-v18.json
+│  │  │  │  │          │      values-v21.json
+│  │  │  │  │          │      values-v22.json
+│  │  │  │  │          │      values-v23.json
+│  │  │  │  │          │      values-v24.json
+│  │  │  │  │          │      values-v25.json
+│  │  │  │  │          │      values-v26.json
+│  │  │  │  │          │      values-v28.json
+│  │  │  │  │          │      values-v31.json
+│  │  │  │  │          │      values-vi.json
+│  │  │  │  │          │      values-w320dp-land-v13.json
+│  │  │  │  │          │      values-w360dp-port-v13.json
+│  │  │  │  │          │      values-w400dp-port-v13.json
+│  │  │  │  │          │      values-w600dp-land-v13.json
+│  │  │  │  │          │      values-watch-v20.json
+│  │  │  │  │          │      values-watch-v21.json
+│  │  │  │  │          │      values-xlarge-v4.json
+│  │  │  │  │          │      values-zh-rCN.json
+│  │  │  │  │          │      values-zh-rHK.json
+│  │  │  │  │          │      values-zh-rTW.json
+│  │  │  │  │          │      values-zh.json
+│  │  │  │  │          │      values-zu.json
+│  │  │  │  │          │      values.json
+│  │  │  │  │          │      
+│  │  │  │  │          └─single
+│  │  │  │  │                  layout.json
+│  │  │  │  │                  mergeDebugResources.json
+│  │  │  │  │                  
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─mergeDebugAndroidTestResources
+│  │  │  │  │      └─out
+│  │  │  │  │          └─multi-v2
+│  │  │  │  │                  mergeDebugAndroidTestResources.json
+│  │  │  │  │                  values-v18.json
+│  │  │  │  │                  values-v21.json
+│  │  │  │  │                  values-v28.json
+│  │  │  │  │                  values.json
+│  │  │  │  │                  
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseResources
+│  │  │  │          └─out
+│  │  │  │              ├─multi-v2
+│  │  │  │              │      mergeReleaseResources.json
+│  │  │  │              │      values-af.json
+│  │  │  │              │      values-am.json
+│  │  │  │              │      values-ar.json
+│  │  │  │              │      values-as.json
+│  │  │  │              │      values-az.json
+│  │  │  │              │      values-b+es+419.json
+│  │  │  │              │      values-b+sr+Latn.json
+│  │  │  │              │      values-be.json
+│  │  │  │              │      values-bg.json
+│  │  │  │              │      values-bn.json
+│  │  │  │              │      values-bs.json
+│  │  │  │              │      values-ca.json
+│  │  │  │              │      values-cs.json
+│  │  │  │              │      values-da.json
+│  │  │  │              │      values-de.json
+│  │  │  │              │      values-el.json
+│  │  │  │              │      values-en-rAU.json
+│  │  │  │              │      values-en-rCA.json
+│  │  │  │              │      values-en-rGB.json
+│  │  │  │              │      values-en-rIN.json
+│  │  │  │              │      values-en-rXC.json
+│  │  │  │              │      values-es-rUS.json
+│  │  │  │              │      values-es.json
+│  │  │  │              │      values-et.json
+│  │  │  │              │      values-eu.json
+│  │  │  │              │      values-fa.json
+│  │  │  │              │      values-fi.json
+│  │  │  │              │      values-fr-rCA.json
+│  │  │  │              │      values-fr.json
+│  │  │  │              │      values-gl.json
+│  │  │  │              │      values-gu.json
+│  │  │  │              │      values-h320dp-port-v13.json
+│  │  │  │              │      values-h360dp-land-v13.json
+│  │  │  │              │      values-h480dp-land-v13.json
+│  │  │  │              │      values-h550dp-port-v13.json
+│  │  │  │              │      values-h720dp-v13.json
+│  │  │  │              │      values-hdpi-v4.json
+│  │  │  │              │      values-hi.json
+│  │  │  │              │      values-hr.json
+│  │  │  │              │      values-hu.json
+│  │  │  │              │      values-hy.json
+│  │  │  │              │      values-in.json
+│  │  │  │              │      values-is.json
+│  │  │  │              │      values-it.json
+│  │  │  │              │      values-iw.json
+│  │  │  │              │      values-ja.json
+│  │  │  │              │      values-ka.json
+│  │  │  │              │      values-kk.json
+│  │  │  │              │      values-km.json
+│  │  │  │              │      values-kn.json
+│  │  │  │              │      values-ko.json
+│  │  │  │              │      values-ky.json
+│  │  │  │              │      values-land.json
+│  │  │  │              │      values-large-v4.json
+│  │  │  │              │      values-ldltr-v21.json
+│  │  │  │              │      values-ldrtl-v17.json
+│  │  │  │              │      values-lo.json
+│  │  │  │              │      values-lt.json
+│  │  │  │              │      values-lv.json
+│  │  │  │              │      values-mk.json
+│  │  │  │              │      values-ml.json
+│  │  │  │              │      values-mn.json
+│  │  │  │              │      values-mr.json
+│  │  │  │              │      values-ms.json
+│  │  │  │              │      values-my.json
+│  │  │  │              │      values-nb.json
+│  │  │  │              │      values-ne.json
+│  │  │  │              │      values-night-v8.json
+│  │  │  │              │      values-nl.json
+│  │  │  │              │      values-or.json
+│  │  │  │              │      values-pa.json
+│  │  │  │              │      values-pl.json
+│  │  │  │              │      values-port.json
+│  │  │  │              │      values-pt-rBR.json
+│  │  │  │              │      values-pt-rPT.json
+│  │  │  │              │      values-pt.json
+│  │  │  │              │      values-ro.json
+│  │  │  │              │      values-ru.json
+│  │  │  │              │      values-si.json
+│  │  │  │              │      values-sk.json
+│  │  │  │              │      values-sl.json
+│  │  │  │              │      values-small-v4.json
+│  │  │  │              │      values-sq.json
+│  │  │  │              │      values-sr.json
+│  │  │  │              │      values-sv.json
+│  │  │  │              │      values-sw.json
+│  │  │  │              │      values-sw600dp-v13.json
+│  │  │  │              │      values-ta.json
+│  │  │  │              │      values-te.json
+│  │  │  │              │      values-th.json
+│  │  │  │              │      values-tl.json
+│  │  │  │              │      values-tr.json
+│  │  │  │              │      values-uk.json
+│  │  │  │              │      values-ur.json
+│  │  │  │              │      values-uz.json
+│  │  │  │              │      values-v16.json
+│  │  │  │              │      values-v17.json
+│  │  │  │              │      values-v18.json
+│  │  │  │              │      values-v21.json
+│  │  │  │              │      values-v22.json
+│  │  │  │              │      values-v23.json
+│  │  │  │              │      values-v24.json
+│  │  │  │              │      values-v25.json
+│  │  │  │              │      values-v26.json
+│  │  │  │              │      values-v28.json
+│  │  │  │              │      values-v31.json
+│  │  │  │              │      values-vi.json
+│  │  │  │              │      values-w320dp-land-v13.json
+│  │  │  │              │      values-w360dp-port-v13.json
+│  │  │  │              │      values-w400dp-port-v13.json
+│  │  │  │              │      values-w600dp-land-v13.json
+│  │  │  │              │      values-watch-v20.json
+│  │  │  │              │      values-watch-v21.json
+│  │  │  │              │      values-xlarge-v4.json
+│  │  │  │              │      values-zh-rCN.json
+│  │  │  │              │      values-zh-rHK.json
+│  │  │  │              │      values-zh-rTW.json
+│  │  │  │              │      values-zu.json
+│  │  │  │              │      values.json
+│  │  │  │              │      
+│  │  │  │              └─single
+│  │  │  │                      layout.json
+│  │  │  │                      mergeReleaseResources.json
+│  │  │  │                      
+│  │  │  ├─merged_startup_profile
+│  │  │  │  └─release
+│  │  │  │      └─mergeReleaseStartupProfile
+│  │  │  ├─metadata_library_dependencies_report
+│  │  │  │  └─release
+│  │  │  │      └─collectReleaseDependencies
+│  │  │  │              dependencies.pb
+│  │  │  │              
+│  │  │  ├─mixed_scope_dex_archive
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─navigation_json
+│  │  │  │  ├─debug
+│  │  │  │  │  └─extractDeepLinksDebug
+│  │  │  │  │          navigation.json
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─extractDeepLinksRelease
+│  │  │  │              navigation.json
+│  │  │  │              
+│  │  │  ├─nested_resources_validation_report
+│  │  │  │  ├─debug
+│  │  │  │  │  └─generateDebugResources
+│  │  │  │  │          nestedResourcesValidationReport.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─generateDebugAndroidTestResources
+│  │  │  │  │          nestedResourcesValidationReport.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─generateReleaseResources
+│  │  │  │              nestedResourcesValidationReport.txt
+│  │  │  │              
+│  │  │  ├─optimized_processed_res
+│  │  │  │  └─release
+│  │  │  │      └─optimizeReleaseResources
+│  │  │  │              output-metadata.json
+│  │  │  │              resources-release-optimize.ap_
+│  │  │  │              
+│  │  │  ├─packaged_manifests
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugManifestForPackage
+│  │  │  │  │          AndroidManifest.xml
+│  │  │  │  │          output-metadata.json
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─processDebugAndroidTestManifest
+│  │  │  │  │          AndroidManifest.xml
+│  │  │  │  │          output-metadata.json
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseManifestForPackage
+│  │  │  │              AndroidManifest.xml
+│  │  │  │              output-metadata.json
+│  │  │  │              
+│  │  │  ├─packaged_res
+│  │  │  │  ├─debug
+│  │  │  │  │  └─packageDebugResources
+│  │  │  │  │      ├─drawable
+│  │  │  │  │      │      bg_dialog.xml
+│  │  │  │  │      │      bg_onboarding_dot.xml
+│  │  │  │  │      │      bg_onboarding_icon.xml
+│  │  │  │  │      │      bg_popup_menu.xml
+│  │  │  │  │      │      ic_arrow_back.xml
+│  │  │  │  │      │      ic_check.xml
+│  │  │  │  │      │      ic_close.xml
+│  │  │  │  │      │      ic_expand_more.xml
+│  │  │  │  │      │      ic_immersive.xml
+│  │  │  │  │      │      ic_insert_special.xml
+│  │  │  │  │      │      ic_launcher.xml
+│  │  │  │  │      │      ic_launcher_background.xml
+│  │  │  │  │      │      ic_launcher_blue.xml
+│  │  │  │  │      │      ic_launcher_foreground.xml
+│  │  │  │  │      │      ic_launcher_green.xml
+│  │  │  │  │      │      ic_launcher_indigo.xml
+│  │  │  │  │      │      ic_launcher_orange.xml
+│  │  │  │  │      │      ic_launcher_pink.xml
+│  │  │  │  │      │      ic_launcher_purple.xml
+│  │  │  │  │      │      ic_launcher_red.xml
+│  │  │  │  │      │      ic_launcher_teal.xml
+│  │  │  │  │      │      ic_more_vert.xml
+│  │  │  │  │      │      ic_onboard_appearance.xml
+│  │  │  │  │      │      ic_onboard_done.xml
+│  │  │  │  │      │      ic_onboard_find.xml
+│  │  │  │  │      │      ic_onboard_gesture.xml
+│  │  │  │  │      │      ic_onboard_save.xml
+│  │  │  │  │      │      ic_onboard_special.xml
+│  │  │  │  │      │      ic_onboard_tabs.xml
+│  │  │  │  │      │      ic_onboard_welcome.xml
+│  │  │  │  │      │      ic_redo.xml
+│  │  │  │  │      │      ic_save.xml
+│  │  │  │  │      │      ic_search.xml
+│  │  │  │  │      │      ic_settings.xml
+│  │  │  │  │      │      ic_settings_appearance.xml
+│  │  │  │  │      │      ic_settings_edit.xml
+│  │  │  │  │      │      ic_settings_save.xml
+│  │  │  │  │      │      ic_settings_tabs.xml
+│  │  │  │  │      │      ic_undo.xml
+│  │  │  │  │      │      
+│  │  │  │  │      ├─layout
+│  │  │  │  │      │      activity_about.xml
+│  │  │  │  │      │      activity_help.xml
+│  │  │  │  │      │      activity_main.xml
+│  │  │  │  │      │      activity_onboarding.xml
+│  │  │  │  │      │      activity_settings.xml
+│  │  │  │  │      │      activity_settings_search.xml
+│  │  │  │  │      │      dialog_choice.xml
+│  │  │  │  │      │      dialog_choice_item.xml
+│  │  │  │  │      │      dialog_encoding.xml
+│  │  │  │  │      │      dialog_find.xml
+│  │  │  │  │      │      dialog_replace.xml
+│  │  │  │  │      │      dialog_special_char.xml
+│  │  │  │  │      │      dialog_stats.xml
+│  │  │  │  │      │      item_onboarding.xml
+│  │  │  │  │      │      item_onboarding_dot.xml
+│  │  │  │  │      │      item_settings_search.xml
+│  │  │  │  │      │      
+│  │  │  │  │      ├─menu
+│  │  │  │  │      │      menu_more.xml
+│  │  │  │  │      │      menu_save.xml
+│  │  │  │  │      │      menu_settings_file_deprecated.xml
+│  │  │  │  │      │      
+│  │  │  │  │      ├─mipmap-anydpi-v26
+│  │  │  │  │      │      ic_launcher.xml
+│  │  │  │  │      │      ic_launcher_round.xml
+│  │  │  │  │      │      
+│  │  │  │  │      ├─mipmap-hdpi-v4
+│  │  │  │  │      │      ic_launcher.webp
+│  │  │  │  │      │      ic_launcher_round.webp
+│  │  │  │  │      │      
+│  │  │  │  │      ├─mipmap-mdpi-v4
+│  │  │  │  │      │      ic_launcher.webp
+│  │  │  │  │      │      ic_launcher_round.webp
+│  │  │  │  │      │      
+│  │  │  │  │      ├─mipmap-xhdpi-v4
+│  │  │  │  │      │      ic_launcher.webp
+│  │  │  │  │      │      ic_launcher_round.webp
+│  │  │  │  │      │      
+│  │  │  │  │      ├─mipmap-xxhdpi-v4
+│  │  │  │  │      │      ic_launcher.webp
+│  │  │  │  │      │      ic_launcher_round.webp
+│  │  │  │  │      │      
+│  │  │  │  │      ├─mipmap-xxxhdpi-v4
+│  │  │  │  │      │      ic_launcher.webp
+│  │  │  │  │      │      ic_launcher_round.webp
+│  │  │  │  │      │      
+│  │  │  │  │      ├─values
+│  │  │  │  │      │      values.xml
+│  │  │  │  │      │      
+│  │  │  │  │      ├─values-night-v8
+│  │  │  │  │      │      values-night-v8.xml
+│  │  │  │  │      │      
+│  │  │  │  │      ├─values-zh
+│  │  │  │  │      │      values-zh.xml
+│  │  │  │  │      │      
+│  │  │  │  │      └─xml
+│  │  │  │  │              backup_rules.xml
+│  │  │  │  │              data_extraction_rules.xml
+│  │  │  │  │              locales_config.xml
+│  │  │  │  │              
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─packageDebugAndroidTestResources
+│  │  │  │  └─release
+│  │  │  │      └─packageReleaseResources
+│  │  │  │          ├─drawable
+│  │  │  │          │      bg_dialog.xml
+│  │  │  │          │      bg_onboarding_dot.xml
+│  │  │  │          │      bg_onboarding_icon.xml
+│  │  │  │          │      bg_popup_menu.xml
+│  │  │  │          │      ic_arrow_back.xml
+│  │  │  │          │      ic_check.xml
+│  │  │  │          │      ic_close.xml
+│  │  │  │          │      ic_expand_more.xml
+│  │  │  │          │      ic_immersive.xml
+│  │  │  │          │      ic_insert_special.xml
+│  │  │  │          │      ic_launcher.xml
+│  │  │  │          │      ic_launcher_background.xml
+│  │  │  │          │      ic_launcher_blue.xml
+│  │  │  │          │      ic_launcher_foreground.xml
+│  │  │  │          │      ic_launcher_green.xml
+│  │  │  │          │      ic_launcher_indigo.xml
+│  │  │  │          │      ic_launcher_orange.xml
+│  │  │  │          │      ic_launcher_pink.xml
+│  │  │  │          │      ic_launcher_purple.xml
+│  │  │  │          │      ic_launcher_red.xml
+│  │  │  │          │      ic_launcher_teal.xml
+│  │  │  │          │      ic_more_vert.xml
+│  │  │  │          │      ic_onboard_appearance.xml
+│  │  │  │          │      ic_onboard_done.xml
+│  │  │  │          │      ic_onboard_find.xml
+│  │  │  │          │      ic_onboard_gesture.xml
+│  │  │  │          │      ic_onboard_save.xml
+│  │  │  │          │      ic_onboard_special.xml
+│  │  │  │          │      ic_onboard_tabs.xml
+│  │  │  │          │      ic_onboard_welcome.xml
+│  │  │  │          │      ic_redo.xml
+│  │  │  │          │      ic_save.xml
+│  │  │  │          │      ic_search.xml
+│  │  │  │          │      ic_settings.xml
+│  │  │  │          │      ic_settings_appearance.xml
+│  │  │  │          │      ic_settings_edit.xml
+│  │  │  │          │      ic_settings_save.xml
+│  │  │  │          │      ic_settings_tabs.xml
+│  │  │  │          │      ic_undo.xml
+│  │  │  │          │      
+│  │  │  │          ├─layout
+│  │  │  │          │      activity_about.xml
+│  │  │  │          │      activity_help.xml
+│  │  │  │          │      activity_main.xml
+│  │  │  │          │      activity_onboarding.xml
+│  │  │  │          │      activity_settings.xml
+│  │  │  │          │      activity_settings_search.xml
+│  │  │  │          │      dialog_choice.xml
+│  │  │  │          │      dialog_choice_item.xml
+│  │  │  │          │      dialog_encoding.xml
+│  │  │  │          │      dialog_find.xml
+│  │  │  │          │      dialog_replace.xml
+│  │  │  │          │      dialog_special_char.xml
+│  │  │  │          │      dialog_stats.xml
+│  │  │  │          │      item_onboarding.xml
+│  │  │  │          │      item_onboarding_dot.xml
+│  │  │  │          │      item_settings_search.xml
+│  │  │  │          │      
+│  │  │  │          ├─menu
+│  │  │  │          │      menu_more.xml
+│  │  │  │          │      menu_save.xml
+│  │  │  │          │      menu_settings_file_deprecated.xml
+│  │  │  │          │      
+│  │  │  │          ├─mipmap-anydpi-v26
+│  │  │  │          │      ic_launcher.xml
+│  │  │  │          │      ic_launcher_round.xml
+│  │  │  │          │      
+│  │  │  │          ├─mipmap-hdpi-v4
+│  │  │  │          │      ic_launcher.webp
+│  │  │  │          │      ic_launcher_round.webp
+│  │  │  │          │      
+│  │  │  │          ├─mipmap-mdpi-v4
+│  │  │  │          │      ic_launcher.webp
+│  │  │  │          │      ic_launcher_round.webp
+│  │  │  │          │      
+│  │  │  │          ├─mipmap-xhdpi-v4
+│  │  │  │          │      ic_launcher.webp
+│  │  │  │          │      ic_launcher_round.webp
+│  │  │  │          │      
+│  │  │  │          ├─mipmap-xxhdpi-v4
+│  │  │  │          │      ic_launcher.webp
+│  │  │  │          │      ic_launcher_round.webp
+│  │  │  │          │      
+│  │  │  │          ├─mipmap-xxxhdpi-v4
+│  │  │  │          │      ic_launcher.webp
+│  │  │  │          │      ic_launcher_round.webp
+│  │  │  │          │      
+│  │  │  │          ├─values
+│  │  │  │          │      values.xml
+│  │  │  │          │      
+│  │  │  │          ├─values-night-v8
+│  │  │  │          │      values-night-v8.xml
+│  │  │  │          │      
+│  │  │  │          └─xml
+│  │  │  │                  backup_rules.xml
+│  │  │  │                  data_extraction_rules.xml
+│  │  │  │                  
+│  │  │  ├─project_dex_archive
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  │          │  45d6ee6933af291eba536d45023d0261be5c6c32f501ad843795cd142c8910d5_0.jar
+│  │  │  │  │          │  45d6ee6933af291eba536d45023d0261be5c6c32f501ad843795cd142c8910d5_1.jar
+│  │  │  │  │          │  45d6ee6933af291eba536d45023d0261be5c6c32f501ad843795cd142c8910d5_2.jar
+│  │  │  │  │          │  45d6ee6933af291eba536d45023d0261be5c6c32f501ad843795cd142c8910d5_3.jar
+│  │  │  │  │          │  
+│  │  │  │  │          └─com
+│  │  │  │  │              └─sunwenqing
+│  │  │  │  │                  └─plainpad
+│  │  │  │  │                      │  AboutActivity.dex
+│  │  │  │  │                      │  BuildConfig.dex
+│  │  │  │  │                      │  EditorCommands$EditorStats.dex
+│  │  │  │  │                      │  EditorCommands.dex
+│  │  │  │  │                      │  EditorDialogs$showFontSize$1.dex
+│  │  │  │  │                      │  EditorDialogs.dex
+│  │  │  │  │                      │  EditorFileIO$LoadResult.dex
+│  │  │  │  │                      │  EditorFileIO.dex
+│  │  │  │  │                      │  EditorSearchHelper.dex
+│  │  │  │  │                      │  EditorStyler.dex
+│  │  │  │  │                      │  EditorThemes$Theme.dex
+│  │  │  │  │                      │  EditorThemes.dex
+│  │  │  │  │                      │  FastScrollBarView$attach$2.dex
+│  │  │  │  │                      │  FastScrollBarView.dex
+│  │  │  │  │                      │  FontHelper.dex
+│  │  │  │  │                      │  FuzzyMatcher.dex
+│  │  │  │  │                      │  HelpActivity.dex
+│  │  │  │  │                      │  IconSwitcher.dex
+│  │  │  │  │                      │  InstanceStateStore$RestoredState.dex
+│  │  │  │  │                      │  InstanceStateStore.dex
+│  │  │  │  │                      │  LargeTextView.dex
+│  │  │  │  │                      │  LineNumberView$attach$1.dex
+│  │  │  │  │                      │  LineNumberView.dex
+│  │  │  │  │                      │  MainActivity$autoSaveCurrent$1$1.dex
+│  │  │  │  │                      │  MainActivity$autoSaveCurrent$1.dex
+│  │  │  │  │                      │  MainActivity$loadMissingTextsAsync$1$1$result$1.dex
+│  │  │  │  │                      │  MainActivity$loadMissingTextsAsync$1$1.dex
+│  │  │  │  │                      │  MainActivity$openDocumentIntoNewTab$1$result$1.dex
+│  │  │  │  │                      │  MainActivity$openDocumentIntoNewTab$1.dex
+│  │  │  │  │                      │  MainActivity$saveAll$1$1.dex
+│  │  │  │  │                      │  MainActivity$saveAll$1.dex
+│  │  │  │  │                      │  MainActivity$saveCurrentToUri$1$1.dex
+│  │  │  │  │                      │  MainActivity$saveCurrentToUri$1.dex
+│  │  │  │  │                      │  MainActivity$scheduleAutoSave$r$1.dex
+│  │  │  │  │                      │  MainActivity$setupBackHandler$1.dex
+│  │  │  │  │                      │  MainActivity$setupEditor$1.dex
+│  │  │  │  │                      │  MainActivity$showCustomMenu$1.dex
+│  │  │  │  │                      │  MainActivity.dex
+│  │  │  │  │                      │  OnboardingActivity$OnboardingAdapter$VH.dex
+│  │  │  │  │                      │  OnboardingActivity$OnboardingAdapter.dex
+│  │  │  │  │                      │  OnboardingActivity$onCreate$1.dex
+│  │  │  │  │                      │  OnboardingActivity$Page.dex
+│  │  │  │  │                      │  OnboardingActivity.dex
+│  │  │  │  │                      │  OpenDocument.dex
+│  │  │  │  │                      │  PlainEditText$onCreateInputConnection$1.dex
+│  │  │  │  │                      │  PlainEditText$TextClassifierDisabler.dex
+│  │  │  │  │                      │  PlainEditText.dex
+│  │  │  │  │                      │  Prefs$Companion.dex
+│  │  │  │  │                      │  Prefs.dex
+│  │  │  │  │                      │  RecentFile.dex
+│  │  │  │  │                      │  SettingsActivity$setupFontSize$1.dex
+│  │  │  │  │                      │  SettingsActivity.dex
+│  │  │  │  │                      │  SettingsCatalog.dex
+│  │  │  │  │                      │  SettingsItem.dex
+│  │  │  │  │                      │  SettingsSearchActivity$Companion.dex
+│  │  │  │  │                      │  SettingsSearchActivity$onCreate$$inlined$doAfterTextChanged$1.dex
+│  │  │  │  │                      │  SettingsSearchActivity$Result.dex
+│  │  │  │  │                      │  SettingsSearchActivity$SearchResultAdapter$VH.dex
+│  │  │  │  │                      │  SettingsSearchActivity$SearchResultAdapter.dex
+│  │  │  │  │                      │  SettingsSearchActivity.dex
+│  │  │  │  │                      │  Snapshot.dex
+│  │  │  │  │                      │  SpecialCharRenderer$SymbolSpan.dex
+│  │  │  │  │                      │  SpecialCharRenderer.dex
+│  │  │  │  │                      │  TabBarRenderer.dex
+│  │  │  │  │                      │  TextCodec$Result.dex
+│  │  │  │  │                      │  TextCodec.dex
+│  │  │  │  │                      │  ThemeColorHelper.dex
+│  │  │  │  │                      │  UndoManager.dex
+│  │  │  │  │                      │  ViewExtKt.dex
+│  │  │  │  │                      │  ZoomGestureHandler.dex
+│  │  │  │  │                      │  
+│  │  │  │  │                      └─databinding
+│  │  │  │  │                              ActivityAboutBinding.dex
+│  │  │  │  │                              ActivityHelpBinding.dex
+│  │  │  │  │                              ActivityMainBinding.dex
+│  │  │  │  │                              ActivityOnboardingBinding.dex
+│  │  │  │  │                              ActivitySettingsBinding.dex
+│  │  │  │  │                              ActivitySettingsSearchBinding.dex
+│  │  │  │  │                              DialogChoiceBinding.dex
+│  │  │  │  │                              DialogChoiceItemBinding.dex
+│  │  │  │  │                              DialogEncodingBinding.dex
+│  │  │  │  │                              DialogFindBinding.dex
+│  │  │  │  │                              DialogReplaceBinding.dex
+│  │  │  │  │                              DialogSpecialCharBinding.dex
+│  │  │  │  │                              DialogStatsBinding.dex
+│  │  │  │  │                              ItemOnboardingBinding.dex
+│  │  │  │  │                              ItemOnboardingDotBinding.dex
+│  │  │  │  │                              ItemSettingsSearchBinding.dex
+│  │  │  │  │                              
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  │          │  f47a5fda39177325f236f25035bab1c6fed27a9127bc8f077f5ad8518a78753f_0.jar
+│  │  │  │  │          │  f47a5fda39177325f236f25035bab1c6fed27a9127bc8f077f5ad8518a78753f_1.jar
+│  │  │  │  │          │  f47a5fda39177325f236f25035bab1c6fed27a9127bc8f077f5ad8518a78753f_2.jar
+│  │  │  │  │          │  f47a5fda39177325f236f25035bab1c6fed27a9127bc8f077f5ad8518a78753f_3.jar
+│  │  │  │  │          │  
+│  │  │  │  │          └─com
+│  │  │  │  │              └─sunwenqing
+│  │  │  │  │                  └─plainpad
+│  │  │  │  │                      │  ExampleInstrumentedTest.dex
+│  │  │  │  │                      │  
+│  │  │  │  │                      └─test
+│  │  │  │  │                              BuildConfig.dex
+│  │  │  │  │                              
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  │              │  61cffe637ba33930b3930fee48a0ad356faf12a8452a55331ce1e6cdafc0d2b4_0.jar
+│  │  │  │              │  61cffe637ba33930b3930fee48a0ad356faf12a8452a55331ce1e6cdafc0d2b4_1.jar
+│  │  │  │              │  61cffe637ba33930b3930fee48a0ad356faf12a8452a55331ce1e6cdafc0d2b4_2.jar
+│  │  │  │              │  61cffe637ba33930b3930fee48a0ad356faf12a8452a55331ce1e6cdafc0d2b4_3.jar
+│  │  │  │              │  
+│  │  │  │              └─com
+│  │  │  │                  └─sunwenqing
+│  │  │  │                      └─plainpad
+│  │  │  │                          │  AboutActivity.dex
+│  │  │  │                          │  BuildConfig.dex
+│  │  │  │                          │  EditorCommands$EditorStats.dex
+│  │  │  │                          │  EditorCommands.dex
+│  │  │  │                          │  EditorDialogs$showFontSize$1.dex
+│  │  │  │                          │  EditorDialogs.dex
+│  │  │  │                          │  EditorFileIO$LoadResult.dex
+│  │  │  │                          │  EditorFileIO.dex
+│  │  │  │                          │  EditorSearchHelper.dex
+│  │  │  │                          │  EditorStyler.dex
+│  │  │  │                          │  EditorThemes$Theme.dex
+│  │  │  │                          │  EditorThemes.dex
+│  │  │  │                          │  FastScrollBarView$attach$2.dex
+│  │  │  │                          │  FastScrollBarView.dex
+│  │  │  │                          │  FuzzyMatcher.dex
+│  │  │  │                          │  HelpActivity.dex
+│  │  │  │                          │  IconSwitcher.dex
+│  │  │  │                          │  InstanceStateStore$RestoredState.dex
+│  │  │  │                          │  InstanceStateStore.dex
+│  │  │  │                          │  LargeTextView.dex
+│  │  │  │                          │  LineNumberView$attach$1.dex
+│  │  │  │                          │  LineNumberView.dex
+│  │  │  │                          │  MainActivity$autoSaveCurrent$1$1.dex
+│  │  │  │                          │  MainActivity$autoSaveCurrent$1.dex
+│  │  │  │                          │  MainActivity$loadMissingTextsAsync$1$1$result$1.dex
+│  │  │  │                          │  MainActivity$loadMissingTextsAsync$1$1.dex
+│  │  │  │                          │  MainActivity$openDocumentIntoNewTab$1$result$1.dex
+│  │  │  │                          │  MainActivity$openDocumentIntoNewTab$1.dex
+│  │  │  │                          │  MainActivity$saveAll$1$1.dex
+│  │  │  │                          │  MainActivity$saveAll$1.dex
+│  │  │  │                          │  MainActivity$saveCurrentToUri$1$1.dex
+│  │  │  │                          │  MainActivity$saveCurrentToUri$1.dex
+│  │  │  │                          │  MainActivity$scheduleAutoSave$r$1.dex
+│  │  │  │                          │  MainActivity$setupBackHandler$1.dex
+│  │  │  │                          │  MainActivity$setupEditor$1.dex
+│  │  │  │                          │  MainActivity$showCustomMenu$1.dex
+│  │  │  │                          │  MainActivity.dex
+│  │  │  │                          │  OnboardingActivity$OnboardingAdapter$VH.dex
+│  │  │  │                          │  OnboardingActivity$OnboardingAdapter.dex
+│  │  │  │                          │  OnboardingActivity$onCreate$1.dex
+│  │  │  │                          │  OnboardingActivity$Page.dex
+│  │  │  │                          │  OnboardingActivity.dex
+│  │  │  │                          │  OpenDocument.dex
+│  │  │  │                          │  PlainEditText$onCreateInputConnection$1.dex
+│  │  │  │                          │  PlainEditText$TextClassifierDisabler.dex
+│  │  │  │                          │  PlainEditText.dex
+│  │  │  │                          │  Prefs$Companion.dex
+│  │  │  │                          │  Prefs.dex
+│  │  │  │                          │  RecentFile.dex
+│  │  │  │                          │  SettingsActivity$setupFontSize$1.dex
+│  │  │  │                          │  SettingsActivity.dex
+│  │  │  │                          │  SettingsCatalog.dex
+│  │  │  │                          │  SettingsItem.dex
+│  │  │  │                          │  SettingsSearchActivity$Companion.dex
+│  │  │  │                          │  SettingsSearchActivity$onCreate$$inlined$doAfterTextChanged$1.dex
+│  │  │  │                          │  SettingsSearchActivity$Result.dex
+│  │  │  │                          │  SettingsSearchActivity$SearchResultAdapter$VH.dex
+│  │  │  │                          │  SettingsSearchActivity$SearchResultAdapter.dex
+│  │  │  │                          │  SettingsSearchActivity.dex
+│  │  │  │                          │  Snapshot.dex
+│  │  │  │                          │  SpecialCharRenderer$SymbolSpan.dex
+│  │  │  │                          │  SpecialCharRenderer.dex
+│  │  │  │                          │  TabBarRenderer.dex
+│  │  │  │                          │  TextCodec$Result.dex
+│  │  │  │                          │  TextCodec.dex
+│  │  │  │                          │  ThemeColorHelper.dex
+│  │  │  │                          │  UndoManager.dex
+│  │  │  │                          │  ZoomGestureHandler.dex
+│  │  │  │                          │  
+│  │  │  │                          └─databinding
+│  │  │  │                                  ActivityAboutBinding.dex
+│  │  │  │                                  ActivityHelpBinding.dex
+│  │  │  │                                  ActivityMainBinding.dex
+│  │  │  │                                  ActivityOnboardingBinding.dex
+│  │  │  │                                  ActivitySettingsBinding.dex
+│  │  │  │                                  ActivitySettingsSearchBinding.dex
+│  │  │  │                                  DialogChoiceBinding.dex
+│  │  │  │                                  DialogChoiceItemBinding.dex
+│  │  │  │                                  DialogEncodingBinding.dex
+│  │  │  │                                  DialogFindBinding.dex
+│  │  │  │                                  DialogReplaceBinding.dex
+│  │  │  │                                  DialogSpecialCharBinding.dex
+│  │  │  │                                  DialogStatsBinding.dex
+│  │  │  │                                  ItemOnboardingBinding.dex
+│  │  │  │                                  ItemOnboardingDotBinding.dex
+│  │  │  │                                  ItemSettingsSearchBinding.dex
+│  │  │  │                                  
+│  │  │  ├─runtime_symbol_list
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugResources
+│  │  │  │  │          R.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─processDebugAndroidTestResources
+│  │  │  │  │          R.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseResources
+│  │  │  │              R.txt
+│  │  │  │              
+│  │  │  ├─sdk_dependency_data
+│  │  │  │  └─release
+│  │  │  │      └─sdkReleaseDependencyData
+│  │  │  │              sdkDependencyData.pb
+│  │  │  │              
+│  │  │  ├─signing_config_versions
+│  │  │  │  ├─debug
+│  │  │  │  │  └─writeDebugSigningConfigVersions
+│  │  │  │  │          signing-config-versions.json
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─writeDebugAndroidTestSigningConfigVersions
+│  │  │  │  │          signing-config-versions.json
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─writeReleaseSigningConfigVersions
+│  │  │  │              signing-config-versions.json
+│  │  │  │              
+│  │  │  ├─stable_resource_ids_file
+│  │  │  │  ├─debug
+│  │  │  │  │  └─processDebugResources
+│  │  │  │  │          stableIds.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─processDebugAndroidTestResources
+│  │  │  │  │          stableIds.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─processReleaseResources
+│  │  │  │              stableIds.txt
+│  │  │  │              
+│  │  │  ├─sub_project_dex_archive
+│  │  │  │  ├─debug
+│  │  │  │  │  └─dexBuilderDebug
+│  │  │  │  │      └─out
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─dexBuilderDebugAndroidTest
+│  │  │  │  │      └─out
+│  │  │  │  └─release
+│  │  │  │      └─dexBuilderRelease
+│  │  │  │          └─out
+│  │  │  ├─symbol_list_with_package_name
+│  │  │  │  ├─debug
+│  │  │  │  │  └─generateDebugRFile
+│  │  │  │  │          package-aware-r.txt
+│  │  │  │  │          
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─generateDebugAndroidTestRFile
+│  │  │  │  │          package-aware-r.txt
+│  │  │  │  │          
+│  │  │  │  └─release
+│  │  │  │      └─generateReleaseRFile
+│  │  │  │              package-aware-r.txt
+│  │  │  │              
+│  │  │  ├─tmp
+│  │  │  │  └─manifest
+│  │  │  │      └─androidTest
+│  │  │  │          └─debug
+│  │  │  ├─validate_signing_config
+│  │  │  │  ├─debug
+│  │  │  │  │  └─validateSigningDebug
+│  │  │  │  ├─debugAndroidTest
+│  │  │  │  │  └─validateSigningDebugAndroidTest
+│  │  │  │  └─release
+│  │  │  │      └─validateSigningRelease
+│  │  │  └─version_control_info_file
+│  │  │      └─release
+│  │  │          └─extractReleaseVersionControlInfo
+│  │  │                  version-control-info.textproto
+│  │  │                  
+│  │  ├─kotlin
+│  │  │  ├─compileDebugAndroidTestKotlin
+│  │  │  │  ├─cacheable
+│  │  │  │  │  │  last-build.bin
+│  │  │  │  │  │  
+│  │  │  │  │  └─caches-jvm
+│  │  │  │  │      ├─inputs
+│  │  │  │  │      │      source-to-output.tab
+│  │  │  │  │      │      source-to-output.tab.keystream
+│  │  │  │  │      │      source-to-output.tab.keystream.len
+│  │  │  │  │      │      source-to-output.tab.len
+│  │  │  │  │      │      source-to-output.tab.values.at
+│  │  │  │  │      │      source-to-output.tab_i
+│  │  │  │  │      │      source-to-output.tab_i.len
+│  │  │  │  │      │      
+│  │  │  │  │      ├─jvm
+│  │  │  │  │      │  └─kotlin
+│  │  │  │  │      │          class-attributes.tab
+│  │  │  │  │      │          class-attributes.tab.keystream
+│  │  │  │  │      │          class-attributes.tab.keystream.len
+│  │  │  │  │      │          class-attributes.tab.len
+│  │  │  │  │      │          class-attributes.tab.values.at
+│  │  │  │  │      │          class-attributes.tab_i
+│  │  │  │  │      │          class-attributes.tab_i.len
+│  │  │  │  │      │          class-fq-name-to-source.tab
+│  │  │  │  │      │          class-fq-name-to-source.tab.keystream
+│  │  │  │  │      │          class-fq-name-to-source.tab.keystream.len
+│  │  │  │  │      │          class-fq-name-to-source.tab.len
+│  │  │  │  │      │          class-fq-name-to-source.tab.values.at
+│  │  │  │  │      │          class-fq-name-to-source.tab_i
+│  │  │  │  │      │          class-fq-name-to-source.tab_i.len
+│  │  │  │  │      │          internal-name-to-source.tab
+│  │  │  │  │      │          internal-name-to-source.tab.keystream
+│  │  │  │  │      │          internal-name-to-source.tab.keystream.len
+│  │  │  │  │      │          internal-name-to-source.tab.len
+│  │  │  │  │      │          internal-name-to-source.tab.values.at
+│  │  │  │  │      │          internal-name-to-source.tab_i
+│  │  │  │  │      │          internal-name-to-source.tab_i.len
+│  │  │  │  │      │          proto.tab
+│  │  │  │  │      │          proto.tab.keystream
+│  │  │  │  │      │          proto.tab.keystream.len
+│  │  │  │  │      │          proto.tab.len
+│  │  │  │  │      │          proto.tab.values.at
+│  │  │  │  │      │          proto.tab_i
+│  │  │  │  │      │          proto.tab_i.len
+│  │  │  │  │      │          source-to-classes.tab
+│  │  │  │  │      │          source-to-classes.tab.keystream
+│  │  │  │  │      │          source-to-classes.tab.keystream.len
+│  │  │  │  │      │          source-to-classes.tab.len
+│  │  │  │  │      │          source-to-classes.tab.values.at
+│  │  │  │  │      │          source-to-classes.tab_i
+│  │  │  │  │      │          source-to-classes.tab_i.len
+│  │  │  │  │      │          
+│  │  │  │  │      └─lookups
+│  │  │  │  │              counters.tab
+│  │  │  │  │              file-to-id.tab
+│  │  │  │  │              file-to-id.tab.keystream
+│  │  │  │  │              file-to-id.tab.keystream.len
+│  │  │  │  │              file-to-id.tab.len
+│  │  │  │  │              file-to-id.tab.values.at
+│  │  │  │  │              file-to-id.tab_i
+│  │  │  │  │              file-to-id.tab_i.len
+│  │  │  │  │              id-to-file.tab
+│  │  │  │  │              id-to-file.tab.keystream
+│  │  │  │  │              id-to-file.tab.keystream.len
+│  │  │  │  │              id-to-file.tab.len
+│  │  │  │  │              id-to-file.tab.values.at
+│  │  │  │  │              id-to-file.tab_i.len
+│  │  │  │  │              lookups.tab
+│  │  │  │  │              lookups.tab.keystream
+│  │  │  │  │              lookups.tab.keystream.len
+│  │  │  │  │              lookups.tab.len
+│  │  │  │  │              lookups.tab.values.at
+│  │  │  │  │              lookups.tab_i
+│  │  │  │  │              lookups.tab_i.len
+│  │  │  │  │              
+│  │  │  │  ├─classpath-snapshot
+│  │  │  │  │      shrunk-classpath-snapshot.bin
+│  │  │  │  │      
+│  │  │  │  └─local-state
+│  │  │  ├─compileDebugKotlin
+│  │  │  │  ├─cacheable
+│  │  │  │  │  │  last-build.bin
+│  │  │  │  │  │  
+│  │  │  │  │  └─caches-jvm
+│  │  │  │  │      ├─inputs
+│  │  │  │  │      │      source-to-output.tab
+│  │  │  │  │      │      source-to-output.tab.keystream
+│  │  │  │  │      │      source-to-output.tab.keystream.len
+│  │  │  │  │      │      source-to-output.tab.len
+│  │  │  │  │      │      source-to-output.tab.values.at
+│  │  │  │  │      │      source-to-output.tab_i
+│  │  │  │  │      │      source-to-output.tab_i.len
+│  │  │  │  │      │      
+│  │  │  │  │      ├─jvm
+│  │  │  │  │      │  └─kotlin
+│  │  │  │  │      │          class-attributes.tab
+│  │  │  │  │      │          class-attributes.tab.keystream
+│  │  │  │  │      │          class-attributes.tab.keystream.len
+│  │  │  │  │      │          class-attributes.tab.len
+│  │  │  │  │      │          class-attributes.tab.values.at
+│  │  │  │  │      │          class-attributes.tab_i
+│  │  │  │  │      │          class-attributes.tab_i.len
+│  │  │  │  │      │          class-fq-name-to-source.tab
+│  │  │  │  │      │          class-fq-name-to-source.tab.keystream
+│  │  │  │  │      │          class-fq-name-to-source.tab.keystream.len
+│  │  │  │  │      │          class-fq-name-to-source.tab.len
+│  │  │  │  │      │          class-fq-name-to-source.tab.values.at
+│  │  │  │  │      │          class-fq-name-to-source.tab_i
+│  │  │  │  │      │          class-fq-name-to-source.tab_i.len
+│  │  │  │  │      │          constants.tab
+│  │  │  │  │      │          constants.tab.keystream
+│  │  │  │  │      │          constants.tab.keystream.len
+│  │  │  │  │      │          constants.tab.len
+│  │  │  │  │      │          constants.tab.values.at
+│  │  │  │  │      │          constants.tab_i
+│  │  │  │  │      │          constants.tab_i.len
+│  │  │  │  │      │          internal-name-to-source.tab
+│  │  │  │  │      │          internal-name-to-source.tab.keystream
+│  │  │  │  │      │          internal-name-to-source.tab.keystream.len
+│  │  │  │  │      │          internal-name-to-source.tab.len
+│  │  │  │  │      │          internal-name-to-source.tab.values.at
+│  │  │  │  │      │          internal-name-to-source.tab_i
+│  │  │  │  │      │          internal-name-to-source.tab_i.len
+│  │  │  │  │      │          package-parts.tab
+│  │  │  │  │      │          package-parts.tab.keystream
+│  │  │  │  │      │          package-parts.tab.keystream.len
+│  │  │  │  │      │          package-parts.tab.len
+│  │  │  │  │      │          package-parts.tab.values.at
+│  │  │  │  │      │          package-parts.tab_i
+│  │  │  │  │      │          package-parts.tab_i.len
+│  │  │  │  │      │          proto.tab
+│  │  │  │  │      │          proto.tab.keystream
+│  │  │  │  │      │          proto.tab.keystream.len
+│  │  │  │  │      │          proto.tab.len
+│  │  │  │  │      │          proto.tab.values
+│  │  │  │  │      │          proto.tab.values.at
+│  │  │  │  │      │          proto.tab.values.s
+│  │  │  │  │      │          proto.tab_i
+│  │  │  │  │      │          proto.tab_i.len
+│  │  │  │  │      │          source-to-classes.tab
+│  │  │  │  │      │          source-to-classes.tab.keystream
+│  │  │  │  │      │          source-to-classes.tab.keystream.len
+│  │  │  │  │      │          source-to-classes.tab.len
+│  │  │  │  │      │          source-to-classes.tab.values.at
+│  │  │  │  │      │          source-to-classes.tab_i
+│  │  │  │  │      │          source-to-classes.tab_i.len
+│  │  │  │  │      │          subtypes.tab
+│  │  │  │  │      │          subtypes.tab.keystream
+│  │  │  │  │      │          subtypes.tab.keystream.len
+│  │  │  │  │      │          subtypes.tab.len
+│  │  │  │  │      │          subtypes.tab.values.at
+│  │  │  │  │      │          subtypes.tab_i
+│  │  │  │  │      │          subtypes.tab_i.len
+│  │  │  │  │      │          supertypes.tab
+│  │  │  │  │      │          supertypes.tab.keystream
+│  │  │  │  │      │          supertypes.tab.keystream.len
+│  │  │  │  │      │          supertypes.tab.len
+│  │  │  │  │      │          supertypes.tab.values.at
+│  │  │  │  │      │          supertypes.tab_i
+│  │  │  │  │      │          supertypes.tab_i.len
+│  │  │  │  │      │          
+│  │  │  │  │      └─lookups
+│  │  │  │  │              counters.tab
+│  │  │  │  │              file-to-id.tab
+│  │  │  │  │              file-to-id.tab.keystream
+│  │  │  │  │              file-to-id.tab.keystream.len
+│  │  │  │  │              file-to-id.tab.len
+│  │  │  │  │              file-to-id.tab.values.at
+│  │  │  │  │              file-to-id.tab_i
+│  │  │  │  │              file-to-id.tab_i.len
+│  │  │  │  │              id-to-file.tab
+│  │  │  │  │              id-to-file.tab.keystream
+│  │  │  │  │              id-to-file.tab.keystream.len
+│  │  │  │  │              id-to-file.tab.len
+│  │  │  │  │              id-to-file.tab.values.at
+│  │  │  │  │              id-to-file.tab_i
+│  │  │  │  │              id-to-file.tab_i.len
+│  │  │  │  │              lookups.tab
+│  │  │  │  │              lookups.tab.keystream
+│  │  │  │  │              lookups.tab.keystream.len
+│  │  │  │  │              lookups.tab.len
+│  │  │  │  │              lookups.tab.values
+│  │  │  │  │              lookups.tab.values.at
+│  │  │  │  │              lookups.tab.values.s
+│  │  │  │  │              lookups.tab_i
+│  │  │  │  │              lookups.tab_i.len
+│  │  │  │  │              
+│  │  │  │  ├─classpath-snapshot
+│  │  │  │  │      shrunk-classpath-snapshot.bin
+│  │  │  │  │      
+│  │  │  │  └─local-state
+│  │  │  ├─compileDebugUnitTestKotlin
+│  │  │  │  ├─cacheable
+│  │  │  │  │  │  last-build.bin
+│  │  │  │  │  │  
+│  │  │  │  │  └─caches-jvm
+│  │  │  │  │      ├─inputs
+│  │  │  │  │      │      source-to-output.tab
+│  │  │  │  │      │      source-to-output.tab.keystream
+│  │  │  │  │      │      source-to-output.tab.keystream.len
+│  │  │  │  │      │      source-to-output.tab.len
+│  │  │  │  │      │      source-to-output.tab.values.at
+│  │  │  │  │      │      source-to-output.tab_i
+│  │  │  │  │      │      source-to-output.tab_i.len
+│  │  │  │  │      │      
+│  │  │  │  │      ├─jvm
+│  │  │  │  │      │  └─kotlin
+│  │  │  │  │      │          class-attributes.tab
+│  │  │  │  │      │          class-attributes.tab.keystream
+│  │  │  │  │      │          class-attributes.tab.keystream.len
+│  │  │  │  │      │          class-attributes.tab.len
+│  │  │  │  │      │          class-attributes.tab.values.at
+│  │  │  │  │      │          class-attributes.tab_i
+│  │  │  │  │      │          class-attributes.tab_i.len
+│  │  │  │  │      │          class-fq-name-to-source.tab
+│  │  │  │  │      │          class-fq-name-to-source.tab.keystream
+│  │  │  │  │      │          class-fq-name-to-source.tab.keystream.len
+│  │  │  │  │      │          class-fq-name-to-source.tab.len
+│  │  │  │  │      │          class-fq-name-to-source.tab.values.at
+│  │  │  │  │      │          class-fq-name-to-source.tab_i
+│  │  │  │  │      │          class-fq-name-to-source.tab_i.len
+│  │  │  │  │      │          internal-name-to-source.tab
+│  │  │  │  │      │          internal-name-to-source.tab.keystream
+│  │  │  │  │      │          internal-name-to-source.tab.keystream.len
+│  │  │  │  │      │          internal-name-to-source.tab.len
+│  │  │  │  │      │          internal-name-to-source.tab.values.at
+│  │  │  │  │      │          internal-name-to-source.tab_i
+│  │  │  │  │      │          internal-name-to-source.tab_i.len
+│  │  │  │  │      │          proto.tab
+│  │  │  │  │      │          proto.tab.keystream
+│  │  │  │  │      │          proto.tab.keystream.len
+│  │  │  │  │      │          proto.tab.len
+│  │  │  │  │      │          proto.tab.values.at
+│  │  │  │  │      │          proto.tab_i
+│  │  │  │  │      │          proto.tab_i.len
+│  │  │  │  │      │          source-to-classes.tab
+│  │  │  │  │      │          source-to-classes.tab.keystream
+│  │  │  │  │      │          source-to-classes.tab.keystream.len
+│  │  │  │  │      │          source-to-classes.tab.len
+│  │  │  │  │      │          source-to-classes.tab.values.at
+│  │  │  │  │      │          source-to-classes.tab_i
+│  │  │  │  │      │          source-to-classes.tab_i.len
+│  │  │  │  │      │          
+│  │  │  │  │      └─lookups
+│  │  │  │  │              counters.tab
+│  │  │  │  │              file-to-id.tab
+│  │  │  │  │              file-to-id.tab.keystream
+│  │  │  │  │              file-to-id.tab.keystream.len
+│  │  │  │  │              file-to-id.tab.len
+│  │  │  │  │              file-to-id.tab.values.at
+│  │  │  │  │              file-to-id.tab_i
+│  │  │  │  │              file-to-id.tab_i.len
+│  │  │  │  │              id-to-file.tab
+│  │  │  │  │              id-to-file.tab.keystream
+│  │  │  │  │              id-to-file.tab.keystream.len
+│  │  │  │  │              id-to-file.tab.len
+│  │  │  │  │              id-to-file.tab.values.at
+│  │  │  │  │              id-to-file.tab_i.len
+│  │  │  │  │              lookups.tab
+│  │  │  │  │              lookups.tab.keystream
+│  │  │  │  │              lookups.tab.keystream.len
+│  │  │  │  │              lookups.tab.len
+│  │  │  │  │              lookups.tab.values.at
+│  │  │  │  │              lookups.tab_i
+│  │  │  │  │              lookups.tab_i.len
+│  │  │  │  │              
+│  │  │  │  ├─classpath-snapshot
+│  │  │  │  │      shrunk-classpath-snapshot.bin
+│  │  │  │  │      
+│  │  │  │  └─local-state
+│  │  │  └─compileReleaseKotlin
+│  │  │      ├─cacheable
+│  │  │      │  │  last-build.bin
+│  │  │      │  │  
+│  │  │      │  └─caches-jvm
+│  │  │      │      ├─inputs
+│  │  │      │      │      source-to-output.tab
+│  │  │      │      │      source-to-output.tab.keystream
+│  │  │      │      │      source-to-output.tab.keystream.len
+│  │  │      │      │      source-to-output.tab.len
+│  │  │      │      │      source-to-output.tab.values
+│  │  │      │      │      source-to-output.tab.values.at
+│  │  │      │      │      source-to-output.tab.values.s
+│  │  │      │      │      source-to-output.tab_i
+│  │  │      │      │      source-to-output.tab_i.len
+│  │  │      │      │      
+│  │  │      │      ├─jvm
+│  │  │      │      │  └─kotlin
+│  │  │      │      │          class-attributes.tab
+│  │  │      │      │          class-attributes.tab.keystream
+│  │  │      │      │          class-attributes.tab.keystream.len
+│  │  │      │      │          class-attributes.tab.len
+│  │  │      │      │          class-attributes.tab.values.at
+│  │  │      │      │          class-attributes.tab_i
+│  │  │      │      │          class-attributes.tab_i.len
+│  │  │      │      │          class-fq-name-to-source.tab
+│  │  │      │      │          class-fq-name-to-source.tab.keystream
+│  │  │      │      │          class-fq-name-to-source.tab.keystream.len
+│  │  │      │      │          class-fq-name-to-source.tab.len
+│  │  │      │      │          class-fq-name-to-source.tab.values.at
+│  │  │      │      │          class-fq-name-to-source.tab_i
+│  │  │      │      │          class-fq-name-to-source.tab_i.len
+│  │  │      │      │          constants.tab
+│  │  │      │      │          constants.tab.keystream
+│  │  │      │      │          constants.tab.keystream.len
+│  │  │      │      │          constants.tab.len
+│  │  │      │      │          constants.tab.values.at
+│  │  │      │      │          constants.tab_i
+│  │  │      │      │          constants.tab_i.len
+│  │  │      │      │          internal-name-to-source.tab
+│  │  │      │      │          internal-name-to-source.tab.keystream
+│  │  │      │      │          internal-name-to-source.tab.keystream.len
+│  │  │      │      │          internal-name-to-source.tab.len
+│  │  │      │      │          internal-name-to-source.tab.values.at
+│  │  │      │      │          internal-name-to-source.tab_i
+│  │  │      │      │          internal-name-to-source.tab_i.len
+│  │  │      │      │          proto.tab
+│  │  │      │      │          proto.tab.keystream
+│  │  │      │      │          proto.tab.keystream.len
+│  │  │      │      │          proto.tab.len
+│  │  │      │      │          proto.tab.values
+│  │  │      │      │          proto.tab.values.at
+│  │  │      │      │          proto.tab.values.s
+│  │  │      │      │          proto.tab_i
+│  │  │      │      │          proto.tab_i.len
+│  │  │      │      │          source-to-classes.tab
+│  │  │      │      │          source-to-classes.tab.keystream
+│  │  │      │      │          source-to-classes.tab.keystream.len
+│  │  │      │      │          source-to-classes.tab.len
+│  │  │      │      │          source-to-classes.tab.values.at
+│  │  │      │      │          source-to-classes.tab_i
+│  │  │      │      │          source-to-classes.tab_i.len
+│  │  │      │      │          subtypes.tab
+│  │  │      │      │          subtypes.tab.keystream
+│  │  │      │      │          subtypes.tab.keystream.len
+│  │  │      │      │          subtypes.tab.len
+│  │  │      │      │          subtypes.tab.values.at
+│  │  │      │      │          subtypes.tab_i
+│  │  │      │      │          subtypes.tab_i.len
+│  │  │      │      │          supertypes.tab
+│  │  │      │      │          supertypes.tab.keystream
+│  │  │      │      │          supertypes.tab.keystream.len
+│  │  │      │      │          supertypes.tab.len
+│  │  │      │      │          supertypes.tab.values.at
+│  │  │      │      │          supertypes.tab_i
+│  │  │      │      │          supertypes.tab_i.len
+│  │  │      │      │          
+│  │  │      │      └─lookups
+│  │  │      │              counters.tab
+│  │  │      │              file-to-id.tab
+│  │  │      │              file-to-id.tab.keystream
+│  │  │      │              file-to-id.tab.keystream.len
+│  │  │      │              file-to-id.tab.len
+│  │  │      │              file-to-id.tab.values.at
+│  │  │      │              file-to-id.tab_i
+│  │  │      │              file-to-id.tab_i.len
+│  │  │      │              id-to-file.tab
+│  │  │      │              id-to-file.tab.keystream
+│  │  │      │              id-to-file.tab.keystream.len
+│  │  │      │              id-to-file.tab.len
+│  │  │      │              id-to-file.tab.values.at
+│  │  │      │              id-to-file.tab_i
+│  │  │      │              id-to-file.tab_i.len
+│  │  │      │              lookups.tab
+│  │  │      │              lookups.tab.keystream
+│  │  │      │              lookups.tab.keystream.len
+│  │  │      │              lookups.tab.len
+│  │  │      │              lookups.tab.values
+│  │  │      │              lookups.tab.values.at
+│  │  │      │              lookups.tab.values.s
+│  │  │      │              lookups.tab_i
+│  │  │      │              lookups.tab_i.len
+│  │  │      │              
+│  │  │      ├─classpath-snapshot
+│  │  │      │      shrunk-classpath-snapshot.bin
+│  │  │      │      
+│  │  │      └─local-state
+│  │  ├─outputs
+│  │  │  ├─apk
+│  │  │  │  ├─androidTest
+│  │  │  │  │  └─debug
+│  │  │  │  │          app-debug-androidTest.apk
+│  │  │  │  │          output-metadata.json
+│  │  │  │  │          
+│  │  │  │  └─debug
+│  │  │  │          output-metadata.json
+│  │  │  │          PlainPad-v1.1.1-pre.apk
+│  │  │  │          
+│  │  │  ├─logs
+│  │  │  │      manifest-merger-debug-report.txt
+│  │  │  │      manifest-merger-release-report.txt
+│  │  │  │      
+│  │  │  └─sdk-dependencies
+│  │  │      └─release
+│  │  │              sdkDependencies.txt
+│  │  │              
+│  │  ├─reports
+│  │  │  └─resources_config_map_file
+│  │  │      └─release
+│  │  │              resources.cfg
+│  │  │              
+│  │  └─tmp
+│  │      ├─compileDebugAndroidTestJavaWithJavac
+│  │      │  │  previous-compilation-data.bin
+│  │      │  │  
+│  │      │  └─compileTransaction
+│  │      │      ├─backup-dir
+│  │      │      └─stash-dir
+│  │      ├─compileDebugJavaWithJavac
+│  │      │  │  previous-compilation-data.bin
+│  │      │  │  
+│  │      │  └─compileTransaction
+│  │      │      ├─backup-dir
+│  │      │      └─stash-dir
+│  │      │              BuildConfig.class.uniqueId0
+│  │      │              
+│  │      └─compileReleaseJavaWithJavac
+│  │          │  previous-compilation-data.bin
+│  │          │  
+│  │          └─compileTransaction
+│  │              ├─backup-dir
+│  │              └─stash-dir
+│  │                      ActivityAboutBinding.class.uniqueId4
+│  │                      ActivityHelpBinding.class.uniqueId5
+│  │                      ActivityMainBinding.class.uniqueId10
+│  │                      ActivityOnboardingBinding.class.uniqueId11
+│  │                      ActivitySettingsBinding.class.uniqueId8
+│  │                      ActivitySettingsSearchBinding.class.uniqueId15
+│  │                      BuildConfig.class.uniqueId13
+│  │                      DialogChoiceBinding.class.uniqueId12
+│  │                      DialogChoiceItemBinding.class.uniqueId0
+│  │                      DialogEncodingBinding.class.uniqueId1
+│  │                      DialogFindBinding.class.uniqueId7
+│  │                      DialogReplaceBinding.class.uniqueId2
+│  │                      DialogSpecialCharBinding.class.uniqueId14
+│  │                      DialogStatsBinding.class.uniqueId6
+│  │                      ItemOnboardingBinding.class.uniqueId3
+│  │                      ItemSettingsSearchBinding.class.uniqueId9
+│  │                      
+│  ├─release
+│  │  │  output-metadata.json
+│  │  │  PlainPad-v1.1.0.apk
+│  │  │  
+│  │  └─baselineProfiles
+│  │      ├─0
+│  │      │      app-release.dm
+│  │      │      
+│  │      └─1
+│  │              app-release.dm
+│  │              
+│  ├─sampledata
+│  └─src
+│      ├─androidTest
+│      │  └─java
+│      │      └─com
+│      │          └─sunwenqing
+│      │              └─plainpad
+│      │                      ExampleInstrumentedTest.kt
+│      │                      
+│      ├─main
+│      │  │  AndroidManifest.xml
+│      │  │  
+│      │  ├─java
+│      │  │  └─com
+│      │  │      └─sunwenqing
+│      │  │          └─plainpad
+│      │  │                  AboutActivity.kt
+│      │  │                  EditorCommands.kt
+│      │  │                  EditorDialogs.kt
+│      │  │                  EditorFileIO.kt
+│      │  │                  EditorSearchHelper.kt
+│      │  │                  EditorStyler.kt
+│      │  │                  EditorThemes.kt
+│      │  │                  FastScrollBarView.kt
+│      │  │                  FontHelper.kt
+│      │  │                  FuzzyMatcher.kt
+│      │  │                  HelpActivity.kt
+│      │  │                  IconSwitcher.kt
+│      │  │                  InstanceStateStore.kt
+│      │  │                  LargeTextView.kt
+│      │  │                  LineNumberView.kt
+│      │  │                  MainActivity.kt
+│      │  │                  OnboardingActivity.kt
+│      │  │                  OpenDocument.kt
+│      │  │                  PlainEditText.kt
+│      │  │                  Prefs.kt
+│      │  │                  SettingsActivity.kt
+│      │  │                  SettingsCatalog.kt
+│      │  │                  SettingsSearchActivity.kt
+│      │  │                  SpecialCharRenderer.kt
+│      │  │                  TabBarRenderer.kt
+│      │  │                  TextCodec.kt
+│      │  │                  ThemeColorHelper.kt
+│      │  │                  UndoManager.kt
+│      │  │                  ViewExt.kt
+│      │  │                  ZoomGestureHandler.kt
+│      │  │                  
+│      │  ├─keepRules
+│      │  │      rules.keep
+│      │  │      
+│      │  └─res
+│      │      ├─drawable
+│      │      │  │  bg_dialog.xml
+│      │      │  │  bg_onboarding_dot.xml
+│      │      │  │  bg_onboarding_icon.xml
+│      │      │  │  bg_popup_menu.xml
+│      │      │  │  ic_arrow_back.xml
+│      │      │  │  ic_check.xml
+│      │      │  │  ic_close.xml
+│      │      │  │  ic_expand_more.xml
+│      │      │  │  ic_immersive.xml
+│      │      │  │  ic_insert_special.xml
+│      │      │  │  ic_launcher.xml
+│      │      │  │  ic_launcher_background.xml
+│      │      │  │  ic_launcher_blue.xml
+│      │      │  │  ic_launcher_foreground.xml
+│      │      │  │  ic_launcher_green.xml
+│      │      │  │  ic_launcher_indigo.xml
+│      │      │  │  ic_launcher_orange.xml
+│      │      │  │  ic_launcher_pink.xml
+│      │      │  │  ic_launcher_purple.xml
+│      │      │  │  ic_launcher_red.xml
+│      │      │  │  ic_launcher_teal.xml
+│      │      │  │  ic_more_vert.xml
+│      │      │  │  ic_onboard_appearance.xml
+│      │      │  │  ic_onboard_done.xml
+│      │      │  │  ic_onboard_find.xml
+│      │      │  │  ic_onboard_gesture.xml
+│      │      │  │  ic_onboard_save.xml
+│      │      │  │  ic_onboard_special.xml
+│      │      │  │  ic_onboard_tabs.xml
+│      │      │  │  ic_onboard_welcome.xml
+│      │      │  │  ic_redo.xml
+│      │      │  │  ic_save.xml
+│      │      │  │  ic_search.xml
+│      │      │  │  ic_settings.xml
+│      │      │  │  ic_settings_appearance.xml
+│      │      │  │  ic_settings_edit.xml
+│      │      │  │  ic_settings_save.xml
+│      │      │  │  ic_settings_tabs.xml
+│      │      │  │  ic_undo.xml
+│      │      │  │  
+│      │      │  └─drawable
+│      │      │          ic_launcher.xml
+│      │      │          
+│      │      ├─layout
+│      │      │  │  activity_about.xml
+│      │      │  │  activity_help.xml
+│      │      │  │  activity_main.xml
+│      │      │  │  activity_onboarding.xml
+│      │      │  │  activity_settings.xml
+│      │      │  │  activity_settings_search.xml
+│      │      │  │  dialog_choice.xml
+│      │      │  │  dialog_choice_item.xml
+│      │      │  │  dialog_encoding.xml
+│      │      │  │  dialog_find.xml
+│      │      │  │  dialog_replace.xml
+│      │      │  │  dialog_special_char.xml
+│      │      │  │  dialog_stats.xml
+│      │      │  │  item_onboarding.xml
+│      │      │  │  item_onboarding_dot.xml
+│      │      │  │  item_settings_search.xml
+│      │      │  │  
+│      │      │  ├─layout
+│      │      │  │      dialog_find_replace.xml
+│      │      │  │      
+│      │      │  └─res
+│      │      │      └─layout
+│      │      │              dialog_special_char.xml
+│      │      │              
+│      │      ├─menu
+│      │      │      menu_more.xml
+│      │      │      menu_save.xml
+│      │      │      menu_settings_file_deprecated.xml
+│      │      │      
+│      │      ├─mipmap-anydpi-v26
+│      │      │      ic_launcher.xml
+│      │      │      ic_launcher_round.xml
+│      │      │      
+│      │      ├─mipmap-hdpi
+│      │      │      ic_launcher.webp
+│      │      │      ic_launcher_round.webp
+│      │      │      
+│      │      ├─mipmap-mdpi
+│      │      │      ic_launcher.webp
+│      │      │      ic_launcher_round.webp
+│      │      │      
+│      │      ├─mipmap-xhdpi
+│      │      │      ic_launcher.webp
+│      │      │      ic_launcher_round.webp
+│      │      │      
+│      │      ├─mipmap-xxhdpi
+│      │      │      ic_launcher.webp
+│      │      │      ic_launcher_round.webp
+│      │      │      
+│      │      ├─mipmap-xxxhdpi
+│      │      │      ic_launcher.webp
+│      │      │      ic_launcher_round.webp
+│      │      │      
+│      │      ├─values
+│      │      │      colors.xml
+│      │      │      strings.xml
+│      │      │      themes.xml
+│      │      │      
+│      │      ├─values-night
+│      │      │      colors.xml
+│      │      │      themes.xml
+│      │      │      
+│      │      ├─values-zh
+│      │      │      strings.xml
+│      │      │      
+│      │      └─xml
+│      │              backup_rules.xml
+│      │              data_extraction_rules.xml
+│      │              locales_config.xml
+│      │              
+│      └─test
+│          └─java
+│              └─com
+│                  └─sunwenqing
+│                      └─plainpad
+│                              ExampleUnitTest.kt
+│                              
+├─build
+│  └─reports
+│      └─configuration-cache
+│          ├─8fe465rd0y3ququ6hxkewlgrl
+│          │  ├─3p4ki538xwm4rjaaiih55t1ms
+│          │  │      configuration-cache-report.html
+│          │  │      
+│          │  ├─8a8a43a22fk9zuzpovsszvnhq
+│          │  │      configuration-cache-report.html
+│          │  │      
+│          │  └─95kwpbkjtuo9twemj9fququly
+│          │          configuration-cache-report.html
+│          │          
+│          ├─dhfz8irhxhujmyk9x133eus6r
+│          │  ├─apxz2a423vdhs37y8n72tulkh
+│          │  │      configuration-cache-report.html
+│          │  │      
+│          │  └─drgyle5ysg3wthcebjqnatta3
+│          │          configuration-cache-report.html
+│          │          
+│          └─ekvnmp8i10619bwpejwul9qv1
+│              ├─al7b1k92nv5afxhw9p7jio43a
+│              │      configuration-cache-report.html
+│              │      
+│              └─avhlhwujtjm2o3yqzxd7zzhnb
+│                      configuration-cache-report.html
+│                      
+└─gradle
+    │  gradle-daemon-jvm.properties
+    │  libs.versions.toml
+    │  
+    └─wrapper
+            gradle-wrapper.jar
+            gradle-wrapper.properties
+            

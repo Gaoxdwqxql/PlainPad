@@ -54,6 +54,24 @@
     <string name="not_found">Not found</string>
     <string name="replaced_n">Replaced %1$d occurrences</string>
 
+    <!-- Search Options -->
+    <string name="search_regex">Regex</string>
+    <string name="search_case_sensitive">Case sensitive</string>
+    <string name="search_from_start">From start</string>
+    <string name="search_hint_plain">Literal match, case-insensitive</string>
+    <string name="search_hint_case">Literal match, case-sensitive</string>
+    <string name="search_hint_regex">Regex match, case-insensitive; replacement supports $1, $2 groups</string>
+    <string name="search_hint_regex_case">Regex match, case-sensitive; replacement supports $1, $2 groups</string>
+    <string name="search_status_found">Match found</string>
+    <string name="search_status_not_found">No match found</string>
+    <string name="search_status_invalid_regex">Invalid regex: %1$s</string>
+    <string name="search_status_initial_from_start">Search starts from the beginning of the file</string>
+    <string name="search_status_initial_from_cursor">Search starts from the cursor position</string>
+    <string name="search_empty_query">Enter something to find</string>
+    <string name="replace_status_replaced_current">Replaced current match</string>
+    <string name="replace_status_replaced">Replaced %1$d occurrence(s)</string>
+    <string name="replace_status_located">Match located, click Replace again</string>
+
     <!-- Save/Open Status -->
     <string name="saved">Saved</string>
     <string name="err_open">Open failed: %1$s</string>
@@ -257,13 +275,11 @@
     <string name="help_section_encoding">Encoding Support</string>
     <string name="help_encoding_content">Auto-detects BOM and decodes as UTF-8 first, falls back to GBK.\nSave options: UTF-8, UTF-16LE, UTF-16BE, GBK, GB2312.\nCurrent encoding is shown in bottom-right.</string>
 
-    <!-- ★ 补回的换行符帮助 -->
     <string name="help_section_eol">End of Line (EOL)</string>
     <string name="help_eol_content">The current EOL format (CRLF or LF) is displayed in the bottom bar next to the encoding.\n• Windows uses CRLF (\\r\\n)\n• Unix / macOS uses LF (\\n)\n\nTap the CRLF or LF label in the bottom bar to convert between them to prevent formatting issues across different operating systems.</string>
 
-    <!-- ★ 补回的大文件模式帮助 -->
     <string name="help_section_large_file">Large File Mode</string>
-    <string name="help_large_file_content">To ensure extreme smoothness on mobile devices, PlainPad has special handling for very large texts:\n• Read limit: Up to 20MB. Excess will be truncated with a prompt.\n• Performance protection: When a single file exceeds 1 million chars, it automatically enters "Large File Mode".\n• Restricted features: To prevent lag or OOM (Out of Memory), line numbers, undo/redo, pinch-to-zoom, special char rendering, and statistics are disabled in this mode.</string>
+    <string name="help_large_file_content">To ensure extreme smoothness on mobile devices, PlainPad has special handling for very large texts:\n• Read limit: Up to 20MB. Excess will be truncated with a prompt.\n• Performance protection: When a single file exceeds 3 million chars, or contains an extremely long line over 10,000 chars, it automatically enters "Large File Mode".\n• Restricted features: To prevent lag or OOM (Out of Memory), line numbers, undo/redo, pinch-to-zoom, special char rendering, and statistics are disabled in this mode.</string>
 
     <string name="help_section_immersive">Immersive Mode</string>
     <string name="help_immersive_content">Menu → Immersive Mode hides all bars. \nExit with the button in bottom-right or press Back.</string>
@@ -343,7 +359,7 @@
     <string name="help_section_about">About</string>
     <string name="help_about_content">PlainPad aims to be lightweight, pure, offline, and ad-free. All data is kept locally.\n\nTo view version or set as default, go to Menu → About.</string>
 
-    <!-- Newly added for code logic -->
+    <!-- Large file / read-only -->
     <string name="large_file_mode">Large File Mode</string>
     <string name="read_only">Read-only</string>
     <string name="loading_large_file">Loading large file…</string>
@@ -377,4 +393,25 @@
     <string name="import_font">Import Custom Font</string>
     <string name="import_font_success">Font imported successfully</string>
     <string name="import_font_fail">Failed to import font</string>
+
+    <!-- Font Manager -->
+    <string name="font_manager_title">Font Manager</string>
+    <string name="font_preview_text">Aa Font Preview 123</string>
+    <string name="font_builtin">Built-in</string>
+    <string name="font_custom_tag">Custom</string>
+    <string name="font_manage">Manage</string>
+    <string name="font_manage_done">Done</string>
+    <string name="font_select_all">Select All</string>
+    <string name="font_unselect_all">Unselect All</string>
+    <string name="font_delete">Delete</string>
+    <string name="font_delete_n">Delete (%1$d)</string>
+    <string name="font_delete_confirm_title">Delete Fonts</string>
+    <string name="font_delete_confirm_message">Delete %1$d selected font(s)? This cannot be undone.</string>
+    <string name="font_deleted_n">Deleted %1$d font(s)</string>
+    <string name="font_delete_current_fallback">The current font was deleted. Switched to the default font.</string>
+    <string name="font_empty_custom">No custom fonts yet. Tap Import in the top right to add one.</string>
+    <string name="font_import">Import</string>
+    <string name="font_import_read_failed">Cannot read the font file</string>
+    <string name="font_import_invalid">Invalid font file</string>
+    <string name="font_import_fail_reason">Failed to import font: %1$s</string>
 </resources>

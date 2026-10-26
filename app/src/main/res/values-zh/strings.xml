@@ -39,13 +39,31 @@
 
     <string name="find_hint">查找内容</string>
     <string name="replace_hint">替换为</string>
-    <string name="find_prev">查找上一个</string>
-    <string name="find_next">查找下一个</string>
+    <string name="find_prev">上一个</string>
+    <string name="find_next">下一个</string>
     <string name="replace">替换</string>
     <string name="replace_all">全部替换</string>
     <string name="close">关闭</string>
     <string name="not_found">未找到匹配内容</string>
     <string name="replaced_n">已替换 %1$d 处</string>
+
+    <!-- 查找选项 -->
+    <string name="search_regex">正则表达式</string>
+    <string name="search_case_sensitive">区分大小写</string>
+    <string name="search_from_start">从头开始</string>
+    <string name="search_hint_plain">按字面匹配，不区分大小写</string>
+    <string name="search_hint_case">按字面匹配，区分大小写</string>
+    <string name="search_hint_regex">使用正则表达式，不区分大小写；替换支持 $1、$2 分组引用</string>
+    <string name="search_hint_regex_case">使用正则表达式，区分大小写；替换支持 $1、$2 分组引用</string>
+    <string name="search_status_found">已找到匹配</string>
+    <string name="search_status_not_found">未找到匹配</string>
+    <string name="search_status_invalid_regex">正则表达式无效：%1$s</string>
+    <string name="search_status_initial_from_start">将从文件开头开始查找</string>
+    <string name="search_status_initial_from_cursor">将从光标位置开始查找</string>
+    <string name="search_empty_query">请输入查找内容</string>
+    <string name="replace_status_replaced_current">已替换当前匹配</string>
+    <string name="replace_status_replaced">已替换 %1$d 处</string>
+    <string name="replace_status_located">已定位到匹配，再次点击替换</string>
 
     <string name="saved">已保存</string>
     <string name="err_open">打开失败：%1$s</string>
@@ -232,13 +250,11 @@
     <string name="help_section_encoding">编码支持</string>
     <string name="help_encoding_content">打开文件时自动识别 BOM 并优先按 UTF-8 解码，失败时回退 GBK，避免中文乱码。\n保存时可选择：UTF-8、UTF-16LE、UTF-16BE、GBK、GB2312。\n底栏右侧会显示当前文件的编码。</string>
 
-    <!-- ★ 补回的换行符帮助 -->
     <string name="help_section_eol">换行符格式</string>
     <string name="help_eol_content">底栏编码右侧会实时显示当前文件的换行符格式（CRLF 或 LF）。\n• Windows 使用 CRLF (\\r\\n)\n• Unix / macOS 使用 LF (\\n)\n\n点击底栏的 CRLF 或 LF 标签，可以在两种格式之间一键转换，防止在不同操作系统间传输文件时出现排版错乱。</string>
 
-    <!-- ★ 补回的大文件模式帮助 -->
     <string name="help_section_large_file">大文件模式</string>
-    <string name="help_large_file_content">为保证在移动设备上的极致流畅，PlainPad 对超大文本做了特殊处理：\n• 读取上限：最大支持打开 20MB 的文本文件，超出部分会截断并提示。\n• 性能保护：当单文件字符数超过 100 万时，会自动进入“大文件模式”。\n• 受限功能：在该模式下，为保证不发生卡顿或 OOM（内存溢出），将禁用行号、撤销/重做、双指缩放、特殊字符渲染及统计功能。</string>
+    <string name="help_large_file_content">为保证在移动设备上的极致流畅，PlainPad 对超大文本做了特殊处理：\n• 读取上限：最大支持打开 20MB 的文本文件，超出部分会截断并提示。\n• 性能保护：当单文件字符数超过 300 万，或包含超过 1 万字符的超长单行时，会自动进入“大文件模式”。\n• 受限功能：在该模式下，为保证不发生卡顿或 OOM（内存溢出），将禁用行号、撤销/重做、双指缩放、特殊字符渲染及统计功能。</string>
 
     <string name="help_section_immersive">沉浸阅读</string>
     <string name="help_immersive_content">菜单 → 沉浸阅读，隐藏顶栏、标签栏、状态栏与系统状态栏，只留纯文本。\n右下角会出现“退出阅读”按钮，按返回键也能退出。</string>
@@ -306,7 +322,6 @@
     <string name="help_section_about">关于</string>
     <string name="help_about_content">PlainPad 力求轻量、纯粹、离线、无广告。所有数据都保存在本地，不上传、不联网。\n\n如需查看版本号或设为默认应用，请到菜单 → 关于。</string>
 
-    <!-- Newly added for code logic -->
     <string name="large_file_mode">大文件模式</string>
     <string name="read_only">只读</string>
     <string name="loading_large_file">正在加载大文件…</string>
@@ -340,4 +355,24 @@
     <string name="import_font">导入自定义字体</string>
     <string name="import_font_success">字体导入成功</string>
     <string name="import_font_fail">字体导入失败</string>
+
+    <string name="font_manager_title">字体管理</string>
+    <string name="font_preview_text">Aa 字体预览 123</string>
+    <string name="font_builtin">内置</string>
+    <string name="font_custom_tag">自定义</string>
+    <string name="font_manage">管理</string>
+    <string name="font_manage_done">完成</string>
+    <string name="font_select_all">全选</string>
+    <string name="font_unselect_all">取消全选</string>
+    <string name="font_delete">删除</string>
+    <string name="font_delete_n">删除 (%1$d)</string>
+    <string name="font_delete_confirm_title">删除字体</string>
+    <string name="font_delete_confirm_message">确定删除选中的 %1$d 个字体吗？此操作无法撤销。</string>
+    <string name="font_deleted_n">已删除 %1$d 个字体</string>
+    <string name="font_delete_current_fallback">当前字体已删除，已切换为默认字体</string>
+    <string name="font_empty_custom">暂无自定义字体，点击右上角“导入”添加</string>
+    <string name="font_import">导入</string>
+    <string name="font_import_read_failed">无法读取字体文件</string>
+    <string name="font_import_invalid">无效的字体文件</string>
+    <string name="font_import_fail_reason">字体导入失败：%1$s</string>
 </resources>

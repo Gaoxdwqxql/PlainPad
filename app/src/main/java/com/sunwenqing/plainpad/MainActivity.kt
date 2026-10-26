@@ -1,7 +1,6 @@
 package com.sunwenqing.plainpad
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import android.net.Uri
@@ -12,7 +11,6 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -117,7 +115,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ★ 初始化顶部和底部纯色填充
         binding.statusBarFill.setStatusBarHeight()
         binding.navigationBarFill.setNavigationBarHeight()
 
@@ -222,7 +219,9 @@ class MainActivity : AppCompatActivity() {
                 val textColor = binding.editor.currentTextColor
                 val textSizePx = prefs.fontSize * resources.displayMetrics.scaledDensity
                 binding.largeTextView.setTextAppearance(tf, textSizePx, textColor)
-                binding.largeTextView.setBackgroundColor(theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface))
+                binding.largeTextView.setBackgroundColor(
+                    theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface)
+                )
             }
         }
 
@@ -411,9 +410,20 @@ class MainActivity : AppCompatActivity() {
             shape = GradientDrawable.RECTANGLE
             cornerRadius = 14f * density
             setColor(resolveThemeColor(com.google.android.material.R.attr.colorSurfaceContainerHigh))
-            setStroke((1 * density).toInt(), resolveThemeColor(com.google.android.material.R.attr.colorOutlineVariant))
+            setStroke(
+                (1 * density).toInt(),
+                resolveThemeColor(com.google.android.material.R.attr.colorOutlineVariant)
+            )
         }
-        popup.setBackgroundDrawable(InsetDrawable(bg, (4 * density).toInt(), (4 * density).toInt(), (4 * density).toInt(), (4 * density).toInt()))
+        popup.setBackgroundDrawable(
+            InsetDrawable(
+                bg,
+                (4 * density).toInt(),
+                (4 * density).toInt(),
+                (4 * density).toInt(),
+                (4 * density).toInt()
+            )
+        )
         popup.setAdapter(object : BaseAdapter() {
             override fun getCount() = items.size
             override fun getItem(position: Int) = items[position]
@@ -697,7 +707,8 @@ class MainActivity : AppCompatActivity() {
                 if (prefs.showLineNumbers && !isLargeFileMode) View.VISIBLE else View.GONE
             binding.btnExitImmersive.visibility = View.GONE
             WindowCompat.setDecorFitsSystemWindows(window, false)
-            WindowInsetsControllerCompat(window, window.decorView).show(WindowInsetsCompat.Type.systemBars())
+            WindowInsetsControllerCompat(window, window.decorView)
+                .show(WindowInsetsCompat.Type.systemBars())
             ThemeColorHelper.applySystemBars(this)
         }
     }
@@ -743,7 +754,9 @@ class MainActivity : AppCompatActivity() {
             if (doc.text.isEmpty() && doc.uri != null && !doc.isDirty) {
                 lifecycleScope.launch {
                     try {
-                        val result = withContext(Dispatchers.IO) { EditorFileIO.load(contentResolver, doc.uri!!) }
+                        val result = withContext(Dispatchers.IO) {
+                            EditorFileIO.load(contentResolver, doc.uri!!)
+                        }
                         doc.text = result.text
                         doc.encoding = result.encoding
                         doc.isReadOnly = result.isTruncated
@@ -776,7 +789,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun newTabInternal(isFirst: Boolean) {
         untitledCounter++
-        val name = if (isFirst && documents.isEmpty()) getString(R.string.untitled) else getString(R.string.untitled_n, untitledCounter)
+        val name = if (isFirst && documents.isEmpty()) {
+            getString(R.string.untitled)
+        } else {
+            getString(R.string.untitled_n, untitledCounter)
+        }
         val doc = OpenDocument(displayName = name)
         saveCurrentToDoc()
         documents.add(doc)
@@ -909,7 +926,9 @@ class MainActivity : AppCompatActivity() {
             binding.largeTextView.setTextAppearance(tf, textSizePx, textColor)
 
             val theme = EditorThemes.byId(prefs.editorThemeId)
-            binding.largeTextView.setBackgroundColor(theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface))
+            binding.largeTextView.setBackgroundColor(
+                theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface)
+            )
 
             binding.largeTextView.onReady = {
                 hideLoading()
@@ -1040,7 +1059,10 @@ class MainActivity : AppCompatActivity() {
         )
         EditorDialogs.showSpecialCharPanel(
             activity = this, items = items, showSpecialInitially = prefs.showSpecialChars,
-            onToggleShow = { checked -> prefs.showSpecialChars = checked; SpecialCharRenderer.apply(binding.editor, checked) },
+            onToggleShow = { checked ->
+                prefs.showSpecialChars = checked
+                SpecialCharRenderer.apply(binding.editor, checked)
+            },
             onPick = { value -> insertAtCursor(value) }
         )
     }
@@ -1095,7 +1117,10 @@ class MainActivity : AppCompatActivity() {
         intent ?: return
         when (intent.action) {
             Intent.ACTION_VIEW, Intent.ACTION_EDIT -> {
-                intent.data?.let { EditorFileIO.takePersistable(contentResolver, it); openDocumentIntoNewTab(it) }
+                intent.data?.let {
+                    EditorFileIO.takePersistable(contentResolver, it)
+                    openDocumentIntoNewTab(it)
+                }
             }
             Intent.ACTION_SEND -> {
                 val text = intent.getStringExtra(Intent.EXTRA_TEXT)
@@ -1113,7 +1138,11 @@ class MainActivity : AppCompatActivity() {
             refreshTabBar()
         } else {
             untitledCounter++
-            val nd = OpenDocument(displayName = getString(R.string.untitled_n, untitledCounter), text = text, isDirty = true)
+            val nd = OpenDocument(
+                displayName = getString(R.string.untitled_n, untitledCounter),
+                text = text,
+                isDirty = true
+            )
             saveCurrentToDoc()
             documents.add(nd)
             currentIndex = documents.size - 1
@@ -1152,7 +1181,9 @@ class MainActivity : AppCompatActivity() {
         val encoding = pendingEncoding ?: doc.encoding
         lifecycleScope.launch {
             try {
-                withContext(Dispatchers.IO) { EditorFileIO.save(contentResolver, uri, content, encoding) }
+                withContext(Dispatchers.IO) {
+                    EditorFileIO.save(contentResolver, uri, content, encoding)
+                }
                 doc.uri = uri
                 doc.displayName = EditorFileIO.queryName(contentResolver, uri, getString(R.string.untitled))
                 doc.encoding = encoding
@@ -1197,14 +1228,22 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * 查找：正则 / 大小写 / 从头开始可切，只读文档也允许查找。
+     */
     private fun showFind() {
-        EditorDialogs.showFind(this) { query, forward ->
-            if (!EditorSearchHelper.findNext(binding.editor, query, forward)) {
-                showTip(getString(R.string.not_found))
-            }
+        if (isLargeFileMode) {
+            showTip(getString(R.string.large_file_feature_disabled))
+            return
+        }
+        EditorDialogs.showFind(this) { query, forward, options, isFirst ->
+            EditorSearchHelper.findNext(binding.editor, query, forward, options, isFirst)
         }
     }
 
+    /**
+     * 替换：正则 / 大小写 / 从头开始可切，只读文档或大文件模式禁用。
+     */
     private fun showReplace() {
         if (currentDoc()?.isReadOnly == true || isLargeFileMode) {
             showTip(getString(R.string.large_file_feature_disabled))
@@ -1212,10 +1251,11 @@ class MainActivity : AppCompatActivity() {
         }
         EditorDialogs.showReplace(
             this,
-            onReplace = { query, replacement -> EditorSearchHelper.replaceOne(binding.editor, query, replacement) },
-            onReplaceAll = { query, replacement ->
-                val n = EditorSearchHelper.replaceAll(binding.editor, query, replacement)
-                if (n == 0) showTip(getString(R.string.not_found)) else showTip(getString(R.string.replaced_n, n))
+            onReplace = { query, replacement, options, isFirst ->
+                EditorSearchHelper.replaceOne(binding.editor, query, replacement, options, isFirst)
+            },
+            onReplaceAll = { query, replacement, options ->
+                EditorSearchHelper.replaceAll(binding.editor, query, replacement, options)
             }
         )
     }
@@ -1256,7 +1296,8 @@ class MainActivity : AppCompatActivity() {
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
         } else {
-            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.fromParts("package", packageName, null))
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                .setData(Uri.fromParts("package", packageName, null))
         }
         try {
             startActivity(intent)

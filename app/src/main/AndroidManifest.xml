@@ -43,6 +43,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".FontManagerActivity"
+            android:exported="false"
+            android:label="@string/font_manager_title"
+            android:parentActivityName=".SettingsActivity" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
