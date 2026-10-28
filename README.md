@@ -5,7 +5,7 @@
 - **包名**：`com.sunwenqing.plainpad`
 - **技术栈**：Kotlin, AndroidX, ViewBinding, Material 3 (XML 布局体系，无 Compose)
 - **最低支持**：Android 7.0 (API 24)
-- **推荐版本**：Android 12.0+
+- **推荐版本(可体验全部功能)**：Android 12.0+
 
 ---
 
@@ -39,7 +39,7 @@
 
 你可以前往 [Releases](https://github.com/Gaoxdwqxql/PlainPad/releases) 页面下载最新的正式版 APK。
 
-**当前最新正式版本**：`v1.1.0`
+**当前最新正式版本**：`v1.1.1`
 
 **安装说明**：
 1. 下载 `PlainPad-v*.apk`。
