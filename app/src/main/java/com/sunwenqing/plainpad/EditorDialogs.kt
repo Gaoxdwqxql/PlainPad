@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.doAfterTextChanged
@@ -22,6 +21,9 @@ import com.sunwenqing.plainpad.databinding.DialogFindBinding
 import com.sunwenqing.plainpad.databinding.DialogReplaceBinding
 import com.sunwenqing.plainpad.databinding.DialogSpecialCharBinding
 import com.sunwenqing.plainpad.databinding.DialogStatsBinding
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import androidx.lifecycle.LifecycleOwner
 
 /** 所有对话框集中管理，通过回调把结果交给调用方 */
 object EditorDialogs {
@@ -468,11 +470,7 @@ object EditorDialogs {
             val text = input.text?.toString()?.trim().orEmpty()
             val line = text.toIntOrNull()
             if (line == null || line < 1 || line > totalLines) {
-                Toast.makeText(
-                    activity,
-                    activity.getString(R.string.goto_line_invalid),
-                    Toast.LENGTH_SHORT
-                ).show()
+                AppTips.showShort(container, activity.getString(R.string.goto_line_invalid))
                 return@setOnClickListener
             }
             onConfirm(line)
@@ -482,27 +480,86 @@ object EditorDialogs {
 
     // ---------------- 统计信息 ----------------
 
-    fun showStats(activity: Activity, fileName: String, s: EditorCommands.EditorStats) {
+    fun showStats(
+        activity: Activity,
+        fileName: String,
+        stats: EditorCommands.EditorStats,
+        computeSha256: (suspend () -> Sha256Result)? = null
+    ): AlertDialog {
         val binding = DialogStatsBinding.inflate(activity.layoutInflater)
 
         binding.tvStatsFileName.text = activity.getString(R.string.stats_file_name, fileName)
 
-        binding.tvCharsWithSpace.text = s.charsWithSpace.toString()
-        binding.tvCharsNoSpace.text = s.charsNoSpace.toString()
-        binding.tvInvisibleChars.text = s.invisibleChars.toString()
-        binding.tvLetters.text = s.letters.toString()
-        binding.tvDigits.text = s.digits.toString()
-        binding.tvChineseChars.text = s.chineseChars.toString()
-        binding.tvTotalLines.text = s.totalLines.toString()
-        binding.tvNonEmptyLines.text = s.nonEmptyLines.toString()
-        binding.tvParagraphs.text = s.paragraphs.toString()
-        binding.tvWords.text = s.words.toString()
-        binding.tvMaxLineWidth.text = s.maxLineWidth.toString()
+        binding.tvCharsWithSpace.text = stats.charsWithSpace.toString()
+        binding.tvCharsNoSpace.text = stats.charsNoSpace.toString()
+        binding.tvInvisibleChars.text = stats.invisibleChars.toString()
+        binding.tvLetters.text = stats.letters.toString()
+        binding.tvDigits.text = stats.digits.toString()
+        binding.tvChineseChars.text = stats.chineseChars.toString()
+        binding.tvTotalLines.text = stats.totalLines.toString()
+        binding.tvNonEmptyLines.text = stats.nonEmptyLines.toString()
+        binding.tvParagraphs.text = stats.paragraphs.toString()
+        binding.tvWords.text = stats.words.toString()
+        binding.tvMaxLineWidth.text = stats.maxLineWidth.toString()
 
-        MaterialAlertDialogBuilder(activity)
+        var currentHash: String? = null
+
+        binding.tvSha256Value.text = if (computeSha256 == null) {
+            activity.getString(R.string.stats_sha256_unavailable)
+        } else {
+            activity.getString(R.string.stats_sha256_computing)
+        }
+
+        binding.btnCopySha256.setOnClickListener {
+            val hash = currentHash
+            if (hash == null) {
+                AppTips.showShort(binding.root, R.string.stats_sha256_unavailable)
+            } else {
+                val cm = activity.getSystemService(android.content.Context.CLIPBOARD_SERVICE)
+                        as android.content.ClipboardManager
+                cm.setPrimaryClip(android.content.ClipData.newPlainText("SHA-256", hash))
+                AppTips.showShort(binding.root, R.string.stats_sha256_copied)
+            }
+        }
+
+        val dialog = MaterialAlertDialogBuilder(activity)
             .setView(binding.root)
             .setPositiveButton(R.string.ok, null)
             .show()
+
+        if (computeSha256 != null) {
+            val owner = activity as? androidx.lifecycle.LifecycleOwner
+            if (owner == null) {
+                binding.tvSha256Value.text = activity.getString(R.string.stats_sha256_unavailable)
+            } else {
+                owner.lifecycleScope.launch {
+                    val result = try {
+                        computeSha256()
+                    } catch (_: Exception) {
+                        Sha256Result.Unavailable
+                    }
+                    when (result) {
+                        is Sha256Result.DiskFile -> {
+                            currentHash = result.hash
+                            binding.tvSha256Value.text = result.hash
+                        }
+                        is Sha256Result.CurrentContent -> {
+                            currentHash = result.hash
+                            binding.tvSha256Value.text = activity.getString(
+                                R.string.stats_sha256_current_content, result.hash
+                            )
+                        }
+                        Sha256Result.Unavailable -> {
+                            currentHash = null
+                            binding.tvSha256Value.text =
+                                activity.getString(R.string.stats_sha256_unavailable)
+                        }
+                    }
+                }
+            }
+        }
+
+        return dialog
     }
 
     // ---------------- 特殊字符面板 ----------------

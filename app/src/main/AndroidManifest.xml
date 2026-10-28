@@ -25,10 +25,23 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".FontManagerActivity"
+            android:exported="false"
+            android:label="@string/font_manager_title"
+            android:parentActivityName=".SettingsActivity" />
+
+        <activity
             android:name=".AboutActivity"
             android:exported="false"
             android:label="@string/about_title"
             android:parentActivityName=".MainActivity" />
+
+        <!-- ★ 开发者选项，只能从关于页连点版本号进入 -->
+        <activity
+            android:name=".DeveloperOptionsActivity"
+            android:exported="false"
+            android:label="@string/dev_options_title"
+            android:parentActivityName=".AboutActivity" />
 
         <activity
             android:name=".HelpActivity"
@@ -41,12 +54,6 @@
             android:exported="false"
             android:label="@string/onboard_welcome_title"
             android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".FontManagerActivity"
-            android:exported="false"
-            android:label="@string/font_manager_title"
-            android:parentActivityName=".SettingsActivity" />
 
         <activity
             android:name=".MainActivity"

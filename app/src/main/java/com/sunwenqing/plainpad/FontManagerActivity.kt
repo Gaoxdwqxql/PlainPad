@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -62,6 +61,7 @@ class FontManagerActivity : AppCompatActivity() {
         binding.btnDelete.setOnClickListener { confirmDelete() }
 
         adapter = FontAdapter(
+            context = this,
             prefs = prefs,
             onClick = { item -> onItemClick(item) },
             onLongClick = { item -> onItemLongClick(item) },
@@ -191,22 +191,14 @@ class FontManagerActivity : AppCompatActivity() {
                 val currentDeleted =
                     toDelete.any { prefs.editorFontFamily == it.key }
 
-                val count = FontManager.delete(prefs, toDelete.map { it.font })
+                val count = FontManager.delete(this, prefs, toDelete.map { it.font })
 
                 setSelectionMode(false)
 
-                Toast.makeText(
-                    this,
-                    getString(R.string.font_deleted_n, count),
-                    Toast.LENGTH_SHORT
-                ).show()
+                AppTips.showShort(this, getString(R.string.font_deleted_n, count))
 
                 if (currentDeleted) {
-                    Toast.makeText(
-                        this,
-                        R.string.font_delete_current_fallback,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    AppTips.showLong(this, R.string.font_delete_current_fallback)
                 }
             }
             .setNegativeButton(R.string.cancel, null)
@@ -222,17 +214,9 @@ class FontManagerActivity : AppCompatActivity() {
             result.onSuccess { font ->
                 prefs.editorFontFamily = FontManager.key(font)
                 setSelectionMode(false)
-                Toast.makeText(
-                    this@FontManagerActivity,
-                    R.string.import_font_success,
-                    Toast.LENGTH_SHORT
-                ).show()
+                AppTips.showShort(this@FontManagerActivity, R.string.import_font_success)
             }.onFailure { e ->
-                Toast.makeText(
-                    this@FontManagerActivity,
-                    getString(R.string.font_import_fail_reason, e.message ?: ""),
-                    Toast.LENGTH_LONG
-                ).show()
+                AppTips.showLong(this@FontManagerActivity, getString(R.string.font_import_fail_reason, e.message ?: ""))
             }
         }
     }
@@ -261,6 +245,7 @@ class FontManagerActivity : AppCompatActivity() {
     // ---------------- Adapter ----------------
 
     private class FontAdapter(
+        private val context: android.content.Context,
         private val prefs: Prefs,
         private val onClick: (FontItem) -> Unit,
         private val onLongClick: (FontItem) -> Unit,
@@ -299,7 +284,7 @@ class FontManagerActivity : AppCompatActivity() {
             val ctx = holder.b.root.context
 
             holder.b.tvName.text = item.displayName
-            holder.b.tvPreview.typeface = FontHelper.typefaceForKey(prefs, item.key)
+            holder.b.tvPreview.typeface = FontHelper.typefaceForKey(ctx, prefs, item.key)
 
             holder.b.tvTag.text = when (item) {
                 is FontItem.Builtin -> ctx.getString(R.string.font_builtin)

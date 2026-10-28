@@ -57,4 +57,9 @@
     <color name="tc_orange_highlight">#33E65100</color>
     <color name="tc_red_highlight">#33C62828</color>
     <color name="tc_pink_highlight">#33C2185B</color>
+
+    <style name="ShapeAppearance.PlainPad.AppIcon" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">22dp</item>
+    </style>
 </resources>

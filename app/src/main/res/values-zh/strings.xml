@@ -47,7 +47,6 @@
     <string name="not_found">未找到匹配内容</string>
     <string name="replaced_n">已替换 %1$d 处</string>
 
-    <!-- 查找选项 -->
     <string name="search_regex">正则表达式</string>
     <string name="search_case_sensitive">区分大小写</string>
     <string name="search_from_start">从头开始</string>
@@ -143,6 +142,11 @@
     <string name="stats_title">统计信息</string>
     <string name="stats_group_chars">字符统计</string>
     <string name="stats_group_paragraphs">段落与行</string>
+    <string name="stats_group_file">文件信息</string>
+    <string name="stats_sha256_label">SHA-256</string>
+    <string name="stats_sha256_computing">计算中…</string>
+    <string name="stats_sha256_unavailable">不可用</string>
+    <string name="stats_sha256_current_content">%1$s（当前内容，未保存）</string>
     <string name="stat_chars_no_space">字符（不含空格）</string>
     <string name="stat_visible_chars">可见字符</string>
     <string name="stat_invisible_chars">不可见字符</string>
@@ -356,6 +360,9 @@
     <string name="import_font_success">字体导入成功</string>
     <string name="import_font_fail">字体导入失败</string>
 
+    <string name="settings_copy_font_title">字体存放到私有目录</string>
+    <string name="settings_copy_font_hint">开启后会复制一份字体到应用私有目录，删除原文件也不影响；关闭则直接引用原文件，Android 7.x 仍会强制复制</string>
+
     <string name="font_manager_title">字体管理</string>
     <string name="font_preview_text">Aa 字体预览 123</string>
     <string name="font_builtin">内置</string>
@@ -375,4 +382,110 @@
     <string name="font_import_read_failed">无法读取字体文件</string>
     <string name="font_import_invalid">无效的字体文件</string>
     <string name="font_import_fail_reason">字体导入失败：%1$s</string>
+
+    <string name="stats_sha256_copy">复制 SHA-256</string>
+    <string name="stats_sha256_copied">SHA-256 已复制</string>
+
+    <string name="about_export_ini">导出配置 (INI)</string>
+    <string name="about_import_ini">导入配置 (INI)</string>
+    <string name="ini_export_file_name">plainpad.ini</string>
+    <string name="ini_export_success">配置已导出</string>
+    <string name="ini_export_failed">导出失败：%1$s</string>
+    <string name="ini_import_success">已导入 %1$d 项配置</string>
+    <string name="ini_import_failed">导入失败：%1$s</string>
+
+    <string name="draft_recovery_title">发现未保存的编辑</string>
+    <string name="draft_recovery_message">上次退出时可能有 %1$d 个标签的内容未保存，是否恢复？</string>
+    <string name="draft_recovery_restore">恢复</string>
+    <string name="draft_recovery_discard">丢弃</string>
+    <string name="draft_recovery_restored">已恢复 %1$d 个标签</string>
+    <string name="draft_recovery_nothing">没有可恢复的内容</string>
+
+    <!-- Developer Options -->
+    <string name="dev_options_title">开发人员选项</string>
+    <string name="dev_options_hint">以下选项用于调试应用，普通用户不建议使用。部分操作会立即导致应用崩溃。</string>
+
+    <string name="dev_section_crash">崩溃与异常模拟</string>
+    <string name="dev_crash_main">主线程崩溃</string>
+    <string name="dev_crash_main_desc">抛出 RuntimeException，用于测试崩溃日志与草稿恢复</string>
+    <string name="dev_crash_background">后台线程崩溃</string>
+    <string name="dev_crash_background_desc">在后台线程抛出未捕获异常</string>
+    <string name="dev_crash_oom">内存溢出（OOM）</string>
+    <string name="dev_crash_oom_desc">触发 OutOfMemoryError，测试内存异常处理</string>
+    <string name="dev_crash_anr">主线程阻塞 15 秒</string>
+    <string name="dev_crash_anr_desc">阻塞主线程，触发 ANR 检测</string>
+
+    <string name="dev_section_test_doc">测试文档生成</string>
+    <string name="dev_test_1mb">生成 1MB 多行文本</string>
+    <string name="dev_test_5mb_single">生成 5MB 单行文本（大文件模式）</string>
+    <string name="dev_test_20mb_single">生成 20MB 单行文本（截断测试）</string>
+    <string name="dev_test_500kb_cn">生成 500KB 中文文本</string>
+
+    <string name="dev_section_data">数据操作</string>
+    <string name="dev_view_prefs">查看 SharedPreferences</string>
+    <string name="dev_view_drafts">查看草稿文件</string>
+    <string name="dev_clear_drafts">清空草稿</string>
+    <string name="dev_clear_recent">清空最近文件</string>
+    <string name="dev_clear_tabs">清空保存的标签</string>
+    <string name="dev_reset_prefs">重置所有设置</string>
+
+    <string name="dev_confirm_title">确认操作</string>
+    <string name="dev_confirm_crash">确定要模拟崩溃吗？应用会立即退出</string>
+    <string name="dev_confirm_clear_drafts">确定清空所有草稿？</string>
+    <string name="dev_confirm_clear_recent">确定清空最近文件列表？</string>
+    <string name="dev_confirm_clear_tabs">确定清空保存的标签？应用重启后会打开空白标签</string>
+    <string name="dev_confirm_reset_prefs">确定重置所有设置？这会清空所有偏好</string>
+
+    <string name="dev_empty_prefs">SharedPreferences 为空</string>
+    <string name="dev_empty_drafts">没有草稿文件</string>
+    <string name="dev_action_done">操作完成</string>
+    <string name="dev_anr_triggered">主线程即将阻塞，请等待 ANR</string>
+    <string name="dev_copy">复制</string>
+    <string name="dev_copied">已复制</string>
+
+    <string name="about_version_egg_hint">再点击 %1$d 次进入开发人员选项</string>
+
+    <!-- 开发者选项扩展 -->
+    <string name="dev_section_app_info">应用与设备信息</string>
+    <string name="dev_app_info">应用信息</string>
+    <string name="dev_device_info">设备信息</string>
+
+    <string name="dev_section_storage">存储与内存</string>
+    <string name="dev_storage_info">存储占用</string>
+    <string name="dev_memory_info">内存信息</string>
+    <string name="dev_clear_cache">清理缓存目录</string>
+    <string name="dev_confirm_clear_cache">确定清理缓存目录？</string>
+
+    <string name="dev_test_crlf">生成 256KB CRLF 文本</string>
+    <string name="dev_test_mixed">生成 256KB 混合 EOL 文本</string>
+
+    <string name="dev_section_font">字体调试</string>
+    <string name="dev_font_list">查看已导入字体</string>
+    <string name="dev_font_clear">清除所有自定义字体</string>
+    <string name="dev_confirm_clear_fonts">确定删除所有已导入的字体文件？</string>
+    <string name="dev_empty_fonts">没有自定义字体</string>
+
+    <string name="dev_section_quick">快速切换</string>
+    <string name="dev_quick_theme_color">切换主题色</string>
+    <string name="dev_quick_icon">切换桌面图标</string>
+    <string name="dev_quick_language">切换语言</string>
+    <string name="dev_quick_switched">已切换到 %1$s</string>
+
+    <string name="dev_section_intent">Intent 模拟与只读测试</string>
+    <string name="dev_intent_view">模拟 ACTION_VIEW</string>
+    <string name="dev_intent_edit">模拟 ACTION_EDIT</string>
+    <string name="dev_intent_send">模拟 ACTION_SEND 分享</string>
+    <string name="dev_intent_failed">Intent 失败：%1$s</string>
+    <string name="dev_open_readonly">打开只读测试文档</string>
+
+    <string name="section_other">其他</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_import_ini">导入配置 (INI)</string>
+    <string name="settings_export_ini">导出配置 (INI)</string>
+    <string name="settings_developer_options">开发人员选项</string>
+
+    <string name="dev_section_shortcut">设置页入口</string>
+    <string name="dev_shortcut_title">在设置中显示直接入口</string>
+    <string name="dev_shortcut_hint">关闭后，需要连点版本号 7 次重新解锁</string>
+    <string name="dev_disable_shortcut_done">已关闭设置页直接入口，需连点版本号重新解锁</string>
 </resources>

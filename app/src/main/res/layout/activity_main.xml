@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:background="?attr/colorSurface">
 
-        <!-- ★ 顶部状态栏填充 -->
+        <!-- 顶部状态栏填充 -->
         <View
             android:id="@+id/statusBarFill"
             android:layout_width="match_parent"
@@ -170,7 +170,10 @@
                     android:hint="@string/editor_hint"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine|textNoSuggestions"
-                    android:padding="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="16dp"
                     android:saveEnabled="false"
                     android:scrollbars="none"
                     android:textSize="16sp"
@@ -274,7 +277,7 @@
                 app:tint="?android:attr/textColorSecondary" />
         </LinearLayout>
 
-        <!-- ★ 底部导航栏填充 -->
+        <!-- 底部导航栏填充 -->
         <View
             android:id="@+id/navigationBarFill"
             android:layout_width="match_parent"

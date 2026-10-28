@@ -16,6 +16,9 @@ class AboutActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAboutBinding
     private lateinit var prefs: Prefs
 
+    private var versionClickCount = 0
+    private var lastVersionClickTime = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
         ThemeColorHelper.apply(this, prefs.themeColor)
@@ -27,14 +30,42 @@ class AboutActivity : AppCompatActivity() {
         binding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ★ 设置纯色填充高度
         binding.statusBarFill.setStatusBarHeight()
 
         ThemeColorHelper.applySystemBars(this)
         binding.aboutToolbar.setNavigationOnClickListener { finish() }
         binding.tvAboutVersion.text = getString(R.string.about_version, appVersionName())
+        binding.tvAboutVersion.setOnClickListener { onVersionClicked() }
         binding.btnSetDefault.setOnClickListener { openDefaultAppsSettings() }
     }
+
+    // ---------------- 开发者选项入口 ----------------
+
+    private fun onVersionClicked() {
+        val now = System.currentTimeMillis()
+        if (now - lastVersionClickTime > 1500L) {
+            versionClickCount = 0
+        }
+        lastVersionClickTime = now
+        versionClickCount++
+
+        when (versionClickCount) {
+            in 4..6 -> {
+                val remain = 7 - versionClickCount
+                AppTips.showShort(
+                    this,
+                    getString(R.string.about_version_egg_hint, remain)
+                )
+            }
+            7 -> {
+                versionClickCount = 0
+                prefs.devOptionsUnlocked = true
+                startActivity(Intent(this, DeveloperOptionsActivity::class.java))
+            }
+        }
+    }
+
+    // ---------------- 版本 / 默认应用 ----------------
 
     private fun appVersionName(): String {
         return try {
@@ -52,7 +83,8 @@ class AboutActivity : AppCompatActivity() {
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
         } else {
-            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.fromParts("package", packageName, null))
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                .setData(Uri.fromParts("package", packageName, null))
         }
         try {
             startActivity(intent)

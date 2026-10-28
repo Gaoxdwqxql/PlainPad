@@ -7,6 +7,7 @@ import androidx.core.content.edit
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
+import java.util.UUID
 
 data class RecentFile(val uri: String, val name: String, val timestamp: Long)
 
@@ -15,7 +16,6 @@ class Prefs(context: Context) {
     private val appContext = context.applicationContext
     private val sp = appContext.getSharedPreferences("plainpad_prefs", Context.MODE_PRIVATE)
 
-    /** 自定义字体文件统一存放目录：filesDir/fonts */
     fun fontFile(fileName: String): File =
         File(File(appContext.filesDir, "fonts"), fileName)
 
@@ -52,19 +52,20 @@ class Prefs(context: Context) {
     /**
      * 编辑区字体 key。
      * - 内置："monospace" / "sans-serif" / "serif"
-     * - 自定义："custom:<fileName>"（新版）
-     * - 旧版兼容："custom"（配合 customFontPath，仅用于迁移前的回退）
+     * - 自定义复制模式："custom:<fileName>"
+     * - 自定义引用模式："custom:uri:<uri>"
+     * - 旧版兼容："custom"
      */
     var editorFontFamily: String
         get() = sp.getString(KEY_EDITOR_FONT, "monospace") ?: "monospace"
         set(v) = sp.edit { putString(KEY_EDITOR_FONT, v) }
 
-    /** 旧版单字体路径，保留用于迁移，新代码请使用 customFonts */
+    /** 旧版单字体路径，保留用于迁移 */
     var customFontPath: String
         get() = sp.getString(KEY_CUSTOM_FONT_PATH, "") ?: ""
         set(v) = sp.edit { putString(KEY_CUSTOM_FONT_PATH, v) }
 
-    /** ★ 新增：已导入的自定义字体列表 */
+    /** 已导入的自定义字体列表 */
     var customFonts: List<CustomFont>
         get() {
             val json = sp.getString(KEY_CUSTOM_FONTS, "[]") ?: "[]"
@@ -74,10 +75,10 @@ class Prefs(context: Context) {
                 for (i in 0 until arr.length()) {
                     val o = arr.getJSONObject(i)
                     val file = o.optString("file", "")
-                    if (file.isNotEmpty()) {
-                        val name = o.optString("name", file).ifEmpty { file }
-                        list.add(CustomFont(name, file))
-                    }
+                    val uri = o.optString("uri", "")
+                    if (file.isEmpty() && uri.isEmpty()) continue
+                    val name = o.optString("name", file.ifEmpty { uri }).ifEmpty { "font" }
+                    list.add(CustomFont(name, file, uri))
                 }
                 list
             } catch (_: Exception) {
@@ -91,18 +92,22 @@ class Prefs(context: Context) {
                     JSONObject()
                         .put("name", f.displayName)
                         .put("file", f.fileName)
+                        .put("uri", f.uri)
                 )
             }
             sp.edit { putString(KEY_CUSTOM_FONTS, arr.toString()) }
         }
+
+    /** 字体是否拷贝到私有目录再加载。默认 true。 */
+    var copyFontToPrivate: Boolean
+        get() = sp.getBoolean(KEY_COPY_FONT, true)
+        set(v) = sp.edit { putBoolean(KEY_COPY_FONT, v) }
 
     // ---------------- 启动模式 ----------------
 
     var startupMode: Int
         get() = sp.getInt(KEY_STARTUP_MODE, 0)
         set(v) = sp.edit { putInt(KEY_STARTUP_MODE, v) }
-
-    // ---------------- 加号行为 ----------------
 
     var plusReuseEmpty: Boolean
         get() = sp.getBoolean(KEY_PLUS_REUSE_EMPTY, true)
@@ -137,23 +142,23 @@ class Prefs(context: Context) {
         get() = sp.getInt(KEY_AUTO_SAVE_INTERVAL, 0)
         set(v) = sp.edit { putInt(KEY_AUTO_SAVE_INTERVAL, v) }
 
-    // ---------------- 保存时间 ----------------
-
     var lastSaveTime: Long
         get() = sp.getLong(KEY_LAST_SAVE_TIME, 0L)
         set(v) = sp.edit { putLong(KEY_LAST_SAVE_TIME, v) }
-
-    // ---------------- 特殊字符显示 ----------------
 
     var showSpecialChars: Boolean
         get() = sp.getBoolean(KEY_SHOW_SPECIAL_CHARS, false)
         set(v) = sp.edit { putBoolean(KEY_SHOW_SPECIAL_CHARS, v) }
 
-    // ---------------- 新手引导 ----------------
-
     var onboardingDone: Boolean
         get() = sp.getBoolean(KEY_ONBOARDING_DONE, false)
         set(v) = sp.edit { putBoolean(KEY_ONBOARDING_DONE, v) }
+
+    // ---------------- 开发者选项入口 ----------------
+
+    var devOptionsUnlocked: Boolean
+        get() = sp.getBoolean(KEY_DEV_OPTIONS_UNLOCKED, false)
+        set(v) = sp.edit { putBoolean(KEY_DEV_OPTIONS_UNLOCKED, v) }
 
     // ---------------- 最近文件 ----------------
 
@@ -205,7 +210,7 @@ class Prefs(context: Context) {
 
     // ---------------- 标签页持久化 ----------------
 
-    fun saveTabs(docs: List<OpenDocument>) {
+    fun saveTabs(docs: List<OpenDocument>, sync: Boolean = false) {
         val arr = JSONArray()
         for (d in docs) {
             val o = JSONObject()
@@ -217,11 +222,16 @@ class Prefs(context: Context) {
             o.put("sel", d.selStart)
             o.put("sel2", d.selEnd)
             o.put("scroll", d.scrollY)
+            o.put("draftId", d.draftId)
             val needSaveText = d.uri == null || d.isDirty
             o.put("text", if (needSaveText) d.text else "")
             arr.put(o)
         }
-        sp.edit { putString(KEY_SAVED_TABS, arr.toString()) }
+        if (sync) {
+            sp.edit().putString(KEY_SAVED_TABS, arr.toString()).commit()
+        } else {
+            sp.edit { putString(KEY_SAVED_TABS, arr.toString()) }
+        }
     }
 
     fun loadTabs(): List<OpenDocument> {
@@ -241,7 +251,9 @@ class Prefs(context: Context) {
                         selStart = o.optInt("sel", 0),
                         selEnd = o.optInt("sel2", 0),
                         scrollY = o.optInt("scroll", 0),
-                        text = o.optString("text", "")
+                        text = o.optString("text", ""),
+                        draftId = o.optString("draftId", "")
+                            .takeIf { it.isNotEmpty() } ?: UUID.randomUUID().toString()
                     )
                 )
             }
@@ -255,8 +267,6 @@ class Prefs(context: Context) {
         sp.edit { remove(KEY_SAVED_TABS) }
     }
 
-    // ---------------- keys ----------------
-
     private companion object {
         const val KEY_FONT = "font_size"
         const val KEY_WRAP = "wrap"
@@ -266,7 +276,8 @@ class Prefs(context: Context) {
         const val KEY_EDITOR_THEME = "editor_theme_id"
         const val KEY_EDITOR_FONT = "editor_font_family"
         const val KEY_CUSTOM_FONT_PATH = "custom_font_path"
-        const val KEY_CUSTOM_FONTS = "custom_fonts"   // ★ 新增：多字体列表
+        const val KEY_CUSTOM_FONTS = "custom_fonts"
+        const val KEY_COPY_FONT = "copy_font_to_private"
         const val KEY_STARTUP_MODE = "startup_mode"
         const val KEY_PLUS_REUSE_EMPTY = "plus_reuse_empty"
         const val KEY_STATUS_BAR_ITEMS = "status_bar_items"
@@ -278,6 +289,7 @@ class Prefs(context: Context) {
         const val KEY_LAST_SAVE_TIME = "last_save_time"
         const val KEY_SHOW_SPECIAL_CHARS = "show_special_chars"
         const val KEY_ONBOARDING_DONE = "onboarding_done"
+        const val KEY_DEV_OPTIONS_UNLOCKED = "dev_options_unlocked"
         const val KEY_RECENT = "recent_files"
         const val KEY_SAVED_TABS = "saved_tabs"
         const val MAX_RECENT = 10

@@ -163,6 +163,11 @@
     <string name="stats_title">Statistics</string>
     <string name="stats_group_chars">Character Statistics</string>
     <string name="stats_group_paragraphs">Paragraphs &amp; Lines</string>
+    <string name="stats_group_file">File Info</string>
+    <string name="stats_sha256_label">SHA-256</string>
+    <string name="stats_sha256_computing">Computing…</string>
+    <string name="stats_sha256_unavailable">Unavailable</string>
+    <string name="stats_sha256_current_content">%1$s (current content, unsaved)</string>
     <string name="stat_chars_no_space">Chars (no space)</string>
     <string name="stat_visible_chars">Visible chars</string>
     <string name="stat_invisible_chars">Invisible chars</string>
@@ -394,6 +399,10 @@
     <string name="import_font_success">Font imported successfully</string>
     <string name="import_font_fail">Failed to import font</string>
 
+    <!-- Font copy switch -->
+    <string name="settings_copy_font_title">Copy fonts to private storage</string>
+    <string name="settings_copy_font_hint">On: font files are copied into app storage, deleting the original is safe. Off: fonts are referenced directly; Android 7.x will still force a copy.</string>
+
     <!-- Font Manager -->
     <string name="font_manager_title">Font Manager</string>
     <string name="font_preview_text">Aa Font Preview 123</string>
@@ -414,4 +423,111 @@
     <string name="font_import_read_failed">Cannot read the font file</string>
     <string name="font_import_invalid">Invalid font file</string>
     <string name="font_import_fail_reason">Failed to import font: %1$s</string>
+
+    <string name="stats_sha256_copy">Copy SHA-256</string>
+    <string name="stats_sha256_copied">SHA-256 copied</string>
+
+    <string name="about_export_ini">Export Config (INI)</string>
+    <string name="about_import_ini">Import Config (INI)</string>
+    <string name="ini_export_file_name">plainpad.ini</string>
+    <string name="ini_export_success">Configuration exported</string>
+    <string name="ini_export_failed">Export failed: %1$s</string>
+    <string name="ini_import_success">Imported %1$d settings</string>
+    <string name="ini_import_failed">Import failed: %1$s</string>
+
+    <string name="draft_recovery_title">Unsaved edits found</string>
+    <string name="draft_recovery_message">%1$d tab(s) may have unsaved changes from last session. Restore?</string>
+    <string name="draft_recovery_restore">Restore</string>
+    <string name="draft_recovery_discard">Discard</string>
+    <string name="draft_recovery_restored">Restored %1$d tab(s)</string>
+    <string name="draft_recovery_nothing">Nothing to restore</string>
+
+    <!-- Developer Options -->
+    <string name="dev_options_title">Developer Options</string>
+    <string name="dev_options_hint">These options are for debugging only. Some actions will crash the app immediately.</string>
+
+    <string name="dev_section_crash">Crash &amp; Exception Simulation</string>
+    <string name="dev_crash_main">Main thread crash</string>
+    <string name="dev_crash_main_desc">Throw a RuntimeException to test crash logs and draft recovery</string>
+    <string name="dev_crash_background">Background thread crash</string>
+    <string name="dev_crash_background_desc">Throw an uncaught exception on a background thread</string>
+    <string name="dev_crash_oom">Out of Memory (OOM)</string>
+    <string name="dev_crash_oom_desc">Trigger OutOfMemoryError to test memory handling</string>
+    <string name="dev_crash_anr">Block main thread 15s</string>
+    <string name="dev_crash_anr_desc">Block the main thread to trigger ANR detection</string>
+
+    <string name="dev_section_test_doc">Test Document Generation</string>
+    <string name="dev_test_1mb">Generate 1MB multi-line text</string>
+    <string name="dev_test_5mb_single">Generate 5MB single-line text (large file mode)</string>
+    <string name="dev_test_20mb_single">Generate 20MB single-line text (truncation test)</string>
+    <string name="dev_test_500kb_cn">Generate 500KB Chinese text</string>
+
+    <string name="dev_section_data">Data Operations</string>
+    <string name="dev_view_prefs">View SharedPreferences</string>
+    <string name="dev_view_drafts">View draft files</string>
+    <string name="dev_clear_drafts">Clear drafts</string>
+    <string name="dev_clear_recent">Clear recent files</string>
+    <string name="dev_clear_tabs">Clear saved tabs</string>
+    <string name="dev_reset_prefs">Reset all settings</string>
+
+    <string name="dev_confirm_title">Confirm</string>
+    <string name="dev_confirm_crash">Simulate a crash? The app will exit immediately.</string>
+    <string name="dev_confirm_clear_drafts">Clear all drafts?</string>
+    <string name="dev_confirm_clear_recent">Clear the recent files list?</string>
+    <string name="dev_confirm_clear_tabs">Clear saved tabs? A blank tab will open on next launch.</string>
+    <string name="dev_confirm_reset_prefs">Reset all settings? All preferences will be cleared.</string>
+
+    <string name="dev_empty_prefs">SharedPreferences is empty</string>
+    <string name="dev_empty_drafts">No draft files</string>
+    <string name="dev_action_done">Done</string>
+    <string name="dev_anr_triggered">Main thread will block now, wait for ANR</string>
+    <string name="dev_copy">Copy</string>
+    <string name="dev_copied">Copied</string>
+
+    <string name="about_version_egg_hint">%1$d more taps to open Developer Options</string>
+
+    <!-- Developer Options Extension -->
+    <string name="dev_section_app_info">App &amp; Device Info</string>
+    <string name="dev_app_info">App info</string>
+    <string name="dev_device_info">Device info</string>
+
+    <string name="dev_section_storage">Storage &amp; Memory</string>
+    <string name="dev_storage_info">Storage usage</string>
+    <string name="dev_memory_info">Memory info</string>
+    <string name="dev_clear_cache">Clear cache directory</string>
+    <string name="dev_confirm_clear_cache">Clear cache directory?</string>
+
+    <string name="dev_test_crlf">Generate 256KB CRLF text</string>
+    <string name="dev_test_mixed">Generate 256KB mixed EOL text</string>
+
+    <string name="dev_section_font">Font Debug</string>
+    <string name="dev_font_list">View imported fonts</string>
+    <string name="dev_font_clear">Clear all custom fonts</string>
+    <string name="dev_confirm_clear_fonts">Delete all imported font files?</string>
+    <string name="dev_empty_fonts">No custom fonts</string>
+
+    <string name="dev_section_quick">Quick Switch</string>
+    <string name="dev_quick_theme_color">Switch theme color</string>
+    <string name="dev_quick_icon">Switch launcher icon</string>
+    <string name="dev_quick_language">Switch language</string>
+    <string name="dev_quick_switched">Switched to %1$s</string>
+
+    <string name="dev_section_intent">Intent Simulation &amp; Read-only Test</string>
+    <string name="dev_intent_view">Simulate ACTION_VIEW</string>
+    <string name="dev_intent_edit">Simulate ACTION_EDIT</string>
+    <string name="dev_intent_send">Simulate ACTION_SEND share</string>
+    <string name="dev_intent_failed">Intent failed: %1$s</string>
+    <string name="dev_open_readonly">Open read-only test document</string>
+
+    <string name="section_other">Other</string>
+    <string name="settings_about">About</string>
+    <string name="settings_import_ini">Import Config (INI)</string>
+    <string name="settings_export_ini">Export Config (INI)</string>
+    <string name="settings_developer_options">Developer Options</string>
+
+    <string name="dev_section_shortcut">Settings Shortcut</string>
+    <string name="dev_shortcut_title">Show shortcut in Settings</string>
+    <string name="dev_shortcut_hint">When disabled, tap the version 7 times to unlock again</string>
+    <string name="dev_disable_shortcut_done">Shortcut disabled. Tap the version 7 times to unlock again.</string>
+
 </resources>

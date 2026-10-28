@@ -1,25 +1,34 @@
 package com.sunwenqing.plainpad
 
+import android.content.Context
 import android.graphics.Typeface
 import java.io.File
 
 object FontHelper {
 
-    fun typefaceForKey(prefs: Prefs, key: String): Typeface {
+    fun typefaceForKey(context: Context, prefs: Prefs, key: String): Typeface {
         if (key.startsWith(FontManager.CUSTOM_PREFIX)) {
-            val fileName = key.removePrefix(FontManager.CUSTOM_PREFIX)
-            val file = prefs.fontFile(fileName)
-            if (file.exists()) {
-                try {
-                    return Typeface.createFromFile(file)
-                } catch (_: Exception) {
-                    // fall through
+            if (FontManager.isUriKey(key)) {
+                val uri = FontManager.uriOfKey(key)
+                if (uri != null) {
+                    val tf = FontManager.loadTypefaceFromUri(context, uri)
+                    if (tf != null) return tf
                 }
+                return Typeface.MONOSPACE
             }
-            return Typeface.MONOSPACE
+
+            val fileName = FontManager.fileNameOfKey(key)
+            if (fileName != null) {
+                val file = prefs.fontFile(fileName)
+                if (file.exists()) {
+                    try {
+                        return Typeface.createFromFile(file)
+                    } catch (_: Exception) {}
+                }
+                return Typeface.MONOSPACE
+            }
         }
 
-        // 兼容旧版 "custom" + customFontPath
         if (key == "custom") {
             val oldPath = prefs.customFontPath
             if (oldPath.isNotEmpty()) {
@@ -27,9 +36,7 @@ object FontHelper {
                 if (f.exists()) {
                     try {
                         return Typeface.createFromFile(f)
-                    } catch (_: Exception) {
-                        // fall through
-                    }
+                    } catch (_: Exception) {}
                 }
             }
             return Typeface.MONOSPACE
@@ -38,6 +45,6 @@ object FontHelper {
         return Typeface.create(key, Typeface.NORMAL)
     }
 
-    fun getTypeface(prefs: Prefs): Typeface =
-        typefaceForKey(prefs, prefs.editorFontFamily)
+    fun getTypeface(context: Context, prefs: Prefs): Typeface =
+        typefaceForKey(context, prefs, prefs.editorFontFamily)
 }

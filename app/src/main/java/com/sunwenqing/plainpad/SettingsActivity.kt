@@ -24,6 +24,7 @@ import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -36,12 +37,27 @@ class SettingsActivity : AppCompatActivity() {
     private var saveExpanded = true
     private var appearanceExpanded = true
     private var tabsExpanded = true
+    private var otherExpanded = true
     private var rulesExpanded = false
 
     private val importFontLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
         if (uri != null) importFont(uri)
+    }
+
+    private val exportIniLauncher = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("text/plain")
+    ) { uri ->
+        if (uri == null) return@registerForActivityResult
+        exportIni(uri)
+    }
+
+    private val importIniLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri == null) return@registerForActivityResult
+        importIni(uri)
     }
 
     private val searchLauncher = registerForActivityResult(
@@ -56,14 +72,12 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
 
-        // ★ 迁移旧版单字体数据（customFontPath -> customFonts）
         FontManager.migrateLegacy(this, prefs)
 
         ThemeColorHelper.apply(this, prefs.themeColor)
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
 
-        // ★ 开启沉浸式适配
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
@@ -89,11 +103,13 @@ class SettingsActivity : AppCompatActivity() {
         setupEditorFont()
         setupLanguage()
         setupImportFont()
+        setupCopyFontSwitch()
         setupStartupMode()
         setupPlusBehavior()
         setupStatusBarItems()
         setupAutoSave()
         setupReplaceRules()
+        setupOtherSection()
     }
 
     override fun onResume() {
@@ -105,6 +121,8 @@ class SettingsActivity : AppCompatActivity() {
         syncAutoSaveUI()
         updateThemeColorLabel()
         updateLanguageLabel()
+        binding.switchCopyFont.isChecked = prefs.copyFontToPrivate
+        updateDevOptionsRow()
     }
 
     private fun setupSections() {
@@ -112,11 +130,13 @@ class SettingsActivity : AppCompatActivity() {
         bindSection(binding.headerSave, binding.contentSave, binding.ivExpandSave, { saveExpanded }, { saveExpanded = it })
         bindSection(binding.headerAppearance, binding.contentAppearance, binding.ivExpandAppearance, { appearanceExpanded }, { appearanceExpanded = it })
         bindSection(binding.headerTabs, binding.contentTabs, binding.ivExpandTabs, { tabsExpanded }, { tabsExpanded = it })
+        bindSection(binding.headerOther, binding.contentOther, binding.ivExpandOther, { otherExpanded }, { otherExpanded = it })
 
         applySectionState(binding.contentEditing, binding.ivExpandEditing, editingExpanded)
         applySectionState(binding.contentSave, binding.ivExpandSave, saveExpanded)
         applySectionState(binding.contentAppearance, binding.ivExpandAppearance, appearanceExpanded)
         applySectionState(binding.contentTabs, binding.ivExpandTabs, tabsExpanded)
+        applySectionState(binding.contentOther, binding.ivExpandOther, otherExpanded)
     }
 
     private fun bindSection(header: View, content: View, arrow: View, isExpanded: () -> Boolean, setExpanded: (Boolean) -> Unit) {
@@ -137,11 +157,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun locateSetting(key: String) {
-        editingExpanded = true; saveExpanded = true; appearanceExpanded = true; tabsExpanded = true
+        editingExpanded = true; saveExpanded = true; appearanceExpanded = true; tabsExpanded = true; otherExpanded = true
         applySectionState(binding.contentEditing, binding.ivExpandEditing, true)
         applySectionState(binding.contentSave, binding.ivExpandSave, true)
         applySectionState(binding.contentAppearance, binding.ivExpandAppearance, true)
         applySectionState(binding.contentTabs, binding.ivExpandTabs, true)
+        applySectionState(binding.contentOther, binding.ivExpandOther, true)
 
         val target = findViewByTag(binding.settingsRoot, "search:$key") ?: return
         binding.settingsScroll.post {
@@ -376,7 +397,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setupImportFont() {
         binding.rowImportFont.setOnClickListener {
-            // ★ 使用 */*，兼容更多文件管理器对字体 MIME 的识别差异
             importFontLauncher.launch("*/*")
         }
     }
@@ -405,6 +425,16 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupCopyFontSwitch() {
+        binding.switchCopyFont.isChecked = prefs.copyFontToPrivate
+        binding.rowCopyFont.setOnClickListener {
+            binding.switchCopyFont.isChecked = !binding.switchCopyFont.isChecked
+        }
+        binding.switchCopyFont.setOnCheckedChangeListener { _, checked ->
+            prefs.copyFontToPrivate = checked
+        }
+    }
+
     private fun setupEditorTheme() {
         updateEditorThemeLabel()
         binding.rowEditorTheme.setOnClickListener { showEditorThemeDialog() }
@@ -426,7 +456,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setupEditorFont() {
         updateEditorFontLabel()
-        // ★ 进入字体管理页，统一处理内置字体、自定义字体列表、导入、删除
         binding.rowEditorFont.setOnClickListener {
             startActivity(Intent(this, FontManagerActivity::class.java))
         }
@@ -436,20 +465,95 @@ class SettingsActivity : AppCompatActivity() {
         val key = prefs.editorFontFamily
 
         when {
+            FontManager.isUriKey(key) -> {
+                val uri = FontManager.uriOfKey(key)?.toString()
+                val font = FontManager.list(prefs).firstOrNull { it.uri == uri }
+                binding.tvEditorFontValue.text = font?.displayName
+                    ?: getString(R.string.font_custom)
+            }
             key.startsWith(FontManager.CUSTOM_PREFIX) -> {
-                val fileName = key.removePrefix(FontManager.CUSTOM_PREFIX)
+                val fileName = FontManager.fileNameOfKey(key)
                 val font = FontManager.list(prefs).firstOrNull { it.fileName == fileName }
                 binding.tvEditorFontValue.text = font?.displayName
                     ?: getString(R.string.font_custom)
             }
             key == "custom" -> {
-                // 旧版兼容：迁移完成前可能还是 custom
                 binding.tvEditorFontValue.text = getString(R.string.font_custom)
             }
             else -> {
                 binding.tvEditorFontValue.text = getString(EditorThemes.fontNameRes(key))
             }
         }
+    }
+
+    private fun setupOtherSection() {
+        binding.rowImportIni.setOnClickListener {
+            importIniLauncher.launch(arrayOf("text/plain", "text/*", "*/*"))
+        }
+        binding.rowExportIni.setOnClickListener {
+            exportIniLauncher.launch(getString(R.string.ini_export_file_name))
+        }
+        binding.rowAbout.setOnClickListener {
+            startActivity(Intent(this, AboutActivity::class.java))
+        }
+        binding.rowDevOptions.setOnClickListener {
+            startActivity(Intent(this, DeveloperOptionsActivity::class.java))
+        }
+        updateDevOptionsRow()
+    }
+
+    private fun updateDevOptionsRow() {
+        val visible = prefs.devOptionsUnlocked
+        binding.rowDevOptions.visibility = if (visible) View.VISIBLE else View.GONE
+        binding.dividerDevOptions.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    private fun exportIni(uri: Uri) {
+        try {
+            val content = PrefsIni.export(prefs)
+            contentResolver.openOutputStream(uri, "wt")?.use {
+                it.write(content.toByteArray(Charsets.UTF_8))
+                it.flush()
+            } ?: throw Exception("cannot open output stream")
+            AppTips.showShort(this, R.string.ini_export_success)
+        } catch (e: Exception) {
+            AppTips.showLong(this, getString(R.string.ini_export_failed, e.message ?: ""))
+        }
+    }
+
+    private fun importIni(uri: Uri) {
+        try {
+            val bytes = contentResolver.openInputStream(uri)?.use { readLimited(it) }
+                ?: throw Exception("cannot open input stream")
+
+            val content = bytes.toString(Charsets.UTF_8)
+            val result = PrefsIni.import(prefs, content)
+
+            result.onSuccess { count ->
+                AppTips.showShort(this, getString(R.string.ini_import_success, count))
+                binding.root.postDelayed({
+                    if (!isFinishing) recreate()
+                }, 900)
+            }.onFailure { e ->
+                AppTips.showLong(this, getString(R.string.ini_import_failed, e.message ?: ""))
+            }
+        } catch (e: Exception) {
+            AppTips.showLong(this, getString(R.string.ini_import_failed, e.message ?: ""))
+        }
+    }
+
+    private fun readLimited(input: java.io.InputStream): ByteArray {
+        val maxBytes = 1024 * 1024
+        val out = ByteArrayOutputStream()
+        val buf = ByteArray(64 * 1024)
+        var total = 0
+        var n: Int
+        while (input.read(buf).also { n = it } != -1) {
+            total += n
+            if (total > maxBytes) throw Exception("File too large")
+            out.write(buf, 0, n)
+        }
+        return out.toByteArray()
     }
 
     private fun showChoiceDialog(titleRes: Int, names: Array<String>, selectedIndex: Int, onPick: (Int) -> Unit) {

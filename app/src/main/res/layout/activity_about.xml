@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:background="?attr/colorSurface">
 
-    <!-- ★ 顶部状态栏纯色填充 -->
     <View
         android:id="@+id/statusBarFill"
         android:layout_width="match_parent"
@@ -42,11 +41,13 @@
             android:paddingTop="48dp"
             android:paddingBottom="32dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="88dp"
                 android:layout_height="88dp"
                 android:src="@drawable/ic_launcher"
-                android:contentDescription="@string/app_name" />
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/app_name"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.PlainPad.AppIcon" />
 
             <TextView
                 android:layout_width="wrap_content"

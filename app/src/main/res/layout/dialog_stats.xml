@@ -348,6 +348,67 @@
                     tools:text="120" />
             </LinearLayout>
 
+            <!-- ==================== 文件信息 ==================== -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorOutlineVariant" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="4dp"
+                android:text="@string/stats_group_file"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="24dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="6dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/stats_sha256_label"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="15sp" />
+
+                <ImageButton
+                    android:id="@+id/btnCopySha256"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_copy"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/stats_sha256_copy"
+                    app:tint="?android:attr/textColorSecondary" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvSha256Value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="10dp"
+                android:fontFamily="monospace"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="12sp"
+                tools:text="a1b2c3d4e5f6..." />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

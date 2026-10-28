@@ -1,6 +1,7 @@
 package com.sunwenqing.plainpad
 
 import android.net.Uri
+import java.util.UUID
 
 /** 一个打开的文档（对应一个标签页） */
 data class OpenDocument(
@@ -12,5 +13,6 @@ data class OpenDocument(
     var selEnd: Int = 0,
     var scrollY: Int = 0,
     var isDirty: Boolean = false,
-    var isReadOnly: Boolean = false // ★ 新增：是否强制只读（文件截断时触发）
+    var isReadOnly: Boolean = false,
+    var draftId: String = UUID.randomUUID().toString()
 )

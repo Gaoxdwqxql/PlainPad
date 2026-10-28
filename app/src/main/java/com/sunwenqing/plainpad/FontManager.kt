@@ -1,114 +1,126 @@
 package com.sunwenqing.plainpad
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import java.io.File
 import java.io.IOException
 
-/**
- * 自定义字体条目。
- * - displayName：界面上显示的名字
- * - fileName：filesDir/fonts/ 下的文件名
- */
 data class CustomFont(
     val displayName: String,
-    val fileName: String
-)
+    val fileName: String = "",
+    val uri: String = ""
+) {
+    val isUri: Boolean get() = uri.isNotEmpty()
 
-/**
- * 字体管理核心：
- * - 统一存放目录 filesDir/fonts/
- * - 导入多个字体，自动生成唯一文件名
- * - 单个/批量删除
- * - 旧版单字体 customFontPath 的迁移
- */
+    fun matches(other: CustomFont): Boolean =
+        if (isUri && other.isUri) uri == other.uri
+        else if (!isUri && !other.isUri) fileName == other.fileName
+        else false
+}
+
 object FontManager {
 
-    /** 自定义字体在 editorFontFamily 中的 key 前缀 */
     const val CUSTOM_PREFIX = "custom:"
+    private const val URI_PREFIX = "uri:"
 
-    /** 字体存放目录：filesDir/fonts/ */
     fun fontsDir(context: Context): File =
         File(context.filesDir, "fonts").apply { mkdirs() }
 
-    /** 当前已导入的自定义字体列表 */
     fun list(prefs: Prefs): List<CustomFont> = prefs.customFonts
 
-    /** 把 CustomFont 转成 editorFontFamily 里存储的 key */
-    fun key(font: CustomFont): String = CUSTOM_PREFIX + font.fileName
+    fun key(font: CustomFont): String =
+        if (font.isUri) "$CUSTOM_PREFIX$URI_PREFIX${font.uri}"
+        else "$CUSTOM_PREFIX${font.fileName}"
 
-    /** 把 key 还原成文件名；不是自定义 key 时返回 null */
-    fun fileNameOf(key: String): String? =
-        if (key.startsWith(CUSTOM_PREFIX)) key.removePrefix(CUSTOM_PREFIX) else null
+    /** 判断 key 是复制模式的文件名，还是引用模式的 uri */
+    fun isUriKey(key: String): Boolean {
+        if (!key.startsWith(CUSTOM_PREFIX)) return false
+        return key.removePrefix(CUSTOM_PREFIX).startsWith(URI_PREFIX)
+    }
+
+    fun uriOfKey(key: String): Uri? {
+        if (!isUriKey(key)) return null
+        val rest = key.removePrefix(CUSTOM_PREFIX).removePrefix(URI_PREFIX)
+        return Uri.parse(rest)
+    }
+
+    fun fileNameOfKey(key: String): String? {
+        if (!key.startsWith(CUSTOM_PREFIX) || isUriKey(key)) return null
+        return key.removePrefix(CUSTOM_PREFIX)
+    }
 
     /**
-     * 导入一个字体文件。
-     *
-     * 行为：
-     * - 从 SAF Uri 复制到 filesDir/fonts/，文件名自动去重
-     * - 用 Typeface.createFromFile 校验，失败则删除临时文件并返回失败
-     * - 成功后写入 Prefs.customFonts，但不会自动切换当前字体
+     * 导入字体。
+     * - 复制模式：复制到 filesDir/fonts/，返回 fileName 型 CustomFont
+     * - 引用模式：持久化 URI 权限，直接返回 uri 型 CustomFont
+     * - API < 26 时强制复制，因为 Typeface.Builder(FileDescriptor) 不可用
      */
     fun importFont(context: Context, prefs: Prefs, uri: Uri): Result<CustomFont> {
         return try {
             val cr = context.contentResolver
             val originalName = EditorFileIO.queryName(cr, uri, "font.ttf")
-
             val base = originalName.substringBeforeLast('.', originalName)
                 .ifBlank { "font" }
                 .replace(Regex("[^a-zA-Z0-9_\\u4e00-\\u9fff-]"), "_")
                 .take(32)
                 .ifBlank { "font" }
 
-            val ext = originalName.substringAfterLast('.', "")
-                .ifBlank { "ttf" }
-                .lowercase()
+            val canUseUriMode = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+            val useUriMode = !prefs.copyFontToPrivate && canUseUriMode
 
-            val dir = fontsDir(context)
-            val fileName = uniqueFileName(dir, base, ext)
-            val dest = File(dir, fileName)
+            if (useUriMode) {
+                try {
+                    cr.takePersistableUriPermission(
+                        uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                } catch (_: Exception) {}
 
-            val input = cr.openInputStream(uri)
-                ?: return Result.failure(
-                    IOException(context.getString(R.string.font_import_read_failed))
-                )
+                val tf = loadTypefaceFromUri(context, uri)
+                    ?: return Result.failure(
+                        Exception(context.getString(R.string.font_import_invalid))
+                    )
 
-            input.use { src ->
-                dest.outputStream().use { out -> src.copyTo(out) }
+                val font = CustomFont(base, "", uri.toString())
+                prefs.customFonts = prefs.customFonts + font
+                Result.success(font)
+            } else {
+                val ext = originalName.substringAfterLast('.', "")
+                    .ifBlank { "ttf" }
+                    .lowercase()
+                val dir = fontsDir(context)
+                val fileName = uniqueFileName(dir, base, ext)
+                val dest = File(dir, fileName)
+
+                val input = cr.openInputStream(uri)
+                    ?: return Result.failure(
+                        IOException(context.getString(R.string.font_import_read_failed))
+                    )
+                input.use { src ->
+                    dest.outputStream().use { out -> src.copyTo(out) }
+                }
+
+                try {
+                    Typeface.createFromFile(dest)
+                } catch (e: Exception) {
+                    dest.delete()
+                    return Result.failure(
+                        Exception(context.getString(R.string.font_import_invalid), e)
+                    )
+                }
+
+                val font = CustomFont(base, fileName, "")
+                prefs.customFonts = prefs.customFonts + font
+                Result.success(font)
             }
-
-            // 校验字体是否可解析
-            try {
-                Typeface.createFromFile(dest)
-            } catch (e: Exception) {
-                dest.delete()
-                return Result.failure(
-                    Exception(context.getString(R.string.font_import_invalid), e)
-                )
-            }
-
-            val font = CustomFont(base, fileName)
-            val newList = prefs.customFonts.toMutableList().apply { add(font) }
-            prefs.customFonts = newList
-
-            Result.success(font)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    /**
-     * 删除一组自定义字体。
-     *
-     * 行为：
-     * - 删除字体文件
-     * - 从 Prefs.customFonts 移除
-     * - 如果当前正在使用被删除的字体，回退到 monospace
-     *
-     * @return 实际删除的数量
-     */
-    fun delete(prefs: Prefs, fonts: List<CustomFont>): Int {
+    fun delete(context: Context, prefs: Prefs, fonts: List<CustomFont>): Int {
         if (fonts.isEmpty()) return 0
 
         val currentKey = prefs.editorFontFamily
@@ -116,10 +128,18 @@ object FontManager {
         val remaining = prefs.customFonts.toMutableList()
 
         for (f in fonts) {
-            val file = prefs.fontFile(f.fileName)
-            if (file.exists()) file.delete()
+            if (f.isUri) {
+                try {
+                    context.contentResolver.releasePersistableUriPermission(
+                        Uri.parse(f.uri), Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                } catch (_: Exception) {}
+            } else {
+                val file = prefs.fontFile(f.fileName)
+                if (file.exists()) file.delete()
+            }
 
-            remaining.removeAll { it.fileName == f.fileName }
+            remaining.removeAll { it.matches(f) }
 
             if (currentKey == key(f)) currentDeleted = true
         }
@@ -131,12 +151,6 @@ object FontManager {
         return fonts.size
     }
 
-    /**
-     * 兼容旧版：旧版只有一个 customFontPath。
-     * 迁移到 filesDir/fonts，加入列表，并把 "custom" 改成新 key。
-     *
-     * 幂等：多次调用不会重复添加。
-     */
     fun migrateLegacy(context: Context, prefs: Prefs) {
         val oldPath = prefs.customFontPath
         if (oldPath.isBlank()) return
@@ -144,7 +158,6 @@ object FontManager {
         val oldFile = File(oldPath)
         if (!oldFile.exists()) {
             prefs.customFontPath = ""
-            // 旧文件已经不存在，如果当前仍是 "custom" 就回退
             if (prefs.editorFontFamily == "custom") {
                 prefs.editorFontFamily = "monospace"
             }
@@ -155,7 +168,6 @@ object FontManager {
         val destName = oldFile.name.ifBlank { "custom_font" }
         val dest = File(dir, destName)
 
-        // 如果旧文件不在 fonts 目录，复制过去；如果已经在目录里，不复制
         val sameFile = try {
             oldFile.canonicalPath == dest.canonicalPath
         } catch (_: Exception) {
@@ -171,10 +183,11 @@ object FontManager {
         }
 
         val list = prefs.customFonts.toMutableList()
-        val font = list.firstOrNull { it.fileName == destName }
+        val font = list.firstOrNull { it.fileName == destName && !it.isUri }
             ?: CustomFont(
                 oldFile.nameWithoutExtension.ifBlank { "custom_font" },
-                destName
+                destName,
+                ""
             ).also { list.add(it) }
 
         prefs.customFonts = list
@@ -185,15 +198,23 @@ object FontManager {
 
         prefs.customFontPath = ""
 
-        // 旧文件不在 fonts 目录且已复制成功，删除旧文件
         if (!sameFile && oldFile.parentFile?.absolutePath != dir.absolutePath) {
             try { oldFile.delete() } catch (_: Exception) {}
         }
     }
 
-    // ---------------- 内部工具 ----------------
+    /** 通过 URI 加载 Typeface。API 26+ 直接用 fd；低版本返回 null，强制走复制模式。 */
+    fun loadTypefaceFromUri(context: Context, uri: Uri): Typeface? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
+        return try {
+            context.contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
+                Typeface.Builder(pfd.fileDescriptor).build()
+            }
+        } catch (_: Exception) {
+            null
+        }
+    }
 
-    /** 在目录中生成不冲突的文件名：base.ext / base_1.ext / base_2.ext ... */
     private fun uniqueFileName(dir: File, base: String, ext: String): String {
         var candidate = "$base.$ext"
         var index = 1
