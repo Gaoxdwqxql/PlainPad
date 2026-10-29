@@ -12,6 +12,7 @@ object InstanceStateStore {
     private const val KEY_TEXTS = "doc_texts"
     private const val KEY_DIRTY_FLAGS = "doc_dirty_flags"
     private const val KEY_READONLY_FLAGS = "doc_readonly_flags"
+    private const val KEY_BOM_FLAGS = "doc_bom_flags"
     private const val KEY_SEL_STARTS = "doc_sel_starts"
     private const val KEY_SEL_ENDS = "doc_sel_ends"
     private const val KEY_SCROLLS = "doc_scrolls"
@@ -38,6 +39,7 @@ object InstanceStateStore {
         val texts = ArrayList<String>()
         val dirtyFlags = ArrayList<Boolean>()
         val readonlyFlags = ArrayList<Boolean>()
+        val bomFlags = ArrayList<Boolean>()
         val selStarts = ArrayList<Int>()
         val selEnds = ArrayList<Int>()
         val scrolls = ArrayList<Int>()
@@ -50,6 +52,7 @@ object InstanceStateStore {
             texts.add(if (d.text.length <= MAX_BUNDLE_TEXT_LENGTH) d.text else "")
             dirtyFlags.add(d.isDirty)
             readonlyFlags.add(d.isReadOnly)
+            bomFlags.add(d.hasBom)
             selStarts.add(d.selStart)
             selEnds.add(d.selEnd)
             scrolls.add(d.scrollY)
@@ -62,6 +65,7 @@ object InstanceStateStore {
         outState.putStringArrayList(KEY_TEXTS, texts)
         outState.putBooleanArray(KEY_DIRTY_FLAGS, dirtyFlags.toBooleanArray())
         outState.putBooleanArray(KEY_READONLY_FLAGS, readonlyFlags.toBooleanArray())
+        outState.putBooleanArray(KEY_BOM_FLAGS, bomFlags.toBooleanArray())
         outState.putIntegerArrayList(KEY_SEL_STARTS, selStarts)
         outState.putIntegerArrayList(KEY_SEL_ENDS, selEnds)
         outState.putIntegerArrayList(KEY_SCROLLS, scrolls)
@@ -83,6 +87,7 @@ object InstanceStateStore {
         val texts = state.getStringArrayList(KEY_TEXTS) ?: arrayListOf()
         val dirtyFlags = state.getBooleanArray(KEY_DIRTY_FLAGS) ?: booleanArrayOf()
         val readonlyFlags = state.getBooleanArray(KEY_READONLY_FLAGS) ?: booleanArrayOf()
+        val bomFlags = state.getBooleanArray(KEY_BOM_FLAGS) ?: booleanArrayOf()
         val selStarts = state.getIntegerArrayList(KEY_SEL_STARTS) ?: arrayListOf()
         val selEnds = state.getIntegerArrayList(KEY_SEL_ENDS) ?: arrayListOf()
         val scrolls = state.getIntegerArrayList(KEY_SCROLLS) ?: arrayListOf()
@@ -100,6 +105,7 @@ object InstanceStateStore {
                     text = texts.getOrNull(i) ?: "",
                     isDirty = dirtyFlags.getOrNull(i) ?: false,
                     isReadOnly = readonlyFlags.getOrNull(i) ?: false,
+                    hasBom = bomFlags.getOrNull(i) ?: false,
                     selStart = selStarts.getOrNull(i) ?: 0,
                     selEnd = selEnds.getOrNull(i) ?: 0,
                     scrollY = scrolls.getOrNull(i) ?: 0,

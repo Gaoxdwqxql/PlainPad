@@ -26,6 +26,7 @@ object SettingsCatalog {
         SettingsItem("auto_save_on_tab_switch", R.string.auto_save_on_tab_switch, 0, "save"),
         SettingsItem("auto_save_on_edit", R.string.auto_save_on_edit, R.string.auto_save_on_edit_hint, "save"),
         SettingsItem("auto_save_interval", R.string.auto_save_interval, 0, "save"),
+        SettingsItem("utf8_bom", R.string.settings_utf8_bom, R.string.settings_utf8_bom_hint, "save"),
 
         // 外观
         SettingsItem("editor_theme", R.string.settings_editor_theme, R.string.settings_editor_theme_desc, "appearance"),

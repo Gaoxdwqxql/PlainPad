@@ -108,6 +108,7 @@ class SettingsActivity : AppCompatActivity() {
         setupPlusBehavior()
         setupStatusBarItems()
         setupAutoSave()
+        setupUtf8Bom()
         setupReplaceRules()
         setupOtherSection()
     }
@@ -122,6 +123,7 @@ class SettingsActivity : AppCompatActivity() {
         updateThemeColorLabel()
         updateLanguageLabel()
         binding.switchCopyFont.isChecked = prefs.copyFontToPrivate
+        binding.switchUtf8Bom.isChecked = prefs.utf8Bom
         updateDevOptionsRow()
     }
 
@@ -734,6 +736,14 @@ class SettingsActivity : AppCompatActivity() {
         showChoiceDialog(R.string.auto_save_interval_title, names, current) { which ->
             prefs.autoSaveIntervalSec = values[which]
             updateAutoSaveIntervalLabel()
+        }
+    }
+
+    private fun setupUtf8Bom() {
+        binding.switchUtf8Bom.isChecked = prefs.utf8Bom
+        binding.switchUtf8Bom.setOnCheckedChangeListener { _, checked -> prefs.utf8Bom = checked }
+        binding.rowUtf8Bom.setOnClickListener {
+            binding.switchUtf8Bom.isChecked = !binding.switchUtf8Bom.isChecked
         }
     }
 

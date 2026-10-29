@@ -67,12 +67,14 @@ class AutoSaveController(
         val doc = getCurrentDoc() ?: return
         if (doc.uri == null || !doc.isDirty || doc.isReadOnly) return
         val content = getContent()
+        val withBom = prefs.utf8Bom || doc.hasBom
         activity.lifecycleScope.launch {
             try {
                 withContext(Dispatchers.IO) {
-                    EditorFileIO.save(activity.contentResolver, doc.uri!!, content, doc.encoding)
+                    EditorFileIO.save(activity.contentResolver, doc.uri!!, content, doc.encoding, withBom)
                 }
                 doc.text = content
+                doc.hasBom = withBom
                 doc.isDirty = false
                 prefs.lastSaveTime = System.currentTimeMillis()
                 onSaved(doc, content)

@@ -14,5 +14,7 @@ data class OpenDocument(
     var scrollY: Int = 0,
     var isDirty: Boolean = false,
     var isReadOnly: Boolean = false,
+    /** 保存时是否写入 BOM。打开带 BOM 的文件后为 true，用于原样保留。 */
+    var hasBom: Boolean = false,
     var draftId: String = UUID.randomUUID().toString()
 )

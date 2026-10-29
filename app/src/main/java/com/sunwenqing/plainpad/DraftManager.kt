@@ -13,6 +13,8 @@ data class DraftInfo(
     val selEnd: Int,
     val scrollY: Int,
     val isReadOnly: Boolean,
+    /** 该文档保存时是否应写入 BOM，崩溃恢复后要原样带回来 */
+    val hasBom: Boolean,
     val savedAt: Long
 )
 
@@ -47,6 +49,7 @@ object DraftManager {
                 put("selEnd", doc.selEnd)
                 put("scrollY", doc.scrollY)
                 put("isReadOnly", doc.isReadOnly)
+                put("hasBom", doc.hasBom)
                 put("savedAt", System.currentTimeMillis())
             }
 
@@ -75,6 +78,7 @@ object DraftManager {
                 selEnd = o.optInt("selEnd", 0),
                 scrollY = o.optInt("scrollY", 0),
                 isReadOnly = o.optBoolean("isReadOnly", false),
+                hasBom = o.optBoolean("hasBom", false),
                 savedAt = o.optLong("savedAt", 0L)
             )
             val text = textFile.readText(Charsets.UTF_8)

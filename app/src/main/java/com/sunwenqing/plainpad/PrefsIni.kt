@@ -58,6 +58,7 @@ object PrefsIni {
         sb.append("autoSaveOnTabSwitch=").append(prefs.autoSaveOnTabSwitch).append('\n')
         sb.append("autoSaveOnEdit=").append(prefs.autoSaveOnEdit).append('\n')
         sb.append("autoSaveIntervalSec=").append(prefs.autoSaveIntervalSec).append('\n')
+        sb.append("utf8Bom=").append(prefs.utf8Bom).append('\n')
         sb.append('\n')
 
         sb.append('[').append(SECTION_STATUS).append("]\n")
@@ -108,6 +109,7 @@ object PrefsIni {
                     prefs.autoSaveIntervalSec = it
                     count++
                 }
+                s["utf8Bom"]?.toBooleanStrictOrNull()?.let { prefs.utf8Bom = it; count++ }
             }
 
             sections[SECTION_STATUS]?.let { s ->

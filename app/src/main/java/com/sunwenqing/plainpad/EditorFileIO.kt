@@ -15,7 +15,9 @@ object EditorFileIO {
     data class LoadResult(
         val text: String,
         val encoding: String,
-        val isTruncated: Boolean
+        val isTruncated: Boolean,
+        /** 原文件是否带 BOM（UTF-16 的 BOM 视为编码的一部分） */
+        val hasBom: Boolean
     )
 
     fun load(cr: ContentResolver, uri: Uri): LoadResult {
@@ -39,14 +41,14 @@ object EditorFileIO {
             }
 
             val r = TextCodec.detectAndDecode(buffer.toByteArray())
-            return LoadResult(r.text, r.encoding, isTruncated)
+            return LoadResult(r.text, r.encoding, isTruncated, r.hasBom)
         }
     }
 
-    fun save(cr: ContentResolver, uri: Uri, text: String, encoding: String) {
+    fun save(cr: ContentResolver, uri: Uri, text: String, encoding: String, withBom: Boolean = false) {
         val out = openOutput(cr, uri) ?: throw IOException("无法写入该文件")
         out.use {
-            it.write(TextCodec.encode(text, encoding))
+            it.write(TextCodec.encode(text, encoding, withBom))
             it.flush()
         }
     }

@@ -150,6 +150,11 @@ class Prefs(context: Context) {
         get() = sp.getBoolean(KEY_SHOW_SPECIAL_CHARS, false)
         set(v) = sp.edit { putBoolean(KEY_SHOW_SPECIAL_CHARS, v) }
 
+    /** 保存 UTF-8 文件时是否写入 BOM。关闭时不主动添加，但原文件已有的 BOM 会保留。 */
+    var utf8Bom: Boolean
+        get() = sp.getBoolean(KEY_UTF8_BOM, false)
+        set(v) = sp.edit { putBoolean(KEY_UTF8_BOM, v) }
+
     var onboardingDone: Boolean
         get() = sp.getBoolean(KEY_ONBOARDING_DONE, false)
         set(v) = sp.edit { putBoolean(KEY_ONBOARDING_DONE, v) }
@@ -222,6 +227,7 @@ class Prefs(context: Context) {
             o.put("sel", d.selStart)
             o.put("sel2", d.selEnd)
             o.put("scroll", d.scrollY)
+            o.put("bom", d.hasBom)
             o.put("draftId", d.draftId)
             val needSaveText = d.uri == null || d.isDirty
             o.put("text", if (needSaveText) d.text else "")
@@ -251,6 +257,7 @@ class Prefs(context: Context) {
                         selStart = o.optInt("sel", 0),
                         selEnd = o.optInt("sel2", 0),
                         scrollY = o.optInt("scroll", 0),
+                        hasBom = o.optBoolean("bom", false),
                         text = o.optString("text", ""),
                         draftId = o.optString("draftId", "")
                             .takeIf { it.isNotEmpty() } ?: UUID.randomUUID().toString()
@@ -288,6 +295,7 @@ class Prefs(context: Context) {
         const val KEY_AUTO_SAVE_INTERVAL = "auto_save_interval_sec"
         const val KEY_LAST_SAVE_TIME = "last_save_time"
         const val KEY_SHOW_SPECIAL_CHARS = "show_special_chars"
+        const val KEY_UTF8_BOM = "utf8_bom"
         const val KEY_ONBOARDING_DONE = "onboarding_done"
         const val KEY_DEV_OPTIONS_UNLOCKED = "dev_options_unlocked"
         const val KEY_RECENT = "recent_files"

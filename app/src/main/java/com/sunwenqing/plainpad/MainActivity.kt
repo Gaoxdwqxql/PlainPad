@@ -537,6 +537,7 @@ class MainActivity : AppCompatActivity() {
                 doc.selStart = info.selStart
                 doc.selEnd = info.selEnd
                 doc.scrollY = info.scrollY
+                doc.hasBom = info.hasBom
                 doc.isDirty = true
                 if (existingIdx == currentIndex) lastRestoredIndex = existingIdx
             } else {
@@ -550,6 +551,7 @@ class MainActivity : AppCompatActivity() {
                     scrollY = info.scrollY,
                     isReadOnly = info.isReadOnly,
                     isDirty = true,
+                    hasBom = info.hasBom,
                     draftId = info.draftId
                 )
                 documents.add(doc)
@@ -832,6 +834,7 @@ class MainActivity : AppCompatActivity() {
                         doc.text = result.text
                         doc.encoding = result.encoding
                         doc.isReadOnly = result.isTruncated
+                        doc.hasBom = result.hasBom
                         if (index == currentIndex) loadDocIntoEditor(doc)
                         refreshTabBar()
                     } catch (_: Exception) {}
@@ -868,7 +871,8 @@ class MainActivity : AppCompatActivity() {
                     displayName = name,
                     encoding = result.encoding,
                     text = result.text,
-                    isReadOnly = result.isTruncated
+                    isReadOnly = result.isTruncated,
+                    hasBom = result.hasBom
                 )
                 saveCurrentToDoc()
                 documents.add(doc)
@@ -912,15 +916,17 @@ class MainActivity : AppCompatActivity() {
         if (doc.isReadOnly || isLargeFileMode) return
         val content = binding.editor.text?.toString().orEmpty()
         val encoding = pendingEncoding ?: doc.encoding
+        val withBom = prefs.utf8Bom || doc.hasBom
         lifecycleScope.launch {
             try {
                 withContext(Dispatchers.IO) {
-                    EditorFileIO.save(contentResolver, uri, content, encoding)
+                    EditorFileIO.save(contentResolver, uri, content, encoding, withBom)
                 }
                 doc.uri = uri
                 doc.displayName = EditorFileIO.queryName(contentResolver, uri, getString(R.string.untitled))
                 doc.encoding = encoding
                 doc.text = content
+                doc.hasBom = withBom
                 doc.isDirty = false
                 prefs.lastSaveTime = System.currentTimeMillis()
                 deleteDraft(doc)
@@ -951,9 +957,11 @@ class MainActivity : AppCompatActivity() {
             var failed = 0
             for (doc in targets) {
                 try {
+                    val withBom = prefs.utf8Bom || doc.hasBom
                     withContext(Dispatchers.IO) {
-                        EditorFileIO.save(contentResolver, doc.uri!!, doc.text, doc.encoding)
+                        EditorFileIO.save(contentResolver, doc.uri!!, doc.text, doc.encoding, withBom)
                     }
+                    doc.hasBom = withBom
                     doc.isDirty = false
                     DraftManager.delete(this@MainActivity, doc.draftId)
                     success++
