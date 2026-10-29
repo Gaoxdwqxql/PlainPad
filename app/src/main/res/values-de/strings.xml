@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Info -->
+    <string name="app_name">PlainPad</string>
+    <string name="untitled">Unbenannt.txt</string>
+    <string name="default_file_name">Unbenannt.txt</string>
+    <string name="untitled_n">Unbenannt %1$d.txt</string>
+    <string name="editor_hint">Text hier eingeben…</string>
+
+    <!-- Top Bar -->
+    <string name="menu_undo">Rückgängig</string>
+    <string name="menu_redo">Wiederholen</string>
+    <string name="menu_find">Suchen</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_more">Mehr</string>
+
+    <!-- Overflow Menu -->
+    <string name="menu_new">Neu</string>
+    <string name="menu_open">Öffnen…</string>
+    <string name="menu_recent">Zuletzt verwendete Dateien</string>
+    <string name="menu_save">Speichern</string>
+    <string name="menu_save_as">Speichern unter…</string>
+    <string name="menu_close_tab">Tab schließen</string>
+    <string name="menu_replace">Ersetzen</string>
+    <string name="menu_goto_line">Gehe zu Zeile</string>
+    <string name="menu_immersive">Immersiver Modus</string>
+    <string name="menu_default">Als Standard-Editor festlegen</string>
+    <string name="menu_about">Über</string>
+
+    <!-- Compatibility -->
+    <string name="menu_wrap">Zeilenumbruch</string>
+    <string name="menu_show_line_numbers">Zeilennummern anzeigen</string>
+    <string name="menu_font_size">Schriftgröße</string>
+    <string name="menu_theme">Design</string>
+
+    <!-- Undo/Redo Toast -->
+    <string name="no_undo">Nichts rückgängig zu machen</string>
+    <string name="no_redo">Nichts wiederherzustellen</string>
+
+    <!-- Recent Files -->
+    <string name="recent_title">Zuletzt verwendete Dateien</string>
+    <string name="no_recent">Keine zuletzt verwendeten Dateien</string>
+    <string name="recent_cleared">Liste der zuletzt verwendeten Dateien gelöscht</string>
+    <string name="clear">Löschen</string>
+
+    <!-- Find/Replace -->
+    <string name="find_hint">Suchen</string>
+    <string name="replace_hint">Ersetzen durch</string>
+    <string name="find_prev">Zurück</string>
+    <string name="find_next">Weiter</string>
+    <string name="replace">Ersetzen</string>
+    <string name="replace_all">Alle ersetzen</string>
+    <string name="close">Schließen</string>
+    <string name="not_found">Nicht gefunden</string>
+    <string name="replaced_n">%1$d Vorkommen ersetzt</string>
+
+    <!-- Search Options -->
+    <string name="search_regex">Regex</string>
+    <string name="search_case_sensitive">Groß-/Kleinschreibung beachten</string>
+    <string name="search_from_start">Von Anfang an</string>
+    <string name="search_hint_plain">Wörtliche Übereinstimmung, Groß-/Kleinschreibung ignorieren</string>
+    <string name="search_hint_case">Wörtliche Übereinstimmung, Groß-/Kleinschreibung beachten</string>
+    <string name="search_hint_regex">Regex-Übereinstimmung, Groß-/Kleinschreibung ignorieren; Ersetzung unterstützt $1, $2-Gruppen</string>
+    <string name="search_hint_regex_case">Regex-Übereinstimmung, Groß-/Kleinschreibung beachten; Ersetzung unterstützt $1, $2-Gruppen</string>
+    <string name="search_status_found">Übereinstimmung gefunden</string>
+    <string name="search_status_not_found">Keine Übereinstimmung gefunden</string>
+    <string name="search_status_invalid_regex">Ungültiger Regex: %1$s</string>
+    <string name="search_status_initial_from_start">Die Suche beginnt am Dateianfang</string>
+    <string name="search_status_initial_from_cursor">Die Suche beginnt an der Cursorposition</string>
+    <string name="search_empty_query">Geben Sie etwas zum Suchen ein</string>
+    <string name="replace_status_replaced_current">Aktuelle Übereinstimmung ersetzt</string>
+    <string name="replace_status_replaced">%1$d Vorkommen ersetzt</string>
+    <string name="replace_status_located">Übereinstimmung gefunden, erneut auf Ersetzen tippen</string>
+
+    <!-- Save/Open Status -->
+    <string name="saved">Gespeichert</string>
+    <string name="err_open">Öffnen fehlgeschlagen: %1$s</string>
+    <string name="err_save">Speichern fehlgeschlagen: %1$s</string>
+    <string name="status_count">%1$d Zeichen · %2$d Zeilen</string>
+
+    <!-- Unsaved -->
+    <string name="unsaved_title">Nicht gespeicherte Änderungen</string>
+    <string name="unsaved_message">Die aktuelle Datei wurde geändert. Änderungen speichern?</string>
+    <string name="save">Speichern</string>
+    <string name="discard">Verwerfen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="ok">OK</string>
+
+    <!-- General -->
+    <string name="no_settings">Systemeinstellungen können nicht geöffnet werden</string>
+    <string name="about_message">PlainPad 1.0\n\nEin schlanker Plain-Text-Editor.\nUnterstützt die automatische Erkennung von UTF-8 / UTF-16 / GBK und die Bearbeitung mit mehreren Tabs.\n\nTipp: Sie können PlainPad in den Systemeinstellungen als Standard-App für txt-Dateien festlegen.</string>
+
+    <!-- Encoding -->
+    <string name="choose_encoding">Kodierung wählen</string>
+    <string name="encoding_label">Kodierung: %1$s</string>
+
+    <!-- Font Size -->
+    <string name="font_size_dialog_title">Schriftgröße anpassen</string>
+    <string name="font_size_label">Aktuelle Größe: %1$d sp</string>
+
+    <!-- Theme -->
+    <string name="theme_title">Design wählen</string>
+    <string name="theme_system">System folgen</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+
+    <!-- Immersive -->
+    <string name="exit_immersive">Immersiven Modus beenden</string>
+
+    <!-- Goto Line -->
+    <string name="goto_line_title">Gehe zu Zeile</string>
+    <string name="goto_line_hint">Zeilennummer eingeben</string>
+    <string name="goto_line_range">Insgesamt %1$d Zeilen</string>
+    <string name="goto_line_invalid">Ungültige Zeilennummer</string>
+
+    <!-- Tabs -->
+    <string name="cannot_close_last">Mindestens ein Tab muss geöffnet bleiben</string>
+
+    <!-- Settings Page -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_font_size_title">Schriftgröße</string>
+    <string name="settings_theme">App-Design</string>
+    <string name="settings_startup_mode">Startmodus</string>
+    <string name="settings_startup_hint">Beim Kaltstart über den Launcher:</string>
+    <string name="settings_plus_behavior">Verhalten der Plus-Schaltfläche</string>
+
+    <string name="section_editing">Bearbeiten</string>
+    <string name="section_save">Speichern</string>
+    <string name="section_appearance">Darstellung</string>
+    <string name="section_tabs">Tabs</string>
+
+    <string name="startup_restore">Vorherige Tabs wiederherstellen</string>
+    <string name="startup_new_only">Neue Datei, Verlauf verwerfen</string>
+    <string name="startup_new_and_restore">Neue Datei und Verlauf behalten</string>
+
+    <string name="plus_reuse_empty">Vorhandenen leeren Tab wiederverwenden</string>
+    <string name="plus_always_new">Immer einen neuen Tab erstellen</string>
+
+    <!-- Editor Theme / Font -->
+    <string name="settings_editor_theme">Editor-Design</string>
+    <string name="settings_editor_font">Editor-Schriftart</string>
+
+    <string name="theme_follow_app">App-Design folgen</string>
+    <string name="theme_white">Weiß</string>
+    <string name="theme_sepia">Sepia</string>
+    <string name="theme_soft_green">Zartgrün</string>
+    <string name="theme_oled_black">OLED-Schwarz</string>
+    <string name="theme_dark_gray">Dunkelgrau</string>
+    <string name="theme_midnight_blue">Mitternachtsblau</string>
+
+    <string name="font_monospace">Monospace</string>
+    <string name="font_sans_serif">Sans Serif</string>
+    <string name="font_serif">Serif</string>
+
+    <!-- About -->
+    <string name="about_title">Über</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_description">PlainPad ist ein schlanker Plain-Text-Editor.\nUnterstützt die automatische Erkennung von UTF-8 / UTF-16 / GBK, die Bearbeitung mit mehreren Tabs, Zeilennummern, Zoomen per Zwei-Finger-Geste sowie anpassbare Editor-Designs und Schriftarten.</string>
+    <string name="about_set_default">Als Standard-Editor festlegen</string>
+    <string name="about_made_with">Mit ❤️ gemacht</string>
+
+    <!-- Stats Dialog -->
+    <string name="stats_title">Statistik</string>
+    <string name="stats_group_chars">Zeichenstatistik</string>
+    <string name="stats_group_paragraphs">Absätze &amp; Zeilen</string>
+    <string name="stats_group_file">Dateiinformationen</string>
+    <string name="stats_sha256_label">SHA-256</string>
+    <string name="stats_sha256_computing">Wird berechnet…</string>
+    <string name="stats_sha256_unavailable">Nicht verfügbar</string>
+    <string name="stats_sha256_current_content">%1$s (aktueller Inhalt, nicht gespeichert)</string>
+    <string name="stat_chars_no_space">Zeichen (ohne Leerzeichen)</string>
+    <string name="stat_visible_chars">Sichtbare Zeichen</string>
+    <string name="stat_invisible_chars">Unsichtbare Zeichen</string>
+    <string name="stat_letters">Buchstaben</string>
+    <string name="stat_digits">Ziffern</string>
+    <string name="stat_words">Wörter</string>
+    <string name="stat_total_lines">Zeilen insgesamt</string>
+    <string name="stat_nonempty_lines">Nicht leere Zeilen</string>
+    <string name="stat_paragraphs">Absätze</string>
+    <string name="stat_chinese_chars">Chinesische Zeichen</string>
+    <string name="stat_max_line_width">Maximale Zeilenbreite</string>
+
+    <!-- Status Bar Formats -->
+    <string name="status_chars_space">%1$d Zeichen</string>
+    <string name="status_chars_nospace">%1$d Zeichen</string>
+    <string name="status_words">%1$d Wörter</string>
+    <string name="status_lines">%1$d Zeilen</string>
+    <string name="status_nonempty_lines">%1$d nicht leer</string>
+    <string name="status_max_line">Max. Breite %1$d</string>
+    <string name="status_letters">%1$d Buchstaben</string>
+    <string name="status_invisible">%1$d unsichtbar</string>
+
+    <!-- Status Bar Settings -->
+    <string name="settings_status_bar">Statusleisten-Anzeige</string>
+    <string name="status_bar_hint">Max. 2 Elemente. Ältere werden abgewählt.</string>
+    <string name="status_item_chars_space">Zeichen (mit Leerzeichen)</string>
+    <string name="status_item_chars_nospace">Zeichen (ohne Leerzeichen)</string>
+    <string name="status_item_words">Wörter</string>
+    <string name="status_item_lines">Zeilen insgesamt</string>
+    <string name="status_item_nonempty_lines">Nicht leere Zeilen</string>
+    <string name="status_item_max_line">Maximale Zeilenbreite</string>
+    <string name="status_item_letters">Buchstaben</string>
+    <string name="status_item_invisible">Unsichtbare Zeichen</string>
+
+    <!-- Special Chars -->
+    <string name="insert_special_cd">Sonderzeichen einfügen</string>
+    <string name="insert_special_title">Sonderzeichen einfügen</string>
+    <string name="special_lf">LF (Zeilenvorschub) </string>
+    <string name="special_cr">CR (Wagenrücklauf) </string>
+    <string name="special_crlf">CRLF </string>
+    <string name="special_tab">TAB </string>
+    <string name="special_zwsp">Leerzeichen ohne Breite</string>
+    <string name="special_zwnj">ZWNJ</string>
+    <string name="special_zwj">ZWJ</string>
+    <string name="special_nbsp">Geschütztes Leerzeichen</string>
+    <string name="special_ideographic_space">Ideographisches Leerzeichen</string>
+    <string name="special_nbhyphen">Geschützter Bindestrich</string>
+    <string name="special_bom">BOM</string>
+    <string name="special_lrm">LRM</string>
+    <string name="special_rlm">RLM</string>
+
+    <string name="stat_chars_with_space">Zeichen (mit Leerzeichen, ohne Zeilenumbruch)</string>
+
+    <!-- Auto Save -->
+    <string name="settings_auto_save">Automatisches Speichern</string>
+    <string name="auto_save_hint">Funktioniert nur bei gespeicherten Dateien. Unbenannte Dateien werden übersprungen.</string>
+    <string name="auto_save_on_pause">Im Hintergrund speichern</string>
+    <string name="auto_save_on_tab_switch">Beim Tab-Wechsel speichern</string>
+    <string name="auto_save_interval">Intervall-Speicherung</string>
+    <string name="auto_save_interval_title">Intervall für automatisches Speichern</string>
+    <string name="auto_save_interval_off">Aus</string>
+    <string name="auto_save_interval_15">Alle 15 Sek.</string>
+    <string name="auto_save_interval_30">Alle 30 Sek.</string>
+    <string name="auto_save_interval_60">Jede Minute</string>
+    <string name="auto_save_interval_300">Alle 5 Min.</string>
+    <string name="auto_save_interval_600">Alle 10 Min.</string>
+
+    <string name="auto_save_status_pending">Ausstehend</string>
+    <string name="auto_save_status_saved">Gespeichert %1$s</string>
+    <string name="auto_save_status_saving">Wird gespeichert…</string>
+
+    <string name="stats_file_name">Datei: %1$s</string>
+
+    <string name="auto_save_on_edit">Beim Bearbeiten speichern</string>
+    <string name="auto_save_on_edit_hint">2 Sekunden nach dem Tippen speichern</string>
+    <string name="settings_utf8_bom">Mit UTF-8-BOM speichern</string>
+    <string name="settings_utf8_bom_hint">Schreibt eine BOM (EF BB BF) an den Anfang gespeicherter UTF-8-Dateien. Wenn deaktiviert, wird eine vorhandene BOM beibehalten.</string>
+    <string name="menu_reopen_encoding">Mit Kodierung erneut öffnen…</string>
+    <string name="reopen_no_file">Diese Datei wurde noch nicht auf dem Datenträger gespeichert</string>
+    <string name="reopen_discard_title">Nicht gespeicherte Änderungen verwerfen?</string>
+    <string name="reopen_discard_message">Beim erneuten Öffnen wird der aktuelle, nicht gespeicherte Inhalt verworfen.</string>
+    <string name="reopen_done">Erneut geöffnet als %1$s</string>
+    <string name="settings_current_line_highlight">Aktuelle Zeile hervorheben</string>
+    <string name="settings_current_line_highlight_hint">Die Zeile, in der sich der Cursor befindet, mit der Designfarbe einfärben</string>
+    <string name="crash_title">Letzter Lauf abgestürzt</string>
+    <string name="crash_message">%1$d Absturzprotokoll(e) gefunden, neuestes: %2$s</string>
+    <string name="crash_copy">Kopieren</string>
+    <string name="crash_copied">Absturzprotokolle kopiert</string>
+    <string name="crash_clear">Löschen</string>
+    <string name="crash_cleared">Absturzprotokolle gelöscht</string>
+    <string name="auto_save_last_time">Gespeichert um %1$s</string>
+
+    <string name="menu_save_current">Aktuelles Dokument speichern</string>
+    <string name="menu_save_all">Alle speichern</string>
+    <string name="save_all_nothing">Keine geänderten Dateien zum Speichern</string>
+    <string name="save_all_success">%1$d Dateien gespeichert</string>
+    <string name="save_all_partial">%1$d gespeichert, %2$d fehlgeschlagen</string>
+
+    <!-- Help -->
+    <string name="menu_help">Hilfe</string>
+    <string name="help_title">Hilfe</string>
+    <string name="help_intro">PlainPad ist ein schlanker, reiner, offline arbeitender Plain-Text-Editor. Unten finden Sie die Anleitung zu allen Funktionen. Tippen Sie auf den Zurück-Pfeil oder drücken Sie Zurück, um zu beenden.</string>
+
+    <string name="help_section_file">Dateioperationen</string>
+    <string name="help_file_content">• Neu: Menü → Neu oder das + am Ende der Tab-Leiste\n• Öffnen: Menü → Öffnen… über die System-Dateiauswahl\n• Speichern: Speichern-Symbol in der oberen Leiste → Aktuelle speichern\n• Alle speichern: Alle benannten und geänderten Tabs speichern\n• Speichern unter: Zuerst Kodierung, dann Speicherort wählen\n• Tab schließen: Auf × am Tab tippen oder Menü → Tab schließen\n• Zuletzt verwendete Dateien: Menü → Zuletzt verwendete Dateien (letzte 10)\n• Standard festlegen: Menü → Als Standard-Editor festlegen</string>
+
+    <string name="help_section_edit">Bearbeiten</string>
+    <string name="help_edit_content">• Rückgängig / Wiederholen: Pfeile in der oberen Leiste, bis zu 100 Schritte\n• Suchen: Lupe in der oberen Leiste, unterstützt Auf/Ab\n• Ersetzen: Menü → Ersetzen, einzeln oder alle\n• Gehe zu Zeile: Menü → Gehe zu Zeile\n• Sonderzeichen einfügen: ⊕ in der Statusleiste\n• Sonderzeichen anzeigen: In den Einstellungen aktivieren\n• Statistik: Auf den Statustext unten links tippen</string>
+
+    <string name="help_section_stats">Statistik</string>
+    <string name="help_stats_content">Tippen Sie auf den Statustext, um die Statistik anzuzeigen:\n• Zeichen (mit / ohne Leerzeichen)\n• Sichtbare / unsichtbare Zeichen\n• Buchstaben, Ziffern, chinesische Zeichen\n• Wörter, Gesamt-/nicht leere Zeilen, Absätze\n• Maximale Zeilenbreite\n\nIn Einstellungen → Bearbeiten können Sie wählen, welche 2 Elemente angezeigt werden.</string>
+
+    <string name="help_section_tabs">Tabs</string>
+    <string name="help_tabs_content">• Neuer Tab: Auf + tippen oder Menü → Neu\n• Tab wechseln: Auf den Tab tippen, Cursor und Scrollposition werden automatisch gespeichert\n• Tab schließen: Auf × tippen, bei ungespeicherten Änderungen erscheint eine Abfrage\n• Plus-Verhalten: Leeren Tab wiederverwenden oder immer neu\n• Startmodus: Wiederherstellen, neu &amp; verwerfen oder neu &amp; behalten</string>
+
+    <string name="help_section_appearance">Darstellung</string>
+    <string name="help_appearance_content">• Designfarbe: 8 voreingestellte Farben. Das Symbol wechselt automatisch (Android 12+)\n• Schriftgröße: Einstellungen → Schriftgröße, 10 ~ 40 sp\n• Editor-Design: App folgen, Weiß, Sepia, Grün, OLED, Dunkelgrau, Mitternachtsblau\n• Editor-Schriftart: Monospace, Sans Serif, Serif\n• Zeilennummern anzeigen: Breite ist fest, streng ausgerichtet\n• Zeilenumbruch: Einstellungen → Zeilenumbruch\n• App-Design: System / Hell / Dunkel</string>
+
+    <string name="help_section_gesture">Gesten</string>
+    <string name="help_gesture_content">• Zoomen: Mit zwei Fingern im Editorbereich\n• Rechte Bildlaufleiste: Zum Scrollen ziehen, mit Trägheit\n• Langes Drücken: Auswählen, Kopieren, Einfügen wie systemüblich\n• Tab-Scrollen: Horizontal wischen, wenn zu viele Tabs geöffnet sind</string>
+
+    <string name="help_section_autosave">Automatisches Speichern</string>
+    <string name="help_autosave_content">Aktivieren unter Einstellungen → Speichern:\n• Im Hintergrund speichern\n• Beim Tab-Wechsel speichern\n• Beim Bearbeiten speichern (2 s Verzögerung)\n• Intervall-Speicherung (15 s ~ 10 Min.)\n\nHinweis: Nur benannte Dateien werden automatisch gespeichert. Die Statusleiste zeigt den Zeitpunkt der letzten Speicherung.</string>
+
+    <string name="help_section_encoding">Kodierungsunterstützung</string>
+    <string name="help_encoding_content">Erkennt BOM automatisch und dekodiert zuerst als UTF-8, fällt andernfalls auf GBK zurück.\nSpeicheroptionen: UTF-8, UTF-16LE, UTF-16BE, GBK, GB2312.\nDie aktuelle Kodierung wird unten rechts angezeigt.</string>
+
+    <string name="help_section_eol">Zeilenende (EOL)</string>
+    <string name="help_eol_content">Das aktuelle Zeilenende-Format (CRLF oder LF) wird in der unteren Leiste neben der Kodierung angezeigt.\n• Windows verwendet CRLF (\\r\\n)\n• Unix / macOS verwendet LF (\\n)\n\nTippen Sie in der unteren Leiste auf die Bezeichnung CRLF oder LF, um zwischen ihnen zu wechseln und Formatierungsprobleme zwischen verschiedenen Betriebssystemen zu vermeiden.</string>
+
+    <string name="help_section_large_file">Großdatei-Modus</string>
+    <string name="help_large_file_content">Um auf Mobilgeräten eine möglichst flüssige Bedienung zu gewährleisten, behandelt PlainPad sehr große Texte speziell:\n• Lesegrenze: Bis zu 20 MB. Überschüssiger Inhalt wird mit einem Hinweis abgeschnitten.\n• Leistungsschutz: Wenn eine einzelne Datei mehr als 3 Millionen Zeichen umfasst oder eine extrem lange Zeile mit über 10.000 Zeichen enthält, wird automatisch der „Großdatei-Modus“ aktiviert.\n• Eingeschränkte Funktionen: Um Verzögerungen oder OOM (Out of Memory) zu vermeiden, sind Zeilennummern, Rückgängig/Wiederholen, Zoomen per Zwei-Finger-Geste, die Darstellung von Sonderzeichen und die Statistik in diesem Modus deaktiviert.</string>
+
+    <string name="help_section_immersive">Immersiver Modus</string>
+    <string name="help_immersive_content">Menü → Immersiver Modus blendet alle Leisten aus.\nBeenden Sie ihn mit der Schaltfläche unten rechts oder drücken Sie Zurück.</string>
+
+    <!-- Onboarding -->
+    <string name="onboard_skip">Überspringen</string>
+    <string name="onboard_next">Weiter</string>
+    <string name="onboard_start">Loslegen</string>
+
+    <string name="onboard_welcome_title">Willkommen bei PlainPad</string>
+    <string name="onboard_welcome_desc">Ein schlanker, reiner, offline arbeitender Plain-Text-Editor.\n\nKeine Werbung, kein Konto, keine Cloud-Synchronisierung. Alle Daten bleiben auf Ihrem Gerät.</string>
+
+    <string name="onboard_tabs_title">Bearbeitung mit mehreren Tabs</string>
+    <string name="onboard_tabs_desc">Tippen Sie auf + am Ende der Tab-Leiste, um einen neuen Tab zu erstellen.\n\nCursor- und Scrollposition werden beim Wechseln der Tabs gespeichert.\n\nTippen Sie auf ×, um zu schließen.</string>
+
+    <string name="onboard_save_title">Speichern &amp; Automatisches Speichern</string>
+    <string name="onboard_save_desc">Die Speichern-Schaltfläche unterstützt Alle speichern, Aktuelle speichern und Speichern unter.\n\nAktivieren Sie Automatisches Speichern, um im Hintergrund, beim Tab-Wechsel, nach dem Tippen (2 s) oder in festen Intervallen auf den Datenträger zu schreiben.</string>
+
+    <string name="onboard_prev">Zurück</string>
+    <string name="auto_save_never">Noch nicht gespeichert</string>
+    <string name="onboard_find_title">Suchen, Ersetzen, Gehe zu Zeile</string>
+    <string name="onboard_find_desc">Tippen Sie auf die Lupe, um zu suchen.\n\nDas Menü Mehr enthält Ersetzen und Gehe zu Zeile.\n\nDie Suche unterstützt Auf/Ab.</string>
+
+    <string name="onboard_appearance_title">Personalisieren</string>
+    <string name="onboard_appearance_desc">Passen Sie Schriftgröße, Schriftfamilie und Designs in den Einstellungen an.\n\nEditor-Designs: Weiß, Sepia, Grün, OLED, Dunkelgrau, Mitternachtsblau.\n\nDie Breite der Zeilennummern ist fest und springt nicht mit der Schriftgröße.</string>
+
+    <string name="onboard_gesture_title">Gesten</string>
+    <string name="onboard_gesture_desc">Zoomen Sie im Editor mit zwei Fingern.\n\nDie benutzerdefinierte Bildlaufleiste ist dicker und leichter zu greifen, mit Trägheit.\n\nTippen Sie auf den Statustext, um die Statistik anzuzeigen.</string>
+
+    <string name="onboard_special_title">Sonderzeichen einfügen</string>
+    <string name="onboard_special_desc">Verwenden Sie das ⊕-Symbol in der Statusleiste, um Folgendes einzufügen:\n\nLF, CR, TAB, Leerzeichen ohne Breite, geschütztes Leerzeichen, Vollbreiten-Leerzeichen, BOM usw.</string>
+
+    <string name="onboard_done_title">Loslegen</string>
+    <string name="onboard_done_desc">Alle Funktionen können jederzeit unter Menü → Hilfe angesehen werden.\n\nKlicken Sie unten auf die Schaltfläche, um jetzt zu starten!</string>
+
+    <!-- Special Char Panel -->
+    <string name="special_chars_title">Sonderzeichen</string>
+    <string name="special_chars_show">Sonderzeichen anzeigen</string>
+    <string name="special_chars_show_hint">Unsichtbare Zeichen als Symbole darstellen (der Inhalt wird nicht verändert)</string>
+    <string name="special_chars_replace_rules_title">Ersetzungsregeln</string>
+    <string name="special_chars_replace_rules">TAB → ⇥\nIdeographisches Leerzeichen (U+3000) → □\nNBSP → ◦\nZWSP → ·\nZWNJ → ·\nZWJ → ·\nGeschützter Bindestrich (U+2011) → ‑\nBOM → ⟪\nLRM → ▸\nRLM → ◂\n\nNormale Leerzeichen und Zeilenumbrüche werden nicht ersetzt</string>
+    <string name="special_chars_insert_section">Zum Auswählen tippen, zum Einfügen auf OK tippen</string>
+
+    <string name="settings_no_result">Keine passenden Einstellungen</string>
+
+    <!-- Search -->
+    <string name="settings_search_title">Einstellungen durchsuchen</string>
+    <string name="settings_search_hint">Einstellungen oder Beschreibungen durchsuchen</string>
+    <string name="settings_search_empty_hint">Tippen Sie, um die Suche zu starten</string>
+    <string name="settings_search_no_result">Keine passenden Einstellungen gefunden</string>
+    <string name="settings_search_section_prefix">Kategorie: %1$s</string>
+
+    <string name="settings_font_size_desc">Standard-Schriftgröße des Editors anpassen</string>
+    <string name="settings_wrap_desc">Deaktivieren, um horizontal zu scrollen</string>
+    <string name="settings_replace_rules_desc">Ersetzungsregeln für Sonderzeichen anzeigen</string>
+    <string name="settings_editor_theme_desc">Hintergrund- und Textfarbe des Editors</string>
+    <string name="settings_editor_font_desc">Monospace, Sans Serif oder Serif</string>
+    <string name="settings_theme_desc">System folgen, hell oder dunkel</string>
+
+    <!-- Theme Color -->
+    <string name="settings_theme_color">Designfarbe</string>
+    <string name="theme_color_title">Designfarbe wählen</string>
+    <string name="theme_color_system">Systemdynamisch</string>
+    <string name="theme_color_purple">Lila</string>
+    <string name="theme_color_blue">Blau</string>
+    <string name="theme_color_indigo">Indigo</string>
+    <string name="theme_color_teal">Petrol</string>
+    <string name="theme_color_green">Grün</string>
+    <string name="theme_color_orange">Orange</string>
+    <string name="theme_color_red">Rot</string>
+    <string name="theme_color_pink">Pink</string>
+    <string name="theme_color_system_unavailable">Dynamische Farbe nicht verfügbar (erfordert Android 12+)</string>
+
+    <string name="settings_show_special_chars">Sonderzeichen anzeigen</string>
+    <string name="settings_show_special_chars_hint">Leerzeichen, Tabulator und Zeichen ohne Breite als Symbole darstellen</string>
+
+    <string name="help_section_about">Über</string>
+    <string name="help_about_content">PlainPad soll schlank, rein, offline und werbefrei sein. Alle Daten bleiben lokal.\n\nUm die Version anzuzeigen oder PlainPad als Standard festzulegen, gehen Sie zu Menü → Über.</string>
+
+    <!-- Large file / read-only -->
+    <string name="large_file_mode">Großdatei-Modus</string>
+    <string name="read_only">Schreibgeschützt</string>
+    <string name="loading_large_file">Große Datei wird geladen…</string>
+    <string name="large_file_stats_disabled">Statistik im Großdatei-Modus deaktiviert</string>
+    <string name="large_file_read_only_mode">Datei ist zu groß, schreibgeschützter Hochleistungsmodus aktiviert</string>
+    <string name="cannot_save_large_file">Speichern im Großdatei- oder schreibgeschützten Modus nicht möglich, um Datenverlust zu vermeiden</string>
+    <string name="read_only_cannot_edit">Bearbeiten im schreibgeschützten Modus nicht möglich</string>
+    <string name="large_file_cannot_edit">Der Großdatei-Modus unterstützt nur die Anzeige, nicht die Bearbeitung</string>
+    <string name="convert_to_crlf">In Windows (CRLF) umwandeln</string>
+    <string name="convert_to_lf">In Unix/macOS (LF) umwandeln</string>
+    <string name="converted_to_format">In das Format %1$s umgewandelt</string>
+    <string name="already_in_format">Bereits im Format %1$s</string>
+    <string name="large_file_cannot_resize">Schriftgrößenanpassung im Großdatei-Modus deaktiviert</string>
+    <string name="cannot_convert_eol">Zeilenende-Umwandlung im aktuellen Modus nicht unterstützt</string>
+    <string name="large_file_long_line_read_only">Datei zu groß oder enthält extrem lange Zeilen, schreibgeschützter Modus aktiviert</string>
+    <string name="large_file_line_numbers_disabled">Große Datei, Zeilennummern für eine flüssige Bedienung deaktiviert</string>
+    <string name="file_truncated_20mb">Datei zu groß, aus Leistungsgründen auf die ersten 20 MB gekürzt</string>
+    <string name="large_file_feature_disabled">Funktion im Großdatei-Modus deaktiviert</string>
+    <string name="chars_suffix">%1$d Zeichen</string>
+
+    <string name="eol_convert_empty">Datei ist leer, keine Umwandlung nötig</string>
+    <string name="eol_convert_no_newline">Datei enthält keine Zeilenumbrüche, keine Umwandlung nötig</string>
+
+    <string name="settings_language">Sprache</string>
+    <string name="language_title">Sprache auswählen</string>
+    <string name="language_system">System folgen</string>
+    <string name="language_zh">简体中文</string>
+    <string name="language_en">English</string>
+    <string name="language_de">Deutsch</string>
+    <string name="language_fr">Français</string>
+    <string name="language_ru">Русский</string>
+    <string name="language_ja">日本語</string>
+
+    <string name="font_custom">Benutzerdefiniert (importiert)</string>
+    <string name="import_font">Benutzerdefinierte Schriftart importieren</string>
+    <string name="import_font_success">Schriftart erfolgreich importiert</string>
+    <string name="import_font_fail">Importieren der Schriftart fehlgeschlagen</string>
+
+    <!-- Font copy switch -->
+    <string name="settings_copy_font_title">Schriftarten in den privaten Speicher kopieren</string>
+    <string name="settings_copy_font_hint">Ein: Schriftdateien werden in den App-Speicher kopiert, das Löschen des Originals ist unbedenklich. Aus: Schriftarten werden direkt referenziert; Android 7.x erzwingt dennoch eine Kopie.</string>
+
+    <!-- Font Manager -->
+    <string name="font_manager_title">Schriftartenverwaltung</string>
+    <string name="font_preview_text">Aa Schriftvorschau 123</string>
+    <string name="font_builtin">Integriert</string>
+    <string name="font_custom_tag">Benutzerdefiniert</string>
+    <string name="font_manage">Verwalten</string>
+    <string name="font_manage_done">Fertig</string>
+    <string name="font_select_all">Alle auswählen</string>
+    <string name="font_unselect_all">Auswahl aufheben</string>
+    <string name="font_delete">Löschen</string>
+    <string name="font_delete_n">Löschen (%1$d)</string>
+    <string name="font_delete_confirm_title">Schriftarten löschen</string>
+    <string name="font_delete_confirm_message">%1$d ausgewählte Schriftart(en) löschen? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="font_deleted_n">%1$d Schriftart(en) gelöscht</string>
+    <string name="font_delete_current_fallback">Die aktuelle Schriftart wurde gelöscht. Zur Standardschriftart gewechselt.</string>
+    <string name="font_empty_custom">Noch keine benutzerdefinierten Schriftarten. Tippen Sie oben rechts auf Importieren, um eine hinzuzufügen.</string>
+    <string name="font_import">Importieren</string>
+    <string name="font_import_read_failed">Schriftdatei kann nicht gelesen werden</string>
+    <string name="font_import_invalid">Ungültige Schriftdatei</string>
+    <string name="font_import_fail_reason">Importieren der Schriftart fehlgeschlagen: %1$s</string>
+
+    <string name="stats_sha256_copy">SHA-256 kopieren</string>
+    <string name="stats_sha256_copied">SHA-256 kopiert</string>
+
+    <string name="about_export_ini">Konfiguration exportieren (INI)</string>
+    <string name="about_import_ini">Konfiguration importieren (INI)</string>
+    <string name="ini_export_file_name">plainpad.ini</string>
+    <string name="ini_export_success">Konfiguration exportiert</string>
+    <string name="ini_export_failed">Export fehlgeschlagen: %1$s</string>
+    <string name="ini_import_success">%1$d Einstellungen importiert</string>
+    <string name="ini_import_failed">Import fehlgeschlagen: %1$s</string>
+
+    <string name="draft_recovery_title">Nicht gespeicherte Änderungen gefunden</string>
+    <string name="draft_recovery_message">Bei %1$d Tab(s) können ungespeicherte Änderungen aus der letzten Sitzung vorliegen. Wiederherstellen?</string>
+    <string name="draft_recovery_restore">Wiederherstellen</string>
+    <string name="draft_recovery_discard">Verwerfen</string>
+    <string name="draft_recovery_restored">%1$d Tab(s) wiederhergestellt</string>
+    <string name="draft_recovery_nothing">Nichts wiederherzustellen</string>
+
+    <!-- Developer Options -->
+    <string name="dev_options_title">Entwickleroptionen</string>
+    <string name="dev_options_hint">Diese Optionen dienen nur der Fehlersuche. Einige Aktionen lassen die App sofort abstürzen.</string>
+
+    <string name="dev_section_crash">Absturz- &amp; Ausnahme-Simulation</string>
+    <string name="dev_crash_main">Absturz des Hauptthreads</string>
+    <string name="dev_crash_main_desc">Eine RuntimeException auslösen, um Absturzprotokolle und die Entwurfswiederherstellung zu testen</string>
+    <string name="dev_crash_background">Absturz eines Hintergrundthreads</string>
+    <string name="dev_crash_background_desc">Eine nicht abgefangene Ausnahme in einem Hintergrundthread auslösen</string>
+    <string name="dev_crash_oom">Speichermangel (OOM)</string>
+    <string name="dev_crash_oom_desc">OutOfMemoryError auslösen, um die Speicherbehandlung zu testen</string>
+    <string name="dev_crash_anr">Hauptthread 15 s blockieren</string>
+    <string name="dev_crash_anr_desc">Den Hauptthread blockieren, um die ANR-Erkennung auszulösen</string>
+
+    <string name="dev_section_test_doc">Testdokumente erzeugen</string>
+    <string name="dev_test_1mb">1 MB mehrzeiligen Text erzeugen</string>
+    <string name="dev_test_5mb_single">5 MB einzeiligen Text erzeugen (Großdatei-Modus)</string>
+    <string name="dev_test_20mb_single">20 MB einzeiligen Text erzeugen (Kürzungstest)</string>
+    <string name="dev_test_500kb_cn">500 KB chinesischen Text erzeugen</string>
+
+    <string name="dev_section_data">Datenoperationen</string>
+    <string name="dev_view_prefs">SharedPreferences anzeigen</string>
+    <string name="dev_view_drafts">Entwurfsdateien anzeigen</string>
+    <string name="dev_clear_drafts">Entwürfe löschen</string>
+    <string name="dev_clear_recent">Zuletzt verwendete Dateien löschen</string>
+    <string name="dev_clear_tabs">Gespeicherte Tabs löschen</string>
+    <string name="dev_reset_prefs">Alle Einstellungen zurücksetzen</string>
+
+    <string name="dev_confirm_title">Bestätigen</string>
+    <string name="dev_confirm_crash">Absturz simulieren? Die App wird sofort beendet.</string>
+    <string name="dev_confirm_clear_drafts">Alle Entwürfe löschen?</string>
+    <string name="dev_confirm_clear_recent">Die Liste der zuletzt verwendeten Dateien löschen?</string>
+    <string name="dev_confirm_clear_tabs">Gespeicherte Tabs löschen? Beim nächsten Start wird ein leerer Tab geöffnet.</string>
+    <string name="dev_confirm_reset_prefs">Alle Einstellungen zurücksetzen? Alle Voreinstellungen werden gelöscht.</string>
+
+    <string name="dev_empty_prefs">SharedPreferences ist leer</string>
+    <string name="dev_empty_drafts">Keine Entwurfsdateien</string>
+    <string name="dev_action_done">Fertig</string>
+    <string name="dev_anr_triggered">Der Hauptthread wird jetzt blockiert, warten Sie auf ANR</string>
+    <string name="dev_copy">Kopieren</string>
+    <string name="dev_copied">Kopiert</string>
+
+    <string name="about_version_egg_hint">Noch %1$d Tipps, um die Entwickleroptionen zu öffnen</string>
+
+    <!-- Developer Options Extension -->
+    <string name="dev_section_app_info">App- &amp; Geräteinformationen</string>
+    <string name="dev_app_info">App-Informationen</string>
+    <string name="dev_device_info">Geräteinformationen</string>
+
+    <string name="dev_section_storage">Speicher &amp; Arbeitsspeicher</string>
+    <string name="dev_storage_info">Speicherbelegung</string>
+    <string name="dev_memory_info">Arbeitsspeicherinformationen</string>
+    <string name="dev_clear_cache">Cache-Verzeichnis leeren</string>
+    <string name="dev_confirm_clear_cache">Cache-Verzeichnis leeren?</string>
+
+    <string name="dev_test_crlf">256 KB CRLF-Text erzeugen</string>
+    <string name="dev_test_mixed">256 KB Text mit gemischtem Zeilenende erzeugen</string>
+
+    <string name="dev_section_font">Schriftart-Debug</string>
+    <string name="dev_font_list">Importierte Schriftarten anzeigen</string>
+    <string name="dev_font_clear">Alle benutzerdefinierten Schriftarten löschen</string>
+    <string name="dev_confirm_clear_fonts">Alle importierten Schriftdateien löschen?</string>
+    <string name="dev_empty_fonts">Keine benutzerdefinierten Schriftarten</string>
+
+    <string name="dev_section_quick">Schnellwechsel</string>
+    <string name="dev_quick_theme_color">Designfarbe wechseln</string>
+    <string name="dev_quick_icon">Launcher-Symbol wechseln</string>
+    <string name="dev_quick_language">Sprache wechseln</string>
+    <string name="dev_quick_switched">Gewechselt zu %1$s</string>
+
+    <string name="dev_section_intent">Intent-Simulation &amp; Schreibschutztest</string>
+    <string name="dev_intent_view">ACTION_VIEW simulieren</string>
+    <string name="dev_intent_edit">ACTION_EDIT simulieren</string>
+    <string name="dev_intent_send">ACTION_SEND-Freigabe simulieren</string>
+    <string name="dev_intent_failed">Intent fehlgeschlagen: %1$s</string>
+    <string name="dev_open_readonly">Schreibgeschütztes Testdokument öffnen</string>
+
+    <string name="section_other">Sonstiges</string>
+    <string name="settings_about">Über</string>
+    <string name="settings_import_ini">Konfiguration importieren (INI)</string>
+    <string name="settings_export_ini">Konfiguration exportieren (INI)</string>
+    <string name="settings_developer_options">Entwickleroptionen</string>
+
+    <string name="dev_section_shortcut">Einstellungs-Verknüpfung</string>
+    <string name="dev_shortcut_title">Verknüpfung in den Einstellungen anzeigen</string>
+    <string name="dev_shortcut_hint">Wenn deaktiviert, tippen Sie 7-mal auf die Version, um sie wieder freizuschalten</string>
+    <string name="dev_disable_shortcut_done">Verknüpfung deaktiviert. Tippen Sie 7-mal auf die Version, um sie wieder freizuschalten.</string>
+
+</resources>

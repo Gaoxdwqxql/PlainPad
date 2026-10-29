@@ -56,6 +56,16 @@
             android:label="@string/onboard_welcome_title"
             android:screenOrientation="portrait" />
 
+        <!-- API 32 及以下由 AppCompat 自行持久化应用内语言，否则重启后会退回系统语言 -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

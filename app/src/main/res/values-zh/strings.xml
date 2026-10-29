@@ -369,6 +369,10 @@
     <string name="language_system">跟随系统</string>
     <string name="language_zh">简体中文</string>
     <string name="language_en">English</string>
+    <string name="language_de">Deutsch</string>
+    <string name="language_fr">Français</string>
+    <string name="language_ru">Русский</string>
+    <string name="language_ja">日本語</string>
 
     <string name="font_custom">自定义（已导入）</string>
     <string name="import_font">导入自定义字体</string>

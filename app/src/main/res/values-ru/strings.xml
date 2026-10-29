@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Info -->
+    <string name="app_name">PlainPad</string>
+    <string name="untitled">Без имени.txt</string>
+    <string name="default_file_name">Без имени.txt</string>
+    <string name="untitled_n">Без имени %1$d.txt</string>
+    <string name="editor_hint">Введите текст здесь…</string>
+
+    <!-- Top Bar -->
+    <string name="menu_undo">Отменить</string>
+    <string name="menu_redo">Повторить</string>
+    <string name="menu_find">Найти</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_more">Ещё</string>
+
+    <!-- Overflow Menu -->
+    <string name="menu_new">Создать</string>
+    <string name="menu_open">Открыть…</string>
+    <string name="menu_recent">Недавние файлы</string>
+    <string name="menu_save">Сохранить</string>
+    <string name="menu_save_as">Сохранить как…</string>
+    <string name="menu_close_tab">Закрыть вкладку</string>
+    <string name="menu_replace">Заменить</string>
+    <string name="menu_goto_line">Перейти к строке</string>
+    <string name="menu_immersive">Иммерсивный режим</string>
+    <string name="menu_default">Назначить редактором по умолчанию</string>
+    <string name="menu_about">О программе</string>
+
+    <!-- Compatibility -->
+    <string name="menu_wrap">Перенос слов</string>
+    <string name="menu_show_line_numbers">Показывать номера строк</string>
+    <string name="menu_font_size">Размер шрифта</string>
+    <string name="menu_theme">Тема</string>
+
+    <!-- Undo/Redo Toast -->
+    <string name="no_undo">Нечего отменять</string>
+    <string name="no_redo">Нечего повторять</string>
+
+    <!-- Recent Files -->
+    <string name="recent_title">Недавние файлы</string>
+    <string name="no_recent">Нет недавних файлов</string>
+    <string name="recent_cleared">Список недавних файлов очищен</string>
+    <string name="clear">Очистить</string>
+
+    <!-- Find/Replace -->
+    <string name="find_hint">Найти</string>
+    <string name="replace_hint">Заменить на</string>
+    <string name="find_prev">Предыдущее</string>
+    <string name="find_next">Следующее</string>
+    <string name="replace">Заменить</string>
+    <string name="replace_all">Заменить все</string>
+    <string name="close">Закрыть</string>
+    <string name="not_found">Не найдено</string>
+    <string name="replaced_n">Заменено вхождений: %1$d</string>
+
+    <!-- Search Options -->
+    <string name="search_regex">Регулярное выражение</string>
+    <string name="search_case_sensitive">С учётом регистра</string>
+    <string name="search_from_start">С начала</string>
+    <string name="search_hint_plain">Буквальное совпадение, без учёта регистра</string>
+    <string name="search_hint_case">Буквальное совпадение, с учётом регистра</string>
+    <string name="search_hint_regex">Регулярное выражение, без учёта регистра; в замене поддерживаются группы $1, $2</string>
+    <string name="search_hint_regex_case">Регулярное выражение, с учётом регистра; в замене поддерживаются группы $1, $2</string>
+    <string name="search_status_found">Совпадение найдено</string>
+    <string name="search_status_not_found">Совпадений не найдено</string>
+    <string name="search_status_invalid_regex">Неверное регулярное выражение: %1$s</string>
+    <string name="search_status_initial_from_start">Поиск начинается с начала файла</string>
+    <string name="search_status_initial_from_cursor">Поиск начинается с позиции курсора</string>
+    <string name="search_empty_query">Введите текст для поиска</string>
+    <string name="replace_status_replaced_current">Текущее совпадение заменено</string>
+    <string name="replace_status_replaced">Заменено вхождений: %1$d</string>
+    <string name="replace_status_located">Совпадение найдено, нажмите «Заменить» ещё раз</string>
+
+    <!-- Save/Open Status -->
+    <string name="saved">Сохранено</string>
+    <string name="err_open">Не удалось открыть: %1$s</string>
+    <string name="err_save">Не удалось сохранить: %1$s</string>
+    <string name="status_count">Символов: %1$d · строк: %2$d</string>
+
+    <!-- Unsaved -->
+    <string name="unsaved_title">Несохранённые изменения</string>
+    <string name="unsaved_message">Текущий файл был изменён. Сохранить изменения?</string>
+    <string name="save">Сохранить</string>
+    <string name="discard">Не сохранять</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">ОК</string>
+
+    <!-- General -->
+    <string name="no_settings">Не удалось открыть системные настройки</string>
+    <string name="about_message">PlainPad 1.0\n\nЛёгкий редактор обычного текста.\nПоддерживает автоопределение UTF-8 / UTF-16 / GBK и работу с несколькими вкладками.\n\nСовет: в системных настройках можно назначить PlainPad приложением по умолчанию для файлов txt.</string>
+
+    <!-- Encoding -->
+    <string name="choose_encoding">Выбор кодировки</string>
+    <string name="encoding_label">Кодировка: %1$s</string>
+
+    <!-- Font Size -->
+    <string name="font_size_dialog_title">Настройка размера шрифта</string>
+    <string name="font_size_label">Текущий размер: %1$d sp</string>
+
+    <!-- Theme -->
+    <string name="theme_title">Выбор темы</string>
+    <string name="theme_system">Как в системе</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+
+    <!-- Immersive -->
+    <string name="exit_immersive">Выйти из иммерсивного режима</string>
+
+    <!-- Goto Line -->
+    <string name="goto_line_title">Перейти к строке</string>
+    <string name="goto_line_hint">Введите номер строки</string>
+    <string name="goto_line_range">Всего строк: %1$d</string>
+    <string name="goto_line_invalid">Неверный номер строки</string>
+
+    <!-- Tabs -->
+    <string name="cannot_close_last">Должна остаться хотя бы одна вкладка</string>
+
+    <!-- Settings Page -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_font_size_title">Размер шрифта</string>
+    <string name="settings_theme">Тема приложения</string>
+    <string name="settings_startup_mode">Режим запуска</string>
+    <string name="settings_startup_hint">При холодном запуске с рабочего стола:</string>
+    <string name="settings_plus_behavior">Действие кнопки «плюс»</string>
+
+    <string name="section_editing">Редактирование</string>
+    <string name="section_save">Сохранение</string>
+    <string name="section_appearance">Внешний вид</string>
+    <string name="section_tabs">Вкладки</string>
+
+    <string name="startup_restore">Восстанавливать предыдущие вкладки</string>
+    <string name="startup_new_only">Новый файл без истории</string>
+    <string name="startup_new_and_restore">Новый файл с сохранением истории</string>
+
+    <string name="plus_reuse_empty">Использовать существующую пустую вкладку</string>
+    <string name="plus_always_new">Всегда создавать новую вкладку</string>
+
+    <!-- Editor Theme / Font -->
+    <string name="settings_editor_theme">Тема редактора</string>
+    <string name="settings_editor_font">Шрифт редактора</string>
+
+    <string name="theme_follow_app">Как тема приложения</string>
+    <string name="theme_white">Белая</string>
+    <string name="theme_sepia">Сепия</string>
+    <string name="theme_soft_green">Мягкая зелёная</string>
+    <string name="theme_oled_black">Чёрная OLED</string>
+    <string name="theme_dark_gray">Тёмно-серая</string>
+    <string name="theme_midnight_blue">Полуночно-синяя</string>
+
+    <string name="font_monospace">Моноширинный</string>
+    <string name="font_sans_serif">Без засечек</string>
+    <string name="font_serif">С засечками</string>
+
+    <!-- About -->
+    <string name="about_title">О программе</string>
+    <string name="about_version">Версия %1$s</string>
+    <string name="about_description">PlainPad — лёгкий редактор обычного текста.\nПоддерживает автоопределение UTF-8 / UTF-16 / GBK, работу с несколькими вкладками, номера строк, масштабирование жестом, а также настраиваемые темы и шрифты редактора.</string>
+    <string name="about_set_default">Назначить редактором по умолчанию</string>
+    <string name="about_made_with">Сделано с ❤️</string>
+
+    <!-- Stats Dialog -->
+    <string name="stats_title">Статистика</string>
+    <string name="stats_group_chars">Статистика символов</string>
+    <string name="stats_group_paragraphs">Абзацы и строки</string>
+    <string name="stats_group_file">Сведения о файле</string>
+    <string name="stats_sha256_label">SHA-256</string>
+    <string name="stats_sha256_computing">Вычисление…</string>
+    <string name="stats_sha256_unavailable">Недоступно</string>
+    <string name="stats_sha256_current_content">%1$s (текущее содержимое, не сохранено)</string>
+    <string name="stat_chars_no_space">Символы (без пробелов)</string>
+    <string name="stat_visible_chars">Видимые символы</string>
+    <string name="stat_invisible_chars">Невидимые символы</string>
+    <string name="stat_letters">Буквы</string>
+    <string name="stat_digits">Цифры</string>
+    <string name="stat_words">Слова</string>
+    <string name="stat_total_lines">Всего строк</string>
+    <string name="stat_nonempty_lines">Непустые строки</string>
+    <string name="stat_paragraphs">Абзацы</string>
+    <string name="stat_chinese_chars">Китайские иероглифы</string>
+    <string name="stat_max_line_width">Макс. длина строки</string>
+
+    <!-- Status Bar Formats -->
+    <string name="status_chars_space">Символов: %1$d</string>
+    <string name="status_chars_nospace">Символов без пробелов: %1$d</string>
+    <string name="status_words">Слов: %1$d</string>
+    <string name="status_lines">Строк: %1$d</string>
+    <string name="status_nonempty_lines">Непустых: %1$d</string>
+    <string name="status_max_line">Макс. ширина: %1$d</string>
+    <string name="status_letters">Букв: %1$d</string>
+    <string name="status_invisible">Невидимых: %1$d</string>
+
+    <!-- Status Bar Settings -->
+    <string name="settings_status_bar">Отображение в строке состояния</string>
+    <string name="status_bar_hint">Не более 2 пунктов. При выборе новых предыдущие будут сняты.</string>
+    <string name="status_item_chars_space">Символы (с пробелами)</string>
+    <string name="status_item_chars_nospace">Символы (без пробелов)</string>
+    <string name="status_item_words">Слова</string>
+    <string name="status_item_lines">Всего строк</string>
+    <string name="status_item_nonempty_lines">Непустые строки</string>
+    <string name="status_item_max_line">Макс. длина строки</string>
+    <string name="status_item_letters">Буквы</string>
+    <string name="status_item_invisible">Невидимые символы</string>
+
+    <!-- Special Chars -->
+    <string name="insert_special_cd">Вставить спецсимвол</string>
+    <string name="insert_special_title">Вставить спецсимвол</string>
+    <string name="special_lf">LF (перевод строки) </string>
+    <string name="special_cr">CR (возврат каретки) </string>
+    <string name="special_crlf">CRLF </string>
+    <string name="special_tab">TAB </string>
+    <string name="special_zwsp">Пробел нулевой ширины</string>
+    <string name="special_zwnj">ZWNJ</string>
+    <string name="special_zwj">ZWJ</string>
+    <string name="special_nbsp">Неразрывный пробел</string>
+    <string name="special_ideographic_space">Идеографический пробел</string>
+    <string name="special_nbhyphen">Неразрывный дефис</string>
+    <string name="special_bom">BOM</string>
+    <string name="special_lrm">LRM</string>
+    <string name="special_rlm">RLM</string>
+
+    <string name="stat_chars_with_space">Символы (с пробелами, без перевода строки)</string>
+
+    <!-- Auto Save -->
+    <string name="settings_auto_save">Автосохранение</string>
+    <string name="auto_save_hint">Работает только для сохранённых файлов. Файлы без имени пропускаются.</string>
+    <string name="auto_save_on_pause">Сохранять при уходе в фон</string>
+    <string name="auto_save_on_tab_switch">Сохранять при переключении вкладок</string>
+    <string name="auto_save_interval">Сохранение по интервалу</string>
+    <string name="auto_save_interval_title">Интервал автосохранения</string>
+    <string name="auto_save_interval_off">Выкл.</string>
+    <string name="auto_save_interval_15">Каждые 15 с</string>
+    <string name="auto_save_interval_30">Каждые 30 с</string>
+    <string name="auto_save_interval_60">Каждую минуту</string>
+    <string name="auto_save_interval_300">Каждые 5 мин</string>
+    <string name="auto_save_interval_600">Каждые 10 мин</string>
+
+    <string name="auto_save_status_pending">Ожидание</string>
+    <string name="auto_save_status_saved">Сохранено %1$s</string>
+    <string name="auto_save_status_saving">Сохранение…</string>
+
+    <string name="stats_file_name">Файл: %1$s</string>
+
+    <string name="auto_save_on_edit">Сохранять при вводе</string>
+    <string name="auto_save_on_edit_hint">Сохранять через 2 секунды после остановки ввода</string>
+    <string name="settings_utf8_bom">Сохранять с BOM UTF-8</string>
+    <string name="settings_utf8_bom_hint">Записывает BOM (EF BB BF) в начало сохраняемых файлов UTF-8. Если выключено, существующий BOM сохраняется.</string>
+    <string name="menu_reopen_encoding">Переоткрыть в кодировке…</string>
+    <string name="reopen_no_file">Этот файл ещё не сохранён на диск</string>
+    <string name="reopen_discard_title">Отменить несохранённые изменения?</string>
+    <string name="reopen_discard_message">При повторном открытии файла текущее несохранённое содержимое будет потеряно.</string>
+    <string name="reopen_done">Переоткрыто в кодировке %1$s</string>
+    <string name="settings_current_line_highlight">Подсвечивать текущую строку</string>
+    <string name="settings_current_line_highlight_hint">Подкрашивает строку с курсором цветом темы</string>
+    <string name="crash_title">Последний запуск завершился сбоем</string>
+    <string name="crash_message">Найдено журналов сбоев: %1$d, последний: %2$s</string>
+    <string name="crash_copy">Копировать</string>
+    <string name="crash_copied">Журналы сбоев скопированы</string>
+    <string name="crash_clear">Удалить</string>
+    <string name="crash_cleared">Журналы сбоев удалены</string>
+    <string name="auto_save_last_time">Сохранено в %1$s</string>
+
+    <string name="menu_save_current">Сохранить текущий</string>
+    <string name="menu_save_all">Сохранить все</string>
+    <string name="save_all_nothing">Нет изменённых файлов для сохранения</string>
+    <string name="save_all_success">Сохранено файлов: %1$d</string>
+    <string name="save_all_partial">Сохранено: %1$d, ошибок: %2$d</string>
+
+    <!-- Help -->
+    <string name="menu_help">Справка</string>
+    <string name="help_title">Справка</string>
+    <string name="help_intro">PlainPad — лёгкий, простой и полностью офлайн-редактор обычного текста. Ниже приведено руководство по всем возможностям. Нажмите стрелку назад или кнопку «Назад», чтобы выйти.</string>
+
+    <string name="help_section_file">Операции с файлами</string>
+    <string name="help_file_content">• Создать: Меню → Создать или «+» в конце панели вкладок\n• Открыть: Меню → Открыть… через системный выбор файлов\n• Сохранить: значок сохранения на верхней панели → Сохранить текущий\n• Сохранить все: сохраняет все именованные изменённые вкладки\n• Сохранить как: выбор кодировки, затем места сохранения\n• Закрыть вкладку: нажмите × на вкладке или Меню → Закрыть вкладку\n• Недавние файлы: Меню → Недавние файлы (последние 10)\n• По умолчанию: Меню → Назначить редактором по умолчанию</string>
+
+    <string name="help_section_edit">Редактирование</string>
+    <string name="help_edit_content">• Отменить / Повторить: стрелки на верхней панели, до 100 шагов\n• Найти: лупа на верхней панели, поддерживает переход вверх и вниз\n• Заменить: Меню → Заменить, одно или все\n• Перейти к строке: Меню → Перейти к строке\n• Вставить спецсимвол: ⊕ в строке состояния\n• Показывать спецсимволы: включите в настройках\n• Статистика: нажмите на текст состояния в левом нижнем углу</string>
+
+    <string name="help_section_stats">Статистика</string>
+    <string name="help_stats_content">Нажмите на текст состояния, чтобы открыть статистику:\n• Символы (с пробелами / без пробелов)\n• Видимые / невидимые символы\n• Буквы, цифры, китайские иероглифы\n• Слова, всего/непустых строк, абзацы\n• Макс. длина строки\n\nВ разделе «Настройки → Редактирование» можно выбрать 2 пункта для отображения.</string>
+
+    <string name="help_section_tabs">Вкладки</string>
+    <string name="help_tabs_content">• Новая вкладка: нажмите «+» или Меню → Создать\n• Переключение: нажмите на вкладку, позиция курсора и прокрутка сохраняются автоматически\n• Закрытие: нажмите ×, при несохранённых изменениях появится запрос\n• Действие «плюс»: использовать пустую вкладку или всегда создавать новую\n• Режим запуска: восстановить, новый файл без истории или новый файл с сохранением истории</string>
+
+    <string name="help_section_appearance">Внешний вид</string>
+    <string name="help_appearance_content">• Цвет темы: 8 предустановленных цветов. Значок меняется автоматически (Android 12+)\n• Размер шрифта: Настройки → Размер шрифта, 10 ~ 40 sp\n• Тема редактора: как приложение, белая, сепия, зелёная, OLED, тёмно-серая, полуночно-синяя\n• Шрифт редактора: моноширинный, без засечек, с засечками\n• Показывать номера строк: ширина фиксирована, строгое выравнивание\n• Перенос слов: Настройки → Перенос слов\n• Тема приложения: системная / светлая / тёмная</string>
+
+    <string name="help_section_gesture">Жесты</string>
+    <string name="help_gesture_content">• Масштабирование: двумя пальцами в области редактора\n• Правый ползунок прокрутки: перетаскивайте для прокрутки, есть инерция\n• Долгое нажатие: выделение, копирование, вставка как в системе\n• Прокрутка вкладок: смахивайте по горизонтали, если вкладок слишком много</string>
+
+    <string name="help_section_autosave">Автосохранение</string>
+    <string name="help_autosave_content">Включите в разделе «Настройки → Сохранение»:\n• Сохранять при уходе в фон\n• Сохранять при переключении вкладок\n• Сохранять при вводе (задержка 2 с)\n• Сохранение по интервалу (15 с ~ 10 мин)\n\nПримечание: автосохранение работает только для именованных файлов. В строке состояния отображается время последнего сохранения.</string>
+
+    <string name="help_section_encoding">Поддержка кодировок</string>
+    <string name="help_encoding_content">Автоматически определяет BOM и сначала пытается декодировать как UTF-8, затем как GBK.\nВарианты сохранения: UTF-8, UTF-16LE, UTF-16BE, GBK, GB2312.\nТекущая кодировка отображается в правом нижнем углу.</string>
+
+    <string name="help_section_eol">Конец строки (EOL)</string>
+    <string name="help_eol_content">Текущий формат конца строки (CRLF или LF) отображается в нижней панели рядом с кодировкой.\n• Windows использует CRLF (\\r\\n)\n• Unix / macOS использует LF (\\n)\n\nНажмите на метку CRLF или LF в нижней панели, чтобы преобразовать формат и избежать проблем с оформлением в разных операционных системах.</string>
+
+    <string name="help_section_large_file">Режим больших файлов</string>
+    <string name="help_large_file_content">Чтобы обеспечить максимальную плавность на мобильных устройствах, PlainPad особым образом обрабатывает очень большие тексты:\n• Ограничение чтения: до 20 МБ. Излишки обрезаются с предупреждением.\n• Защита производительности: если файл превышает 3 миллиона символов или содержит очень длинную строку более 10 000 символов, автоматически включается «Режим больших файлов».\n• Ограниченные функции: чтобы избежать задержек или OOM (нехватки памяти), в этом режиме отключаются номера строк, отмена/повтор, масштабирование жестом, отображение спецсимволов и статистика.</string>
+
+    <string name="help_section_immersive">Иммерсивный режим</string>
+    <string name="help_immersive_content">Меню → Иммерсивный режим скрывает все панели. \nВыход — кнопкой в правом нижнем углу или кнопкой «Назад».</string>
+
+    <!-- Onboarding -->
+    <string name="onboard_skip">Пропустить</string>
+    <string name="onboard_next">Далее</string>
+    <string name="onboard_start">Начать</string>
+
+    <string name="onboard_welcome_title">Добро пожаловать в PlainPad</string>
+    <string name="onboard_welcome_desc">Лёгкий, простой и полностью офлайн-редактор обычного текста.\n\nБез рекламы, без аккаунта, без облачной синхронизации. Все данные остаются на вашем устройстве.</string>
+
+    <string name="onboard_tabs_title">Работа с несколькими вкладками</string>
+    <string name="onboard_tabs_desc">Нажмите «+» в конце панели вкладок, чтобы создать новую вкладку.\n\nПри переключении вкладок позиция курсора и прокрутки сохраняется.\n\nНажмите ×, чтобы закрыть.</string>
+
+    <string name="onboard_save_title">Сохранение и автосохранение</string>
+    <string name="onboard_save_desc">Кнопка сохранения поддерживает «Сохранить все», «Сохранить текущий» и «Сохранить как».\n\nВключите автосохранение, чтобы записывать данные на диск при уходе в фон, переключении вкладок, остановке ввода (2 с) или по интервалу.</string>
+
+    <string name="onboard_prev">Назад</string>
+    <string name="auto_save_never">Ещё не сохранено</string>
+    <string name="onboard_find_title">Поиск, замена, переход к строке</string>
+    <string name="onboard_find_desc">Нажмите на лупу для поиска.\n\nВ меню «Ещё» есть «Заменить» и «Перейти к строке».\n\nПоиск поддерживает переход вверх и вниз.</string>
+
+    <string name="onboard_appearance_title">Персонализация</string>
+    <string name="onboard_appearance_desc">Настраивайте размер шрифта, семейство шрифтов и темы.\n\nТемы редактора: белая, сепия, зелёная, OLED, тёмно-серая, полуночно-синяя.\n\nШирина номеров строк фиксирована и не зависит от размера шрифта.</string>
+
+    <string name="onboard_gesture_title">Жесты</string>
+    <string name="onboard_gesture_desc">Масштабирование в редакторе двумя пальцами.\n\nНастраиваемый ползунок прокрутки толще и удобнее для захвата, с инерцией.\n\nНажмите на текст состояния, чтобы увидеть статистику.</string>
+
+    <string name="onboard_special_title">Вставка спецсимволов</string>
+    <string name="onboard_special_desc">Используйте значок ⊕ в строке состояния для вставки:\n\nLF, CR, TAB, пробела нулевой ширины, неразрывного пробела, полноширинного пробела, BOM и др.</string>
+
+    <string name="onboard_done_title">Начать</string>
+    <string name="onboard_done_desc">Все возможности доступны в любой момент в Меню → Справка.\n\nНажмите кнопку ниже, чтобы начать прямо сейчас!</string>
+
+    <!-- Special Char Panel -->
+    <string name="special_chars_title">Специальные символы</string>
+    <string name="special_chars_show">Показывать спецсимволы</string>
+    <string name="special_chars_show_hint">Отображать невидимые символы значками (содержимое не изменяется)</string>
+    <string name="special_chars_replace_rules_title">Правила замены</string>
+    <string name="special_chars_replace_rules">TAB → ⇥\nИдеографический пробел (U+3000) → □\nNBSP → ◦\nZWSP → ·\nZWNJ → ·\nZWJ → ·\nНеразрывный дефис (U+2011) → ‑\nBOM → ⟪\nLRM → ▸\nRLM → ◂\n\nОбычный пробел и переводы строк не заменяются</string>
+    <string name="special_chars_insert_section">Нажмите, чтобы выбрать, затем «ОК» для вставки</string>
+
+    <string name="settings_no_result">Подходящих настроек нет</string>
+
+    <!-- Search -->
+    <string name="settings_search_title">Поиск настроек</string>
+    <string name="settings_search_hint">Искать настройки или описания</string>
+    <string name="settings_search_empty_hint">Начните вводить текст для поиска</string>
+    <string name="settings_search_no_result">Подходящих настроек не найдено</string>
+    <string name="settings_search_section_prefix">Категория: %1$s</string>
+
+    <string name="settings_font_size_desc">Настроить размер шрифта редактора по умолчанию</string>
+    <string name="settings_wrap_desc">Отключите для горизонтальной прокрутки</string>
+    <string name="settings_replace_rules_desc">Просмотр правил замены спецсимволов</string>
+    <string name="settings_editor_theme_desc">Фон редактора и цвет текста</string>
+    <string name="settings_editor_font_desc">Моноширинный, без засечек или с засечками</string>
+    <string name="settings_theme_desc">Как в системе, светлая или тёмная</string>
+
+    <!-- Theme Color -->
+    <string name="settings_theme_color">Цвет темы</string>
+    <string name="theme_color_title">Выбор цвета темы</string>
+    <string name="theme_color_system">Системный динамический</string>
+    <string name="theme_color_purple">Фиолетовый</string>
+    <string name="theme_color_blue">Синий</string>
+    <string name="theme_color_indigo">Индиго</string>
+    <string name="theme_color_teal">Бирюзовый</string>
+    <string name="theme_color_green">Зелёный</string>
+    <string name="theme_color_orange">Оранжевый</string>
+    <string name="theme_color_red">Красный</string>
+    <string name="theme_color_pink">Розовый</string>
+    <string name="theme_color_system_unavailable">Динамический цвет недоступен (требуется Android 12+)</string>
+
+    <string name="settings_show_special_chars">Показывать спецсимволы</string>
+    <string name="settings_show_special_chars_hint">Отображать пробелы, табуляцию и символы нулевой ширины значками</string>
+
+    <string name="help_section_about">О программе</string>
+    <string name="help_about_content">PlainPad стремится быть лёгким, простым, офлайн-приложением без рекламы. Все данные хранятся локально.\n\nЧтобы посмотреть версию или назначить приложение по умолчанию, откройте Меню → О программе.</string>
+
+    <!-- Large file / read-only -->
+    <string name="large_file_mode">Режим больших файлов</string>
+    <string name="read_only">Только для чтения</string>
+    <string name="loading_large_file">Загрузка большого файла…</string>
+    <string name="large_file_stats_disabled">Статистика отключена в режиме больших файлов</string>
+    <string name="large_file_read_only_mode">Файл слишком большой, включён высокопроизводительный режим только для чтения</string>
+    <string name="cannot_save_large_file">Сохранение невозможно в режиме больших файлов или только для чтения во избежание потери данных</string>
+    <string name="read_only_cannot_edit">Редактирование невозможно в режиме только для чтения</string>
+    <string name="large_file_cannot_edit">Режим больших файлов поддерживает только просмотр, без редактирования</string>
+    <string name="convert_to_crlf">Преобразовать в Windows (CRLF)</string>
+    <string name="convert_to_lf">Преобразовать в Unix/MacOS (LF)</string>
+    <string name="converted_to_format">Преобразовано в формат %1$s</string>
+    <string name="already_in_format">Уже в формате %1$s</string>
+    <string name="large_file_cannot_resize">Изменение размера шрифта недоступно в режиме больших файлов</string>
+    <string name="cannot_convert_eol">Преобразование конца строки не поддерживается в текущем режиме</string>
+    <string name="large_file_long_line_read_only">Файл слишком большой или содержит очень длинные строки, включён режим только для чтения</string>
+    <string name="large_file_line_numbers_disabled">Большой файл, номера строк отключены для плавной работы</string>
+    <string name="file_truncated_20mb">Файл слишком большой, обрезан до первых 20 МБ для производительности</string>
+    <string name="large_file_feature_disabled">Функция отключена в режиме больших файлов</string>
+    <string name="chars_suffix">Символов: %1$d</string>
+
+    <string name="eol_convert_empty">Файл пуст, преобразование не требуется</string>
+    <string name="eol_convert_no_newline">В файле нет переводов строк, преобразование не требуется</string>
+
+    <string name="settings_language">Язык</string>
+    <string name="language_title">Выбор языка</string>
+    <string name="language_system">Как в системе</string>
+    <string name="language_zh">简体中文</string>
+    <string name="language_en">English</string>
+    <string name="language_de">Deutsch</string>
+    <string name="language_fr">Français</string>
+    <string name="language_ru">Русский</string>
+    <string name="language_ja">日本語</string>
+
+    <string name="font_custom">Пользовательский (импортированный)</string>
+    <string name="import_font">Импорт пользовательского шрифта</string>
+    <string name="import_font_success">Шрифт успешно импортирован</string>
+    <string name="import_font_fail">Не удалось импортировать шрифт</string>
+
+    <!-- Font copy switch -->
+    <string name="settings_copy_font_title">Копировать шрифты в приватное хранилище</string>
+    <string name="settings_copy_font_hint">Вкл.: файлы шрифтов копируются в хранилище приложения, оригиналы можно удалять. Выкл.: шрифты используются по ссылке; на Android 7.x копирование всё равно выполняется принудительно.</string>
+
+    <!-- Font Manager -->
+    <string name="font_manager_title">Менеджер шрифтов</string>
+    <string name="font_preview_text">Aa Просмотр шрифта 123</string>
+    <string name="font_builtin">Встроенный</string>
+    <string name="font_custom_tag">Пользовательский</string>
+    <string name="font_manage">Управление</string>
+    <string name="font_manage_done">Готово</string>
+    <string name="font_select_all">Выбрать все</string>
+    <string name="font_unselect_all">Снять выбор</string>
+    <string name="font_delete">Удалить</string>
+    <string name="font_delete_n">Удалить (%1$d)</string>
+    <string name="font_delete_confirm_title">Удаление шрифтов</string>
+    <string name="font_delete_confirm_message">Удалить выбранные шрифты: %1$d? Это действие необратимо.</string>
+    <string name="font_deleted_n">Удалено шрифтов: %1$d</string>
+    <string name="font_delete_current_fallback">Текущий шрифт удалён. Выполнен переход на шрифт по умолчанию.</string>
+    <string name="font_empty_custom">Пользовательских шрифтов пока нет. Нажмите «Импорт» в правом верхнем углу, чтобы добавить.</string>
+    <string name="font_import">Импорт</string>
+    <string name="font_import_read_failed">Не удалось прочитать файл шрифта</string>
+    <string name="font_import_invalid">Недопустимый файл шрифта</string>
+    <string name="font_import_fail_reason">Не удалось импортировать шрифт: %1$s</string>
+
+    <string name="stats_sha256_copy">Копировать SHA-256</string>
+    <string name="stats_sha256_copied">SHA-256 скопирован</string>
+
+    <string name="about_export_ini">Экспорт настроек (INI)</string>
+    <string name="about_import_ini">Импорт настроек (INI)</string>
+    <string name="ini_export_file_name">plainpad.ini</string>
+    <string name="ini_export_success">Настройки экспортированы</string>
+    <string name="ini_export_failed">Ошибка экспорта: %1$s</string>
+    <string name="ini_import_success">Импортировано настроек: %1$d</string>
+    <string name="ini_import_failed">Ошибка импорта: %1$s</string>
+
+    <string name="draft_recovery_title">Найдены несохранённые изменения</string>
+    <string name="draft_recovery_message">Вкладок с несохранёнными изменениями из прошлого сеанса: %1$d. Восстановить?</string>
+    <string name="draft_recovery_restore">Восстановить</string>
+    <string name="draft_recovery_discard">Не восстанавливать</string>
+    <string name="draft_recovery_restored">Восстановлено вкладок: %1$d</string>
+    <string name="draft_recovery_nothing">Нечего восстанавливать</string>
+
+    <!-- Developer Options -->
+    <string name="dev_options_title">Для разработчиков</string>
+    <string name="dev_options_hint">Эти параметры предназначены только для отладки. Некоторые действия немедленно приведут к сбою приложения.</string>
+
+    <string name="dev_section_crash">Имитация сбоев и исключений</string>
+    <string name="dev_crash_main">Сбой главного потока</string>
+    <string name="dev_crash_main_desc">Выбросить RuntimeException для проверки журналов сбоев и восстановления черновиков</string>
+    <string name="dev_crash_background">Сбой фонового потока</string>
+    <string name="dev_crash_background_desc">Выбросить неперехваченное исключение в фоновом потоке</string>
+    <string name="dev_crash_oom">Нехватка памяти (OOM)</string>
+    <string name="dev_crash_oom_desc">Вызвать OutOfMemoryError для проверки обработки памяти</string>
+    <string name="dev_crash_anr">Блокировать главный поток на 15 с</string>
+    <string name="dev_crash_anr_desc">Заблокировать главный поток для срабатывания обнаружения ANR</string>
+
+    <string name="dev_section_test_doc">Генерация тестовых документов</string>
+    <string name="dev_test_1mb">Создать многострочный текст 1 МБ</string>
+    <string name="dev_test_5mb_single">Создать однострочный текст 5 МБ (режим больших файлов)</string>
+    <string name="dev_test_20mb_single">Создать однострочный текст 20 МБ (проверка обрезки)</string>
+    <string name="dev_test_500kb_cn">Создать китайский текст 500 КБ</string>
+
+    <string name="dev_section_data">Операции с данными</string>
+    <string name="dev_view_prefs">Просмотр SharedPreferences</string>
+    <string name="dev_view_drafts">Просмотр файлов черновиков</string>
+    <string name="dev_clear_drafts">Очистить черновики</string>
+    <string name="dev_clear_recent">Очистить недавние файлы</string>
+    <string name="dev_clear_tabs">Очистить сохранённые вкладки</string>
+    <string name="dev_reset_prefs">Сбросить все настройки</string>
+
+    <string name="dev_confirm_title">Подтверждение</string>
+    <string name="dev_confirm_crash">Смоделировать сбой? Приложение немедленно закроется.</string>
+    <string name="dev_confirm_clear_drafts">Очистить все черновики?</string>
+    <string name="dev_confirm_clear_recent">Очистить список недавних файлов?</string>
+    <string name="dev_confirm_clear_tabs">Очистить сохранённые вкладки? При следующем запуске откроется пустая вкладка.</string>
+    <string name="dev_confirm_reset_prefs">Сбросить все настройки? Все параметры будут очищены.</string>
+
+    <string name="dev_empty_prefs">SharedPreferences пуст</string>
+    <string name="dev_empty_drafts">Нет файлов черновиков</string>
+    <string name="dev_action_done">Готово</string>
+    <string name="dev_anr_triggered">Главный поток сейчас заблокируется, ожидайте ANR</string>
+    <string name="dev_copy">Копировать</string>
+    <string name="dev_copied">Скопировано</string>
+
+    <string name="about_version_egg_hint">До открытия параметров разработчика осталось нажатий: %1$d</string>
+
+    <!-- Developer Options Extension -->
+    <string name="dev_section_app_info">О приложении и устройстве</string>
+    <string name="dev_app_info">О приложении</string>
+    <string name="dev_device_info">Об устройстве</string>
+
+    <string name="dev_section_storage">Хранилище и память</string>
+    <string name="dev_storage_info">Использование хранилища</string>
+    <string name="dev_memory_info">Сведения о памяти</string>
+    <string name="dev_clear_cache">Очистить каталог кеша</string>
+    <string name="dev_confirm_clear_cache">Очистить каталог кеша?</string>
+
+    <string name="dev_test_crlf">Создать текст CRLF 256 КБ</string>
+    <string name="dev_test_mixed">Создать текст 256 КБ со смешанными концами строк</string>
+
+    <string name="dev_section_font">Отладка шрифтов</string>
+    <string name="dev_font_list">Просмотр импортированных шрифтов</string>
+    <string name="dev_font_clear">Удалить все пользовательские шрифты</string>
+    <string name="dev_confirm_clear_fonts">Удалить все импортированные файлы шрифтов?</string>
+    <string name="dev_empty_fonts">Нет пользовательских шрифтов</string>
+
+    <string name="dev_section_quick">Быстрое переключение</string>
+    <string name="dev_quick_theme_color">Переключить цвет темы</string>
+    <string name="dev_quick_icon">Переключить значок запуска</string>
+    <string name="dev_quick_language">Переключить язык</string>
+    <string name="dev_quick_switched">Переключено на %1$s</string>
+
+    <string name="dev_section_intent">Имитация Intent и проверка режима только для чтения</string>
+    <string name="dev_intent_view">Смоделировать ACTION_VIEW</string>
+    <string name="dev_intent_edit">Смоделировать ACTION_EDIT</string>
+    <string name="dev_intent_send">Смоделировать отправку ACTION_SEND</string>
+    <string name="dev_intent_failed">Ошибка Intent: %1$s</string>
+    <string name="dev_open_readonly">Открыть тестовый документ только для чтения</string>
+
+    <string name="section_other">Другое</string>
+    <string name="settings_about">О программе</string>
+    <string name="settings_import_ini">Импорт настроек (INI)</string>
+    <string name="settings_export_ini">Экспорт настроек (INI)</string>
+    <string name="settings_developer_options">Для разработчиков</string>
+
+    <string name="dev_section_shortcut">Ярлык в настройках</string>
+    <string name="dev_shortcut_title">Показывать ярлык в настройках</string>
+    <string name="dev_shortcut_hint">Если выключено, нажмите на версию 7 раз, чтобы снова разблокировать</string>
+    <string name="dev_disable_shortcut_done">Ярлык отключён. Нажмите на версию 7 раз, чтобы снова разблокировать.</string>
+
+</resources>

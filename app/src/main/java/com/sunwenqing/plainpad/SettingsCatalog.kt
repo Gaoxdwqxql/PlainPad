@@ -39,6 +39,20 @@ object SettingsCatalog {
         SettingsItem("startup_mode", R.string.settings_startup_mode, R.string.settings_startup_hint, "tabs")
     )
 
+    /**
+     * 应用内语言选项。空 tag 表示「跟随系统」。
+     * 设置页和开发者选项共用这一份，新增语言只改这里。
+     */
+    val LANGUAGES = listOf(
+        "" to R.string.language_system,
+        "zh" to R.string.language_zh,
+        "en" to R.string.language_en,
+        "de" to R.string.language_de,
+        "fr" to R.string.language_fr,
+        "ru" to R.string.language_ru,
+        "ja" to R.string.language_ja
+    )
+
     fun sectionNameRes(section: String): Int = when (section) {
         "editing" -> R.string.section_editing
         "save" -> R.string.section_save

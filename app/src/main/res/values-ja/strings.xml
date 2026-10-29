@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Info -->
+    <string name="app_name">PlainPad</string>
+    <string name="untitled">無題.txt</string>
+    <string name="default_file_name">無題.txt</string>
+    <string name="untitled_n">無題 %1$d.txt</string>
+    <string name="editor_hint">ここにテキストを入力…</string>
+
+    <!-- Top Bar -->
+    <string name="menu_undo">元に戻す</string>
+    <string name="menu_redo">やり直し</string>
+    <string name="menu_find">検索</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_more">その他</string>
+
+    <!-- Overflow Menu -->
+    <string name="menu_new">新規作成</string>
+    <string name="menu_open">開く…</string>
+    <string name="menu_recent">最近のファイル</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_save_as">名前を付けて保存…</string>
+    <string name="menu_close_tab">タブを閉じる</string>
+    <string name="menu_replace">置換</string>
+    <string name="menu_goto_line">行へ移動</string>
+    <string name="menu_immersive">イマーシブモード</string>
+    <string name="menu_default">既定のエディタに設定</string>
+    <string name="menu_about">PlainPad について</string>
+
+    <!-- Compatibility -->
+    <string name="menu_wrap">折り返し</string>
+    <string name="menu_show_line_numbers">行番号を表示</string>
+    <string name="menu_font_size">フォントサイズ</string>
+    <string name="menu_theme">テーマ</string>
+
+    <!-- Undo/Redo Toast -->
+    <string name="no_undo">元に戻す操作はありません</string>
+    <string name="no_redo">やり直す操作はありません</string>
+
+    <!-- Recent Files -->
+    <string name="recent_title">最近のファイル</string>
+    <string name="no_recent">最近のファイルはありません</string>
+    <string name="recent_cleared">最近のファイルを消去しました</string>
+    <string name="clear">消去</string>
+
+    <!-- Find/Replace -->
+    <string name="find_hint">検索</string>
+    <string name="replace_hint">置換後の文字列</string>
+    <string name="find_prev">前を検索</string>
+    <string name="find_next">次を検索</string>
+    <string name="replace">置換</string>
+    <string name="replace_all">すべて置換</string>
+    <string name="close">閉じる</string>
+    <string name="not_found">見つかりません</string>
+    <string name="replaced_n">%1$d 件を置換しました</string>
+
+    <!-- Search Options -->
+    <string name="search_regex">正規表現</string>
+    <string name="search_case_sensitive">大文字と小文字を区別</string>
+    <string name="search_from_start">先頭から</string>
+    <string name="search_hint_plain">リテラル一致、大文字と小文字を区別しない</string>
+    <string name="search_hint_case">リテラル一致、大文字と小文字を区別</string>
+    <string name="search_hint_regex">正規表現一致、大文字と小文字を区別しない。置換では $1、$2 のグループを使用できます</string>
+    <string name="search_hint_regex_case">正規表現一致、大文字と小文字を区別する。置換では $1、$2 のグループを使用できます</string>
+    <string name="search_status_found">一致しました</string>
+    <string name="search_status_not_found">一致する項目はありません</string>
+    <string name="search_status_invalid_regex">無効な正規表現: %1$s</string>
+    <string name="search_status_initial_from_start">ファイルの先頭から検索します</string>
+    <string name="search_status_initial_from_cursor">カーソル位置から検索します</string>
+    <string name="search_empty_query">検索する文字列を入力してください</string>
+    <string name="replace_status_replaced_current">現在の一致を置換しました</string>
+    <string name="replace_status_replaced">%1$d 件を置換しました</string>
+    <string name="replace_status_located">一致箇所に移動しました。もう一度「置換」をタップしてください</string>
+
+    <!-- Save/Open Status -->
+    <string name="saved">保存しました</string>
+    <string name="err_open">開けませんでした: %1$s</string>
+    <string name="err_save">保存できませんでした: %1$s</string>
+    <string name="status_count">%1$d 文字 · %2$d 行</string>
+
+    <!-- Unsaved -->
+    <string name="unsaved_title">未保存の変更</string>
+    <string name="unsaved_message">現在のファイルは変更されています。変更を保存しますか？</string>
+    <string name="save">保存</string>
+    <string name="discard">破棄</string>
+    <string name="cancel">キャンセル</string>
+    <string name="ok">OK</string>
+
+    <!-- General -->
+    <string name="no_settings">システム設定を開けません</string>
+    <string name="about_message">PlainPad 1.0\n\n軽量なプレーンテキストエディタです。\nUTF-8 / UTF-16 / GBK の自動判別とマルチタブ編集に対応しています。\n\nヒント: システム設定で PlainPad を txt ファイルの既定のアプリに設定できます。</string>
+
+    <!-- Encoding -->
+    <string name="choose_encoding">文字コードを選択</string>
+    <string name="encoding_label">文字コード: %1$s</string>
+
+    <!-- Font Size -->
+    <string name="font_size_dialog_title">フォントサイズを調整</string>
+    <string name="font_size_label">現在のサイズ: %1$d sp</string>
+
+    <!-- Theme -->
+    <string name="theme_title">テーマを選択</string>
+    <string name="theme_system">システムに従う</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+
+    <!-- Immersive -->
+    <string name="exit_immersive">イマーシブモードを終了</string>
+
+    <!-- Goto Line -->
+    <string name="goto_line_title">行へ移動</string>
+    <string name="goto_line_hint">行番号を入力</string>
+    <string name="goto_line_range">全 %1$d 行</string>
+    <string name="goto_line_invalid">無効な行番号です</string>
+
+    <!-- Tabs -->
+    <string name="cannot_close_last">タブを1つ以上残してください</string>
+
+    <!-- Settings Page -->
+    <string name="settings_title">設定</string>
+    <string name="settings_font_size_title">フォントサイズ</string>
+    <string name="settings_theme">アプリのテーマ</string>
+    <string name="settings_startup_mode">起動モード</string>
+    <string name="settings_startup_hint">ランチャーからコールドスタートした場合:</string>
+    <string name="settings_plus_behavior">+ ボタンの動作</string>
+
+    <string name="section_editing">編集</string>
+    <string name="section_save">保存</string>
+    <string name="section_appearance">外観</string>
+    <string name="section_tabs">タブ</string>
+
+    <string name="startup_restore">前回のタブを復元</string>
+    <string name="startup_new_only">新規ファイルを開き、履歴を破棄</string>
+    <string name="startup_new_and_restore">新規ファイルを開き、履歴を保持</string>
+
+    <string name="plus_reuse_empty">既存の空タブを再利用</string>
+    <string name="plus_always_new">常に新しいタブを作成</string>
+
+    <!-- Editor Theme / Font -->
+    <string name="settings_editor_theme">エディタのテーマ</string>
+    <string name="settings_editor_font">エディタのフォント</string>
+
+    <string name="theme_follow_app">アプリのテーマに従う</string>
+    <string name="theme_white">ホワイト</string>
+    <string name="theme_sepia">セピア</string>
+    <string name="theme_soft_green">ソフトグリーン</string>
+    <string name="theme_oled_black">OLED ブラック</string>
+    <string name="theme_dark_gray">ダークグレー</string>
+    <string name="theme_midnight_blue">ミッドナイトブルー</string>
+
+    <string name="font_monospace">等幅</string>
+    <string name="font_sans_serif">サンセリフ</string>
+    <string name="font_serif">セリフ</string>
+
+    <!-- About -->
+    <string name="about_title">PlainPad について</string>
+    <string name="about_version">バージョン %1$s</string>
+    <string name="about_description">PlainPad は軽量なプレーンテキストエディタです。\nUTF-8 / UTF-16 / GBK の自動判別、マルチタブ編集、行番号、ピンチズーム、エディタテーマとフォントのカスタマイズに対応しています。</string>
+    <string name="about_set_default">既定のエディタに設定</string>
+    <string name="about_made_with">❤️ を込めて作りました</string>
+
+    <!-- Stats Dialog -->
+    <string name="stats_title">統計情報</string>
+    <string name="stats_group_chars">文字の統計</string>
+    <string name="stats_group_paragraphs">段落と行</string>
+    <string name="stats_group_file">ファイル情報</string>
+    <string name="stats_sha256_label">SHA-256</string>
+    <string name="stats_sha256_computing">計算中…</string>
+    <string name="stats_sha256_unavailable">利用できません</string>
+    <string name="stats_sha256_current_content">%1$s（現在の内容、未保存）</string>
+    <string name="stat_chars_no_space">文字数（スペースなし）</string>
+    <string name="stat_visible_chars">表示文字数</string>
+    <string name="stat_invisible_chars">非表示文字数</string>
+    <string name="stat_letters">英字</string>
+    <string name="stat_digits">数字</string>
+    <string name="stat_words">単語数</string>
+    <string name="stat_total_lines">総行数</string>
+    <string name="stat_nonempty_lines">空でない行</string>
+    <string name="stat_paragraphs">段落数</string>
+    <string name="stat_chinese_chars">漢字</string>
+    <string name="stat_max_line_width">最大行幅</string>
+
+    <!-- Status Bar Formats -->
+    <string name="status_chars_space">%1$d 文字</string>
+    <string name="status_chars_nospace">%1$d 文字</string>
+    <string name="status_words">%1$d 単語</string>
+    <string name="status_lines">%1$d 行</string>
+    <string name="status_nonempty_lines">%1$d 行（空でない）</string>
+    <string name="status_max_line">最大幅 %1$d</string>
+    <string name="status_letters">%1$d 英字</string>
+    <string name="status_invisible">%1$d 非表示</string>
+
+    <!-- Status Bar Settings -->
+    <string name="settings_status_bar">ステータスバーの表示</string>
+    <string name="status_bar_hint">最大2項目まで選択できます。以前に選択した項目は選択解除されます。</string>
+    <string name="status_item_chars_space">文字数（スペースを含む）</string>
+    <string name="status_item_chars_nospace">文字数（スペースを含まない）</string>
+    <string name="status_item_words">単語数</string>
+    <string name="status_item_lines">総行数</string>
+    <string name="status_item_nonempty_lines">空でない行</string>
+    <string name="status_item_max_line">最大行幅</string>
+    <string name="status_item_letters">英字</string>
+    <string name="status_item_invisible">非表示文字</string>
+
+    <!-- Special Chars -->
+    <string name="insert_special_cd">特殊文字を挿入</string>
+    <string name="insert_special_title">特殊文字を挿入</string>
+    <string name="special_lf">LF（改行） </string>
+    <string name="special_cr">CR（復帰） </string>
+    <string name="special_crlf">CRLF </string>
+    <string name="special_tab">TAB </string>
+    <string name="special_zwsp">ゼロ幅スペース</string>
+    <string name="special_zwnj">ZWNJ</string>
+    <string name="special_zwj">ZWJ</string>
+    <string name="special_nbsp">非改行スペース</string>
+    <string name="special_ideographic_space">全角スペース</string>
+    <string name="special_nbhyphen">非改行ハイフン</string>
+    <string name="special_bom">BOM</string>
+    <string name="special_lrm">LRM</string>
+    <string name="special_rlm">RLM</string>
+
+    <string name="stat_chars_with_space">文字数（スペースを含み、改行を除く）</string>
+
+    <!-- Auto Save -->
+    <string name="settings_auto_save">自動保存</string>
+    <string name="auto_save_hint">保存済みのファイルのみ有効です。無題のファイルは対象外です。</string>
+    <string name="auto_save_on_pause">バックグラウンド移行時に保存</string>
+    <string name="auto_save_on_tab_switch">タブ切り替え時に保存</string>
+    <string name="auto_save_interval">一定間隔で保存</string>
+    <string name="auto_save_interval_title">自動保存の間隔</string>
+    <string name="auto_save_interval_off">オフ</string>
+    <string name="auto_save_interval_15">15秒ごと</string>
+    <string name="auto_save_interval_30">30秒ごと</string>
+    <string name="auto_save_interval_60">1分ごと</string>
+    <string name="auto_save_interval_300">5分ごと</string>
+    <string name="auto_save_interval_600">10分ごと</string>
+
+    <string name="auto_save_status_pending">待機中</string>
+    <string name="auto_save_status_saved">%1$s に保存しました</string>
+    <string name="auto_save_status_saving">保存中…</string>
+
+    <string name="stats_file_name">ファイル: %1$s</string>
+
+    <string name="auto_save_on_edit">編集時に保存</string>
+    <string name="auto_save_on_edit_hint">入力が止まってから2秒後に保存します</string>
+    <string name="settings_utf8_bom">UTF-8 BOM を付けて保存</string>
+    <string name="settings_utf8_bom_hint">保存する UTF-8 ファイルの先頭に BOM（EF BB BF）を書き込みます。オフの場合、既存の BOM は保持されます。</string>
+    <string name="menu_reopen_encoding">文字コードを指定して開き直す…</string>
+    <string name="reopen_no_file">このファイルはまだディスクに保存されていません</string>
+    <string name="reopen_discard_title">未保存の変更を破棄しますか？</string>
+    <string name="reopen_discard_message">ファイルを開き直すと、現在の未保存の内容は破棄されます。</string>
+    <string name="reopen_done">%1$s として開き直しました</string>
+    <string name="settings_current_line_highlight">現在の行を強調</string>
+    <string name="settings_current_line_highlight_hint">カーソルがある行をテーマカラーで色付けします</string>
+    <string name="crash_title">前回の実行がクラッシュしました</string>
+    <string name="crash_message">%1$d 件のクラッシュログが見つかりました。最新: %2$s</string>
+    <string name="crash_copy">コピー</string>
+    <string name="crash_copied">クラッシュログをコピーしました</string>
+    <string name="crash_clear">削除</string>
+    <string name="crash_cleared">クラッシュログを削除しました</string>
+    <string name="auto_save_last_time">%1$s に保存</string>
+
+    <string name="menu_save_current">現在のファイルを保存</string>
+    <string name="menu_save_all">すべて保存</string>
+    <string name="save_all_nothing">保存する変更済みファイルはありません</string>
+    <string name="save_all_success">%1$d 件のファイルを保存しました</string>
+    <string name="save_all_partial">%1$d 件を保存、%2$d 件失敗</string>
+
+    <!-- Help -->
+    <string name="menu_help">ヘルプ</string>
+    <string name="help_title">ヘルプ</string>
+    <string name="help_intro">PlainPad は軽量でシンプルなオフラインのプレーンテキストエディタです。以下はすべての機能のガイドです。戻る矢印をタップするか、戻るボタンを押して終了してください。</string>
+
+    <string name="help_section_file">ファイル操作</string>
+    <string name="help_file_content">• 新規作成: メニュー → 新規作成、またはタブバー末尾の + をタップ\n• 開く: メニュー → 開く… でシステムのファイルピッカーを使用\n• 保存: 上部バーの保存アイコン → 現在のファイルを保存\n• すべて保存: 名前付きの変更済みタブをすべて保存\n• 名前を付けて保存: 文字コードを選択してから保存場所を選択\n• タブを閉じる: タブの × をタップ、またはメニュー → タブを閉じる\n• 最近のファイル: メニュー → 最近のファイル（直近10件）\n• 既定に設定: メニュー → 既定のエディタに設定</string>
+
+    <string name="help_section_edit">編集</string>
+    <string name="help_edit_content">• 元に戻す / やり直し: 上部バーの矢印、最大100ステップ\n• 検索: 上部バーの虫眼鏡、上下方向に対応\n• 置換: メニュー → 置換、1件またはすべて\n• 行へ移動: メニュー → 行へ移動\n• 特殊文字を挿入: ステータスバーの ⊕\n• 特殊文字を表示: 設定で有効化\n• 統計: 左下のステータステキストをタップ</string>
+
+    <string name="help_section_stats">統計情報</string>
+    <string name="help_stats_content">ステータステキストをタップすると統計情報が表示されます:\n• 文字数（スペースあり / なし）\n• 表示文字数 / 非表示文字数\n• 英字、数字、漢字\n• 単語数、総行数 / 空でない行、段落数\n• 最大行幅\n\n設定 → 編集 で表示する2項目を選択できます。</string>
+
+    <string name="help_section_tabs">タブ</string>
+    <string name="help_tabs_content">• 新しいタブ: + をタップ、またはメニュー → 新規作成\n• タブの切り替え: タブをタップ、カーソルとスクロール位置は自動保存\n• タブを閉じる: × をタップ、未保存の変更がある場合は確認\n• + の動作: 空タブを再利用、または常に新規作成\n• 起動モード: 復元、新規作成して破棄、新規作成して保持</string>
+
+    <string name="help_section_appearance">外観</string>
+    <string name="help_appearance_content">• テーマカラー: 8種類のプリセット。アイコンは自動で切り替わります（Android 12 以降）\n• フォントサイズ: 設定 → フォントサイズ、10～40 sp\n• エディタのテーマ: アプリに従う、ホワイト、セピア、グリーン、OLED、ダークグレー、ミッドナイトブルー\n• エディタのフォント: 等幅、サンセリフ、セリフ\n• 行番号を表示: 幅は固定で、厳密に揃えて表示\n• 折り返し: 設定 → 折り返し\n• アプリのテーマ: システム / ライト / ダーク</string>
+
+    <string name="help_section_gesture">ジェスチャー</string>
+    <string name="help_gesture_content">• ピンチズーム: エディタ領域で2本指を使用\n• 右側のスクロールバー: ドラッグでスクロールできます。慣性があります\n• 長押し: システム標準の選択、コピー、貼り付け\n• タブスクロール: タブが多いときは横にスワイプ</string>
+
+    <string name="help_section_autosave">自動保存</string>
+    <string name="help_autosave_content">設定 → 保存 で有効にします:\n• バックグラウンド移行時に保存\n• タブ切り替え時に保存\n• 編集時に保存（2秒のデバウンス）\n• 一定間隔で保存（15秒～10分）\n\n注: 自動保存されるのは名前付きファイルのみです。ステータスバーに最終保存日時が表示されます。</string>
+
+    <string name="help_section_encoding">文字コードのサポート</string>
+    <string name="help_encoding_content">BOM を自動判別し、まず UTF-8 としてデコードします。失敗した場合は GBK にフォールバックします。\n保存時の文字コード: UTF-8、UTF-16LE、UTF-16BE、GBK、GB2312。\n現在の文字コードは右下に表示されます。</string>
+
+    <string name="help_section_eol">改行コード（EOL）</string>
+    <string name="help_eol_content">現在の改行コード形式（CRLF または LF）は、下部バーの文字コードの隣に表示されます。\n• Windows は CRLF（\\r\\n）を使用\n• Unix / macOS は LF（\\n）を使用\n\n下部バーの CRLF または LF のラベルをタップすると相互に変換でき、異なる OS 間での書式の問題を防げます。</string>
+
+    <string name="help_section_large_file">大容量ファイルモード</string>
+    <string name="help_large_file_content">モバイル端末で快適に動作させるため、PlainPad は非常に大きなテキストを特別に処理します:\n• 読み込み上限: 最大20MB。超過分は切り捨てられ、通知が表示されます。\n• パフォーマンス保護: 1つのファイルが300万文字を超えるか、10,000文字を超える極端に長い行を含む場合、自動的に「大容量ファイルモード」に移行します。\n• 制限される機能: 遅延や OOM（メモリ不足）を防ぐため、このモードでは行番号、元に戻す/やり直し、ピンチズーム、特殊文字の表示、統計情報が無効になります。</string>
+
+    <string name="help_section_immersive">イマーシブモード</string>
+    <string name="help_immersive_content">メニュー → イマーシブモード でバーがすべて非表示になります。\n右下のボタンで終了するか、戻るボタンを押してください。</string>
+
+    <!-- Onboarding -->
+    <string name="onboard_skip">スキップ</string>
+    <string name="onboard_next">次へ</string>
+    <string name="onboard_start">はじめる</string>
+
+    <string name="onboard_welcome_title">PlainPad へようこそ</string>
+    <string name="onboard_welcome_desc">軽量でシンプルなオフラインのプレーンテキストエディタです。\n\n広告、アカウント、クラウド同期はありません。すべてのデータは端末内に保存されます。</string>
+
+    <string name="onboard_tabs_title">マルチタブ編集</string>
+    <string name="onboard_tabs_desc">タブバー末尾の + をタップして新しいタブを作成します。\n\nタブを切り替えると、カーソルとスクロール位置が保存されます。\n\n× をタップして閉じます。</string>
+
+    <string name="onboard_save_title">保存と自動保存</string>
+    <string name="onboard_save_desc">保存ボタンでは、すべて保存、現在のファイルを保存、名前を付けて保存を実行できます。\n\n自動保存を有効にすると、バックグラウンド移行時、タブ切り替え時、入力停止時（2秒）、または一定間隔でディスクに書き込みます。</string>
+
+    <string name="onboard_prev">前へ</string>
+    <string name="auto_save_never">まだ保存されていません</string>
+    <string name="onboard_find_title">検索、置換、行へ移動</string>
+    <string name="onboard_find_desc">虫眼鏡をタップして検索します。\n\nその他のメニューには、置換と行へ移動があります。\n\n検索は上下方向に対応しています。</string>
+
+    <string name="onboard_appearance_title">カスタマイズ</string>
+    <string name="onboard_appearance_desc">設定でフォントサイズ、フォントファミリー、テーマを調整できます。\n\nエディタのテーマ: ホワイト、セピア、グリーン、OLED、ダークグレー、ミッドナイトブルー。\n\n行番号の幅は固定で、フォントサイズによって変動しません。</string>
+
+    <string name="onboard_gesture_title">ジェスチャー</string>
+    <string name="onboard_gesture_desc">エディタ内でピンチズームできます。\n\nカスタムスクロールバーは太めでつかみやすく、慣性があります。\n\nステータステキストをタップすると統計情報が表示されます。</string>
+
+    <string name="onboard_special_title">特殊文字を挿入</string>
+    <string name="onboard_special_desc">ステータスバーの ⊕ アイコンから挿入できます:\n\nLF、CR、TAB、ゼロ幅スペース、非改行スペース、全角スペース、BOM など。</string>
+
+    <string name="onboard_done_title">はじめる</string>
+    <string name="onboard_done_desc">すべての機能はメニュー → ヘルプ でいつでも確認できます。\n\n下のボタンをタップして、今すぐ始めましょう！</string>
+
+    <!-- Special Char Panel -->
+    <string name="special_chars_title">特殊文字</string>
+    <string name="special_chars_show">特殊文字を表示</string>
+    <string name="special_chars_show_hint">非表示文字を記号として表示します（内容は変更されません）</string>
+    <string name="special_chars_replace_rules_title">置換ルール</string>
+    <string name="special_chars_replace_rules">TAB → ⇥\n全角スペース（U+3000）→ □\nNBSP → ◦\nZWSP → ·\nZWNJ → ·\nZWJ → ·\n非改行ハイフン（U+2011）→ ‑\nBOM → ⟪\nLRM → ▸\nRLM → ◂\n\n通常のスペースと改行は置換されません</string>
+    <string name="special_chars_insert_section">タップして選択し、OK で挿入</string>
+
+    <string name="settings_no_result">一致する設定はありません</string>
+
+    <!-- Search -->
+    <string name="settings_search_title">設定を検索</string>
+    <string name="settings_search_hint">設定または説明を検索</string>
+    <string name="settings_search_empty_hint">入力すると検索が始まります</string>
+    <string name="settings_search_no_result">一致する設定が見つかりません</string>
+    <string name="settings_search_section_prefix">カテゴリ: %1$s</string>
+
+    <string name="settings_font_size_desc">エディタの既定のフォントサイズを調整できます</string>
+    <string name="settings_wrap_desc">無効にすると横方向にスクロールできます</string>
+    <string name="settings_replace_rules_desc">特殊文字の置換ルールを確認できます</string>
+    <string name="settings_editor_theme_desc">エディタの背景色と文字色を設定します</string>
+    <string name="settings_editor_font_desc">等幅、サンセリフ、セリフから選択できます</string>
+    <string name="settings_theme_desc">システムに従う、ライト、ダークから選択できます</string>
+
+    <!-- Theme Color -->
+    <string name="settings_theme_color">テーマカラー</string>
+    <string name="theme_color_title">テーマカラーを選択</string>
+    <string name="theme_color_system">システムのダイナミックカラー</string>
+    <string name="theme_color_purple">パープル</string>
+    <string name="theme_color_blue">ブルー</string>
+    <string name="theme_color_indigo">インディゴ</string>
+    <string name="theme_color_teal">ティール</string>
+    <string name="theme_color_green">グリーン</string>
+    <string name="theme_color_orange">オレンジ</string>
+    <string name="theme_color_red">レッド</string>
+    <string name="theme_color_pink">ピンク</string>
+    <string name="theme_color_system_unavailable">ダイナミックカラーは利用できません（Android 12 以降が必要）</string>
+
+    <string name="settings_show_special_chars">特殊文字を表示</string>
+    <string name="settings_show_special_chars_hint">スペース、タブ、ゼロ幅文字を記号として表示します</string>
+
+    <string name="help_section_about">PlainPad について</string>
+    <string name="help_about_content">PlainPad は軽量でシンプル、オフラインで広告のないアプリを目指しています。すべてのデータは端末内に保持されます。\n\nバージョンの確認や既定のアプリへの設定は、メニュー → PlainPad について から行えます。</string>
+
+    <!-- Large file / read-only -->
+    <string name="large_file_mode">大容量ファイルモード</string>
+    <string name="read_only">読み取り専用</string>
+    <string name="loading_large_file">大容量ファイルを読み込み中…</string>
+    <string name="large_file_stats_disabled">大容量ファイルモードでは統計情報を利用できません</string>
+    <string name="large_file_read_only_mode">ファイルが大きすぎるため、高性能な読み取り専用モードに移行しました</string>
+    <string name="cannot_save_large_file">データ損失を防ぐため、大容量ファイルモードまたは読み取り専用モードでは保存できません</string>
+    <string name="read_only_cannot_edit">読み取り専用モードでは編集できません</string>
+    <string name="large_file_cannot_edit">大容量ファイルモードでは表示のみ可能で、編集はできません</string>
+    <string name="convert_to_crlf">Windows（CRLF）に変換</string>
+    <string name="convert_to_lf">Unix/MacOS（LF）に変換</string>
+    <string name="converted_to_format">%1$s 形式に変換しました</string>
+    <string name="already_in_format">すでに %1$s 形式です</string>
+    <string name="large_file_cannot_resize">大容量ファイルモードではフォントサイズを変更できません</string>
+    <string name="cannot_convert_eol">現在のモードでは改行コードの変換はサポートされていません</string>
+    <string name="large_file_long_line_read_only">ファイルが大きすぎるか、極端に長い行が含まれているため、読み取り専用モードに移行しました</string>
+    <string name="large_file_line_numbers_disabled">大容量ファイルのため、快適な動作を優先して行番号を無効にしています</string>
+    <string name="file_truncated_20mb">ファイルが大きすぎるため、パフォーマンスのために先頭20MBに切り捨てました</string>
+    <string name="large_file_feature_disabled">大容量ファイルモードではこの機能は無効です</string>
+    <string name="chars_suffix">%1$d 文字</string>
+
+    <string name="eol_convert_empty">ファイルが空のため、変換は不要です</string>
+    <string name="eol_convert_no_newline">ファイルに改行がないため、変換は不要です</string>
+
+    <string name="settings_language">言語</string>
+    <string name="language_title">言語を選択</string>
+    <string name="language_system">システムに従う</string>
+    <string name="language_zh">简体中文</string>
+    <string name="language_en">English</string>
+    <string name="language_de">Deutsch</string>
+    <string name="language_fr">Français</string>
+    <string name="language_ru">Русский</string>
+    <string name="language_ja">日本語</string>
+
+    <string name="font_custom">カスタム（インポート済み）</string>
+    <string name="import_font">カスタムフォントをインポート</string>
+    <string name="import_font_success">フォントをインポートしました</string>
+    <string name="import_font_fail">フォントのインポートに失敗しました</string>
+
+    <!-- Font copy switch -->
+    <string name="settings_copy_font_title">フォントをアプリ専用ストレージにコピー</string>
+    <string name="settings_copy_font_hint">オン: フォントファイルがアプリのストレージにコピーされるため、元のファイルを削除しても安全です。オフ: フォントは直接参照されますが、Android 7.x では強制的にコピーされます。</string>
+
+    <!-- Font Manager -->
+    <string name="font_manager_title">フォントマネージャー</string>
+    <string name="font_preview_text">Aa フォントプレビュー 123</string>
+    <string name="font_builtin">内蔵</string>
+    <string name="font_custom_tag">カスタム</string>
+    <string name="font_manage">管理</string>
+    <string name="font_manage_done">完了</string>
+    <string name="font_select_all">すべて選択</string>
+    <string name="font_unselect_all">すべて選択解除</string>
+    <string name="font_delete">削除</string>
+    <string name="font_delete_n">削除（%1$d）</string>
+    <string name="font_delete_confirm_title">フォントを削除</string>
+    <string name="font_delete_confirm_message">選択した %1$d 件のフォントを削除しますか？この操作は元に戻せません。</string>
+    <string name="font_deleted_n">%1$d 件のフォントを削除しました</string>
+    <string name="font_delete_current_fallback">現在のフォントが削除されたため、既定のフォントに切り替えました。</string>
+    <string name="font_empty_custom">カスタムフォントはまだありません。右上のインポートをタップして追加してください。</string>
+    <string name="font_import">インポート</string>
+    <string name="font_import_read_failed">フォントファイルを読み取れません</string>
+    <string name="font_import_invalid">無効なフォントファイルです</string>
+    <string name="font_import_fail_reason">フォントのインポートに失敗しました: %1$s</string>
+
+    <string name="stats_sha256_copy">SHA-256 をコピー</string>
+    <string name="stats_sha256_copied">SHA-256 をコピーしました</string>
+
+    <string name="about_export_ini">設定をエクスポート（INI）</string>
+    <string name="about_import_ini">設定をインポート（INI）</string>
+    <string name="ini_export_file_name">plainpad.ini</string>
+    <string name="ini_export_success">設定をエクスポートしました</string>
+    <string name="ini_export_failed">エクスポートに失敗しました: %1$s</string>
+    <string name="ini_import_success">%1$d 件の設定をインポートしました</string>
+    <string name="ini_import_failed">インポートに失敗しました: %1$s</string>
+
+    <string name="draft_recovery_title">保存されていない下書きが見つかりました</string>
+    <string name="draft_recovery_message">前回のセッションから %1$d 個のタブに未保存の下書きがある可能性があります。復元しますか？</string>
+    <string name="draft_recovery_restore">復元</string>
+    <string name="draft_recovery_discard">破棄</string>
+    <string name="draft_recovery_restored">%1$d 個のタブを復元しました</string>
+    <string name="draft_recovery_nothing">復元するものはありません</string>
+
+    <!-- Developer Options -->
+    <string name="dev_options_title">開発者向けオプション</string>
+    <string name="dev_options_hint">これらのオプションはデバッグ専用です。一部の操作ではアプリが即座にクラッシュします。</string>
+
+    <string name="dev_section_crash">クラッシュと例外のシミュレーション</string>
+    <string name="dev_crash_main">メインスレッドのクラッシュ</string>
+    <string name="dev_crash_main_desc">RuntimeException をスローして、クラッシュログと下書き復元をテストします</string>
+    <string name="dev_crash_background">バックグラウンドスレッドのクラッシュ</string>
+    <string name="dev_crash_background_desc">バックグラウンドスレッドでキャッチされない例外をスローします</string>
+    <string name="dev_crash_oom">メモリ不足（OOM）</string>
+    <string name="dev_crash_oom_desc">OutOfMemoryError を発生させてメモリ処理をテストします</string>
+    <string name="dev_crash_anr">メインスレッドを15秒ブロック</string>
+    <string name="dev_crash_anr_desc">メインスレッドをブロックして ANR 検出を発生させます</string>
+
+    <string name="dev_section_test_doc">テスト文書の生成</string>
+    <string name="dev_test_1mb">1MB の複数行テキストを生成</string>
+    <string name="dev_test_5mb_single">5MB の単一行テキストを生成（大容量ファイルモード）</string>
+    <string name="dev_test_20mb_single">20MB の単一行テキストを生成（切り捨てテスト）</string>
+    <string name="dev_test_500kb_cn">500KB の中国語テキストを生成</string>
+
+    <string name="dev_section_data">データ操作</string>
+    <string name="dev_view_prefs">SharedPreferences を表示</string>
+    <string name="dev_view_drafts">下書きファイルを表示</string>
+    <string name="dev_clear_drafts">下書きを消去</string>
+    <string name="dev_clear_recent">最近のファイルを消去</string>
+    <string name="dev_clear_tabs">保存されたタブを消去</string>
+    <string name="dev_reset_prefs">すべての設定をリセット</string>
+
+    <string name="dev_confirm_title">確認</string>
+    <string name="dev_confirm_crash">クラッシュをシミュレートしますか？アプリは即座に終了します。</string>
+    <string name="dev_confirm_clear_drafts">すべての下書きを消去しますか？</string>
+    <string name="dev_confirm_clear_recent">最近のファイル一覧を消去しますか？</string>
+    <string name="dev_confirm_clear_tabs">保存されたタブを消去しますか？次回起動時に空のタブが開きます。</string>
+    <string name="dev_confirm_reset_prefs">すべての設定をリセットしますか？設定はすべて消去されます。</string>
+
+    <string name="dev_empty_prefs">SharedPreferences は空です</string>
+    <string name="dev_empty_drafts">下書きファイルはありません</string>
+    <string name="dev_action_done">完了</string>
+    <string name="dev_anr_triggered">メインスレッドをブロックします。ANR を待ってください</string>
+    <string name="dev_copy">コピー</string>
+    <string name="dev_copied">コピーしました</string>
+
+    <string name="about_version_egg_hint">あと %1$d 回タップすると開発者向けオプションが開きます</string>
+
+    <!-- Developer Options Extension -->
+    <string name="dev_section_app_info">アプリとデバイス情報</string>
+    <string name="dev_app_info">アプリ情報</string>
+    <string name="dev_device_info">デバイス情報</string>
+
+    <string name="dev_section_storage">ストレージとメモリ</string>
+    <string name="dev_storage_info">ストレージ使用量</string>
+    <string name="dev_memory_info">メモリ情報</string>
+    <string name="dev_clear_cache">キャッシュディレクトリを消去</string>
+    <string name="dev_confirm_clear_cache">キャッシュディレクトリを消去しますか？</string>
+
+    <string name="dev_test_crlf">256KB の CRLF テキストを生成</string>
+    <string name="dev_test_mixed">256KB の混在改行コードテキストを生成</string>
+
+    <string name="dev_section_font">フォントのデバッグ</string>
+    <string name="dev_font_list">インポート済みフォントを表示</string>
+    <string name="dev_font_clear">すべてのカスタムフォントを消去</string>
+    <string name="dev_confirm_clear_fonts">インポート済みのフォントファイルをすべて削除しますか？</string>
+    <string name="dev_empty_fonts">カスタムフォントはありません</string>
+
+    <string name="dev_section_quick">クイック切り替え</string>
+    <string name="dev_quick_theme_color">テーマカラーを切り替え</string>
+    <string name="dev_quick_icon">ランチャーアイコンを切り替え</string>
+    <string name="dev_quick_language">言語を切り替え</string>
+    <string name="dev_quick_switched">%1$s に切り替えました</string>
+
+    <string name="dev_section_intent">インテントのシミュレーションと読み取り専用テスト</string>
+    <string name="dev_intent_view">ACTION_VIEW をシミュレート</string>
+    <string name="dev_intent_edit">ACTION_EDIT をシミュレート</string>
+    <string name="dev_intent_send">ACTION_SEND 共有をシミュレート</string>
+    <string name="dev_intent_failed">インテントに失敗しました: %1$s</string>
+    <string name="dev_open_readonly">読み取り専用のテスト文書を開く</string>
+
+    <string name="section_other">その他</string>
+    <string name="settings_about">PlainPad について</string>
+    <string name="settings_import_ini">設定をインポート（INI）</string>
+    <string name="settings_export_ini">設定をエクスポート（INI）</string>
+    <string name="settings_developer_options">開発者向けオプション</string>
+
+    <string name="dev_section_shortcut">設定へのショートカット</string>
+    <string name="dev_shortcut_title">設定にショートカットを表示</string>
+    <string name="dev_shortcut_hint">無効にした場合、バージョンを7回タップすると再びロックを解除できます</string>
+    <string name="dev_disable_shortcut_done">ショートカットを無効にしました。バージョンを7回タップすると再びロックを解除できます。</string>
+
+</resources>

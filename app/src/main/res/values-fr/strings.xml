@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Info -->
+    <string name="app_name">PlainPad</string>
+    <string name="untitled">Sans titre.txt</string>
+    <string name="default_file_name">Sans titre.txt</string>
+    <string name="untitled_n">Sans titre %1$d.txt</string>
+    <string name="editor_hint">Saisissez du texte ici…</string>
+
+    <!-- Top Bar -->
+    <string name="menu_undo">Annuler</string>
+    <string name="menu_redo">Rétablir</string>
+    <string name="menu_find">Rechercher</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_more">Plus</string>
+
+    <!-- Overflow Menu -->
+    <string name="menu_new">Nouveau</string>
+    <string name="menu_open">Ouvrir…</string>
+    <string name="menu_recent">Fichiers récents</string>
+    <string name="menu_save">Enregistrer</string>
+    <string name="menu_save_as">Enregistrer sous…</string>
+    <string name="menu_close_tab">Fermer l\'onglet</string>
+    <string name="menu_replace">Remplacer</string>
+    <string name="menu_goto_line">Aller à la ligne</string>
+    <string name="menu_immersive">Mode immersif</string>
+    <string name="menu_default">Définir comme éditeur par défaut</string>
+    <string name="menu_about">À propos</string>
+
+    <!-- Compatibility -->
+    <string name="menu_wrap">Retour à la ligne</string>
+    <string name="menu_show_line_numbers">Afficher les numéros de ligne</string>
+    <string name="menu_font_size">Taille de police</string>
+    <string name="menu_theme">Thème</string>
+
+    <!-- Undo/Redo Toast -->
+    <string name="no_undo">Rien à annuler</string>
+    <string name="no_redo">Rien à rétablir</string>
+
+    <!-- Recent Files -->
+    <string name="recent_title">Fichiers récents</string>
+    <string name="no_recent">Aucun fichier récent</string>
+    <string name="recent_cleared">Fichiers récents effacés</string>
+    <string name="clear">Effacer</string>
+
+    <!-- Find/Replace -->
+    <string name="find_hint">Rechercher</string>
+    <string name="replace_hint">Remplacer par</string>
+    <string name="find_prev">Précédent</string>
+    <string name="find_next">Suivant</string>
+    <string name="replace">Remplacer</string>
+    <string name="replace_all">Tout remplacer</string>
+    <string name="close">Fermer</string>
+    <string name="not_found">Introuvable</string>
+    <string name="replaced_n">%1$d occurrence(s) remplacée(s)</string>
+
+    <!-- Search Options -->
+    <string name="search_regex">Expression régulière</string>
+    <string name="search_case_sensitive">Respecter la casse</string>
+    <string name="search_from_start">Depuis le début</string>
+    <string name="search_hint_plain">Correspondance littérale, sans distinction de casse</string>
+    <string name="search_hint_case">Correspondance littérale, avec distinction de casse</string>
+    <string name="search_hint_regex">Correspondance par expression régulière, sans distinction de casse ; le remplacement prend en charge les groupes $1, $2</string>
+    <string name="search_hint_regex_case">Correspondance par expression régulière, avec distinction de casse ; le remplacement prend en charge les groupes $1, $2</string>
+    <string name="search_status_found">Correspondance trouvée</string>
+    <string name="search_status_not_found">Aucune correspondance trouvée</string>
+    <string name="search_status_invalid_regex">Expression régulière invalide : %1$s</string>
+    <string name="search_status_initial_from_start">La recherche commence au début du fichier</string>
+    <string name="search_status_initial_from_cursor">La recherche commence à la position du curseur</string>
+    <string name="search_empty_query">Saisissez quelque chose à rechercher</string>
+    <string name="replace_status_replaced_current">Correspondance actuelle remplacée</string>
+    <string name="replace_status_replaced">%1$d occurrence(s) remplacée(s)</string>
+    <string name="replace_status_located">Correspondance localisée, appuyez de nouveau sur Remplacer</string>
+
+    <!-- Save/Open Status -->
+    <string name="saved">Enregistré</string>
+    <string name="err_open">Échec de l\'ouverture : %1$s</string>
+    <string name="err_save">Échec de l\'enregistrement : %1$s</string>
+    <string name="status_count">%1$d car. · %2$d lignes</string>
+
+    <!-- Unsaved -->
+    <string name="unsaved_title">Modifications non enregistrées</string>
+    <string name="unsaved_message">Le fichier actuel a été modifié. Enregistrer les modifications ?</string>
+    <string name="save">Enregistrer</string>
+    <string name="discard">Ignorer</string>
+    <string name="cancel">Annuler</string>
+    <string name="ok">OK</string>
+
+    <!-- General -->
+    <string name="no_settings">Impossible d\'ouvrir les paramètres système</string>
+    <string name="about_message">PlainPad 1.0\n\nUn éditeur de texte brut léger.\nPrend en charge la détection automatique UTF-8 / UTF-16 / GBK et l\'édition multi-onglets.\n\nAstuce : vous pouvez définir PlainPad comme application par défaut pour les fichiers txt dans les paramètres système.</string>
+
+    <!-- Encoding -->
+    <string name="choose_encoding">Choisir l\'encodage</string>
+    <string name="encoding_label">Encodage : %1$s</string>
+
+    <!-- Font Size -->
+    <string name="font_size_dialog_title">Ajuster la taille de police</string>
+    <string name="font_size_label">Taille actuelle : %1$d sp</string>
+
+    <!-- Theme -->
+    <string name="theme_title">Choisir le thème</string>
+    <string name="theme_system">Suivre le système</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+
+    <!-- Immersive -->
+    <string name="exit_immersive">Quitter le mode immersif</string>
+
+    <!-- Goto Line -->
+    <string name="goto_line_title">Aller à la ligne</string>
+    <string name="goto_line_hint">Saisir le numéro de ligne</string>
+    <string name="goto_line_range">Total %1$d lignes</string>
+    <string name="goto_line_invalid">Numéro de ligne invalide</string>
+
+    <!-- Tabs -->
+    <string name="cannot_close_last">Conservez au moins un onglet</string>
+
+    <!-- Settings Page -->
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_font_size_title">Taille de police</string>
+    <string name="settings_theme">Thème de l\'application</string>
+    <string name="settings_startup_mode">Mode de démarrage</string>
+    <string name="settings_startup_hint">Lors d\'un démarrage à froid depuis le lanceur :</string>
+    <string name="settings_plus_behavior">Comportement du bouton Plus</string>
+
+    <string name="section_editing">Édition</string>
+    <string name="section_save">Enregistrement</string>
+    <string name="section_appearance">Apparence</string>
+    <string name="section_tabs">Onglets</string>
+
+    <string name="startup_restore">Restaurer les onglets précédents</string>
+    <string name="startup_new_only">Nouveau fichier, ignorer l\'historique</string>
+    <string name="startup_new_and_restore">Nouveau fichier et conserver l\'historique</string>
+
+    <string name="plus_reuse_empty">Réutiliser l\'onglet vide existant</string>
+    <string name="plus_always_new">Toujours créer un nouvel onglet</string>
+
+    <!-- Editor Theme / Font -->
+    <string name="settings_editor_theme">Thème de l\'éditeur</string>
+    <string name="settings_editor_font">Police de l\'éditeur</string>
+
+    <string name="theme_follow_app">Suivre le thème de l\'application</string>
+    <string name="theme_white">Blanc</string>
+    <string name="theme_sepia">Sépia</string>
+    <string name="theme_soft_green">Vert doux</string>
+    <string name="theme_oled_black">Noir OLED</string>
+    <string name="theme_dark_gray">Gris foncé</string>
+    <string name="theme_midnight_blue">Bleu nuit</string>
+
+    <string name="font_monospace">Monospace</string>
+    <string name="font_sans_serif">Sans empattement</string>
+    <string name="font_serif">Avec empattement</string>
+
+    <!-- About -->
+    <string name="about_title">À propos</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_description">PlainPad est un éditeur de texte brut léger.\nPrend en charge la détection automatique UTF-8 / UTF-16 / GBK, l\'édition multi-onglets, les numéros de ligne, le zoom par pincement ainsi que des thèmes et des polices d\'éditeur personnalisables.</string>
+    <string name="about_set_default">Définir comme éditeur par défaut</string>
+    <string name="about_made_with">Fait avec ❤️</string>
+
+    <!-- Stats Dialog -->
+    <string name="stats_title">Statistiques</string>
+    <string name="stats_group_chars">Statistiques de caractères</string>
+    <string name="stats_group_paragraphs">Paragraphes &amp; lignes</string>
+    <string name="stats_group_file">Infos du fichier</string>
+    <string name="stats_sha256_label">SHA-256</string>
+    <string name="stats_sha256_computing">Calcul…</string>
+    <string name="stats_sha256_unavailable">Indisponible</string>
+    <string name="stats_sha256_current_content">%1$s (contenu actuel, non enregistré)</string>
+    <string name="stat_chars_no_space">Caractères (sans espace)</string>
+    <string name="stat_visible_chars">Caractères visibles</string>
+    <string name="stat_invisible_chars">Caractères invisibles</string>
+    <string name="stat_letters">Lettres</string>
+    <string name="stat_digits">Chiffres</string>
+    <string name="stat_words">Mots</string>
+    <string name="stat_total_lines">Lignes totales</string>
+    <string name="stat_nonempty_lines">Lignes non vides</string>
+    <string name="stat_paragraphs">Paragraphes</string>
+    <string name="stat_chinese_chars">Caractères chinois</string>
+    <string name="stat_max_line_width">Largeur de ligne max.</string>
+
+    <!-- Status Bar Formats -->
+    <string name="status_chars_space">%1$d car.</string>
+    <string name="status_chars_nospace">%1$d car.</string>
+    <string name="status_words">%1$d mots</string>
+    <string name="status_lines">%1$d lignes</string>
+    <string name="status_nonempty_lines">%1$d non vides</string>
+    <string name="status_max_line">Largeur max. %1$d</string>
+    <string name="status_letters">%1$d lettres</string>
+    <string name="status_invisible">%1$d invisibles</string>
+
+    <!-- Status Bar Settings -->
+    <string name="settings_status_bar">Affichage de la barre d\'état</string>
+    <string name="status_bar_hint">2 éléments max. Les plus anciens seront désélectionnés.</string>
+    <string name="status_item_chars_space">Caractères (avec espace)</string>
+    <string name="status_item_chars_nospace">Caractères (sans espace)</string>
+    <string name="status_item_words">Mots</string>
+    <string name="status_item_lines">Lignes totales</string>
+    <string name="status_item_nonempty_lines">Lignes non vides</string>
+    <string name="status_item_max_line">Largeur de ligne max.</string>
+    <string name="status_item_letters">Lettres</string>
+    <string name="status_item_invisible">Caractères invisibles</string>
+
+    <!-- Special Chars -->
+    <string name="insert_special_cd">Insérer un caractère spécial</string>
+    <string name="insert_special_title">Insérer un caractère spécial</string>
+    <string name="special_lf">LF (saut de ligne) </string>
+    <string name="special_cr">CR (retour chariot) </string>
+    <string name="special_crlf">CRLF </string>
+    <string name="special_tab">TAB </string>
+    <string name="special_zwsp">Espace de largeur nulle</string>
+    <string name="special_zwnj">ZWNJ</string>
+    <string name="special_zwj">ZWJ</string>
+    <string name="special_nbsp">Espace insécable</string>
+    <string name="special_ideographic_space">Espace idéographique</string>
+    <string name="special_nbhyphen">Trait d\'union insécable</string>
+    <string name="special_bom">BOM</string>
+    <string name="special_lrm">LRM</string>
+    <string name="special_rlm">RLM</string>
+
+    <string name="stat_chars_with_space">Caractères (avec espace, sans saut de ligne)</string>
+
+    <!-- Auto Save -->
+    <string name="settings_auto_save">Enregistrement automatique</string>
+    <string name="auto_save_hint">Fonctionne uniquement pour les fichiers enregistrés. Les fichiers sans titre seront ignorés.</string>
+    <string name="auto_save_on_pause">Enregistrer en arrière-plan</string>
+    <string name="auto_save_on_tab_switch">Enregistrer au changement d\'onglet</string>
+    <string name="auto_save_interval">Enregistrement par intervalle</string>
+    <string name="auto_save_interval_title">Durée de l\'enregistrement par intervalle</string>
+    <string name="auto_save_interval_off">Désactivé</string>
+    <string name="auto_save_interval_15">Toutes les 15 s</string>
+    <string name="auto_save_interval_30">Toutes les 30 s</string>
+    <string name="auto_save_interval_60">Toutes les 1 min</string>
+    <string name="auto_save_interval_300">Toutes les 5 min</string>
+    <string name="auto_save_interval_600">Toutes les 10 min</string>
+
+    <string name="auto_save_status_pending">En attente</string>
+    <string name="auto_save_status_saved">Enregistré %1$s</string>
+    <string name="auto_save_status_saving">Enregistrement…</string>
+
+    <string name="stats_file_name">Fichier : %1$s</string>
+
+    <string name="auto_save_on_edit">Enregistrer lors de l\'édition</string>
+    <string name="auto_save_on_edit_hint">Enregistre 2 secondes après l\'arrêt de la saisie</string>
+    <string name="settings_utf8_bom">Enregistrer avec BOM UTF-8</string>
+    <string name="settings_utf8_bom_hint">Écrit un BOM (EF BB BF) au début des fichiers UTF-8 enregistrés. Lorsque l\'option est désactivée, un BOM existant est conservé.</string>
+    <string name="menu_reopen_encoding">Rouvrir avec l\'encodage…</string>
+    <string name="reopen_no_file">Ce fichier n\'a pas encore été enregistré sur le disque</string>
+    <string name="reopen_discard_title">Ignorer les modifications non enregistrées ?</string>
+    <string name="reopen_discard_message">Rouvrir le fichier ignorera le contenu non enregistré actuel.</string>
+    <string name="reopen_done">Rouvert en %1$s</string>
+    <string name="settings_current_line_highlight">Surligner la ligne actuelle</string>
+    <string name="settings_current_line_highlight_hint">Teinte la ligne où se trouve le curseur, en utilisant la couleur du thème</string>
+    <string name="crash_title">Le dernier lancement a planté</string>
+    <string name="crash_message">%1$d journal(aux) de plantage trouvé(s), le plus récent : %2$s</string>
+    <string name="crash_copy">Copier</string>
+    <string name="crash_copied">Journaux de plantage copiés</string>
+    <string name="crash_clear">Supprimer</string>
+    <string name="crash_cleared">Journaux de plantage supprimés</string>
+    <string name="auto_save_last_time">Enregistré à %1$s</string>
+
+    <string name="menu_save_current">Enregistrer le fichier actuel</string>
+    <string name="menu_save_all">Tout enregistrer</string>
+    <string name="save_all_nothing">Aucun fichier modifié à enregistrer</string>
+    <string name="save_all_success">%1$d fichiers enregistrés</string>
+    <string name="save_all_partial">%1$d enregistrés, %2$d échoués</string>
+
+    <!-- Help -->
+    <string name="menu_help">Aide</string>
+    <string name="help_title">Aide</string>
+    <string name="help_intro">PlainPad est un éditeur de texte brut léger, pur et hors ligne. Voici le guide de toutes les fonctionnalités. Appuyez sur la flèche de retour ou sur Retour pour quitter.</string>
+
+    <string name="help_section_file">Opérations sur les fichiers</string>
+    <string name="help_file_content">• Nouveau : Menu → Nouveau, ou le + à la fin de la barre d\'onglets\n• Ouvrir : Menu → Ouvrir… via le sélecteur de fichiers du système\n• Enregistrer : icône d\'enregistrement en haut de l\'écran → Enregistrer le fichier actuel\n• Tout enregistrer : enregistre tous les onglets nommés et modifiés\n• Enregistrer sous : choisissez l\'encodage puis l\'emplacement d\'enregistrement\n• Fermer l\'onglet : appuyez sur × dans l\'onglet, ou Menu → Fermer l\'onglet\n• Fichiers récents : Menu → Fichiers récents (10 derniers)\n• Définir par défaut : Menu → Définir comme éditeur par défaut</string>
+
+    <string name="help_section_edit">Édition</string>
+    <string name="help_edit_content">• Annuler / Rétablir : flèches en haut de l\'écran, jusqu\'à 100 étapes\n• Rechercher : loupe en haut de l\'écran, prend en charge la recherche vers le haut et le bas\n• Remplacer : Menu → Remplacer, une occurrence ou toutes\n• Aller à la ligne : Menu → Aller à la ligne\n• Insérer un caractère spécial : ⊕ dans la barre d\'état\n• Afficher les caractères spéciaux : à activer dans les paramètres\n• Statistiques : appuyez sur le texte d\'état en bas à gauche</string>
+
+    <string name="help_section_stats">Statistiques</string>
+    <string name="help_stats_content">Appuyez sur le texte d\'état pour afficher les statistiques :\n• Caractères (avec / sans espace)\n• Caractères visibles / invisibles\n• Lettres, chiffres, caractères chinois\n• Mots, lignes totales / non vides, paragraphes\n• Largeur de ligne max.\n\nVous pouvez choisir les 2 éléments à afficher dans Paramètres → Édition.</string>
+
+    <string name="help_section_tabs">Onglets</string>
+    <string name="help_tabs_content">• Nouvel onglet : appuyez sur + ou Menu → Nouveau\n• Changer d\'onglet : appuyez sur l\'onglet, la position du curseur et du défilement est enregistrée automatiquement\n• Fermer l\'onglet : appuyez sur ×, les modifications non enregistrées déclenchent une confirmation\n• Comportement du bouton Plus : réutiliser l\'onglet vide ou toujours en créer un nouveau\n• Mode de démarrage : restaurer, nouveau &amp; ignorer, ou nouveau &amp; conserver</string>
+
+    <string name="help_section_appearance">Apparence</string>
+    <string name="help_appearance_content">• Couleur du thème : 8 couleurs prédéfinies. L\'icône change automatiquement (Android 12+)\n• Taille de police : Paramètres → Taille de police, 10 ~ 40 sp\n• Thème de l\'éditeur : suivre l\'application, blanc, sépia, vert, OLED, gris foncé, bleu nuit\n• Police de l\'éditeur : monospace, sans empattement, avec empattement\n• Afficher les numéros de ligne : largeur fixe, alignement strict\n• Retour à la ligne : Paramètres → Retour à la ligne\n• Thème de l\'application : Système / Clair / Sombre</string>
+
+    <string name="help_section_gesture">Gestes</string>
+    <string name="help_gesture_content">• Zoom par pincement : deux doigts dans la zone de l\'éditeur\n• Barre de défilement à droite : faites glisser pour défiler, avec inertie\n• Appui long : sélectionner, copier, coller comme par défaut dans le système\n• Défilement des onglets : balayez horizontalement lorsqu\'il y a trop d\'onglets</string>
+
+    <string name="help_section_autosave">Enregistrement automatique</string>
+    <string name="help_autosave_content">À activer dans Paramètres → Enregistrement :\n• Enregistrer en arrière-plan\n• Enregistrer au changement d\'onglet\n• Enregistrer lors de l\'édition (délai de 2 s)\n• Enregistrement par intervalle (15 s ~ 10 min)\n\nRemarque : seuls les fichiers nommés sont enregistrés automatiquement. La barre d\'état indique l\'heure du dernier enregistrement.</string>
+
+    <string name="help_section_encoding">Prise en charge de l\'encodage</string>
+    <string name="help_encoding_content">Détecte automatiquement le BOM et décode d\'abord en UTF-8, puis se rabat sur GBK.\nOptions d\'enregistrement : UTF-8, UTF-16LE, UTF-16BE, GBK, GB2312.\nL\'encodage actuel est affiché en bas à droite.</string>
+
+    <string name="help_section_eol">Fin de ligne (EOL)</string>
+    <string name="help_eol_content">Le format de fin de ligne actuel (CRLF ou LF) est affiché dans la barre inférieure, à côté de l\'encodage.\n• Windows utilise CRLF (\\r\\n)\n• Unix / macOS utilise LF (\\n)\n\nAppuyez sur l\'étiquette CRLF ou LF dans la barre inférieure pour convertir de l\'un à l\'autre, afin d\'éviter des problèmes de mise en forme entre systèmes d\'exploitation différents.</string>
+
+    <string name="help_section_large_file">Mode fichier volumineux</string>
+    <string name="help_large_file_content">Afin de garantir une fluidité extrême sur les appareils mobiles, PlainPad applique un traitement spécial aux textes très volumineux :\n• Limite de lecture : jusqu\'à 20 Mo. Le surplus est tronqué avec un message.\n• Protection des performances : lorsqu\'un fichier dépasse 3 millions de caractères, ou contient une ligne extrêmement longue de plus de 10 000 caractères, il passe automatiquement en « Mode fichier volumineux ».\n• Fonctionnalités restreintes : pour éviter les ralentissements ou les OOM (Out of Memory), les numéros de ligne, l\'annulation/rétablissement, le zoom par pincement, le rendu des caractères spéciaux et les statistiques sont désactivés dans ce mode.</string>
+
+    <string name="help_section_immersive">Mode immersif</string>
+    <string name="help_immersive_content">Menu → Mode immersif masque toutes les barres. \nQuittez avec le bouton en bas à droite ou appuyez sur Retour.</string>
+
+    <!-- Onboarding -->
+    <string name="onboard_skip">Passer</string>
+    <string name="onboard_next">Suivant</string>
+    <string name="onboard_start">Commencer</string>
+
+    <string name="onboard_welcome_title">Bienvenue dans PlainPad</string>
+    <string name="onboard_welcome_desc">Un éditeur de texte brut léger, pur et hors ligne.\n\nSans publicité, sans compte, sans synchronisation cloud. Toutes les données restent sur votre appareil.</string>
+
+    <string name="onboard_tabs_title">Édition multi-onglets</string>
+    <string name="onboard_tabs_desc">Appuyez sur + à la fin de la barre d\'onglets pour créer un nouvel onglet.\n\nLa position du curseur et du défilement est conservée lors du changement d\'onglet.\n\nAppuyez sur × pour fermer.</string>
+
+    <string name="onboard_save_title">Enregistrement &amp; enregistrement automatique</string>
+    <string name="onboard_save_desc">Le bouton d\'enregistrement propose Tout enregistrer, Enregistrer le fichier actuel et Enregistrer sous.\n\nActivez l\'Enregistrement automatique pour écrire sur le disque en arrière-plan, au changement d\'onglet, à l\'arrêt de la saisie (2 s) ou par intervalle.</string>
+
+    <string name="onboard_prev">Précédent</string>
+    <string name="auto_save_never">Pas encore enregistré</string>
+    <string name="onboard_find_title">Rechercher, remplacer, aller à la ligne</string>
+    <string name="onboard_find_desc">Appuyez sur la loupe pour rechercher.\n\nLe menu Plus contient Remplacer et Aller à la ligne.\n\nLa recherche fonctionne vers le haut et vers le bas.</string>
+
+    <string name="onboard_appearance_title">Personnaliser</string>
+    <string name="onboard_appearance_desc">Ajustez la taille de police, la famille de polices et les thèmes dans les paramètres.\n\nThèmes de l\'éditeur : Blanc, Sépia, Vert, OLED, Gris foncé, Bleu nuit.\n\nLa largeur des numéros de ligne est fixe et ne varie pas avec la taille de police.</string>
+
+    <string name="onboard_gesture_title">Gestes</string>
+    <string name="onboard_gesture_desc">Pincez pour zoomer dans l\'éditeur.\n\nLa barre de défilement personnalisée est plus épaisse et plus facile à saisir, avec inertie.\n\nAppuyez sur le texte d\'état pour voir les statistiques.</string>
+
+    <string name="onboard_special_title">Insérer des caractères spéciaux</string>
+    <string name="onboard_special_desc">Utilisez l\'icône ⊕ dans la barre d\'état pour insérer :\n\nLF, CR, TAB, espace de largeur nulle, espace insécable, espace pleine largeur, BOM, etc.</string>
+
+    <string name="onboard_done_title">Commencer</string>
+    <string name="onboard_done_desc">Toutes les fonctionnalités sont consultables à tout moment dans Menu → Aide.\n\nAppuyez sur le bouton ci-dessous pour commencer dès maintenant !</string>
+
+    <!-- Special Char Panel -->
+    <string name="special_chars_title">Caractères spéciaux</string>
+    <string name="special_chars_show">Afficher les caractères spéciaux</string>
+    <string name="special_chars_show_hint">Affiche les caractères invisibles sous forme de symboles (ne modifie pas le contenu)</string>
+    <string name="special_chars_replace_rules_title">Règles de remplacement</string>
+    <string name="special_chars_replace_rules">TAB → ⇥\nEspace idéographique (U+3000) → □\nNBSP → ◦\nZWSP → ·\nZWNJ → ·\nZWJ → ·\nTrait d\'union insécable (U+2011) → ‑\nBOM → ⟪\nLRM → ▸\nRLM → ◂\n\nL\'espace normal et les sauts de ligne ne sont pas remplacés</string>
+    <string name="special_chars_insert_section">Appuyez pour sélectionner, puis OK pour insérer</string>
+
+    <string name="settings_no_result">Aucun paramètre correspondant</string>
+
+    <!-- Search -->
+    <string name="settings_search_title">Rechercher des paramètres</string>
+    <string name="settings_search_hint">Rechercher des paramètres ou des descriptions</string>
+    <string name="settings_search_empty_hint">Saisissez du texte pour lancer la recherche</string>
+    <string name="settings_search_no_result">Aucun paramètre correspondant trouvé</string>
+    <string name="settings_search_section_prefix">Catégorie : %1$s</string>
+
+    <string name="settings_font_size_desc">Ajuster la taille de police par défaut de l\'éditeur</string>
+    <string name="settings_wrap_desc">Désactivez pour défiler horizontalement</string>
+    <string name="settings_replace_rules_desc">Afficher les règles de remplacement des caractères spéciaux</string>
+    <string name="settings_editor_theme_desc">Couleur de fond et de texte de l\'éditeur</string>
+    <string name="settings_editor_font_desc">Monospace, sans empattement ou avec empattement</string>
+    <string name="settings_theme_desc">Suivre le système, clair ou sombre</string>
+
+    <!-- Theme Color -->
+    <string name="settings_theme_color">Couleur du thème</string>
+    <string name="theme_color_title">Choisir la couleur du thème</string>
+    <string name="theme_color_system">Dynamique du système</string>
+    <string name="theme_color_purple">Violet</string>
+    <string name="theme_color_blue">Bleu</string>
+    <string name="theme_color_indigo">Indigo</string>
+    <string name="theme_color_teal">Bleu canard</string>
+    <string name="theme_color_green">Vert</string>
+    <string name="theme_color_orange">Orange</string>
+    <string name="theme_color_red">Rouge</string>
+    <string name="theme_color_pink">Rose</string>
+    <string name="theme_color_system_unavailable">Couleur dynamique indisponible (nécessite Android 12+)</string>
+
+    <string name="settings_show_special_chars">Afficher les caractères spéciaux</string>
+    <string name="settings_show_special_chars_hint">Affiche les espaces, les tabulations et les caractères de largeur nulle sous forme de symboles</string>
+
+    <string name="help_section_about">À propos</string>
+    <string name="help_about_content">PlainPad vise à être léger, pur, hors ligne et sans publicité. Toutes les données restent en local.\n\nPour consulter la version ou définir l\'application par défaut, allez dans Menu → À propos.</string>
+
+    <!-- Large file / read-only -->
+    <string name="large_file_mode">Mode fichier volumineux</string>
+    <string name="read_only">Lecture seule</string>
+    <string name="loading_large_file">Chargement du fichier volumineux…</string>
+    <string name="large_file_stats_disabled">Statistiques désactivées en mode fichier volumineux</string>
+    <string name="large_file_read_only_mode">Fichier trop volumineux, passage en mode lecture seule hautes performances</string>
+    <string name="cannot_save_large_file">Enregistrement impossible en mode fichier volumineux ou lecture seule afin d\'éviter toute perte de données</string>
+    <string name="read_only_cannot_edit">Modification impossible en mode lecture seule</string>
+    <string name="large_file_cannot_edit">Le mode fichier volumineux ne permet que la consultation, pas la modification</string>
+    <string name="convert_to_crlf">Convertir en Windows (CRLF)</string>
+    <string name="convert_to_lf">Convertir en Unix/MacOS (LF)</string>
+    <string name="converted_to_format">Converti au format %1$s</string>
+    <string name="already_in_format">Déjà au format %1$s</string>
+    <string name="large_file_cannot_resize">Ajustement de la taille de police désactivé en mode fichier volumineux</string>
+    <string name="cannot_convert_eol">Conversion de la fin de ligne non prise en charge dans le mode actuel</string>
+    <string name="large_file_long_line_read_only">Fichier trop volumineux ou contenant des lignes extrêmement longues, passage en mode lecture seule</string>
+    <string name="large_file_line_numbers_disabled">Fichier volumineux, numéros de ligne désactivés pour préserver la fluidité</string>
+    <string name="file_truncated_20mb">Fichier trop volumineux, tronqué aux 20 premiers Mo pour préserver les performances</string>
+    <string name="large_file_feature_disabled">Fonctionnalité désactivée en mode fichier volumineux</string>
+    <string name="chars_suffix">%1$d car.</string>
+
+    <string name="eol_convert_empty">Le fichier est vide, aucune conversion nécessaire</string>
+    <string name="eol_convert_no_newline">Le fichier ne contient pas de saut de ligne, aucune conversion nécessaire</string>
+
+    <string name="settings_language">Langue</string>
+    <string name="language_title">Choisir la langue</string>
+    <string name="language_system">Suivre le système</string>
+    <string name="language_zh">简体中文</string>
+    <string name="language_en">English</string>
+    <string name="language_de">Deutsch</string>
+    <string name="language_fr">Français</string>
+    <string name="language_ru">Русский</string>
+    <string name="language_ja">日本語</string>
+
+    <string name="font_custom">Personnalisée (importée)</string>
+    <string name="import_font">Importer une police personnalisée</string>
+    <string name="import_font_success">Police importée avec succès</string>
+    <string name="import_font_fail">Échec de l\'importation de la police</string>
+
+    <!-- Font copy switch -->
+    <string name="settings_copy_font_title">Copier les polices dans le stockage privé</string>
+    <string name="settings_copy_font_hint">Activé : les fichiers de police sont copiés dans le stockage de l\'application, la suppression de l\'original est donc sans risque. Désactivé : les polices sont référencées directement ; Android 7.x force néanmoins une copie.</string>
+
+    <!-- Font Manager -->
+    <string name="font_manager_title">Gestionnaire de polices</string>
+    <string name="font_preview_text">Aa Aperçu de police 123</string>
+    <string name="font_builtin">Intégrée</string>
+    <string name="font_custom_tag">Personnalisée</string>
+    <string name="font_manage">Gérer</string>
+    <string name="font_manage_done">Terminé</string>
+    <string name="font_select_all">Tout sélectionner</string>
+    <string name="font_unselect_all">Tout désélectionner</string>
+    <string name="font_delete">Supprimer</string>
+    <string name="font_delete_n">Supprimer (%1$d)</string>
+    <string name="font_delete_confirm_title">Supprimer les polices</string>
+    <string name="font_delete_confirm_message">Supprimer %1$d police(s) sélectionnée(s) ? Cette action est irréversible.</string>
+    <string name="font_deleted_n">%1$d police(s) supprimée(s)</string>
+    <string name="font_delete_current_fallback">La police actuelle a été supprimée. Passage à la police par défaut.</string>
+    <string name="font_empty_custom">Aucune police personnalisée pour l\'instant. Appuyez sur Importer en haut à droite pour en ajouter une.</string>
+    <string name="font_import">Importer</string>
+    <string name="font_import_read_failed">Impossible de lire le fichier de police</string>
+    <string name="font_import_invalid">Fichier de police invalide</string>
+    <string name="font_import_fail_reason">Échec de l\'importation de la police : %1$s</string>
+
+    <string name="stats_sha256_copy">Copier le SHA-256</string>
+    <string name="stats_sha256_copied">SHA-256 copié</string>
+
+    <string name="about_export_ini">Exporter la configuration (INI)</string>
+    <string name="about_import_ini">Importer la configuration (INI)</string>
+    <string name="ini_export_file_name">plainpad.ini</string>
+    <string name="ini_export_success">Configuration exportée</string>
+    <string name="ini_export_failed">Échec de l\'exportation : %1$s</string>
+    <string name="ini_import_success">%1$d paramètres importés</string>
+    <string name="ini_import_failed">Échec de l\'importation : %1$s</string>
+
+    <string name="draft_recovery_title">Modifications non enregistrées détectées</string>
+    <string name="draft_recovery_message">%1$d onglet(s) peuvent contenir des modifications non enregistrées de la dernière session. Restaurer ?</string>
+    <string name="draft_recovery_restore">Restaurer</string>
+    <string name="draft_recovery_discard">Ignorer</string>
+    <string name="draft_recovery_restored">%1$d onglet(s) restauré(s)</string>
+    <string name="draft_recovery_nothing">Rien à restaurer</string>
+
+    <!-- Developer Options -->
+    <string name="dev_options_title">Options pour les développeurs</string>
+    <string name="dev_options_hint">Ces options servent uniquement au débogage. Certaines actions font planter l\'application immédiatement.</string>
+
+    <string name="dev_section_crash">Simulation de plantage &amp; d\'exception</string>
+    <string name="dev_crash_main">Plantage du thread principal</string>
+    <string name="dev_crash_main_desc">Lève une RuntimeException pour tester les journaux de plantage et la récupération des brouillons</string>
+    <string name="dev_crash_background">Plantage du thread d\'arrière-plan</string>
+    <string name="dev_crash_background_desc">Lève une exception non interceptée sur un thread d\'arrière-plan</string>
+    <string name="dev_crash_oom">Mémoire insuffisante (OOM)</string>
+    <string name="dev_crash_oom_desc">Déclenche une OutOfMemoryError pour tester la gestion de la mémoire</string>
+    <string name="dev_crash_anr">Bloquer le thread principal 15 s</string>
+    <string name="dev_crash_anr_desc">Bloque le thread principal pour déclencher la détection d\'ANR</string>
+
+    <string name="dev_section_test_doc">Génération de documents de test</string>
+    <string name="dev_test_1mb">Générer un texte multiligne de 1 Mo</string>
+    <string name="dev_test_5mb_single">Générer un texte monoligne de 5 Mo (mode fichier volumineux)</string>
+    <string name="dev_test_20mb_single">Générer un texte monoligne de 20 Mo (test de troncature)</string>
+    <string name="dev_test_500kb_cn">Générer un texte chinois de 500 Ko</string>
+
+    <string name="dev_section_data">Opérations sur les données</string>
+    <string name="dev_view_prefs">Afficher les SharedPreferences</string>
+    <string name="dev_view_drafts">Afficher les fichiers de brouillon</string>
+    <string name="dev_clear_drafts">Effacer les brouillons</string>
+    <string name="dev_clear_recent">Effacer les fichiers récents</string>
+    <string name="dev_clear_tabs">Effacer les onglets enregistrés</string>
+    <string name="dev_reset_prefs">Réinitialiser tous les paramètres</string>
+
+    <string name="dev_confirm_title">Confirmer</string>
+    <string name="dev_confirm_crash">Simuler un plantage ? L\'application va se fermer immédiatement.</string>
+    <string name="dev_confirm_clear_drafts">Effacer tous les brouillons ?</string>
+    <string name="dev_confirm_clear_recent">Effacer la liste des fichiers récents ?</string>
+    <string name="dev_confirm_clear_tabs">Effacer les onglets enregistrés ? Un onglet vide s\'ouvrira au prochain lancement.</string>
+    <string name="dev_confirm_reset_prefs">Réinitialiser tous les paramètres ? Toutes les préférences seront effacées.</string>
+
+    <string name="dev_empty_prefs">SharedPreferences est vide</string>
+    <string name="dev_empty_drafts">Aucun fichier de brouillon</string>
+    <string name="dev_action_done">Terminé</string>
+    <string name="dev_anr_triggered">Le thread principal va se bloquer maintenant, attendez l\'ANR</string>
+    <string name="dev_copy">Copier</string>
+    <string name="dev_copied">Copié</string>
+
+    <string name="about_version_egg_hint">Encore %1$d appuis pour ouvrir les options pour les développeurs</string>
+
+    <!-- Developer Options Extension -->
+    <string name="dev_section_app_info">Infos sur l\'application &amp; l\'appareil</string>
+    <string name="dev_app_info">Infos de l\'application</string>
+    <string name="dev_device_info">Infos de l\'appareil</string>
+
+    <string name="dev_section_storage">Stockage &amp; mémoire</string>
+    <string name="dev_storage_info">Utilisation du stockage</string>
+    <string name="dev_memory_info">Infos mémoire</string>
+    <string name="dev_clear_cache">Effacer le répertoire de cache</string>
+    <string name="dev_confirm_clear_cache">Effacer le répertoire de cache ?</string>
+
+    <string name="dev_test_crlf">Générer un texte CRLF de 256 Ko</string>
+    <string name="dev_test_mixed">Générer un texte à fins de ligne mixtes de 256 Ko</string>
+
+    <string name="dev_section_font">Débogage des polices</string>
+    <string name="dev_font_list">Afficher les polices importées</string>
+    <string name="dev_font_clear">Effacer toutes les polices personnalisées</string>
+    <string name="dev_confirm_clear_fonts">Supprimer tous les fichiers de police importés ?</string>
+    <string name="dev_empty_fonts">Aucune police personnalisée</string>
+
+    <string name="dev_section_quick">Basculement rapide</string>
+    <string name="dev_quick_theme_color">Changer la couleur du thème</string>
+    <string name="dev_quick_icon">Changer l\'icône du lanceur</string>
+    <string name="dev_quick_language">Changer la langue</string>
+    <string name="dev_quick_switched">Basculé vers %1$s</string>
+
+    <string name="dev_section_intent">Simulation d\'Intent &amp; test de lecture seule</string>
+    <string name="dev_intent_view">Simuler ACTION_VIEW</string>
+    <string name="dev_intent_edit">Simuler ACTION_EDIT</string>
+    <string name="dev_intent_send">Simuler le partage ACTION_SEND</string>
+    <string name="dev_intent_failed">Échec de l\'Intent : %1$s</string>
+    <string name="dev_open_readonly">Ouvrir le document de test en lecture seule</string>
+
+    <string name="section_other">Autre</string>
+    <string name="settings_about">À propos</string>
+    <string name="settings_import_ini">Importer la configuration (INI)</string>
+    <string name="settings_export_ini">Exporter la configuration (INI)</string>
+    <string name="settings_developer_options">Options pour les développeurs</string>
+
+    <string name="dev_section_shortcut">Raccourci vers les paramètres</string>
+    <string name="dev_shortcut_title">Afficher le raccourci dans les paramètres</string>
+    <string name="dev_shortcut_hint">Lorsque cette option est désactivée, appuyez 7 fois sur la version pour le déverrouiller à nouveau</string>
+    <string name="dev_disable_shortcut_done">Raccourci désactivé. Appuyez 7 fois sur la version pour le déverrouiller à nouveau.</string>
+
+</resources>

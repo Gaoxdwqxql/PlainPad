@@ -365,38 +365,35 @@ class SettingsActivity : AppCompatActivity() {
         binding.rowLanguage.setOnClickListener { showLanguageDialog() }
     }
 
+    /** 语言选项：空字符串表示跟随系统 */
+    private val languageOptions = SettingsCatalog.LANGUAGES
+
     private fun updateLanguageLabel() {
-        val currentLocales = AppCompatDelegate.getApplicationLocales()
-        binding.tvLanguageValue.text = when {
-            currentLocales.isEmpty() -> getString(R.string.language_system)
-            currentLocales.toLanguageTags().startsWith("zh") -> getString(R.string.language_zh)
-            else -> getString(R.string.language_en)
+        val locales = AppCompatDelegate.getApplicationLocales()
+        if (locales.isEmpty()) {
+            binding.tvLanguageValue.text = getString(R.string.language_system)
+            return
         }
+        val primary = locales[0]?.language.orEmpty()
+        val hit = languageOptions.firstOrNull { it.first.isNotEmpty() && it.first == primary }
+        binding.tvLanguageValue.text = hit?.let { getString(it.second) } ?: primary
     }
 
     private fun showLanguageDialog() {
-        val names = arrayOf(
-            getString(R.string.language_system),
-            getString(R.string.language_zh),
-            getString(R.string.language_en)
-        )
-        val tags = arrayOf("", "zh", "en")
-        val currentLocales = AppCompatDelegate.getApplicationLocales().toLanguageTags()
-
-        val current = when {
-            AppCompatDelegate.getApplicationLocales().isEmpty() -> 0
-            currentLocales.startsWith("zh") -> 1
-            else -> 2
-        }
+        val names = languageOptions.map { getString(it.second) }.toTypedArray()
+        val locales = AppCompatDelegate.getApplicationLocales()
+        val primary = locales[0]?.language.orEmpty()
+        val current = if (locales.isEmpty()) 0
+        else languageOptions.indexOfFirst { it.first.isNotEmpty() && it.first == primary }
 
         showChoiceDialog(R.string.language_title, names, current) { which ->
-            val tag = tags[which]
-            val locales = if (tag.isEmpty()) {
+            val tag = languageOptions[which].first
+            val picked = if (tag.isEmpty()) {
                 LocaleListCompat.getEmptyLocaleList()
             } else {
                 LocaleListCompat.forLanguageTags(tag)
             }
-            AppCompatDelegate.setApplicationLocales(locales)
+            AppCompatDelegate.setApplicationLocales(picked)
         }
     }
 

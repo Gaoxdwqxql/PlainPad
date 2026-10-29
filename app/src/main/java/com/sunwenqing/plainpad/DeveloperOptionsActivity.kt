@@ -345,30 +345,24 @@ class DeveloperOptionsActivity : AppCompatActivity() {
     }
 
     private fun showQuickLanguage() {
-        val names = arrayOf(
-            getString(R.string.language_system),
-            getString(R.string.language_zh),
-            getString(R.string.language_en)
-        )
-        val tags = arrayOf("", "zh", "en")
-        val currentLocales = AppCompatDelegate.getApplicationLocales().toLanguageTags()
-        val current = when {
-            AppCompatDelegate.getApplicationLocales().isEmpty() -> 0
-            currentLocales.startsWith("zh") -> 1
-            else -> 2
-        }
+        val options = SettingsCatalog.LANGUAGES
+        val names = options.map { getString(it.second) }.toTypedArray()
+        val locales = AppCompatDelegate.getApplicationLocales()
+        val primary = locales[0]?.language.orEmpty()
+        val current = if (locales.isEmpty()) 0
+        else options.indexOfFirst { it.first.isNotEmpty() && it.first == primary }
 
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dev_quick_language)
             .setSingleChoiceItems(names, current) { dialog, which ->
                 dialog.dismiss()
-                val tag = tags[which]
-                val locales = if (tag.isEmpty()) {
+                val tag = options[which].first
+                val picked = if (tag.isEmpty()) {
                     LocaleListCompat.getEmptyLocaleList()
                 } else {
                     LocaleListCompat.forLanguageTags(tag)
                 }
-                AppCompatDelegate.setApplicationLocales(locales)
+                AppCompatDelegate.setApplicationLocales(picked)
                 AppTips.showShort(this, getString(R.string.dev_quick_switched, names[which]))
             }
             .setNegativeButton(R.string.cancel, null)
