@@ -20,6 +20,14 @@
     <string name="menu_close_tab">关闭当前标签</string>
     <string name="menu_replace">替换</string>
     <string name="menu_goto_line">跳转到行</string>
+    <string name="menu_bookmarks">书签</string>
+    <string name="bookmark_toggle_add">在当前行添加书签</string>
+    <string name="bookmark_toggle_remove">移除当前行书签</string>
+    <string name="bookmark_clear_all">清除全部</string>
+    <string name="bookmark_empty">当前文件没有书签</string>
+    <string name="bookmark_added">已添加书签</string>
+    <string name="bookmark_removed">已移除书签</string>
+    <string name="bookmark_item">第 %1$d 行 · %2$s</string>
     <string name="menu_immersive">沉浸阅读</string>
     <string name="menu_default">设为默认文本编辑器</string>
     <string name="menu_about">关于</string>

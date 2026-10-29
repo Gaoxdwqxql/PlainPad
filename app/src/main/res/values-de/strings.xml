@@ -23,6 +23,14 @@
     <string name="menu_close_tab">Tab schließen</string>
     <string name="menu_replace">Ersetzen</string>
     <string name="menu_goto_line">Gehe zu Zeile</string>
+    <string name="menu_bookmarks">Lesezeichen</string>
+    <string name="bookmark_toggle_add">Lesezeichen in dieser Zeile setzen</string>
+    <string name="bookmark_toggle_remove">Lesezeichen dieser Zeile entfernen</string>
+    <string name="bookmark_clear_all">Alle löschen</string>
+    <string name="bookmark_empty">Keine Lesezeichen in dieser Datei</string>
+    <string name="bookmark_added">Lesezeichen gesetzt</string>
+    <string name="bookmark_removed">Lesezeichen entfernt</string>
+    <string name="bookmark_item">Zeile %1$d · %2$s</string>
     <string name="menu_immersive">Immersiver Modus</string>
     <string name="menu_default">Als Standard-Editor festlegen</string>
     <string name="menu_about">Über</string>

@@ -1,6 +1,7 @@
 package com.sunwenqing.plainpad
 
 import android.content.Context
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
@@ -15,6 +16,8 @@ data class DraftInfo(
     val isReadOnly: Boolean,
     /** 该文档保存时是否应写入 BOM，崩溃恢复后要原样带回来 */
     val hasBom: Boolean,
+    /** 书签（行首偏移），崩溃恢复后要原样带回来 */
+    val bookmarks: List<Int>,
     val savedAt: Long
 )
 
@@ -50,6 +53,7 @@ object DraftManager {
                 put("scrollY", doc.scrollY)
                 put("isReadOnly", doc.isReadOnly)
                 put("hasBom", doc.hasBom)
+                put("bookmarks", JSONArray(doc.bookmarks))
                 put("savedAt", System.currentTimeMillis())
             }
 
@@ -79,6 +83,9 @@ object DraftManager {
                 scrollY = o.optInt("scrollY", 0),
                 isReadOnly = o.optBoolean("isReadOnly", false),
                 hasBom = o.optBoolean("hasBom", false),
+                bookmarks = o.optJSONArray("bookmarks")?.let { arr ->
+                    (0 until arr.length()).mapNotNull { arr.optInt(it) }
+                } ?: emptyList(),
                 savedAt = o.optLong("savedAt", 0L)
             )
             val text = textFile.readText(Charsets.UTF_8)

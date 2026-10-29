@@ -435,6 +435,40 @@ object EditorDialogs {
         dialog.show()
     }
 
+    // ---------------- 书签 ----------------
+
+    fun showBookmarks(
+        activity: Activity,
+        labels: List<String>,
+        hasBookmarkOnCurrentLine: Boolean,
+        onJump: (Int) -> Unit,
+        onToggleCurrent: () -> Unit,
+        onClearAll: () -> Unit
+    ) {
+        val builder = MaterialAlertDialogBuilder(activity)
+            .setTitle(R.string.menu_bookmarks)
+
+        if (labels.isEmpty()) {
+            builder.setMessage(R.string.bookmark_empty)
+        } else {
+            builder.setItems(labels.toTypedArray()) { dialog, which ->
+                dialog.dismiss()
+                onJump(which)
+            }
+        }
+
+        builder.setPositiveButton(
+            if (hasBookmarkOnCurrentLine) R.string.bookmark_toggle_remove
+            else R.string.bookmark_toggle_add
+        ) { _, _ -> onToggleCurrent() }
+
+        if (labels.isNotEmpty()) {
+            builder.setNeutralButton(R.string.bookmark_clear_all) { _, _ -> onClearAll() }
+        }
+        builder.setNegativeButton(R.string.close, null)
+        builder.show()
+    }
+
     // ---------------- 跳转到行 ----------------
 
     fun showGotoLine(

@@ -23,6 +23,14 @@
     <string name="menu_close_tab">Fermer l\'onglet</string>
     <string name="menu_replace">Remplacer</string>
     <string name="menu_goto_line">Aller à la ligne</string>
+    <string name="menu_bookmarks">Signets</string>
+    <string name="bookmark_toggle_add">Ajouter un signet à cette ligne</string>
+    <string name="bookmark_toggle_remove">Retirer le signet de cette ligne</string>
+    <string name="bookmark_clear_all">Tout effacer</string>
+    <string name="bookmark_empty">Aucun signet dans ce fichier</string>
+    <string name="bookmark_added">Signet ajouté</string>
+    <string name="bookmark_removed">Signet retiré</string>
+    <string name="bookmark_item">Ligne %1$d · %2$s</string>
     <string name="menu_immersive">Mode immersif</string>
     <string name="menu_default">Définir comme éditeur par défaut</string>
     <string name="menu_about">À propos</string>

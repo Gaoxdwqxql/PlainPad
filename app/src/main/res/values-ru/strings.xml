@@ -23,6 +23,14 @@
     <string name="menu_close_tab">Закрыть вкладку</string>
     <string name="menu_replace">Заменить</string>
     <string name="menu_goto_line">Перейти к строке</string>
+    <string name="menu_bookmarks">Закладки</string>
+    <string name="bookmark_toggle_add">Добавить закладку на этой строке</string>
+    <string name="bookmark_toggle_remove">Убрать закладку с этой строки</string>
+    <string name="bookmark_clear_all">Очистить все</string>
+    <string name="bookmark_empty">В этом файле нет закладок</string>
+    <string name="bookmark_added">Закладка добавлена</string>
+    <string name="bookmark_removed">Закладка удалена</string>
+    <string name="bookmark_item">Строка %1$d · %2$s</string>
     <string name="menu_immersive">Иммерсивный режим</string>
     <string name="menu_default">Назначить редактором по умолчанию</string>
     <string name="menu_about">О программе</string>

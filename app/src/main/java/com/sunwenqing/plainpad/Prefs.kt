@@ -233,6 +233,9 @@ class Prefs(context: Context) {
             o.put("sel2", d.selEnd)
             o.put("scroll", d.scrollY)
             o.put("bom", d.hasBom)
+            val bms = JSONArray()
+            d.bookmarks.forEach { bms.put(it) }
+            o.put("bms", bms)
             o.put("draftId", d.draftId)
             val needSaveText = d.uri == null || d.isDirty
             o.put("text", if (needSaveText) d.text else "")
@@ -263,6 +266,9 @@ class Prefs(context: Context) {
                         selEnd = o.optInt("sel2", 0),
                         scrollY = o.optInt("scroll", 0),
                         hasBom = o.optBoolean("bom", false),
+                        bookmarks = o.optJSONArray("bms")?.let { arr ->
+                            (0 until arr.length()).map { arr.optInt(it) }
+                        } ?: emptyList(),
                         text = o.optString("text", ""),
                         draftId = o.optString("draftId", "")
                             .takeIf { it.isNotEmpty() } ?: UUID.randomUUID().toString()

@@ -23,6 +23,14 @@
     <string name="menu_close_tab">タブを閉じる</string>
     <string name="menu_replace">置換</string>
     <string name="menu_goto_line">行へ移動</string>
+    <string name="menu_bookmarks">ブックマーク</string>
+    <string name="bookmark_toggle_add">この行にブックマークを追加</string>
+    <string name="bookmark_toggle_remove">この行のブックマークを削除</string>
+    <string name="bookmark_clear_all">すべて削除</string>
+    <string name="bookmark_empty">このファイルにブックマークはありません</string>
+    <string name="bookmark_added">ブックマークを追加しました</string>
+    <string name="bookmark_removed">ブックマークを削除しました</string>
+    <string name="bookmark_item">%1$d 行目 · %2$s</string>
     <string name="menu_immersive">イマーシブモード</string>
     <string name="menu_default">既定のエディタに設定</string>
     <string name="menu_about">PlainPad について</string>

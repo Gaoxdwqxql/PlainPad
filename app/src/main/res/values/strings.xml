@@ -23,6 +23,14 @@
     <string name="menu_close_tab">Close Tab</string>
     <string name="menu_replace">Replace</string>
     <string name="menu_goto_line">Go to Line</string>
+    <string name="menu_bookmarks">Bookmarks</string>
+    <string name="bookmark_toggle_add">Add bookmark on this line</string>
+    <string name="bookmark_toggle_remove">Remove bookmark on this line</string>
+    <string name="bookmark_clear_all">Clear All</string>
+    <string name="bookmark_empty">No bookmarks in this file</string>
+    <string name="bookmark_added">Bookmark added</string>
+    <string name="bookmark_removed">Bookmark removed</string>
+    <string name="bookmark_item">Line %1$d · %2$s</string>
     <string name="menu_immersive">Immersive Mode</string>
     <string name="menu_default">Set as Default Editor</string>
     <string name="menu_about">About</string>
