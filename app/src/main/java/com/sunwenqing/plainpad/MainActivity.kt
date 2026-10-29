@@ -1,5 +1,8 @@
 package com.sunwenqing.plainpad
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
@@ -29,6 +32,8 @@ import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -77,6 +82,10 @@ class MainActivity : AppCompatActivity() {
     private val draftHandler = Handler(Looper.getMainLooper())
     private var draftRunnable: Runnable? = null
     private val DRAFT_SAVE_DELAY_MS = 2000L
+
+    private val searchHighlightHandler = Handler(Looper.getMainLooper())
+    private var searchHighlightRunnable: Runnable? = null
+    private val SEARCH_HIGHLIGHT_DELAY_MS = 220L
 
     private val openLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -195,7 +204,7 @@ class MainActivity : AppCompatActivity() {
 
         uiReady = true
 
-        binding.root.postDelayed({ checkDraftsOnStartup() }, 600L)
+        binding.root.postDelayed({ onStartupChecks() }, 600L)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -218,6 +227,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         applyAppearanceIfChanged()
+        binding.editor.currentLineHighlightEnabled = prefs.currentLineHighlight
 
         binding.tvLineNumbers.visibility =
             if (prefs.showLineNumbers && !immersiveController.isImmersive && !isLargeFileMode)
@@ -236,6 +246,7 @@ class MainActivity : AppCompatActivity() {
         statsDialog = null
 
         if (uiReady) {
+            clearSearchHighlight()
             saveCurrentToDoc()
             if (prefs.autoSaveEnabled && prefs.autoSaveOnPause) {
                 autoSaveController.autoSaveCurrent()
@@ -288,6 +299,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupEditor() {
         EditorStyler.applyFontSize(binding, prefs.fontSize.toFloat())
+        binding.editor.currentLineHighlightEnabled = prefs.currentLineHighlight
         binding.editor.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
@@ -383,6 +395,7 @@ class MainActivity : AppCompatActivity() {
         if (themeChanged || fontChanged) {
             if (!isLargeFileMode) {
                 EditorStyler.applyAll(binding, prefs)
+                binding.editor.refreshCurrentLineHighlight()
             } else {
                 val theme = EditorThemes.byId(prefs.editorThemeId)
                 EditorThemes.apply(theme, this, binding.editArea, binding.editor, binding.tvLineNumbers)
@@ -499,6 +512,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ---------------- 崩溃恢复 ----------------
+
+    /** 启动后的异步检查：崩溃日志优先，没有崩溃提示再查草稿 */
+    private fun onStartupChecks() {
+        if (isFinishing || isDestroyed) return
+        if (!checkCrashesOnStartup()) checkDraftsOnStartup()
+    }
+
+    /** @return true 表示弹出了崩溃提示（草稿检查交给弹窗关闭回调） */
+    private fun checkCrashesOnStartup(): Boolean {
+        val files = CrashLogger.list(this)
+        if (files.isEmpty()) return false
+
+        val latest = SimpleDateFormat("MM-dd HH:mm", Locale.getDefault())
+            .format(Date(files.first().lastModified()))
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.crash_title)
+            .setMessage(getString(R.string.crash_message, files.size, latest))
+            .setPositiveButton(R.string.close, null)
+            .setNeutralButton(R.string.crash_copy) { _, _ ->
+                val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                cm.setPrimaryClip(ClipData.newPlainText("PlainPad crash log", CrashLogger.readAll(this)))
+                showTip(getString(R.string.crash_copied))
+            }
+            .setNegativeButton(R.string.crash_clear) { _, _ ->
+                CrashLogger.clear(this)
+                showTip(getString(R.string.crash_cleared))
+            }
+            .setOnDismissListener { checkDraftsOnStartup() }
+            .show()
+        return true
+    }
 
     private fun checkDraftsOnStartup() {
         if (isFinishing || isDestroyed) return
@@ -618,6 +663,7 @@ class MainActivity : AppCompatActivity() {
         if (index == currentIndex || index !in documents.indices) return
         statsDialog?.dismiss()
         statsDialog = null
+        clearSearchHighlight()
 
         if (prefs.autoSaveEnabled && prefs.autoSaveOnTabSwitch) autoSaveCurrent()
         cancelEditAutoSave()
@@ -975,6 +1021,62 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // ---------------- 以指定编码重新打开 ----------------
+
+    private fun showReopenEncoding() {
+        val doc = currentDoc() ?: return
+        val uri = doc.uri
+        if (uri == null) {
+            showTip(getString(R.string.reopen_no_file))
+            return
+        }
+        EditorDialogs.showEncoding(this, doc.encoding) { enc ->
+            if (doc.isDirty) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.reopen_discard_title)
+                    .setMessage(R.string.reopen_discard_message)
+                    .setPositiveButton(R.string.ok) { _, _ -> reopenWithEncoding(doc, uri, enc) }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
+            } else {
+                reopenWithEncoding(doc, uri, enc)
+            }
+        }
+    }
+
+    private fun reopenWithEncoding(doc: OpenDocument, uri: Uri, encoding: String) {
+        lifecycleScope.launch {
+            try {
+                showLoading()
+                val result = withContext(Dispatchers.IO) {
+                    EditorFileIO.loadWithEncoding(contentResolver, uri, encoding)
+                }
+                doc.text = result.text
+                doc.encoding = encoding
+                doc.isReadOnly = result.isTruncated
+                doc.hasBom = result.hasBom
+                doc.isDirty = false
+                doc.selStart = 0
+                doc.selEnd = 0
+                doc.scrollY = 0
+                if (doc === currentDoc()) {
+                    loadDocIntoEditor(doc)
+                }
+                refreshTabBar()
+                refreshCurrentView()
+                hideLoading()
+                if (result.isTruncated) {
+                    showTip(getString(R.string.file_truncated_20mb))
+                } else {
+                    showTip(getString(R.string.reopen_done, encoding))
+                }
+            } catch (e: Exception) {
+                hideLoading()
+                showTip(getString(R.string.err_open, e.message ?: ""))
+            }
+        }
+    }
+
     // ---------------- 菜单 ----------------
 
     private fun showSaveMenu() {
@@ -994,6 +1096,7 @@ class MainActivity : AppCompatActivity() {
             listOf(
                 getString(R.string.menu_new) to { newTab() },
                 getString(R.string.menu_open) to { openLauncher.launch(arrayOf("text/plain", "text/*")) },
+                getString(R.string.menu_reopen_encoding) to { showReopenEncoding() },
                 getString(R.string.menu_recent) to { showRecent() },
                 getString(R.string.menu_close_tab) to { requestCloseTab(currentIndex) },
                 getString(R.string.menu_replace) to { showReplace() },
@@ -1128,9 +1231,14 @@ class MainActivity : AppCompatActivity() {
             showTip(getString(R.string.large_file_feature_disabled))
             return
         }
-        EditorDialogs.showFind(this) { query, forward, options, isFirst ->
-            EditorSearchHelper.findNext(binding.editor, query, forward, options, isFirst)
-        }
+        EditorDialogs.showFind(
+            this,
+            onFind = { query, forward, options, isFirst ->
+                EditorSearchHelper.findNext(binding.editor, query, forward, options, isFirst)
+            },
+            onQueryChanged = { query, options -> scheduleSearchHighlight(query, options) },
+            onClosed = { clearSearchHighlight() }
+        )
     }
 
     private fun showReplace() {
@@ -1145,8 +1253,39 @@ class MainActivity : AppCompatActivity() {
             },
             onReplaceAll = { query, replacement, options ->
                 EditorSearchHelper.replaceAll(binding.editor, query, replacement, options)
-            }
+            },
+            onQueryChanged = { query, options -> scheduleSearchHighlight(query, options) },
+            onClosed = { clearSearchHighlight() }
         )
+    }
+
+    // ---------------- 查找高亮 ----------------
+
+    private fun scheduleSearchHighlight(query: String, options: SearchOptions) {
+        cancelSearchHighlight()
+        val r = Runnable {
+            searchHighlightRunnable = null
+            if (isLargeFileMode) return@Runnable
+            SearchHighlighter.apply(binding.editor, query, options, searchHighlightColor())
+        }
+        searchHighlightRunnable = r
+        searchHighlightHandler.postDelayed(r, SEARCH_HIGHLIGHT_DELAY_MS)
+    }
+
+    private fun cancelSearchHighlight() {
+        searchHighlightRunnable?.let { searchHighlightHandler.removeCallbacks(it) }
+        searchHighlightRunnable = null
+    }
+
+    private fun clearSearchHighlight() {
+        cancelSearchHighlight()
+        SearchHighlighter.clear(binding.editor)
+    }
+
+    /** 半透明主题色，和当前行高亮区分开 */
+    private fun searchHighlightColor(): Int {
+        val primary = resolveThemeColor(com.google.android.material.R.attr.colorPrimary)
+        return (primary and 0x00FFFFFF) or 0x33000000
     }
 
     private fun showGotoLine() {

@@ -155,6 +155,11 @@ class Prefs(context: Context) {
         get() = sp.getBoolean(KEY_UTF8_BOM, false)
         set(v) = sp.edit { putBoolean(KEY_UTF8_BOM, v) }
 
+    /** 是否用主题色淡淡标出光标所在行 */
+    var currentLineHighlight: Boolean
+        get() = sp.getBoolean(KEY_CURRENT_LINE, true)
+        set(v) = sp.edit { putBoolean(KEY_CURRENT_LINE, v) }
+
     var onboardingDone: Boolean
         get() = sp.getBoolean(KEY_ONBOARDING_DONE, false)
         set(v) = sp.edit { putBoolean(KEY_ONBOARDING_DONE, v) }
@@ -296,6 +301,7 @@ class Prefs(context: Context) {
         const val KEY_LAST_SAVE_TIME = "last_save_time"
         const val KEY_SHOW_SPECIAL_CHARS = "show_special_chars"
         const val KEY_UTF8_BOM = "utf8_bom"
+        const val KEY_CURRENT_LINE = "current_line_highlight"
         const val KEY_ONBOARDING_DONE = "onboarding_done"
         const val KEY_DEV_OPTIONS_UNLOCKED = "dev_options_unlocked"
         const val KEY_RECENT = "recent_files"

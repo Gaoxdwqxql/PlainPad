@@ -50,6 +50,33 @@ object TextCodec {
     }
 
     /**
+     * 用指定编码解码。用于「以指定编码重新打开」：不再自动探测，
+     * 但只要文件开头有与所选编码匹配的 BOM，仍然会剥掉并记录。
+     */
+    fun decode(bytes: ByteArray, encoding: String): Result {
+        val bom = bomOf(encoding)
+        val hasBom = bom != null && bytes.size >= bom.size && bom.indices.all { bytes[it] == bom[it] }
+        val offset = if (hasBom) bom!!.size else 0
+        val text = String(bytes, offset, bytes.size - offset, charsetOf(encoding))
+        return Result(text, encoding, hasBom)
+    }
+
+    private fun bomOf(encoding: String): ByteArray? = when (encoding) {
+        "UTF-8" -> BOM_UTF8
+        "UTF-16LE" -> BOM_UTF16_LE
+        "UTF-16BE" -> BOM_UTF16_BE
+        else -> null
+    }
+
+    private fun charsetOf(encoding: String): Charset = when (encoding) {
+        "UTF-16LE" -> Charsets.UTF_16LE
+        "UTF-16BE" -> Charsets.UTF_16BE
+        "GBK" -> GBK
+        "GB2312" -> GB2312
+        else -> Charsets.UTF_8
+    }
+
+    /**
      * 按指定编码把文本编码为字节数组。
      *
      * - UTF-16LE / UTF-16BE：**始终**写入 BOM。UTF-16 没有 BOM 就无法在下次打开时被识别，

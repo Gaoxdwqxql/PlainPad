@@ -20,7 +20,30 @@ object EditorFileIO {
         val hasBom: Boolean
     )
 
+    /** 自动探测编码后读取 */
     fun load(cr: ContentResolver, uri: Uri): LoadResult {
+        val (bytes, truncated) = readCapped(cr, uri)
+        val r = TextCodec.detectAndDecode(bytes)
+        return LoadResult(r.text, r.encoding, truncated, r.hasBom)
+    }
+
+    /** 用指定编码读取，用于「以指定编码重新打开」 */
+    fun loadWithEncoding(cr: ContentResolver, uri: Uri, encoding: String): LoadResult {
+        val (bytes, truncated) = readCapped(cr, uri)
+        val r = TextCodec.decode(bytes, encoding)
+        return LoadResult(r.text, r.encoding, truncated, r.hasBom)
+    }
+
+    fun save(cr: ContentResolver, uri: Uri, text: String, encoding: String, withBom: Boolean = false) {
+        val out = openOutput(cr, uri) ?: throw IOException("无法写入该文件")
+        out.use {
+            it.write(TextCodec.encode(text, encoding, withBom))
+            it.flush()
+        }
+    }
+
+    /** 读取原始字节，超过 20MB 截断并标记 */
+    private fun readCapped(cr: ContentResolver, uri: Uri): Pair<ByteArray, Boolean> {
         val inputStream = cr.openInputStream(uri) ?: throw IOException("无法读取该文件")
         inputStream.use { stream ->
             val buffer = ByteArrayOutputStream()
@@ -39,17 +62,7 @@ object EditorFileIO {
                 buffer.write(data, 0, nRead)
                 totalRead += nRead
             }
-
-            val r = TextCodec.detectAndDecode(buffer.toByteArray())
-            return LoadResult(r.text, r.encoding, isTruncated, r.hasBom)
-        }
-    }
-
-    fun save(cr: ContentResolver, uri: Uri, text: String, encoding: String, withBom: Boolean = false) {
-        val out = openOutput(cr, uri) ?: throw IOException("无法写入该文件")
-        out.use {
-            it.write(TextCodec.encode(text, encoding, withBom))
-            it.flush()
+            return buffer.toByteArray() to isTruncated
         }
     }
 

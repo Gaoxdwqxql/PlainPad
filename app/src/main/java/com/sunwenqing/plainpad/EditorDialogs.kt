@@ -197,7 +197,9 @@ object EditorDialogs {
 
     fun showFind(
         activity: Activity,
-        onFind: (query: String, forward: Boolean, options: SearchOptions, isFirstSearch: Boolean) -> EditorSearchHelper.FindFeedback
+        onFind: (query: String, forward: Boolean, options: SearchOptions, isFirstSearch: Boolean) -> EditorSearchHelper.FindFeedback,
+        onQueryChanged: (String, SearchOptions) -> Unit = { _, _ -> },
+        onClosed: () -> Unit = {}
     ) {
         val binding = DialogFindBinding.inflate(activity.layoutInflater)
         val dialog = MaterialAlertDialogBuilder(activity)
@@ -248,6 +250,8 @@ object EditorDialogs {
             hasSearched = false
             updateInitialStatus()
             updatePrevButtonState()
+            // 条件一变就重画全部匹配高亮
+            onQueryChanged(binding.etFind.text?.toString().orEmpty(), options())
         }
 
         binding.cbRegex.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
@@ -298,6 +302,7 @@ object EditorDialogs {
             binding.etFind.requestFocus()
             dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         }
+        dialog.setOnDismissListener { onClosed() }
         dialog.show()
     }
 
@@ -306,7 +311,9 @@ object EditorDialogs {
     fun showReplace(
         activity: Activity,
         onReplace: (query: String, replacement: String, options: SearchOptions, isFirstSearch: Boolean) -> EditorSearchHelper.ReplaceFeedback,
-        onReplaceAll: (query: String, replacement: String, options: SearchOptions) -> EditorSearchHelper.ReplaceFeedback
+        onReplaceAll: (query: String, replacement: String, options: SearchOptions) -> EditorSearchHelper.ReplaceFeedback,
+        onQueryChanged: (String, SearchOptions) -> Unit = { _, _ -> },
+        onClosed: () -> Unit = {}
     ) {
         val binding = DialogReplaceBinding.inflate(activity.layoutInflater)
         val dialog = MaterialAlertDialogBuilder(activity)
@@ -345,6 +352,7 @@ object EditorDialogs {
                     else R.string.search_status_initial_from_cursor
                 )
             )
+            onQueryChanged(binding.etFind.text?.toString().orEmpty(), options())
         }
 
         binding.cbRegex.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
@@ -423,6 +431,7 @@ object EditorDialogs {
             binding.etFind.requestFocus()
             dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         }
+        dialog.setOnDismissListener { onClosed() }
         dialog.show()
     }
 

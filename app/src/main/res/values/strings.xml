@@ -245,6 +245,19 @@
     <string name="auto_save_on_edit_hint">Save 2 seconds after typing stops</string>
     <string name="settings_utf8_bom">Save with UTF-8 BOM</string>
     <string name="settings_utf8_bom_hint">Writes a BOM (EF BB BF) at the start of saved UTF-8 files. When off, an existing BOM is kept.</string>
+    <string name="menu_reopen_encoding">Reopen with Encoding…</string>
+    <string name="reopen_no_file">This file has not been saved to disk yet</string>
+    <string name="reopen_discard_title">Discard unsaved changes?</string>
+    <string name="reopen_discard_message">Reopening the file will discard the current unsaved content.</string>
+    <string name="reopen_done">Reopened as %1$s</string>
+    <string name="settings_current_line_highlight">Highlight current line</string>
+    <string name="settings_current_line_highlight_hint">Tint the line where the cursor is, using the theme color</string>
+    <string name="crash_title">Last run crashed</string>
+    <string name="crash_message">Found %1$d crash log(s), latest: %2$s</string>
+    <string name="crash_copy">Copy</string>
+    <string name="crash_copied">Crash logs copied</string>
+    <string name="crash_clear">Delete</string>
+    <string name="crash_cleared">Crash logs deleted</string>
     <string name="auto_save_last_time">Saved at %1$s</string>
 
     <string name="menu_save_current">Save Current</string>

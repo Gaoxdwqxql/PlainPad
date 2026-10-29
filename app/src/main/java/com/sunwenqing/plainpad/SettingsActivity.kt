@@ -228,14 +228,17 @@ class SettingsActivity : AppCompatActivity() {
         binding.switchWrap.isChecked = prefs.wrap
         binding.switchLineNumbers.isChecked = prefs.showLineNumbers
         binding.switchShowSpecialChars.isChecked = prefs.showSpecialChars
+        binding.switchCurrentLine.isChecked = prefs.currentLineHighlight
 
         binding.switchWrap.setOnCheckedChangeListener { _, checked -> prefs.wrap = checked }
         binding.switchLineNumbers.setOnCheckedChangeListener { _, checked -> prefs.showLineNumbers = checked }
         binding.switchShowSpecialChars.setOnCheckedChangeListener { _, checked -> prefs.showSpecialChars = checked }
+        binding.switchCurrentLine.setOnCheckedChangeListener { _, checked -> prefs.currentLineHighlight = checked }
 
         binding.rowWrap.setOnClickListener { binding.switchWrap.isChecked = !binding.switchWrap.isChecked }
         binding.rowLineNumbers.setOnClickListener { binding.switchLineNumbers.isChecked = !binding.switchLineNumbers.isChecked }
         binding.rowShowSpecialChars.setOnClickListener { binding.switchShowSpecialChars.isChecked = !binding.switchShowSpecialChars.isChecked }
+        binding.rowCurrentLine.setOnClickListener { binding.switchCurrentLine.isChecked = !binding.switchCurrentLine.isChecked }
     }
 
     private fun setupTheme() {

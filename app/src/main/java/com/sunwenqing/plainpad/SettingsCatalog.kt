@@ -17,6 +17,7 @@ object SettingsCatalog {
         SettingsItem("wrap", R.string.menu_wrap, R.string.settings_wrap_desc, "editing"),
         SettingsItem("line_numbers", R.string.menu_show_line_numbers, 0, "editing"),
         SettingsItem("show_special_chars", R.string.settings_show_special_chars, R.string.settings_show_special_chars_hint, "editing"),
+        SettingsItem("current_line", R.string.settings_current_line_highlight, R.string.settings_current_line_highlight_hint, "editing"),
         SettingsItem("replace_rules", R.string.special_chars_replace_rules_title, R.string.settings_replace_rules_desc, "editing"),
         SettingsItem("status_bar", R.string.settings_status_bar, R.string.status_bar_hint, "editing"),
 

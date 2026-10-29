@@ -220,6 +220,19 @@
     <string name="auto_save_on_edit_hint">停止输入约 2 秒后自动保存</string>
     <string name="settings_utf8_bom">保存时写入 BOM</string>
     <string name="settings_utf8_bom_hint">以 UTF-8 保存时在文件开头写入 BOM（EF BB BF）。关闭后不再主动添加，但文件原有的 BOM 会保留。</string>
+    <string name="menu_reopen_encoding">以指定编码重新打开</string>
+    <string name="reopen_no_file">当前文件尚未保存到磁盘</string>
+    <string name="reopen_discard_title">放弃未保存的修改？</string>
+    <string name="reopen_discard_message">重新打开会丢弃当前未保存的内容。</string>
+    <string name="reopen_done">已按 %1$s 重新打开</string>
+    <string name="settings_current_line_highlight">高亮当前行</string>
+    <string name="settings_current_line_highlight_hint">用主题色淡淡标出光标所在的行</string>
+    <string name="crash_title">上次运行发生崩溃</string>
+    <string name="crash_message">发现 %1$d 条崩溃记录，最近一次：%2$s</string>
+    <string name="crash_copy">复制</string>
+    <string name="crash_copied">崩溃日志已复制</string>
+    <string name="crash_clear">删除</string>
+    <string name="crash_cleared">崩溃日志已删除</string>
     <string name="auto_save_last_time">上次保存于%1$s</string>
 
     <string name="menu_save_current">保存当前</string>

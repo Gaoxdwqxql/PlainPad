@@ -42,6 +42,7 @@ object PrefsIni {
         sb.append("wrap=").append(prefs.wrap).append('\n')
         sb.append("showLineNumbers=").append(prefs.showLineNumbers).append('\n')
         sb.append("showSpecialChars=").append(prefs.showSpecialChars).append('\n')
+        sb.append("currentLineHighlight=").append(prefs.currentLineHighlight).append('\n')
         sb.append("editorThemeId=").append(prefs.editorThemeId).append('\n')
         sb.append("editorFontFamily=").append(prefs.editorFontFamily).append('\n')
         sb.append('\n')
@@ -84,6 +85,7 @@ object PrefsIni {
                 s["wrap"]?.toBooleanStrictOrNull()?.let { prefs.wrap = it; count++ }
                 s["showLineNumbers"]?.toBooleanStrictOrNull()?.let { prefs.showLineNumbers = it; count++ }
                 s["showSpecialChars"]?.toBooleanStrictOrNull()?.let { prefs.showSpecialChars = it; count++ }
+                s["currentLineHighlight"]?.toBooleanStrictOrNull()?.let { prefs.currentLineHighlight = it; count++ }
                 s["editorThemeId"]?.takeIf { it.isNotBlank() }?.let { prefs.editorThemeId = it; count++ }
                 s["editorFontFamily"]?.takeIf { it.isNotBlank() }?.let { prefs.editorFontFamily = it; count++ }
             }

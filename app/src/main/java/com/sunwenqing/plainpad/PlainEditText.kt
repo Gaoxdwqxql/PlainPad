@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.text.Layout
+import android.text.Spanned
+import android.text.style.BackgroundColorSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
@@ -56,6 +58,16 @@ class PlainEditText @JvmOverloads constructor(
             }
         }
 
+    /** 当前行高亮开关。关闭时立即移除已经画上去的背景。 */
+    var currentLineHighlightEnabled: Boolean = false
+        set(value) {
+            if (field == value) return
+            field = value
+            applyCurrentLineHighlight()
+        }
+
+    private var currentLineSpan: BackgroundColorSpan? = null
+
     init {
         disableMagnifier()
         applyTextClassifierByLength()
@@ -105,6 +117,7 @@ class PlainEditText @JvmOverloads constructor(
     ) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
         applyTextClassifierByLength()
+        if (currentLineHighlightEnabled) post { applyCurrentLineHighlight() }
     }
 
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
@@ -113,6 +126,41 @@ class PlainEditText @JvmOverloads constructor(
             post { ensureCursorVisible() }
         }
         post { applyThemedCursorAndHandles() }
+        if (currentLineHighlightEnabled) post { applyCurrentLineHighlight() }
+    }
+
+    // ---------------- 当前行高亮 ----------------
+
+    /** 主题色变化后重新取色 */
+    fun refreshCurrentLineHighlight() = applyCurrentLineHighlight()
+
+    private fun applyCurrentLineHighlight() {
+        val editable = text ?: return
+        currentLineSpan?.let { editable.removeSpan(it) }
+        currentLineSpan = null
+
+        if (!currentLineHighlightEnabled) return
+        // 有选区时不画，避免和选区高亮叠在一起
+        if (selectionStart != selectionEnd) return
+        val layout = layout ?: return
+
+        val len = editable.length
+        if (len == 0) return
+        val cursor = selectionEnd.coerceIn(0, len)
+        val line = layout.getLineForOffset(cursor)
+        val start = layout.getLineStart(line).coerceIn(0, len)
+        val end = layout.getLineEnd(line).coerceIn(start, len)
+        if (end <= start) return
+
+        val span = BackgroundColorSpan(lineHighlightColor())
+        editable.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        currentLineSpan = span
+    }
+
+    /** 用主题色（colorControlActivated）降低不透明度作背景，保证跟随换色 */
+    private fun lineHighlightColor(): Int {
+        val base = resolveColor(androidx.appcompat.R.attr.colorControlActivated, 0xFF6750A4.toInt())
+        return (base and 0x00FFFFFF) or 0x1F000000
     }
 
     // ---------------- 主题色 cursor / handle ----------------
