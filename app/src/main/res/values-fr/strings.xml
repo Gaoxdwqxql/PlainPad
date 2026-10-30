@@ -24,8 +24,12 @@
     <string name="menu_replace">Remplacer</string>
     <string name="menu_goto_line">Aller à la ligne</string>
     <string name="menu_bookmarks">Signets</string>
-    <string name="bookmark_prev">Précédent</string>
-    <string name="bookmark_next">Suivant</string>
+    <string name="bookmark_count">%1$d signets</string>
+    <string name="bookmark_subtitle">%1$s · %2$s</string>
+    <string name="bookmark_clear_confirm">Tous les signets de ce fichier seront supprimés.</string>
+    <string name="bookmark_delete_cd">Supprimer le signet</string>
+    <string name="bookmark_empty_hint">Touchez la marge gauche de l\'éditeur pour en ajouter un</string>
+    <string name="bookmark_no_preview">(ligne vide)</string>
     <string name="bookmark_toggle_add">Ajouter un signet à cette ligne</string>
     <string name="bookmark_toggle_remove">Retirer le signet de cette ligne</string>
     <string name="bookmark_clear_all">Tout effacer</string>
@@ -559,4 +563,12 @@
     <string name="dev_shortcut_hint">Lorsque cette option est désactivée, appuyez 7 fois sur la version pour le déverrouiller à nouveau</string>
     <string name="dev_disable_shortcut_done">Raccourci désactivé. Appuyez 7 fois sur la version pour le déverrouiller à nouveau.</string>
 
+    <string name="help_section_bookmarks">Signets</string>
+    <string name="help_bookmarks_content">Touchez la marge gauche de l\'éditeur pour poser un signet sur la ligne, touchez à nouveau pour le retirer. Un appui long sur la marge, ou sur l\'icône de signet de la barre d\'état, ouvre la page des signets : vous pouvez y sauter à une ligne, supprimer une entrée ou tout effacer. Les signets suivent vos modifications et survivent au changement d\'onglet comme au redémarrage.</string>
+    <string name="help_section_bom">Encodage et BOM</string>
+    <string name="help_bom_content">Les fichiers sont ouverts automatiquement en UTF-8, UTF-16 (avec BOM) ou GBK. En cas d\'erreur, utilisez Plus - Rouvrir avec l\'encodage. Lors de l\'enregistrement en UTF-8, l\'option Enregistrer avec BOM UTF-8 ajoute un BOM ; désactivée, aucun BOM n\'est ajouté mais celui du fichier est conservé. Les fichiers UTF-16 conservent toujours leur BOM, sinon ils ne seraient plus reconnus.</string>
+    <string name="help_section_crash">Journaux de plantage</string>
+    <string name="help_crash_content">En cas de plantage, la pile d\'appels est enregistrée dans le stockage privé de l\'application et affichée au lancement suivant, avec copie ou suppression possible. 20 journaux au maximum sont conservés, rien n\'est envoyé sur Internet.</string>
+    <string name="onboard_bookmark_title">Signets</string>
+    <string name="onboard_bookmark_desc">Touchez la marge gauche pour marquer une ligne, puis appuyez longuement pour voir la liste.</string>
 </resources>

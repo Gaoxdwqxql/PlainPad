@@ -21,8 +21,12 @@
     <string name="menu_replace">替换</string>
     <string name="menu_goto_line">跳转到行</string>
     <string name="menu_bookmarks">书签</string>
-    <string name="bookmark_prev">上一个</string>
-    <string name="bookmark_next">下一个</string>
+    <string name="bookmark_count">共 %1$d 个书签</string>
+    <string name="bookmark_subtitle">%1$s · %2$s</string>
+    <string name="bookmark_clear_confirm">将删除当前文件的全部书签。</string>
+    <string name="bookmark_delete_cd">删除书签</string>
+    <string name="bookmark_empty_hint">在编辑区左侧留白点一下即可添加</string>
+    <string name="bookmark_no_preview">（空行）</string>
     <string name="bookmark_toggle_add">在当前行添加书签</string>
     <string name="bookmark_toggle_remove">移除当前行书签</string>
     <string name="bookmark_clear_all">清除全部</string>
@@ -517,4 +521,12 @@
     <string name="dev_shortcut_title">在设置中显示直接入口</string>
     <string name="dev_shortcut_hint">关闭后，需要连点版本号 7 次重新解锁</string>
     <string name="dev_disable_shortcut_done">已关闭设置页直接入口，需连点版本号重新解锁</string>
+    <string name="help_section_bookmarks">书签</string>
+    <string name="help_bookmarks_content">点编辑区左侧留白即可给那一行加书签，再点一次取消；长按留白或长按底部状态栏的书签图标会打开书签页，可以跳转、逐条删除或全部清除。书签记录的是行首位置，编辑时会自动跟随，切换标签或重启应用都不会丢。</string>
+    <string name="help_section_bom">编码与 BOM</string>
+    <string name="help_bom_content">打开文件时会自动识别 UTF-8、UTF-16（带 BOM）和 GBK。识别错了可以用「更多 - 以指定编码重新打开」手动指定。保存 UTF-8 时可以开启「保存时写入 BOM」，关闭时不会主动添加，但原文件已有的 BOM 会保留；UTF-16 文件则始终写入 BOM，否则下次打开无法识别。</string>
+    <string name="help_section_crash">崩溃日志</string>
+    <string name="help_crash_content">应用崩溃时会把堆栈写入私有目录，下次启动时提示，可一键复制或删除。最多保留 20 份，不会上传到任何服务器。</string>
+    <string name="onboard_bookmark_title">书签</string>
+    <string name="onboard_bookmark_desc">点编辑区左侧留白就能给那一行加书签，长按可以查看全部书签并随时跳回。</string>
 </resources>

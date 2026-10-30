@@ -32,6 +32,12 @@
             android:parentActivityName=".SettingsActivity" />
 
         <activity
+            android:name=".BookmarksActivity"
+            android:exported="false"
+            android:label="@string/menu_bookmarks"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
             android:name=".AboutActivity"
             android:exported="false"
             android:label="@string/about_title"

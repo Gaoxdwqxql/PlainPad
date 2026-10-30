@@ -24,8 +24,12 @@
     <string name="menu_replace">Replace</string>
     <string name="menu_goto_line">Go to Line</string>
     <string name="menu_bookmarks">Bookmarks</string>
-    <string name="bookmark_prev">Previous</string>
-    <string name="bookmark_next">Next</string>
+    <string name="bookmark_count">%1$d bookmarks</string>
+    <string name="bookmark_subtitle">%1$s · %2$s</string>
+    <string name="bookmark_clear_confirm">All bookmarks in this file will be removed.</string>
+    <string name="bookmark_delete_cd">Delete bookmark</string>
+    <string name="bookmark_empty_hint">Tap the left margin of the editor to add one</string>
+    <string name="bookmark_no_preview">(empty line)</string>
     <string name="bookmark_toggle_add">Add bookmark on this line</string>
     <string name="bookmark_toggle_remove">Remove bookmark on this line</string>
     <string name="bookmark_clear_all">Clear All</string>
@@ -559,4 +563,12 @@
     <string name="dev_shortcut_hint">When disabled, tap the version 7 times to unlock again</string>
     <string name="dev_disable_shortcut_done">Shortcut disabled. Tap the version 7 times to unlock again.</string>
 
+    <string name="help_section_bookmarks">Bookmarks</string>
+    <string name="help_bookmarks_content">Tap the left margin of the editor to bookmark that line, tap again to remove it. Long-press the margin, or long-press the bookmark icon in the status bar, to open the bookmarks page, where you can jump to a line, delete entries or clear them all. Bookmarks follow your edits and survive tab switches and restarts.</string>
+    <string name="help_section_bom">Encoding &amp; BOM</string>
+    <string name="help_bom_content">Files are opened as UTF-8, UTF-16 (with BOM) or GBK automatically. If the guess is wrong, use More - Reopen with Encoding. When saving UTF-8 you can enable Save with UTF-8 BOM; when off, no BOM is added but an existing one is kept. UTF-16 files always keep their BOM, otherwise they could not be recognised next time.</string>
+    <string name="help_section_crash">Crash logs</string>
+    <string name="help_crash_content">If the app crashes, the stack trace is written to private storage and shown on the next launch, where you can copy or delete it. At most 20 logs are kept, and nothing is uploaded anywhere.</string>
+    <string name="onboard_bookmark_title">Bookmarks</string>
+    <string name="onboard_bookmark_desc">Tap the left margin to bookmark a line. Long-press it to see the whole list and jump back at any time.</string>
 </resources>

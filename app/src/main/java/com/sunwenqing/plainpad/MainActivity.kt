@@ -96,8 +96,7 @@ class MainActivity : AppCompatActivity() {
             openDocumentIntoNewTab(uri)
         }
 
-    private val saveAsLauncher =
-        registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri ->
+    private val saveAsLauncher =        registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri ->
             if (uri == null) {
                 pendingAction = null
                 pendingEncoding = null
@@ -106,6 +105,13 @@ class MainActivity : AppCompatActivity() {
             if (!uiReady) return@registerForActivityResult
             EditorFileIO.takePersistable(contentResolver, uri)
             saveCurrentToUri(uri)
+        }
+
+    private val bookmarksLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode != RESULT_OK) return@registerForActivityResult
+            val data = result.data ?: return@registerForActivityResult
+            applyBookmarkResult(data)
         }
 
     // ---------------- 生命周期 ----------------
@@ -1342,73 +1348,47 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBookmarks() {
-        if (currentDoc() == null) return
+        val doc = currentDoc() ?: return
         if (isLargeFileMode) {
             showTip(getString(R.string.large_file_feature_disabled))
             return
         }
-        EditorDialogs.showBookmarks(
-            this,
-            provider = { bookmarkRows() },
-            hasCurrent = { hasBookmarkOnCurrentLine() },
-            onJump = { row -> jumpToBookmark(row.offset) },
-            onToggleCurrent = { toggleBookmarkAtCursor() },
-            onClearAll = {
-                currentDoc()?.bookmarks = emptyList()
-                refreshBookmarkMarkers()
-                scheduleDraftSave()
-            },
-            onDelete = { row -> deleteBookmark(row.offset) },
-            onPrev = { jumpToAdjacentBookmark(-1) },
-            onNext = { jumpToAdjacentBookmark(1) }
-        )
+        val text = binding.editor.text ?: return
+        val layout = binding.editor.layout ?: return
+
+        val offsets = doc.bookmarks.sorted()
+        val lines = IntArray(offsets.size)
+        val previews = Array(offsets.size) { "" }
+        offsets.forEachIndexed { i, off ->
+            val safe = off.coerceIn(0, text.length)
+            lines[i] = layout.getLineForOffset(safe) + 1
+            previews[i] = linePreview(text, safe)
+        }
+
+        val intent = Intent(this, BookmarksActivity::class.java)
+            .putExtra(BookmarksActivity.EXTRA_FILE_NAME, doc.displayName)
+            .putExtra(BookmarksActivity.EXTRA_LINES, lines)
+            .putExtra(BookmarksActivity.EXTRA_PREVIEWS, previews)
+            .putExtra(BookmarksActivity.EXTRA_OFFSETS, offsets.toIntArray())
+        bookmarksLauncher.launch(intent)
     }
 
-    /** 把当前文档的书签翻译成列表行（行号 + 行首预览） */
-    private fun bookmarkRows(): List<EditorDialogs.BookmarkRow> {
-        val doc = currentDoc() ?: return emptyList()
-        val text = binding.editor.text ?: return emptyList()
-        val layout = binding.editor.layout ?: return emptyList()
-        return doc.bookmarks.sorted().map { off ->
-            val safe = off.coerceIn(0, text.length)
-            EditorDialogs.BookmarkRow(
-                line = layout.getLineForOffset(safe) + 1,
-                preview = linePreview(text, safe),
-                offset = off
-            )
+    /** 书签页返回：同步删除结果，并处理用户点击的那一条 */
+    private fun applyBookmarkResult(data: Intent) {
+        val doc = currentDoc() ?: return
+        data.getIntArrayExtra(BookmarksActivity.EXTRA_REMAINING_OFFSETS)?.let { arr ->
+            doc.bookmarks = arr.toList().sorted()
+            refreshBookmarkMarkers()
+            scheduleDraftSave()
         }
+        val jump = data.getIntExtra(BookmarksActivity.EXTRA_JUMP_OFFSET, -1)
+        if (jump >= 0) jumpToBookmark(jump)
     }
 
     private fun hasBookmarkOnCurrentLine(): Boolean {
         val doc = currentDoc() ?: return false
         val offset = currentLineStartOffset() ?: return false
         return doc.bookmarks.contains(offset)
-    }
-
-    private fun deleteBookmark(offset: Int) {
-        val doc = currentDoc() ?: return
-        doc.bookmarks = doc.bookmarks.filter { it != offset }
-        refreshBookmarkMarkers()
-        scheduleDraftSave()
-        showTip(getString(R.string.bookmark_removed))
-    }
-
-    /** direction = 1 下一个，-1 上一个；到头会循环 */
-    private fun jumpToAdjacentBookmark(direction: Int) {
-        val doc = currentDoc() ?: return
-        val sorted = doc.bookmarks.sorted()
-        if (sorted.isEmpty()) {
-            showTip(getString(R.string.bookmark_empty))
-            return
-        }
-        val len = binding.editor.text?.length ?: 0
-        val cursor = binding.editor.selectionStart.coerceIn(0, len)
-        val target = if (direction > 0) {
-            sorted.firstOrNull { it > cursor } ?: sorted.first()
-        } else {
-            sorted.lastOrNull { it < cursor } ?: sorted.last()
-        }
-        jumpToBookmark(target)
     }
 
     /** 取书签所在行的开头一小段文字作为预览 */

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.sunwenqing.plainpad.databinding.DialogBookmarksBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
 import com.sunwenqing.plainpad.databinding.DialogEncodingBinding
@@ -434,92 +433,6 @@ object EditorDialogs {
         }
         dialog.setOnDismissListener { onClosed() }
         dialog.show()
-    }
-
-    // ---------------- 书签 ----------------
-
-    /** 书签列表的一行：显示行号与行首预览，offset 用于跳转 */
-    data class BookmarkRow(val line: Int, val preview: String, val offset: Int)
-
-    fun showBookmarks(
-        activity: Activity,
-        provider: () -> List<BookmarkRow>,
-        hasCurrent: () -> Boolean,
-        onJump: (BookmarkRow) -> Unit,
-        onToggleCurrent: () -> Unit,
-        onClearAll: () -> Unit,
-        onDelete: (BookmarkRow) -> Unit,
-        onPrev: () -> Unit,
-        onNext: () -> Unit
-    ) {
-        val b = DialogBookmarksBinding.inflate(activity.layoutInflater)
-        b.tvBookmarkTitle.setText(R.string.menu_bookmarks)
-
-        val dialog = MaterialAlertDialogBuilder(activity)
-            .setView(b.root)
-            .create()
-
-        fun render() {
-            val rows = provider()
-            b.bookmarkContainer.removeAllViews()
-            b.bookmarkContainer.visibility = if (rows.isEmpty()) View.GONE else View.VISIBLE
-            b.tvBookmarkEmpty.visibility = if (rows.isEmpty()) View.VISIBLE else View.GONE
-            b.btnClearBookmarks.isEnabled = rows.isNotEmpty()
-            b.btnPrevBookmark.isEnabled = rows.isNotEmpty()
-            b.btnNextBookmark.isEnabled = rows.isNotEmpty()
-            b.btnToggleBookmark.setText(
-                if (hasCurrent()) R.string.bookmark_toggle_remove
-                else R.string.bookmark_toggle_add
-            )
-
-            rows.forEach { row ->
-                val item = DialogChoiceItemBinding.inflate(
-                    activity.layoutInflater, b.bookmarkContainer, false
-                )
-                item.tvOptionText.text =
-                    activity.getString(R.string.bookmark_item, row.line, row.preview)
-                item.ivCheck.visibility = View.GONE
-                item.root.setOnClickListener {
-                    dialog.dismiss()
-                    onJump(row)
-                }
-                // 长按删除单条书签
-                item.root.setOnLongClickListener {
-                    onDelete(row)
-                    render()
-                    true
-                }
-                b.bookmarkContainer.addView(item.root)
-            }
-
-            // 列表高度跟着条数走，最多占屏幕一半，避免书签很多时弹窗顶出屏幕
-            val metrics = activity.resources.displayMetrics
-            val desired = (rows.size * 56f * metrics.density)
-                .coerceAtMost(metrics.heightPixels * 0.5f)
-                .toInt()
-            b.bookmarkScroll.layoutParams = (b.bookmarkScroll.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                height = if (rows.isEmpty()) 0 else desired
-            }
-        }
-
-        b.btnToggleBookmark.setOnClickListener {
-            onToggleCurrent()
-            render()
-        }
-        b.btnClearBookmarks.setOnClickListener {
-            onClearAll()
-            render()
-        }
-        b.btnPrevBookmark.setOnClickListener { onPrev() }
-        b.btnNextBookmark.setOnClickListener { onNext() }
-        b.btnCloseBookmarks.setOnClickListener { dialog.dismiss() }
-
-        render()
-        dialog.show()
-        dialog.window?.setLayout(
-            (activity.resources.displayMetrics.widthPixels * 0.95).toInt(),
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
     }
 
     // ---------------- 跳转到行 ----------------

@@ -24,8 +24,12 @@
     <string name="menu_replace">Ersetzen</string>
     <string name="menu_goto_line">Gehe zu Zeile</string>
     <string name="menu_bookmarks">Lesezeichen</string>
-    <string name="bookmark_prev">Zurück</string>
-    <string name="bookmark_next">Weiter</string>
+    <string name="bookmark_count">%1$d Lesezeichen</string>
+    <string name="bookmark_subtitle">%1$s · %2$s</string>
+    <string name="bookmark_clear_confirm">Alle Lesezeichen dieser Datei werden entfernt.</string>
+    <string name="bookmark_delete_cd">Lesezeichen löschen</string>
+    <string name="bookmark_empty_hint">Tippe im Editor auf den linken Rand, um eines hinzuzufügen</string>
+    <string name="bookmark_no_preview">(leere Zeile)</string>
     <string name="bookmark_toggle_add">Lesezeichen in dieser Zeile setzen</string>
     <string name="bookmark_toggle_remove">Lesezeichen dieser Zeile entfernen</string>
     <string name="bookmark_clear_all">Alle löschen</string>
@@ -559,4 +563,12 @@
     <string name="dev_shortcut_hint">Wenn deaktiviert, tippen Sie 7-mal auf die Version, um sie wieder freizuschalten</string>
     <string name="dev_disable_shortcut_done">Verknüpfung deaktiviert. Tippen Sie 7-mal auf die Version, um sie wieder freizuschalten.</string>
 
+    <string name="help_section_bookmarks">Lesezeichen</string>
+    <string name="help_bookmarks_content">Tippe auf den linken Rand des Editors, um die Zeile mit einem Lesezeichen zu versehen; erneutes Tippen entfernt es. Ein langer Druck auf den Rand oder auf das Lesezeichen-Symbol in der Statusleiste öffnet die Lesezeichenseite: dort kannst du springen, einzelne Einträge löschen oder alle entfernen. Lesezeichen folgen deinen Änderungen und bleiben beim Tabwechsel und nach einem Neustart erhalten.</string>
+    <string name="help_section_bom">Kodierung &amp; BOM</string>
+    <string name="help_bom_content">Dateien werden automatisch als UTF-8, UTF-16 (mit BOM) oder GBK erkannt. Bei falscher Erkennung hilft Mehr - Mit Kodierung erneut öffnen. Beim Speichern von UTF-8 kann Mit UTF-8-BOM speichern aktiviert werden; ist es aus, wird kein BOM hinzugefügt, ein vorhandenes bleibt aber erhalten. UTF-16-Dateien behalten immer ihr BOM, sonst wären sie beim nächsten Öffnen nicht erkennbar.</string>
+    <string name="help_section_crash">Absturzprotokolle</string>
+    <string name="help_crash_content">Stürzt die App ab, wird der Stacktrace im privaten Speicher abgelegt und beim nächsten Start angezeigt, wo du ihn kopieren oder löschen kannst. Es werden höchstens 20 Protokolle behalten, nichts wird hochgeladen.</string>
+    <string name="onboard_bookmark_title">Lesezeichen</string>
+    <string name="onboard_bookmark_desc">Tippe auf den linken Rand, um eine Zeile zu markieren. Ein langer Druck zeigt die ganze Liste.</string>
 </resources>

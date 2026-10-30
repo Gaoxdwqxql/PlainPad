@@ -65,6 +65,7 @@ class OnboardingActivity : AppCompatActivity() {
         Page(R.drawable.ic_onboard_appearance, getString(R.string.onboard_appearance_title), getString(R.string.onboard_appearance_desc)),
         Page(R.drawable.ic_onboard_gesture, getString(R.string.onboard_gesture_title), getString(R.string.onboard_gesture_desc)),
         Page(R.drawable.ic_onboard_special, getString(R.string.onboard_special_title), getString(R.string.onboard_special_desc)),
+        Page(R.drawable.ic_bookmark_filled, getString(R.string.onboard_bookmark_title), getString(R.string.onboard_bookmark_desc)),
         Page(R.drawable.ic_onboard_done, getString(R.string.onboard_done_title), getString(R.string.onboard_done_desc))
     )
 

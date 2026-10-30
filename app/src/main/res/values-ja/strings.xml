@@ -24,8 +24,12 @@
     <string name="menu_replace">置換</string>
     <string name="menu_goto_line">行へ移動</string>
     <string name="menu_bookmarks">ブックマーク</string>
-    <string name="bookmark_prev">前へ</string>
-    <string name="bookmark_next">次へ</string>
+    <string name="bookmark_count">ブックマーク %1$d 件</string>
+    <string name="bookmark_subtitle">%1$s · %2$s</string>
+    <string name="bookmark_clear_confirm">このファイルのブックマークをすべて削除します。</string>
+    <string name="bookmark_delete_cd">ブックマークを削除</string>
+    <string name="bookmark_empty_hint">エディタ左端をタップすると追加できます</string>
+    <string name="bookmark_no_preview">（空行）</string>
     <string name="bookmark_toggle_add">この行にブックマークを追加</string>
     <string name="bookmark_toggle_remove">この行のブックマークを削除</string>
     <string name="bookmark_clear_all">すべて削除</string>
@@ -559,4 +563,12 @@
     <string name="dev_shortcut_hint">無効にした場合、バージョンを7回タップすると再びロックを解除できます</string>
     <string name="dev_disable_shortcut_done">ショートカットを無効にしました。バージョンを7回タップすると再びロックを解除できます。</string>
 
+    <string name="help_section_bookmarks">ブックマーク</string>
+    <string name="help_bookmarks_content">エディタ左端をタップするとその行にブックマークを付け、もう一度タップすると解除します。左端またはステータスバーのブックマークアイコンを長押しするとブックマーク画面が開き、ジャンプ・個別削除・一括削除ができます。ブックマークは行頭位置で記録され、編集に追従するほか、タブ切替や再起動でも保持されます。</string>
+    <string name="help_section_bom">文字コードと BOM</string>
+    <string name="help_bom_content">ファイルは UTF-8・UTF-16（BOM 付き）・GBK を自動判別して開きます。誤判定のときは「その他 - 文字コードを指定して開き直す」で指定できます。UTF-8 保存時に「BOM を付けて保存」を有効にすると BOM を書き込みます。無効の場合は新たに付けませんが、元の BOM は保持します。UTF-16 は常に BOM を書き込みます（ないと次回認識できないため）。</string>
+    <string name="help_section_crash">クラッシュログ</string>
+    <string name="help_crash_content">クラッシュ時はスタックトレースをアプリ専用領域に保存し、次回起動時にコピーや削除ができる形で表示します。保存は最大 20 件で、外部には送信しません。</string>
+    <string name="onboard_bookmark_title">ブックマーク</string>
+    <string name="onboard_bookmark_desc">エディタ左端をタップするとその行にブックマークを付けられます。長押しで一覧を表示します。</string>
 </resources>

@@ -24,8 +24,12 @@
     <string name="menu_replace">Заменить</string>
     <string name="menu_goto_line">Перейти к строке</string>
     <string name="menu_bookmarks">Закладки</string>
-    <string name="bookmark_prev">Предыдущая</string>
-    <string name="bookmark_next">Следующая</string>
+    <string name="bookmark_count">Закладок: %1$d</string>
+    <string name="bookmark_subtitle">%1$s · %2$s</string>
+    <string name="bookmark_clear_confirm">Все закладки этого файла будут удалены.</string>
+    <string name="bookmark_delete_cd">Удалить закладку</string>
+    <string name="bookmark_empty_hint">Коснитесь левого поля в редакторе, чтобы добавить закладку</string>
+    <string name="bookmark_no_preview">(пустая строка)</string>
     <string name="bookmark_toggle_add">Добавить закладку на этой строке</string>
     <string name="bookmark_toggle_remove">Убрать закладку с этой строки</string>
     <string name="bookmark_clear_all">Очистить все</string>
@@ -559,4 +563,12 @@
     <string name="dev_shortcut_hint">Если выключено, нажмите на версию 7 раз, чтобы снова разблокировать</string>
     <string name="dev_disable_shortcut_done">Ярлык отключён. Нажмите на версию 7 раз, чтобы снова разблокировать.</string>
 
+    <string name="help_section_bookmarks">Закладки</string>
+    <string name="help_bookmarks_content">Коснитесь левого поля редактора, чтобы поставить закладку на строку, и ещё раз — чтобы убрать. Долгое нажатие на поле или на значок закладки в строке состояния открывает страницу закладок: можно перейти к строке, удалить одну или очистить все. Закладки следуют за правками и сохраняются при переключении вкладок и перезапуске.</string>
+    <string name="help_section_bom">Кодировка и BOM</string>
+    <string name="help_bom_content">Файлы открываются автоматически как UTF-8, UTF-16 (с BOM) или GBK. Если кодировка определена неверно, используйте Ещё - Переоткрыть в кодировке. При сохранении UTF-8 можно включить Сохранять с BOM UTF-8; если выключено, BOM не добавляется, но имеющийся сохраняется. Файлы UTF-16 всегда сохраняются с BOM, иначе их не узнать при следующем открытии.</string>
+    <string name="help_section_crash">Журналы сбоев</string>
+    <string name="help_crash_content">При сбое трассировка записывается во внутреннее хранилище приложения и показывается при следующем запуске, где её можно скопировать или удалить. Хранится не более 20 журналов, ничего не отправляется в сеть.</string>
+    <string name="onboard_bookmark_title">Закладки</string>
+    <string name="onboard_bookmark_desc">Коснитесь левого поля, чтобы отметить строку, и удерживайте, чтобы увидеть весь список.</string>
 </resources>
