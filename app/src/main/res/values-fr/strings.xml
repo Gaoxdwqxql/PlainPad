@@ -24,6 +24,8 @@
     <string name="menu_replace">Remplacer</string>
     <string name="menu_goto_line">Aller à la ligne</string>
     <string name="menu_bookmarks">Signets</string>
+    <string name="bookmark_prev">Précédent</string>
+    <string name="bookmark_next">Suivant</string>
     <string name="bookmark_toggle_add">Ajouter un signet à cette ligne</string>
     <string name="bookmark_toggle_remove">Retirer le signet de cette ligne</string>
     <string name="bookmark_clear_all">Tout effacer</string>

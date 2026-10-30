@@ -24,6 +24,8 @@
     <string name="menu_replace">Ersetzen</string>
     <string name="menu_goto_line">Gehe zu Zeile</string>
     <string name="menu_bookmarks">Lesezeichen</string>
+    <string name="bookmark_prev">Zurück</string>
+    <string name="bookmark_next">Weiter</string>
     <string name="bookmark_toggle_add">Lesezeichen in dieser Zeile setzen</string>
     <string name="bookmark_toggle_remove">Lesezeichen dieser Zeile entfernen</string>
     <string name="bookmark_clear_all">Alle löschen</string>

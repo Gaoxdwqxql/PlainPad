@@ -35,13 +35,6 @@ class LineNumberView @JvmOverloads constructor(
         color = Color.GRAY
     }
 
-    /** 书签标记：行号左侧的小圆点，颜色随行号文字色 */
-    private val markerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.GRAY
-    }
-
-    private var bookmarkedLines: Set<Int> = emptySet()
-
     /** 锁定的宽度（px）。只有行号位数或字号变化时才更新 */
     private var lockedWidth = 0
     /** 上次计算宽度时使用的行号位数 */
@@ -52,14 +45,6 @@ class LineNumberView @JvmOverloads constructor(
     /** 文字颜色（编辑区主题切换时调用） */
     fun setLineNumberTextColor(color: Int) {
         paint.color = color
-        markerPaint.color = color
-        invalidate()
-    }
-
-    /** 有书签的视觉行号（0 基），用于在行号栏画标记 */
-    fun setBookmarkedLines(lines: Set<Int>) {
-        if (bookmarkedLines == lines) return
-        bookmarkedLines = lines
         invalidate()
     }
 
@@ -175,10 +160,6 @@ class LineNumberView @JvmOverloads constructor(
         val visualCount = layout.lineCount
         var logicalNo = 1
 
-        val density = resources.displayMetrics.density
-        val markerX = paddingStart + 3.5f * density
-        val markerRadius = 2.5f * density
-
         for (i in 0 until visualCount) {
             val lineStart = layout.getLineStart(i)
             val isLogicalStart = lineStart == 0 ||
@@ -191,14 +172,6 @@ class LineNumberView @JvmOverloads constructor(
                 // 只绘制可见范围内的数字
                 if (baselineY >= -paint.textSize && baselineY <= height + paint.textSize) {
                     canvas.drawText(logicalNo.toString(), right, baselineY, paint)
-                    if (i in bookmarkedLines) {
-                        canvas.drawCircle(
-                            markerX,
-                            baselineY - paint.textSize * 0.35f,
-                            markerRadius,
-                            markerPaint
-                        )
-                    }
                 }
                 logicalNo++
             }

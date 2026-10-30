@@ -24,6 +24,8 @@
     <string name="menu_replace">置換</string>
     <string name="menu_goto_line">行へ移動</string>
     <string name="menu_bookmarks">ブックマーク</string>
+    <string name="bookmark_prev">前へ</string>
+    <string name="bookmark_next">次へ</string>
     <string name="bookmark_toggle_add">この行にブックマークを追加</string>
     <string name="bookmark_toggle_remove">この行のブックマークを削除</string>
     <string name="bookmark_clear_all">すべて削除</string>

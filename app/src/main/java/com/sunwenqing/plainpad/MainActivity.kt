@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     private var lastAppliedFontFamily = ""
     private var lastAppliedEditorTheme = ""
     private var lastAppliedWrap: Boolean? = null
+    private var lastBookmarkIconState: Boolean? = null
 
     private var statsDialog: AlertDialog? = null
 
@@ -300,6 +301,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupEditor() {
         EditorStyler.applyFontSize(binding, prefs.fontSize.toFloat())
         binding.editor.currentLineHighlightEnabled = prefs.currentLineHighlight
+        binding.editor.selectionChangedListener = { updateBookmarkButtonState() }
         binding.editor.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {
@@ -391,6 +393,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.tvEol.setOnClickListener { showEolMenu() }
+        // 底部书签按钮：单击开关当前行书签，长按打开管理面板
+        binding.btnBookmark.setOnClickListener { toggleBookmarkAtCursor() }
+        binding.btnBookmark.setOnLongClickListener {
+            showBookmarks()
+            true
+        }
     }
 
     private fun applyAppearanceIfChanged() {
@@ -780,7 +788,7 @@ class MainActivity : AppCompatActivity() {
             binding.fastScrollBar.attachLargeTextView(binding.largeTextView)
 
             binding.tvLineNumbers.visibility = View.GONE
-            binding.tvLineNumbers.setBookmarkedLines(emptySet())
+            binding.editor.setBookmarkedLines(emptySet())
             showTip(getString(R.string.large_file_long_line_read_only))
         } else {
             binding.largeTextView.visibility = View.GONE
@@ -1332,35 +1340,73 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBookmarks() {
-        val doc = currentDoc() ?: return
+        if (currentDoc() == null) return
         if (isLargeFileMode) {
             showTip(getString(R.string.large_file_feature_disabled))
             return
         }
-        val text = binding.editor.text ?: return
-        val layout = binding.editor.layout ?: return
-
-        val offsets = doc.bookmarks.sorted()
-        val labels = offsets.map { off ->
-            val safe = off.coerceIn(0, text.length)
-            val line = layout.getLineForOffset(safe) + 1
-            getString(R.string.bookmark_item, line, linePreview(text, safe))
-        }
-        val current = currentLineStartOffset()
-        val hasCurrent = current != null && offsets.contains(current)
-
         EditorDialogs.showBookmarks(
             this,
-            labels,
-            hasCurrent,
-            onJump = { index -> jumpToBookmark(offsets[index]) },
+            provider = { bookmarkRows() },
+            hasCurrent = { hasBookmarkOnCurrentLine() },
+            onJump = { row -> jumpToBookmark(row.offset) },
             onToggleCurrent = { toggleBookmarkAtCursor() },
             onClearAll = {
-                doc.bookmarks = emptyList()
+                currentDoc()?.bookmarks = emptyList()
                 refreshBookmarkMarkers()
                 scheduleDraftSave()
-            }
+            },
+            onDelete = { row -> deleteBookmark(row.offset) },
+            onPrev = { jumpToAdjacentBookmark(-1) },
+            onNext = { jumpToAdjacentBookmark(1) }
         )
+    }
+
+    /** 把当前文档的书签翻译成列表行（行号 + 行首预览） */
+    private fun bookmarkRows(): List<EditorDialogs.BookmarkRow> {
+        val doc = currentDoc() ?: return emptyList()
+        val text = binding.editor.text ?: return emptyList()
+        val layout = binding.editor.layout ?: return emptyList()
+        return doc.bookmarks.sorted().map { off ->
+            val safe = off.coerceIn(0, text.length)
+            EditorDialogs.BookmarkRow(
+                line = layout.getLineForOffset(safe) + 1,
+                preview = linePreview(text, safe),
+                offset = off
+            )
+        }
+    }
+
+    private fun hasBookmarkOnCurrentLine(): Boolean {
+        val doc = currentDoc() ?: return false
+        val offset = currentLineStartOffset() ?: return false
+        return doc.bookmarks.contains(offset)
+    }
+
+    private fun deleteBookmark(offset: Int) {
+        val doc = currentDoc() ?: return
+        doc.bookmarks = doc.bookmarks.filter { it != offset }
+        refreshBookmarkMarkers()
+        scheduleDraftSave()
+        showTip(getString(R.string.bookmark_removed))
+    }
+
+    /** direction = 1 下一个，-1 上一个；到头会循环 */
+    private fun jumpToAdjacentBookmark(direction: Int) {
+        val doc = currentDoc() ?: return
+        val sorted = doc.bookmarks.sorted()
+        if (sorted.isEmpty()) {
+            showTip(getString(R.string.bookmark_empty))
+            return
+        }
+        val len = binding.editor.text?.length ?: 0
+        val cursor = binding.editor.selectionStart.coerceIn(0, len)
+        val target = if (direction > 0) {
+            sorted.firstOrNull { it > cursor } ?: sorted.first()
+        } else {
+            sorted.lastOrNull { it < cursor } ?: sorted.last()
+        }
+        jumpToBookmark(target)
     }
 
     /** 取书签所在行的开头一小段文字作为预览 */
@@ -1398,12 +1444,13 @@ class MainActivity : AppCompatActivity() {
         editor.forceBringCursorIntoView()
     }
 
-    /** 把书签偏移换算成视觉行号，交给行号栏画标记 */
+    /** 把书签偏移换算成视觉行号，同时同步底部书签按钮的填充状态 */
     private fun refreshBookmarkMarkers() {
         val doc = currentDoc()
         val layout = binding.editor.layout
         if (doc == null || isLargeFileMode || layout == null) {
-            binding.tvLineNumbers.setBookmarkedLines(emptySet())
+            binding.editor.setBookmarkedLines(emptySet())
+            updateBookmarkButtonState()
             return
         }
         val len = binding.editor.text?.length ?: 0
@@ -1411,7 +1458,19 @@ class MainActivity : AppCompatActivity() {
             .filter { it in 0..len }
             .map { layout.getLineForOffset(it) }
             .toSet()
-        binding.tvLineNumbers.setBookmarkedLines(lines)
+        binding.editor.setBookmarkedLines(lines)
+        updateBookmarkButtonState()
+    }
+
+    /** 光标行的书签状态变化时切换实心/空心图标 */
+    private fun updateBookmarkButtonState() {
+        if (!::binding.isInitialized) return
+        val has = !isLargeFileMode && hasBookmarkOnCurrentLine()
+        if (lastBookmarkIconState == has) return
+        lastBookmarkIconState = has
+        binding.btnBookmark.setImageResource(
+            if (has) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark
+        )
     }
 
     /** 文本增删后修正书签偏移：编辑点之前不动，落在删除区间内的收拢到编辑点 */

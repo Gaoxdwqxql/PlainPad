@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.sunwenqing.plainpad.databinding.DialogBookmarksBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
 import com.sunwenqing.plainpad.databinding.DialogEncodingBinding
@@ -437,36 +438,79 @@ object EditorDialogs {
 
     // ---------------- 书签 ----------------
 
+    /** 书签列表的一行：显示行号与行首预览，offset 用于跳转 */
+    data class BookmarkRow(val line: Int, val preview: String, val offset: Int)
+
     fun showBookmarks(
         activity: Activity,
-        labels: List<String>,
-        hasBookmarkOnCurrentLine: Boolean,
-        onJump: (Int) -> Unit,
+        provider: () -> List<BookmarkRow>,
+        hasCurrent: () -> Boolean,
+        onJump: (BookmarkRow) -> Unit,
         onToggleCurrent: () -> Unit,
-        onClearAll: () -> Unit
+        onClearAll: () -> Unit,
+        onDelete: (BookmarkRow) -> Unit,
+        onPrev: () -> Unit,
+        onNext: () -> Unit
     ) {
-        val builder = MaterialAlertDialogBuilder(activity)
-            .setTitle(R.string.menu_bookmarks)
+        val b = DialogBookmarksBinding.inflate(activity.layoutInflater)
+        b.tvBookmarkTitle.setText(R.string.menu_bookmarks)
 
-        if (labels.isEmpty()) {
-            builder.setMessage(R.string.bookmark_empty)
-        } else {
-            builder.setItems(labels.toTypedArray()) { dialog, which ->
-                dialog.dismiss()
-                onJump(which)
+        val dialog = MaterialAlertDialogBuilder(activity)
+            .setView(b.root)
+            .create()
+
+        fun render() {
+            val rows = provider()
+            b.bookmarkContainer.removeAllViews()
+            b.bookmarkContainer.visibility = if (rows.isEmpty()) View.GONE else View.VISIBLE
+            b.tvBookmarkEmpty.visibility = if (rows.isEmpty()) View.VISIBLE else View.GONE
+            b.btnClearBookmarks.isEnabled = rows.isNotEmpty()
+            b.btnPrevBookmark.isEnabled = rows.isNotEmpty()
+            b.btnNextBookmark.isEnabled = rows.isNotEmpty()
+            b.btnToggleBookmark.setText(
+                if (hasCurrent()) R.string.bookmark_toggle_remove
+                else R.string.bookmark_toggle_add
+            )
+
+            rows.forEach { row ->
+                val item = DialogChoiceItemBinding.inflate(
+                    activity.layoutInflater, b.bookmarkContainer, false
+                )
+                item.tvOptionText.text =
+                    activity.getString(R.string.bookmark_item, row.line, row.preview)
+                item.ivCheck.visibility = View.GONE
+                item.root.setOnClickListener {
+                    dialog.dismiss()
+                    onJump(row)
+                }
+                // 长按删除单条书签
+                item.root.setOnLongClickListener {
+                    onDelete(row)
+                    render()
+                    true
+                }
+                b.bookmarkContainer.addView(item.root)
             }
         }
 
-        builder.setPositiveButton(
-            if (hasBookmarkOnCurrentLine) R.string.bookmark_toggle_remove
-            else R.string.bookmark_toggle_add
-        ) { _, _ -> onToggleCurrent() }
-
-        if (labels.isNotEmpty()) {
-            builder.setNeutralButton(R.string.bookmark_clear_all) { _, _ -> onClearAll() }
+        b.btnToggleBookmark.setOnClickListener {
+            onToggleCurrent()
+            render()
         }
-        builder.setNegativeButton(R.string.close, null)
-        builder.show()
+        b.btnClearBookmarks.setOnClickListener {
+            onClearAll()
+            render()
+        }
+        b.btnPrevBookmark.setOnClickListener { onPrev() }
+        b.btnNextBookmark.setOnClickListener { onNext() }
+        b.btnCloseBookmarks.setOnClickListener { dialog.dismiss() }
+
+        render()
+        dialog.show()
+        dialog.window?.setLayout(
+            (activity.resources.displayMetrics.widthPixels * 0.9).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     // ---------------- 跳转到行 ----------------

@@ -2,6 +2,8 @@ package com.sunwenqing.plainpad
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
@@ -68,6 +70,17 @@ class PlainEditText @JvmOverloads constructor(
 
     private var currentLineSpan: BackgroundColorSpan? = null
 
+    /** 书签所在的视觉行号（0 基），画在编辑区左侧留白里 */
+    private var bookmarkedLines: Set<Int> = emptySet()
+
+    private val bookmarkPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    fun setBookmarkedLines(lines: Set<Int>) {
+        if (bookmarkedLines == lines) return
+        bookmarkedLines = lines
+        invalidate()
+    }
+
     init {
         disableMagnifier()
         applyTextClassifierByLength()
@@ -120,6 +133,9 @@ class PlainEditText @JvmOverloads constructor(
         if (currentLineHighlightEnabled) post { applyCurrentLineHighlight() }
     }
 
+    /** 光标/选区变化回调，用于同步外部按钮状态 */
+    var selectionChangedListener: (() -> Unit)? = null
+
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
         super.onSelectionChanged(selStart, selEnd)
         if (!allowBring) {
@@ -127,9 +143,33 @@ class PlainEditText @JvmOverloads constructor(
         }
         post { applyThemedCursorAndHandles() }
         if (currentLineHighlightEnabled) post { applyCurrentLineHighlight() }
+        selectionChangedListener?.invoke()
     }
 
     // ---------------- 当前行高亮 ----------------
+
+    override fun onDraw(canvas: Canvas) {
+        drawBookmarkDots(canvas)
+        super.onDraw(canvas)
+    }
+
+    /** 在左侧 padding 里画书签圆点，不依赖行号栏是否显示 */
+    private fun drawBookmarkDots(canvas: Canvas) {
+        if (bookmarkedLines.isEmpty()) return
+        val layout = layout ?: return
+        val density = resources.displayMetrics.density
+        val radius = 2.5f * density
+        val x = 5f * density
+        bookmarkPaint.color = (currentTextColor and 0x00FFFFFF) or 0x99000000.toInt()
+        val scroll = scrollY
+        val textH = textSize
+        for (line in bookmarkedLines) {
+            if (line < 0 || line >= layout.lineCount) continue
+            val baseline = paddingTop + layout.getLineBaseline(line) - scroll
+            if (baseline < -radius || baseline > height + radius) continue
+            canvas.drawCircle(x, baseline - textH * 0.35f, radius, bookmarkPaint)
+        }
+    }
 
     /** 主题色变化后重新取色 */
     fun refreshCurrentLineHighlight() = applyCurrentLineHighlight()

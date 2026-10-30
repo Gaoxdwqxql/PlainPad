@@ -24,6 +24,8 @@
     <string name="menu_replace">Replace</string>
     <string name="menu_goto_line">Go to Line</string>
     <string name="menu_bookmarks">Bookmarks</string>
+    <string name="bookmark_prev">Previous</string>
+    <string name="bookmark_next">Next</string>
     <string name="bookmark_toggle_add">Add bookmark on this line</string>
     <string name="bookmark_toggle_remove">Remove bookmark on this line</string>
     <string name="bookmark_clear_all">Clear All</string>

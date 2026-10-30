@@ -266,6 +266,17 @@
                 tools:text="CRLF" />
 
             <ImageButton
+                android:id="@+id/btnBookmark"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="6dp"
+                android:padding="7dp"
+                android:src="@drawable/ic_bookmark"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/menu_bookmarks"
+                app:tint="?android:attr/textColorSecondary" />
+
+            <ImageButton
                 android:id="@+id/btnInsertSpecial"
                 android:layout_width="32dp"
                 android:layout_height="32dp"

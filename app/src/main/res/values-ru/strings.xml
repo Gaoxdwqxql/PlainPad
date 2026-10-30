@@ -24,6 +24,8 @@
     <string name="menu_replace">Заменить</string>
     <string name="menu_goto_line">Перейти к строке</string>
     <string name="menu_bookmarks">Закладки</string>
+    <string name="bookmark_prev">Предыдущая</string>
+    <string name="bookmark_next">Следующая</string>
     <string name="bookmark_toggle_add">Добавить закладку на этой строке</string>
     <string name="bookmark_toggle_remove">Убрать закладку с этой строки</string>
     <string name="bookmark_clear_all">Очистить все</string>
