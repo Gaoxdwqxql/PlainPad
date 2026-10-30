@@ -302,6 +302,8 @@ class MainActivity : AppCompatActivity() {
         EditorStyler.applyFontSize(binding, prefs.fontSize.toFloat())
         binding.editor.currentLineHighlightEnabled = prefs.currentLineHighlight
         binding.editor.selectionChangedListener = { updateBookmarkButtonState() }
+        binding.editor.bookmarkGutterTapListener = { line -> toggleBookmarkAtLine(line) }
+        binding.editor.bookmarkGutterLongPressListener = { showBookmarks() }
         binding.editor.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {
@@ -1417,12 +1419,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toggleBookmarkAtCursor() {
-        val doc = currentDoc() ?: return
         if (isLargeFileMode) {
             showTip(getString(R.string.large_file_feature_disabled))
             return
         }
         val offset = currentLineStartOffset() ?: return
+        toggleBookmarkAt(offset)
+    }
+
+    /** 书签槽点击：切换被点那一行的书签，不移动光标 */
+    private fun toggleBookmarkAtLine(line: Int) {
+        if (isLargeFileMode) {
+            showTip(getString(R.string.large_file_feature_disabled))
+            return
+        }
+        val layout = binding.editor.layout ?: return
+        if (line !in 0 until layout.lineCount) return
+        toggleBookmarkAt(layout.getLineStart(line))
+    }
+
+    private fun toggleBookmarkAt(offset: Int) {
+        val doc = currentDoc() ?: return
         val list = doc.bookmarks.toMutableList()
         val removed = list.remove(offset)
         if (!removed) {

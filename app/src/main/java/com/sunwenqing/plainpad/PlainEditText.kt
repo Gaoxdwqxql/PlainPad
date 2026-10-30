@@ -11,6 +11,7 @@ import android.text.Layout
 import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.util.AttributeSet
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.ExtractedText
@@ -96,8 +97,46 @@ class PlainEditText @JvmOverloads constructor(
         applyThemedCursorAndHandles()
     }
 
+    /** 书签槽（左侧留白）被点击：回调被点的视觉行号 */
+    var bookmarkGutterTapListener: ((Int) -> Unit)? = null
+
+    /** 书签槽被长按：打开书签管理面板 */
+    var bookmarkGutterLongPressListener: (() -> Unit)? = null
+
+    private val gutterDetector by lazy {
+        GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(e: MotionEvent): Boolean = true
+
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+                lineForY(e.y)?.let { bookmarkGutterTapListener?.invoke(it) }
+                return true
+            }
+
+            override fun onLongPress(e: MotionEvent) {
+                bookmarkGutterLongPressListener?.invoke()
+            }
+        })
+    }
+
+    /** 把触摸点的 y 换算成视觉行号（考虑滚动与 padding） */
+    private fun lineForY(y: Float): Int? {
+        val layout = layout ?: return null
+        if (layout.lineCount == 0) return null
+        val v = (y + scrollY - paddingTop).toInt()
+        if (v <= 0) return 0
+        if (v >= layout.height) return layout.lineCount - 1
+        return layout.getLineForVertical(v)
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (isInteractionDisabled) return true
+        // 左侧留白当作书签槽：点一下切换书签，长按开面板
+        if (paddingLeft > 0 && event.x < paddingLeft &&
+            (bookmarkGutterTapListener != null || bookmarkGutterLongPressListener != null)
+        ) {
+            gutterDetector.onTouchEvent(event)
+            return true
+        }
         return super.onTouchEvent(event)
     }
 
@@ -159,7 +198,7 @@ class PlainEditText @JvmOverloads constructor(
         val layout = layout ?: return
         val density = resources.displayMetrics.density
         val radius = 2.5f * density
-        val x = 5f * density
+        val x = 7f * density
         bookmarkPaint.color = (currentTextColor and 0x00FFFFFF) or 0x99000000.toInt()
         val scroll = scrollY
         val textH = textSize

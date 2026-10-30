@@ -40,9 +40,10 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/bookmarkScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="360dp">
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:id="@+id/bookmarkContainer"

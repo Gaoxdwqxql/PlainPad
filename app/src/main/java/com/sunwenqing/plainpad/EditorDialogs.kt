@@ -491,6 +491,15 @@ object EditorDialogs {
                 }
                 b.bookmarkContainer.addView(item.root)
             }
+
+            // 列表高度跟着条数走，最多占屏幕一半，避免书签很多时弹窗顶出屏幕
+            val metrics = activity.resources.displayMetrics
+            val desired = (rows.size * 56f * metrics.density)
+                .coerceAtMost(metrics.heightPixels * 0.5f)
+                .toInt()
+            b.bookmarkScroll.layoutParams = (b.bookmarkScroll.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                height = if (rows.isEmpty()) 0 else desired
+            }
         }
 
         b.btnToggleBookmark.setOnClickListener {
@@ -508,7 +517,7 @@ object EditorDialogs {
         render()
         dialog.show()
         dialog.window?.setLayout(
-            (activity.resources.displayMetrics.widthPixels * 0.9).toInt(),
+            (activity.resources.displayMetrics.widthPixels * 0.95).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
