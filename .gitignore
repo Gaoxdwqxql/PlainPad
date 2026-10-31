@@ -82,3 +82,6 @@ lint/tmp/
 
 # macOS
 .DS_Store
+
+# Local tooling (not part of the app)
+/tools/

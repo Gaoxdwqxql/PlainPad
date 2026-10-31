@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -52,7 +53,12 @@ class FastScrollBarView @JvmOverloads constructor(
     private var dragOffsetY = 0f
 
     private val hideHandler = Handler(Looper.getMainLooper())
-    private var hideRunnable: Runnable? = null
+
+    /** 滚动时重新计时的最小间隔，避免每帧都重排延迟消息 */
+    private val FLASH_THROTTLE_MS = 400L
+
+    /** 滚动停止后多久淡出 */
+    private val HIDE_DELAY_MS = 1200L
 
     private val scroller = OverScroller(context)
     private var velocityTracker: VelocityTracker? = null
@@ -355,31 +361,36 @@ class FastScrollBarView @JvmOverloads constructor(
 
     // ---------------- 自动显示 / 隐藏 ----------------
 
+    /** 只分配一次，避免滚动时每帧都产生垃圾对象 */
+    private val hideTask = Runnable {
+        animate().cancel()
+        animate().alpha(0f).setDuration(350).start()
+    }
+    private var lastFlashAt = 0L
+
     private fun flashVisible() {
         if (isDragging || isFlinging) return
         showImmediate()
+        // 滚动时每帧都会回调这里；把"重新计时"限制到 400ms 一次，
+        // 否则每帧 removeCallbacks + postDelayed 会造成明显掉帧
+        val now = SystemClock.uptimeMillis()
+        if (now - lastFlashAt < FLASH_THROTTLE_MS) return
+        lastFlashAt = now
         hideAfterDelay()
     }
 
     private fun showImmediate() {
-        cancelHide()
         animate().cancel()
         alpha = 1f
     }
 
     private fun hideAfterDelay() {
-        cancelHide()
-        val r = Runnable {
-            animate().cancel()
-            animate().alpha(0f).setDuration(350).start()
-        }
-        hideRunnable = r
-        hideHandler.postDelayed(r, 1200)
+        hideHandler.removeCallbacks(hideTask)
+        hideHandler.postDelayed(hideTask, HIDE_DELAY_MS)
     }
 
     private fun cancelHide() {
-        hideRunnable?.let { hideHandler.removeCallbacks(it) }
-        hideRunnable = null
+        hideHandler.removeCallbacks(hideTask)
     }
 
     override fun onDetachedFromWindow() {

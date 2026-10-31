@@ -35,6 +35,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -77,6 +78,8 @@ class MainActivity : AppCompatActivity() {
     private var lastAppliedEditorTheme = ""
     private var lastAppliedWrap: Boolean? = null
     private var lastBookmarkIconState: Boolean? = null
+    /** 大文件模式当前的字号（sp，浮点，便于缩放时平滑变化） */
+    private var largeFontSp = 0f
 
     private var statsDialog: AlertDialog? = null
 
@@ -178,6 +181,7 @@ class MainActivity : AppCompatActivity() {
         setupScrollBar()
         setupBackHandler()
         setupZoomGesture()
+        setupLargeTextZoom()
         setupImmersiveExitButton()
         setupTopBarButtons()
 
@@ -377,6 +381,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** 大文件模式下的双指缩放：直接作用于 LargeTextView，并保持顶部行不跳 */
+    private fun setupLargeTextZoom() {
+        binding.largeTextView.onZoom = { factor ->
+            if (largeFontSp <= 0f) largeFontSp = prefs.fontSize.toFloat()
+            largeFontSp = (largeFontSp * factor).coerceIn(10f, 40f)
+            binding.largeTextView
+                .setTextSizePx(largeFontSp * resources.displayMetrics.scaledDensity)
+        }
+        binding.largeTextView.onZoomEnd = {
+            val size = largeFontSp.roundToInt().coerceIn(10, 40)
+            if (size != prefs.fontSize) prefs.fontSize = size
+            largeFontSp = size.toFloat()
+            lastAppliedFontSize = size
+        }
+    }
+
     private fun setupImmersiveExitButton() {
         binding.btnExitImmersive.setOnClickListener { applyImmersive(false) }
     }
@@ -425,6 +445,7 @@ class MainActivity : AppCompatActivity() {
                 val textColor = binding.editor.currentTextColor
                 val textSizePx = prefs.fontSize * resources.displayMetrics.scaledDensity
                 binding.largeTextView.setTextAppearance(tf, textSizePx, textColor)
+                largeFontSp = prefs.fontSize.toFloat()
                 binding.largeTextView.setBackgroundColor(
                     theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface)
                 )
@@ -782,6 +803,7 @@ class MainActivity : AppCompatActivity() {
 
             val textSizePx = prefs.fontSize * resources.displayMetrics.scaledDensity
             binding.largeTextView.setTextAppearance(tf, textSizePx, textColor)
+            largeFontSp = prefs.fontSize.toFloat()
 
             val theme = EditorThemes.byId(prefs.editorThemeId)
             binding.largeTextView.setBackgroundColor(
@@ -1600,13 +1622,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun commitFontSize(sizeSp: Int) {
-        if (isLargeFileMode) {
-            showTip(getString(R.string.large_file_cannot_resize))
-            return
-        }
         val finalSize = sizeSp.coerceIn(10, 40)
         if (finalSize != prefs.fontSize) prefs.fontSize = finalSize
-        EditorStyler.applyFontSize(binding, finalSize.toFloat())
+        if (isLargeFileMode) {
+            largeFontSp = finalSize.toFloat()
+            binding.largeTextView
+                .setTextSizePx(finalSize * resources.displayMetrics.scaledDensity)
+        } else {
+            EditorStyler.applyFontSize(binding, finalSize.toFloat())
+        }
         lastAppliedFontSize = finalSize
         if (prefs.showSpecialChars && !isLargeFileMode) {
             scheduleSpecialCharRefresh()
