@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_new"       android:title="@string/menu_new"       app:showAsAction="never" />
+    <item android:id="@+id/action_open"      android:title="@string/menu_open"      app:showAsAction="never" />
+    <item android:id="@+id/action_save"      android:title="@string/menu_save"      app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_save_as"   android:title="@string/menu_save_as"   app:showAsAction="never" />
+    <item android:id="@+id/action_find"      android:title="@string/menu_find"      app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_wrap"      android:title="@string/menu_wrap"      android:checkable="true" app:showAsAction="never" />
+    <item android:id="@+id/action_font_up"   android:title="@string/menu_font_up"   app:showAsAction="never" />
+    <item android:id="@+id/action_font_down" android:title="@string/menu_font_down" app:showAsAction="never" />
+    <item android:id="@+id/action_default"   android:title="@string/menu_default"   app:showAsAction="never" />
+    <item android:id="@+id/action_about"     android:title="@string/menu_about"     app:showAsAction="never" />
+</menu>

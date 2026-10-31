@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PlainPad</string>
+    <string name="untitled">未命名.txt</string>
+    <string name="default_file_name">未命名.txt</string>
+    <string name="editor_hint">在此输入文本…</string>
+
+    <string name="menu_new">新建</string>
+    <string name="menu_open">打开…</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_save_as">另存为…</string>
+    <string name="menu_find">查找 / 替换</string>
+    <string name="menu_wrap">自动换行</string>
+    <string name="menu_font_up">增大字号</string>
+    <string name="menu_font_down">减小字号</string>
+    <string name="menu_default">设为默认文本编辑器</string>
+    <string name="menu_about">关于</string>
+
+    <string name="find_hint">查找内容</string>
+    <string name="replace_hint">替换为</string>
+    <string name="find_next">查找下一个</string>
+    <string name="replace">替换</string>
+    <string name="replace_all">全部替换</string>
+    <string name="close">关闭</string>
+    <string name="not_found">未找到匹配内容</string>
+    <string name="replaced_n">已替换 %1$d 处</string>
+
+    <string name="saved">已保存</string>
+    <string name="err_open">打开失败：%1$s</string>
+    <string name="err_save">保存失败：%1$s</string>
+    <string name="status_count">%1$d 字符 · %2$d 行</string>
+    <string name="font_size_toast">字号：%1$d</string>
+
+    <string name="unsaved_title">尚未保存</string>
+    <string name="unsaved_message">当前文件已修改，是否保存？</string>
+    <string name="save">保存</string>
+    <string name="discard">不保存</string>
+    <string name="cancel">取消</string>
+
+    <string name="no_settings">无法打开系统设置</string>
+    <string name="about_message">PlainPad 1.0\n\n一个轻量的纯文本编辑器。\n支持 UTF-8 / UTF-16 / GBK 自动识别。\n\n提示：在「设为默认文本编辑器」中可将本应用注册为系统默认的 txt 打开工具。</string>
+</resources>
