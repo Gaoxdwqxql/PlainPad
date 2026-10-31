@@ -529,4 +529,9 @@
     <string name="help_crash_content">应用崩溃时会把堆栈写入私有目录，下次启动时提示，可一键复制或删除。最多保留 20 份，不会上传到任何服务器。</string>
     <string name="onboard_bookmark_title">书签</string>
     <string name="onboard_bookmark_desc">点编辑区左侧留白就能给那一行加书签，长按可以查看全部书签并随时跳回。</string>
+    <string name="dev_view_crash_logs">查看崩溃日志</string>
+    <string name="dev_view_crash_logs_desc">查看已记录的崩溃堆栈，可单条查看或全部复制</string>
+    <string name="dev_clear_crash_logs">清除崩溃日志</string>
+    <string name="dev_confirm_clear_crash_logs">确定删除全部崩溃日志？</string>
+    <string name="dev_empty_crash_logs">暂无崩溃日志</string>
 </resources>

@@ -342,7 +342,6 @@
                         android:orientation="vertical"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
-                        android:paddingBottom="16dp"
                         android:background="?attr/selectableItemBackground">
 
                         <TextView
@@ -359,6 +358,55 @@
                             android:text="@string/dev_crash_anr_desc"
                             android:textColor="?android:attr/textColorSecondary"
                             android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:background="?attr/colorOutlineVariant" />
+
+                    <LinearLayout
+                        android:id="@+id/rowViewCrashLogs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dev_view_crash_logs"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/dev_view_crash_logs_desc"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rowClearCrashLogs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:paddingBottom="16dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dev_clear_crash_logs"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

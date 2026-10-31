@@ -571,4 +571,9 @@
     <string name="help_crash_content">En cas de plantage, la pile d\'appels est enregistrée dans le stockage privé de l\'application et affichée au lancement suivant, avec copie ou suppression possible. 20 journaux au maximum sont conservés, rien n\'est envoyé sur Internet.</string>
     <string name="onboard_bookmark_title">Signets</string>
     <string name="onboard_bookmark_desc">Touchez la marge gauche pour marquer une ligne, puis appuyez longuement pour voir la liste.</string>
+    <string name="dev_view_crash_logs">Voir les journaux de plantage</string>
+    <string name="dev_view_crash_logs_desc">Consulter les traces enregistrées et les copier</string>
+    <string name="dev_clear_crash_logs">Effacer les journaux de plantage</string>
+    <string name="dev_confirm_clear_crash_logs">Supprimer tous les journaux de plantage ?</string>
+    <string name="dev_empty_crash_logs">Aucun journal de plantage</string>
 </resources>

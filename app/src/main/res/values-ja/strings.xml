@@ -571,4 +571,9 @@
     <string name="help_crash_content">クラッシュ時はスタックトレースをアプリ専用領域に保存し、次回起動時にコピーや削除ができる形で表示します。保存は最大 20 件で、外部には送信しません。</string>
     <string name="onboard_bookmark_title">ブックマーク</string>
     <string name="onboard_bookmark_desc">エディタ左端をタップするとその行にブックマークを付けられます。長押しで一覧を表示します。</string>
+    <string name="dev_view_crash_logs">クラッシュログを表示</string>
+    <string name="dev_view_crash_logs_desc">記録されたスタックトレースを確認・コピーできます</string>
+    <string name="dev_clear_crash_logs">クラッシュログを削除</string>
+    <string name="dev_confirm_clear_crash_logs">クラッシュログをすべて削除しますか？</string>
+    <string name="dev_empty_crash_logs">クラッシュログはありません</string>
 </resources>

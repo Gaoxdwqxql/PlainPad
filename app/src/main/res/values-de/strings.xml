@@ -571,4 +571,9 @@
     <string name="help_crash_content">Stürzt die App ab, wird der Stacktrace im privaten Speicher abgelegt und beim nächsten Start angezeigt, wo du ihn kopieren oder löschen kannst. Es werden höchstens 20 Protokolle behalten, nichts wird hochgeladen.</string>
     <string name="onboard_bookmark_title">Lesezeichen</string>
     <string name="onboard_bookmark_desc">Tippe auf den linken Rand, um eine Zeile zu markieren. Ein langer Druck zeigt die ganze Liste.</string>
+    <string name="dev_view_crash_logs">Absturzprotokolle ansehen</string>
+    <string name="dev_view_crash_logs_desc">Gespeicherte Stacktraces ansehen und kopieren</string>
+    <string name="dev_clear_crash_logs">Absturzprotokolle löschen</string>
+    <string name="dev_confirm_clear_crash_logs">Alle Absturzprotokolle löschen?</string>
+    <string name="dev_empty_crash_logs">Keine Absturzprotokolle vorhanden</string>
 </resources>

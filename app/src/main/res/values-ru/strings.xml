@@ -571,4 +571,9 @@
     <string name="help_crash_content">При сбое трассировка записывается во внутреннее хранилище приложения и показывается при следующем запуске, где её можно скопировать или удалить. Хранится не более 20 журналов, ничего не отправляется в сеть.</string>
     <string name="onboard_bookmark_title">Закладки</string>
     <string name="onboard_bookmark_desc">Коснитесь левого поля, чтобы отметить строку, и удерживайте, чтобы увидеть весь список.</string>
+    <string name="dev_view_crash_logs">Просмотр журналов сбоев</string>
+    <string name="dev_view_crash_logs_desc">Просмотр сохранённых трассировок и копирование</string>
+    <string name="dev_clear_crash_logs">Очистить журналы сбоев</string>
+    <string name="dev_confirm_clear_crash_logs">Удалить все журналы сбоев?</string>
+    <string name="dev_empty_crash_logs">Журналов сбоев нет</string>
 </resources>

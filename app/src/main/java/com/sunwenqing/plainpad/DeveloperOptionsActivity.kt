@@ -210,6 +210,48 @@ class DeveloperOptionsActivity : AppCompatActivity() {
                 }, 500)
             }
         }
+
+        binding.rowViewCrashLogs.setOnClickListener { showCrashLogs() }
+
+        binding.rowClearCrashLogs.setOnClickListener {
+            confirmAction(R.string.dev_confirm_clear_crash_logs) {
+                CrashLogger.clear(this)
+                AppTips.showShort(this, R.string.dev_action_done)
+            }
+        }
+    }
+
+    /** 崩溃日志列表：按时间倒序，点条目看全文，可一键复制全部 */
+    private fun showCrashLogs() {
+        val files = CrashLogger.list(this)
+        if (files.isEmpty()) {
+            AppTips.showShort(this, R.string.dev_empty_crash_logs)
+            return
+        }
+
+        val fmt = SimpleDateFormat("MM-dd HH:mm:ss", Locale.getDefault())
+        val labels = files.map { fmt.format(Date(it.lastModified())) }.toTypedArray()
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dev_view_crash_logs)
+            .setItems(labels) { dialog, which ->
+                dialog.dismiss()
+                showCrashLogDetail(files[which])
+            }
+            .setNeutralButton(R.string.dev_copy) { _, _ ->
+                val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                cm.setPrimaryClip(
+                    ClipData.newPlainText("PlainPad crash logs", CrashLogger.readAll(this))
+                )
+                AppTips.showShort(this, R.string.dev_copied)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showCrashLogDetail(file: File) {
+        val text = runCatching { file.readText(Charsets.UTF_8) }.getOrDefault("")
+        showCopyDialog(getString(R.string.dev_view_crash_logs), text)
     }
 
     // ---------------- 测试文档 ----------------
