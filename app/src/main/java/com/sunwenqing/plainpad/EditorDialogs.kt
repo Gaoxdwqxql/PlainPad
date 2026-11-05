@@ -1,6 +1,7 @@
 package com.sunwenqing.plainpad
 
 import android.app.Activity
+import android.app.Dialog
 import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.doAfterTextChanged
@@ -17,8 +19,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sunwenqing.plainpad.databinding.DialogChoiceBinding
 import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
 import com.sunwenqing.plainpad.databinding.DialogEncodingBinding
-import com.sunwenqing.plainpad.databinding.DialogFindBinding
-import com.sunwenqing.plainpad.databinding.DialogReplaceBinding
+import com.sunwenqing.plainpad.databinding.DialogInputBinding
+import com.sunwenqing.plainpad.databinding.DialogListBinding
+import com.sunwenqing.plainpad.databinding.DialogSnippetEditBinding
 import com.sunwenqing.plainpad.databinding.DialogSpecialCharBinding
 import com.sunwenqing.plainpad.databinding.DialogStatsBinding
 import androidx.lifecycle.lifecycleScope
@@ -42,12 +45,33 @@ object EditorDialogs {
 
     fun showUnsaved(
         activity: Activity,
+        fileName: String?,
         onSave: () -> Unit,
         onDiscard: () -> Unit
     ) {
+        val message = if (fileName.isNullOrBlank()) {
+            activity.getString(R.string.unsaved_message)
+        } else {
+            activity.getString(R.string.unsaved_message_file, fileName)
+        }
+
+        // 文件名加粗，明确是在说哪个文件
+        val styled = android.text.SpannableString(message)
+        if (!fileName.isNullOrBlank()) {
+            val start = message.indexOf(fileName)
+            if (start >= 0) {
+                styled.setSpan(
+                    android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                    start,
+                    start + fileName.length,
+                    android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.unsaved_title)
-            .setMessage(R.string.unsaved_message)
+            .setMessage(styled)
             .setPositiveButton(R.string.save) { _, _ -> onSave() }
             .setNegativeButton(R.string.discard) { _, _ -> onDiscard() }
             .setNeutralButton(R.string.cancel, null)
@@ -169,270 +193,7 @@ object EditorDialogs {
 
         dialog.show()
 
-        dialog.window?.setLayout(
-            (activity.resources.displayMetrics.widthPixels * 0.9).toInt(),
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-    }
-
-    // ---------------- 最近文件 ----------------
-
-    fun showRecent(
-        activity: Activity,
-        files: List<RecentFile>,
-        onOpen: (RecentFile) -> Unit,
-        onClear: () -> Unit
-    ) {
-        if (files.isEmpty()) return
-        val names = files.map { it.name }.toTypedArray()
-        MaterialAlertDialogBuilder(activity)
-            .setTitle(R.string.recent_title)
-            .setItems(names) { _, which -> onOpen(files[which]) }
-            .setNeutralButton(R.string.clear) { _, _ -> onClear() }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
-
-    // ---------------- 查找 ----------------
-
-    fun showFind(
-        activity: Activity,
-        onFind: (query: String, forward: Boolean, options: SearchOptions, isFirstSearch: Boolean) -> EditorSearchHelper.FindFeedback,
-        onQueryChanged: (String, SearchOptions) -> Unit = { _, _ -> },
-        onClosed: () -> Unit = {}
-    ) {
-        val binding = DialogFindBinding.inflate(activity.layoutInflater)
-        val dialog = MaterialAlertDialogBuilder(activity)
-            .setTitle(R.string.menu_find)
-            .setView(binding.root)
-            .setNegativeButton(R.string.close, null)
-            .create()
-
-        var hasSearched = false
-
-        fun options() = SearchOptions(
-            regex = binding.cbRegex.isChecked,
-            caseSensitive = binding.cbCaseSensitive.isChecked,
-            fromStart = binding.cbFromStart.isChecked
-        )
-
-        fun updateHint() {
-            val o = options()
-            binding.tvSearchHint.text = activity.getString(
-                when {
-                    o.regex && o.caseSensitive -> R.string.search_hint_regex_case
-                    o.regex -> R.string.search_hint_regex
-                    o.caseSensitive -> R.string.search_hint_case
-                    else -> R.string.search_hint_plain
-                }
-            )
-        }
-
-        fun updateInitialStatus() {
-            val fromStart = binding.cbFromStart.isChecked
-            showStatusNeutral(
-                binding.tvSearchStatus,
-                activity.getString(
-                    if (fromStart) R.string.search_status_initial_from_start
-                    else R.string.search_status_initial_from_cursor
-                )
-            )
-        }
-
-        fun updatePrevButtonState() {
-            // 首次且勾选"从头开始"时，"查找上一个"禁用
-            val disablePrev = !hasSearched && binding.cbFromStart.isChecked
-            binding.btnFindPrev.isEnabled = !disablePrev
-            binding.btnFindPrev.alpha = if (disablePrev) 0.4f else 1f
-        }
-
-        fun resetToInitialState() {
-            hasSearched = false
-            updateInitialStatus()
-            updatePrevButtonState()
-            // 条件一变就重画全部匹配高亮
-            onQueryChanged(binding.etFind.text?.toString().orEmpty(), options())
-        }
-
-        binding.cbRegex.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
-        binding.cbCaseSensitive.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
-        binding.cbFromStart.setOnCheckedChangeListener { _, _ -> resetToInitialState() }
-        binding.etFind.doAfterTextChanged { resetToInitialState() }
-
-        fun runFind(forward: Boolean) {
-            val query = binding.etFind.text?.toString().orEmpty()
-            if (query.isEmpty()) {
-                showStatusError(
-                    binding.tvSearchStatus,
-                    activity.getString(R.string.search_empty_query)
-                )
-                return
-            }
-
-            val isFirst = !hasSearched
-            hasSearched = true
-            updatePrevButtonState()
-
-            when (val fb = onFind(query, forward, options(), isFirst)) {
-                is EditorSearchHelper.FindFeedback.Found ->
-                    showStatusPrimary(
-                        binding.tvSearchStatus,
-                        activity.getString(R.string.search_status_found)
-                    )
-                is EditorSearchHelper.FindFeedback.NotFound ->
-                    showStatusError(
-                        binding.tvSearchStatus,
-                        activity.getString(R.string.search_status_not_found)
-                    )
-                is EditorSearchHelper.FindFeedback.Invalid ->
-                    showStatusError(
-                        binding.tvSearchStatus,
-                        activity.getString(R.string.search_status_invalid_regex, fb.message)
-                    )
-            }
-        }
-
-        binding.btnFindNext.setOnClickListener { runFind(true) }
-        binding.btnFindPrev.setOnClickListener { runFind(false) }
-
-        updateHint()
-        resetToInitialState()
-
-        dialog.setOnShowListener {
-            binding.etFind.requestFocus()
-            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        }
-        dialog.setOnDismissListener { onClosed() }
-        dialog.show()
-    }
-
-    // ---------------- 替换 ----------------
-
-    fun showReplace(
-        activity: Activity,
-        onReplace: (query: String, replacement: String, options: SearchOptions, isFirstSearch: Boolean) -> EditorSearchHelper.ReplaceFeedback,
-        onReplaceAll: (query: String, replacement: String, options: SearchOptions) -> EditorSearchHelper.ReplaceFeedback,
-        onQueryChanged: (String, SearchOptions) -> Unit = { _, _ -> },
-        onClosed: () -> Unit = {}
-    ) {
-        val binding = DialogReplaceBinding.inflate(activity.layoutInflater)
-        val dialog = MaterialAlertDialogBuilder(activity)
-            .setTitle(R.string.menu_replace)
-            .setView(binding.root)
-            .setNegativeButton(R.string.close, null)
-            .create()
-
-        var hasSearched = false
-
-        fun options() = SearchOptions(
-            regex = binding.cbRegex.isChecked,
-            caseSensitive = binding.cbCaseSensitive.isChecked,
-            fromStart = binding.cbFromStart.isChecked
-        )
-
-        fun updateHint() {
-            val o = options()
-            binding.tvSearchHint.text = activity.getString(
-                when {
-                    o.regex && o.caseSensitive -> R.string.search_hint_regex_case
-                    o.regex -> R.string.search_hint_regex
-                    o.caseSensitive -> R.string.search_hint_case
-                    else -> R.string.search_hint_plain
-                }
-            )
-        }
-
-        fun resetToInitialState() {
-            hasSearched = false
-            val fromStart = binding.cbFromStart.isChecked
-            showStatusNeutral(
-                binding.tvSearchStatus,
-                activity.getString(
-                    if (fromStart) R.string.search_status_initial_from_start
-                    else R.string.search_status_initial_from_cursor
-                )
-            )
-            onQueryChanged(binding.etFind.text?.toString().orEmpty(), options())
-        }
-
-        binding.cbRegex.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
-        binding.cbCaseSensitive.setOnCheckedChangeListener { _, _ -> updateHint(); resetToInitialState() }
-        binding.cbFromStart.setOnCheckedChangeListener { _, _ -> resetToInitialState() }
-        binding.etFind.doAfterTextChanged { resetToInitialState() }
-        binding.etReplace.doAfterTextChanged { resetToInitialState() }
-
-        fun render(fb: EditorSearchHelper.ReplaceFeedback) {
-            when (fb) {
-                is EditorSearchHelper.ReplaceFeedback.Replaced -> {
-                    hasSearched = true
-                    if (fb.count == 1) {
-                        showStatusPrimary(
-                            binding.tvSearchStatus,
-                            activity.getString(R.string.replace_status_replaced_current)
-                        )
-                    } else {
-                        showStatusPrimary(
-                            binding.tvSearchStatus,
-                            activity.getString(R.string.replace_status_replaced, fb.count)
-                        )
-                    }
-                }
-                is EditorSearchHelper.ReplaceFeedback.Located -> {
-                    hasSearched = true
-                    showStatusPrimary(
-                        binding.tvSearchStatus,
-                        activity.getString(R.string.replace_status_located)
-                    )
-                }
-                is EditorSearchHelper.ReplaceFeedback.NotFound ->
-                    showStatusError(
-                        binding.tvSearchStatus,
-                        activity.getString(R.string.search_status_not_found)
-                    )
-                is EditorSearchHelper.ReplaceFeedback.Invalid ->
-                    showStatusError(
-                        binding.tvSearchStatus,
-                        activity.getString(R.string.search_status_invalid_regex, fb.message)
-                    )
-            }
-        }
-
-        binding.btnReplace.setOnClickListener {
-            val q = binding.etFind.text?.toString().orEmpty()
-            if (q.isEmpty()) {
-                showStatusError(
-                    binding.tvSearchStatus,
-                    activity.getString(R.string.search_empty_query)
-                )
-                return@setOnClickListener
-            }
-            val r = binding.etReplace.text?.toString().orEmpty()
-            val isFirst = !hasSearched
-            render(onReplace(q, r, options(), isFirst))
-        }
-
-        binding.btnReplaceAll.setOnClickListener {
-            val q = binding.etFind.text?.toString().orEmpty()
-            if (q.isEmpty()) {
-                showStatusError(
-                    binding.tvSearchStatus,
-                    activity.getString(R.string.search_empty_query)
-                )
-                return@setOnClickListener
-            }
-            val r = binding.etReplace.text?.toString().orEmpty()
-            render(onReplaceAll(q, r, options()))
-        }
-
-        updateHint()
-        resetToInitialState()
-
-        dialog.setOnShowListener {
-            binding.etFind.requestFocus()
-            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        }
-        dialog.setOnDismissListener { onClosed() }
-        dialog.show()
+        sizeDialog(activity, dialog)
     }
 
     // ---------------- 跳转到行 ----------------
@@ -442,49 +203,100 @@ object EditorDialogs {
         totalLines: Int,
         onConfirm: (Int) -> Unit
     ) {
-        val density = activity.resources.displayMetrics.density
-        val container = LinearLayout(activity).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(
-                (24 * density).toInt(), (8 * density).toInt(),
-                (24 * density).toInt(), (8 * density).toInt()
-            )
-        }
-
-        val tip = TextView(activity).apply {
-            text = activity.getString(R.string.goto_line_range, totalLines)
-            textSize = 13f
-            setPadding(0, 0, 0, (16 * density).toInt())
-        }
-
-        val input = EditText(activity).apply {
-            hint = activity.getString(R.string.goto_line_hint)
-            inputType = InputType.TYPE_CLASS_NUMBER
-            isSingleLine = true
-        }
-
-        container.addView(tip)
-        container.addView(input)
+        val b = DialogInputBinding.inflate(activity.layoutInflater)
+        b.tvDialogTitle.setText(R.string.goto_line_title)
+        b.tvDialogSubtitle.text = activity.getString(R.string.goto_line_range, totalLines)
+        b.etInput.hint = activity.getString(R.string.goto_line_hint)
+        b.etInput.inputType = InputType.TYPE_CLASS_NUMBER
 
         val dialog = MaterialAlertDialogBuilder(activity)
-            .setTitle(R.string.goto_line_title)
-            .setView(container)
-            .setPositiveButton(R.string.ok, null)
-            .setNegativeButton(R.string.cancel, null)
+            .setView(b.root)
             .create()
 
-        dialog.show()
+        b.etInput.doAfterTextChanged { b.tvError.visibility = View.GONE }
 
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            val text = input.text?.toString()?.trim().orEmpty()
-            val line = text.toIntOrNull()
+        b.btnCancel.setOnClickListener { dialog.dismiss() }
+        b.btnConfirm.setOnClickListener {
+            val line = b.etInput.text?.toString()?.trim()?.toIntOrNull()
             if (line == null || line < 1 || line > totalLines) {
-                AppTips.showShort(container, activity.getString(R.string.goto_line_invalid))
+                b.tvError.text = activity.getString(R.string.goto_line_invalid)
+                b.tvError.visibility = View.VISIBLE
                 return@setOnClickListener
             }
-            onConfirm(line)
             dialog.dismiss()
+            onConfirm(line)
         }
+
+        dialog.setOnShowListener {
+            b.etInput.requestFocus()
+            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        }
+
+        dialog.show()
+        sizeDialog(activity, dialog)
+    }
+
+    // ---------------- 通用列表弹窗 ----------------
+
+    fun showList(
+        activity: Activity,
+        titleRes: Int,
+        subtitle: String? = null,
+        items: List<String>,
+        actionTextRes: Int? = null,
+        destructiveAction: Boolean = false,
+        onPick: (Int) -> Unit,
+        onAction: (() -> Unit)? = null
+    ) {
+        val b = DialogListBinding.inflate(activity.layoutInflater)
+        b.tvDialogTitle.setText(titleRes)
+
+        if (subtitle.isNullOrBlank()) {
+            b.tvDialogSubtitle.visibility = View.GONE
+        } else {
+            b.tvDialogSubtitle.visibility = View.VISIBLE
+            b.tvDialogSubtitle.text = subtitle
+        }
+
+        val dialog = MaterialAlertDialogBuilder(activity)
+            .setView(b.root)
+            .create()
+
+        items.forEachIndexed { index, label ->
+            val item = DialogChoiceItemBinding.inflate(
+                activity.layoutInflater, b.listContainer, false
+            )
+            item.tvOptionText.text = label
+            item.ivCheck.visibility = View.GONE
+            item.root.setOnClickListener {
+                dialog.dismiss()
+                onPick(index)
+            }
+            b.listContainer.addView(item.root)
+        }
+
+        if (items.isEmpty()) {
+            b.tvEmpty.visibility = View.VISIBLE
+            b.listContainer.visibility = View.GONE
+        }
+
+        if (actionTextRes != null && onAction != null) {
+            b.btnAction.visibility = View.VISIBLE
+            b.btnAction.setText(actionTextRes)
+            if (destructiveAction) {
+                b.btnAction.setTextColor(
+                    MaterialColors.getColor(b.root, com.google.android.material.R.attr.colorError)
+                )
+            }
+            b.btnAction.setOnClickListener {
+                dialog.dismiss()
+                onAction()
+            }
+        }
+        b.btnClose.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
+        sizeDialog(activity, dialog)
     }
 
     // ---------------- 统计信息 ----------------
@@ -495,51 +307,79 @@ object EditorDialogs {
         stats: EditorCommands.EditorStats,
         computeSha256: (suspend () -> Sha256Result)? = null
     ): AlertDialog {
-        val binding = DialogStatsBinding.inflate(activity.layoutInflater)
+        val b = DialogStatsBinding.inflate(activity.layoutInflater)
 
-        binding.tvStatsFileName.text = activity.getString(R.string.stats_file_name, fileName)
+        b.tvStatsFileName.text = activity.getString(R.string.stats_file_name, fileName)
+        b.tvSummaryChars.text = formatCount(stats.charsNoSpace)
+        b.tvSummaryLines.text = formatCount(stats.totalLines)
+        b.tvSummaryWords.text = formatCount(stats.words)
 
-        binding.tvCharsWithSpace.text = stats.charsWithSpace.toString()
-        binding.tvCharsNoSpace.text = stats.charsNoSpace.toString()
-        binding.tvInvisibleChars.text = stats.invisibleChars.toString()
-        binding.tvLetters.text = stats.letters.toString()
-        binding.tvDigits.text = stats.digits.toString()
-        binding.tvChineseChars.text = stats.chineseChars.toString()
-        binding.tvTotalLines.text = stats.totalLines.toString()
-        binding.tvNonEmptyLines.text = stats.nonEmptyLines.toString()
-        binding.tvParagraphs.text = stats.paragraphs.toString()
-        binding.tvWords.text = stats.words.toString()
-        binding.tvMaxLineWidth.text = stats.maxLineWidth.toString()
+        // 两组常用数据直接展示
+        addStatsSection(
+            activity, b.statsSections, R.string.stats_group_chars,
+            listOf(
+                R.string.stat_chars_with_space to stats.charsWithSpace,
+                R.string.stat_chars_no_space to stats.charsNoSpace,
+                R.string.stat_invisible_chars to stats.invisibleChars
+            )
+        )
+        addStatsSection(
+            activity, b.statsSections, R.string.stats_group_paragraphs,
+            listOf(
+                R.string.stat_total_lines to stats.totalLines,
+                R.string.stat_nonempty_lines to stats.nonEmptyLines,
+                R.string.stat_paragraphs to stats.paragraphs,
+                R.string.stat_words to stats.words
+            )
+        )
+
+        // 低频项默认折叠
+        val moreSection = addStatsSection(
+            activity, b.statsSections, R.string.stats_group_more,
+            listOf(
+                R.string.stat_letters to stats.letters,
+                R.string.stat_digits to stats.digits,
+                R.string.stat_chinese_chars to stats.chineseChars,
+                R.string.stat_max_line_width to stats.maxLineWidth
+            )
+        )
+        moreSection.visibility = View.GONE
+
+        b.rowMoreStats.setOnClickListener {
+            val expand = moreSection.visibility != View.VISIBLE
+            moreSection.visibility = if (expand) View.VISIBLE else View.GONE
+            b.rowMoreStats.setText(if (expand) R.string.stats_less else R.string.stats_more)
+        }
 
         var currentHash: String? = null
-
-        binding.tvSha256Value.text = if (computeSha256 == null) {
+        b.tvSha256Value.text = if (computeSha256 == null) {
             activity.getString(R.string.stats_sha256_unavailable)
         } else {
             activity.getString(R.string.stats_sha256_computing)
         }
 
-        binding.btnCopySha256.setOnClickListener {
+        val shell = DialogShell.build(activity, R.string.stats_title)
+        shell.shellContent.addView(b.root)
+        val dialog = DialogShell.show(activity, shell)
+
+        DialogShell.addFooterButton(activity, shell, R.string.ok) { dialog.dismiss() }
+
+        b.btnCopySha256.setOnClickListener {
             val hash = currentHash
             if (hash == null) {
-                AppTips.showShort(binding.root, R.string.stats_sha256_unavailable)
+                AppTips.showShort(b.root, R.string.stats_sha256_unavailable)
             } else {
                 val cm = activity.getSystemService(android.content.Context.CLIPBOARD_SERVICE)
                         as android.content.ClipboardManager
                 cm.setPrimaryClip(android.content.ClipData.newPlainText("SHA-256", hash))
-                AppTips.showShort(binding.root, R.string.stats_sha256_copied)
+                AppTips.showShort(b.root, R.string.stats_sha256_copied)
             }
         }
-
-        val dialog = MaterialAlertDialogBuilder(activity)
-            .setView(binding.root)
-            .setPositiveButton(R.string.ok, null)
-            .show()
 
         if (computeSha256 != null) {
             val owner = activity as? androidx.lifecycle.LifecycleOwner
             if (owner == null) {
-                binding.tvSha256Value.text = activity.getString(R.string.stats_sha256_unavailable)
+                b.tvSha256Value.text = activity.getString(R.string.stats_sha256_unavailable)
             } else {
                 owner.lifecycleScope.launch {
                     val result = try {
@@ -550,17 +390,17 @@ object EditorDialogs {
                     when (result) {
                         is Sha256Result.DiskFile -> {
                             currentHash = result.hash
-                            binding.tvSha256Value.text = result.hash
+                            b.tvSha256Value.text = result.hash
                         }
                         is Sha256Result.CurrentContent -> {
                             currentHash = result.hash
-                            binding.tvSha256Value.text = activity.getString(
+                            b.tvSha256Value.text = activity.getString(
                                 R.string.stats_sha256_current_content, result.hash
                             )
                         }
                         Sha256Result.Unavailable -> {
                             currentHash = null
-                            binding.tvSha256Value.text =
+                            b.tvSha256Value.text =
                                 activity.getString(R.string.stats_sha256_unavailable)
                         }
                     }
@@ -571,67 +411,323 @@ object EditorDialogs {
         return dialog
     }
 
+    /** 一组统计：小标题 + 若干「标签 … 等宽数值」行 */
+    private fun addStatsSection(
+        activity: Activity,
+        parent: android.widget.LinearLayout,
+        @StringRes titleRes: Int,
+        rows: List<Pair<Int, Int>>
+    ): android.view.View {
+        val density = activity.resources.displayMetrics.density
+        val section = android.widget.LinearLayout(activity).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+        }
+
+        val title = android.widget.TextView(activity).apply {
+            setText(titleRes)
+            setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 12f)
+            setTextColor(
+                MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary)
+            )
+            setPadding(0, (12 * density).toInt(), 0, (2 * density).toInt())
+        }
+        section.addView(title)
+
+        rows.forEach { (labelRes, value) ->
+            val row = android.widget.LinearLayout(activity).apply {
+                orientation = android.widget.LinearLayout.HORIZONTAL
+                setPadding(0, (6 * density).toInt(), 0, (6 * density).toInt())
+            }
+
+            val label = android.widget.TextView(activity).apply {
+                setText(labelRes)
+                setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 14f)
+                setTextColor(
+                    MaterialColors.getColor(
+                        this, com.google.android.material.R.attr.colorOnSurfaceVariant
+                    )
+                )
+                layoutParams = android.widget.LinearLayout.LayoutParams(
+                    0, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+                )
+            }
+
+            val valueView = android.widget.TextView(activity).apply {
+                text = formatCount(value)
+                setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 14f)
+                typeface = android.graphics.Typeface.MONOSPACE
+                setTextColor(
+                    MaterialColors.getColor(this, com.google.android.material.R.attr.colorOnSurface)
+                )
+            }
+
+            row.addView(label)
+            row.addView(valueView)
+            section.addView(row)
+        }
+
+        parent.addView(section)
+        return section
+    }
+
+    /** 带千分位，按系统语言格式化 */
+    private fun formatCount(value: Int): String =
+        java.text.NumberFormat.getInstance().format(value)
+
     // ---------------- 特殊字符面板 ----------------
 
+    /**
+     * 特殊字符面板：按语义分组，用 Chip 呈现，点一下直接插入并关闭。
+     *
+     * @param groups 每组是 (分组标题, 若干 (标签, 实际插入的字符))
+     */
     fun showSpecialCharPanel(
         activity: Activity,
-        items: List<Pair<String, String>>,
+        groups: List<Pair<Int, List<Pair<String, String>>>>,
         showSpecialInitially: Boolean,
         onToggleShow: (Boolean) -> Unit,
         onPick: (String) -> Unit
     ) {
         val b = DialogSpecialCharBinding.inflate(activity.layoutInflater)
-        b.tvDialogTitle.setText(R.string.special_chars_title)
         b.switchShowSpecial.isChecked = showSpecialInitially
 
-        val dialog = MaterialAlertDialogBuilder(activity)
-            .setView(b.root)
-            .create()
-
-        b.switchShowSpecial.setOnCheckedChangeListener { _, checked ->
-            onToggleShow(checked)
-        }
+        b.switchShowSpecial.setOnCheckedChangeListener { _, checked -> onToggleShow(checked) }
         b.rowShowSpecial.setOnClickListener {
             b.switchShowSpecial.isChecked = !b.switchShowSpecial.isChecked
         }
 
-        var selectedIndex = -1
-        val itemBindings = mutableListOf<DialogChoiceItemBinding>()
+        val density = activity.resources.displayMetrics.density
 
-        fun refreshCheck() {
-            itemBindings.forEachIndexed { idx, item ->
-                item.ivCheck.visibility =
-                    if (idx == selectedIndex) View.VISIBLE else View.INVISIBLE
+        // 先把壳建出来，Chip 点击回调里要用到 dialog
+        val shell = DialogShell.build(activity, R.string.special_chars_title)
+        shell.shellContent.addView(b.root)
+        val dialog = DialogShell.show(activity, shell)
+
+        groups.forEach { (titleRes, items) ->
+            val title = TextView(activity).apply {
+                setText(titleRes)
+                setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 12f)
+                setTextColor(
+                    MaterialColors.getColor(
+                        this, com.google.android.material.R.attr.colorPrimary
+                    )
+                )
+                setPadding(0, (10 * density).toInt(), 0, 0)
+            }
+            b.charGroups.addView(title)
+
+            val chipGroup = com.google.android.material.chip.ChipGroup(activity).apply {
+                isSingleLine = false
+                setChipSpacingHorizontal((6 * density).toInt())
+            }
+
+            items.forEach { (label, value) ->
+                val chip = com.google.android.material.chip.Chip(
+                    activity, null, com.google.android.material.R.attr.chipStyle
+                ).apply {
+                    text = label
+                    setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 12f)
+                    isCheckable = false
+                    setEnsureMinTouchTargetSize(false)
+                }
+                chip.setOnClickListener {
+                    onPick(value)
+                    dialog.dismiss()
+                }
+                chipGroup.addView(chip)
+            }
+
+            b.charGroups.addView(chipGroup)
+        }
+
+        DialogShell.addFooterButton(activity, shell, R.string.special_rules_entry) {
+            showSpecialCharRules(activity)
+        }
+        DialogShell.addFooterButton(activity, shell, R.string.close) { dialog.dismiss() }
+    }
+
+    /** 特殊字符的显示规则：字符叫什么、在编辑器里显示成什么符号 */
+    fun showSpecialCharRules(activity: Activity) {
+        val shell = DialogShell.build(activity, R.string.special_rules_title)
+        val density = activity.resources.displayMetrics.density
+
+        val container = LinearLayout(activity).apply {
+            orientation = LinearLayout.VERTICAL
+        }
+
+        SpecialCharRenderer.displayRules().forEach { (_, symbol, labelRes) ->
+            val row = LinearLayout(activity).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = android.view.Gravity.CENTER_VERTICAL
+                setPadding(0, (7 * density).toInt(), 0, (7 * density).toInt())
+            }
+
+            val name = TextView(activity).apply {
+                setText(labelRes)
+                setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 14f)
+                setTextColor(
+                    MaterialColors.getColor(
+                        this, com.google.android.material.R.attr.colorOnSurfaceVariant
+                    )
+                )
+                layoutParams = LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+                )
+            }
+
+            val symbolView = TextView(activity).apply {
+                text = symbol
+                setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 16f)
+                typeface = android.graphics.Typeface.MONOSPACE
+                setTextColor(
+                    MaterialColors.getColor(
+                        this, com.google.android.material.R.attr.colorOnSurface
+                    )
+                )
+            }
+
+            row.addView(name)
+            row.addView(symbolView)
+            container.addView(row)
+        }
+
+        shell.shellContent.addView(container)
+        val dialog = DialogShell.show(activity, shell)
+        DialogShell.addFooterButton(activity, shell, R.string.close) { dialog.dismiss() }
+    }
+
+    // ---------------- 快速片段 ----------------
+
+    fun showSnippets(
+        activity: Activity,
+        snippets: List<Snippet>,
+        onPick: (Snippet) -> Unit,
+        onAdd: () -> Unit,
+        onDelete: (Snippet) -> Unit
+    ) {
+        val shell = DialogShell.build(activity, R.string.menu_snippets)
+        val density = activity.resources.displayMetrics.density
+
+        val container = LinearLayout(activity).apply { orientation = LinearLayout.VERTICAL }
+        shell.shellContent.addView(container)
+
+        val current = snippets.toMutableList()
+        var dialogRef: AlertDialog? = null
+
+        fun rebuild() {
+            container.removeAllViews()
+
+            if (current.isEmpty()) {
+                container.addView(TextView(activity).apply {
+                    setText(R.string.snippets_empty)
+                    setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 14f)
+                    setTextColor(
+                        MaterialColors.getColor(
+                            this, com.google.android.material.R.attr.colorOnSurfaceVariant
+                        )
+                    )
+                    setPadding(0, (16 * density).toInt(), 0, (16 * density).toInt())
+                })
+                return
+            }
+
+            current.forEach { snippet ->
+                val row = LinearLayout(activity).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    gravity = android.view.Gravity.CENTER_VERTICAL
+                    setPadding(0, (6 * density).toInt(), 0, (6 * density).toInt())
+                }
+
+                val name = TextView(activity).apply {
+                    text = snippet.name
+                    setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 15f)
+                    setTextColor(
+                        MaterialColors.getColor(
+                            this, com.google.android.material.R.attr.colorOnSurface
+                        )
+                    )
+                    layoutParams = LinearLayout.LayoutParams(
+                        0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+                    )
+                }
+
+                val delete = TextView(activity).apply {
+                    setText(R.string.snippets_delete)
+                    setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 12f)
+                    setTextColor(
+                        MaterialColors.getColor(
+                            this, com.google.android.material.R.attr.colorError
+                        )
+                    )
+                    setPadding(
+                        (10 * density).toInt(), (6 * density).toInt(),
+                        (4 * density).toInt(), (6 * density).toInt()
+                    )
+                }
+
+                row.setOnClickListener {
+                    dialogRef?.dismiss()
+                    onPick(snippet)
+                }
+                delete.setOnClickListener {
+                    current.remove(snippet)
+                    onDelete(snippet)
+                    rebuild()
+                }
+
+                row.addView(name)
+                row.addView(delete)
+                container.addView(row)
             }
         }
 
-        items.forEachIndexed { i, (label, _) ->
-            val item = DialogChoiceItemBinding.inflate(
-                activity.layoutInflater, b.insertContainer, false
-            )
-            item.tvOptionText.text = label
-            item.ivCheck.visibility = View.INVISIBLE
-            item.root.setOnClickListener {
-                selectedIndex = i
-                refreshCheck()
-            }
-            b.insertContainer.addView(item.root)
-            itemBindings.add(item)
-        }
-        refreshCheck()
+        rebuild()
 
-        b.btnCancel.setOnClickListener { dialog.dismiss() }
-        b.btnConfirm.setOnClickListener {
-            if (selectedIndex >= 0) {
-                onPick(items[selectedIndex].second)
+        val dialog = DialogShell.show(activity, shell)
+        dialogRef = dialog
+
+        DialogShell.addFooterButton(activity, shell, R.string.snippets_add) {
+            dialog.dismiss()
+            onAdd()
+        }
+        DialogShell.addFooterButton(activity, shell, R.string.close) { dialog.dismiss() }
+    }
+
+    fun showSnippetEditor(
+        activity: Activity,
+        initial: Snippet?,
+        onSave: (Snippet) -> Unit
+    ) {
+        val b = DialogSnippetEditBinding.inflate(activity.layoutInflater)
+        b.etSnippetName.setText(initial?.name.orEmpty())
+        b.etSnippetContent.setText(initial?.content.orEmpty())
+
+        val shell = DialogShell.build(
+            activity,
+            if (initial == null) R.string.snippets_add else R.string.snippets_edit
+        )
+        shell.shellContent.addView(b.root)
+
+        val dialog = DialogShell.show(activity, shell)
+
+        DialogShell.addFooterButton(activity, shell, R.string.save) {
+            val name = b.etSnippetName.text?.toString()?.trim().orEmpty()
+            if (name.isEmpty()) {
+                AppTips.showShort(b.root, R.string.snippet_name_required)
+                return@addFooterButton
             }
+            onSave(Snippet(name, b.etSnippetContent.text?.toString().orEmpty()))
             dialog.dismiss()
         }
+        DialogShell.addFooterButton(activity, shell, R.string.cancel) { dialog.dismiss() }
+    }
 
-        dialog.show()
+    // ---------------- 统一尺寸 ----------------
 
+    /** 自定义内容弹窗统一按屏幕宽度 92% 显示，避免有的宽有的窄 */
+    private fun sizeDialog(activity: Activity, dialog: Dialog) {
         dialog.window?.setLayout(
-            (activity.resources.displayMetrics.widthPixels * 0.9).toInt(),
+            (activity.resources.displayMetrics.widthPixels * 0.92f).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }

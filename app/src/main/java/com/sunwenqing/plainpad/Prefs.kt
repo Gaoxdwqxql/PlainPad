@@ -16,6 +16,21 @@ class Prefs(context: Context) {
     private val appContext = context.applicationContext
     private val sp = appContext.getSharedPreferences("plainpad_prefs", Context.MODE_PRIVATE)
 
+    /** 快速片段，存 JSON 字符串 */
+    /** 上次浏览的文件夹（SAF 树 URI） */
+    /** 添加过的文件夹清单，JSON 数组 */
+    var foldersJson: String
+        get() = sp.getString("folders_json", "[]") ?: "[]"
+        set(value) = sp.edit().putString("folders_json", value).apply()
+
+    var lastFolderUri: String
+        get() = sp.getString("last_folder_uri", "") ?: ""
+        set(value) = sp.edit().putString("last_folder_uri", value).apply()
+
+    var snippetsJson: String
+        get() = sp.getString("snippets_json", "[]") ?: "[]"
+        set(value) = sp.edit().putString("snippets_json", value).apply()
+
     fun fontFile(fileName: String): File =
         File(File(appContext.filesDir, "fonts"), fileName)
 
@@ -204,6 +219,11 @@ class Prefs(context: Context) {
 
     fun clearRecentFiles() {
         saveRecent(emptyList())
+    }
+
+    /** 只移除其中一条（最近文件页的单条删除） */
+    fun removeRecentFile(uri: String) {
+        saveRecent(getRecentFiles().filterNot { it.uri == uri })
     }
 
     private fun saveRecent(list: List<RecentFile>) {

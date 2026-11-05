@@ -14,9 +14,11 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -87,9 +89,7 @@ class MainActivity : AppCompatActivity() {
     private var draftRunnable: Runnable? = null
     private val DRAFT_SAVE_DELAY_MS = 2000L
 
-    private val searchHighlightHandler = Handler(Looper.getMainLooper())
-    private var searchHighlightRunnable: Runnable? = null
-    private val SEARCH_HIGHLIGHT_DELAY_MS = 220L
+    private lateinit var findBarController: FindBarController
 
     private val openLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -99,6 +99,18 @@ class MainActivity : AppCompatActivity() {
             openDocumentIntoNewTab(uri)
         }
 
+    /** 从文件夹浏览页拿到选中的文件后，走与「打开…」相同的流程 */
+    private val folderLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (!uiReady) return@registerForActivityResult
+        if (result.resultCode != RESULT_OK) return@registerForActivityResult
+        @Suppress("DEPRECATION")
+        val uri = result.data?.getParcelableExtra(FolderBrowserActivity.EXTRA_URI) as? Uri
+            ?: return@registerForActivityResult
+        EditorFileIO.takePersistable(contentResolver, uri)
+        openDocumentIntoNewTab(uri)
+    }
     private val saveAsLauncher =        registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri ->
             if (uri == null) {
                 pendingAction = null
@@ -115,6 +127,13 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode != RESULT_OK) return@registerForActivityResult
             val data = result.data ?: return@registerForActivityResult
             applyBookmarkResult(data)
+        }
+
+    private val recentLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode != RESULT_OK) return@registerForActivityResult
+            val uri = result.data?.getStringExtra(RecentFilesActivity.EXTRA_URI)
+            if (!uri.isNullOrEmpty()) openDocumentIntoNewTab(Uri.parse(uri))
         }
 
     // ---------------- 生命周期 ----------------
@@ -157,7 +176,6 @@ class MainActivity : AppCompatActivity() {
             isLargeFileMode = { isLargeFileMode },
             onSaved = { doc, _ ->
                 refreshTabBar()
-                statusBarController.updateAutoSaveStatus()
                 deleteDraft(doc)
             }
         )
@@ -177,6 +195,15 @@ class MainActivity : AppCompatActivity() {
         )
 
         setupEditor()
+        findBarController = FindBarController(
+            activity = this,
+            binding = binding,
+            getEditor = { binding.editor },
+            isLargeFileMode = { isLargeFileMode },
+            isReadOnly = { currentDoc()?.isReadOnly == true },
+            showTip = { showTip(it) }
+        )
+        findBarController.setup()
         setupLineNumbers()
         setupScrollBar()
         setupBackHandler()
@@ -248,7 +275,6 @@ class MainActivity : AppCompatActivity() {
             statusBarController.triggerStatusUpdate()
             statusBarController.scheduleSpecialCharRefresh()
         }
-        statusBarController.updateAutoSaveStatus()
         scheduleAutoSave()
     }
 
@@ -257,7 +283,7 @@ class MainActivity : AppCompatActivity() {
         statsDialog = null
 
         if (uiReady) {
-            clearSearchHighlight()
+            findBarController.close()
             saveCurrentToDoc()
             if (prefs.autoSaveEnabled && prefs.autoSaveOnPause) {
                 autoSaveController.autoSaveCurrent()
@@ -311,7 +337,10 @@ class MainActivity : AppCompatActivity() {
     private fun setupEditor() {
         EditorStyler.applyFontSize(binding, prefs.fontSize.toFloat())
         binding.editor.currentLineHighlightEnabled = prefs.currentLineHighlight
-        binding.editor.selectionChangedListener = { updateBookmarkButtonState() }
+        binding.editor.selectionChangedListener = {
+            updateBookmarkButtonState()
+            if (::findBarController.isInitialized) findBarController.onEditorSelectionChanged()
+        }
         binding.editor.bookmarkGutterTapListener = { line -> toggleBookmarkAtLine(line) }
         binding.editor.bookmarkGutterLongPressListener = { showBookmarks() }
         binding.editor.addTextChangedListener(object : TextWatcher {
@@ -348,8 +377,8 @@ class MainActivity : AppCompatActivity() {
                     statusBarController.triggerStatusUpdate()
                     scheduleDraftSave()
                 }
-                statusBarController.updateAutoSaveStatus()
                 if (!isLargeFileMode) binding.tvLineNumbers.post { refreshBookmarkMarkers() }
+                if (::findBarController.isInitialized) findBarController.onEditorTextChanged()
             }
         })
     }
@@ -365,7 +394,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupBackHandler() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (immersiveController.isImmersive) {
+                if (findBarController.isOpen) {
+                    findBarController.close()
+                } else if (immersiveController.isImmersive) {
                     applyImmersive(false)
                 } else {
                     finish()
@@ -488,7 +519,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateLineNumbers() = statusBarController.updateLineNumbers()
 
-    private fun updateAutoSaveStatus() = statusBarController.updateAutoSaveStatus()
 
     private fun updateEolLabel() {
         currentEol = statusBarController.updateEolLabel()
@@ -708,7 +738,10 @@ class MainActivity : AppCompatActivity() {
         if (index == currentIndex || index !in documents.indices) return
         statsDialog?.dismiss()
         statsDialog = null
-        clearSearchHighlight()
+        // 查找栏里的匹配结果属于旧文档，切标签时直接收起
+        if (::findBarController.isInitialized && findBarController.isOpen) {
+            findBarController.close()
+        }
 
         if (prefs.autoSaveEnabled && prefs.autoSaveOnTabSwitch) autoSaveCurrent()
         cancelEditAutoSave()
@@ -736,6 +769,7 @@ class MainActivity : AppCompatActivity() {
         }
         EditorDialogs.showUnsaved(
             this,
+            fileName = doc.displayName,
             onSave = {
                 if (index != currentIndex) switchToTab(index)
                 pendingAction = { val idx = documents.indexOf(doc); if (idx >= 0) closeTabInternal(idx) }
@@ -827,8 +861,8 @@ class MainActivity : AppCompatActivity() {
 
             suppressWatcher = true
             binding.editor.setText(doc.text)
-            binding.editor.isReadOnlyMode = doc.isReadOnly
-            binding.editor.showSoftInputOnFocus = !doc.isReadOnly
+            binding.editor.isReadOnlyMode = doc.isReadOnly || doc.isLocked
+            binding.editor.showSoftInputOnFocus = !(doc.isReadOnly || doc.isLocked)
 
             val s = doc.selStart.coerceIn(0, doc.text.length)
             val e = doc.selEnd.coerceIn(0, doc.text.length)
@@ -876,7 +910,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             updateStatus()
         }
-        updateAutoSaveStatus()
     }
 
     // ---------------- 启动 / 恢复 ----------------
@@ -978,7 +1011,7 @@ class MainActivity : AppCompatActivity() {
                 if (result.isTruncated) showTip(getString(R.string.file_truncated_20mb))
             } catch (e: Exception) {
                 hideLoading()
-                showTip(getString(R.string.err_open, e.message ?: ""))
+                showTip(getString(R.string.err_open, FriendlyError.message(this@MainActivity, e)))
             }
         }
     }
@@ -1026,13 +1059,12 @@ class MainActivity : AppCompatActivity() {
                 deleteDraft(doc)
                 updateEncodingLabel()
                 refreshTabBar()
-                updateAutoSaveStatus()
                 showTip(getString(R.string.saved))
                 prefs.addRecentFile(uri, doc.displayName)
                 pendingAction?.also { pendingAction = null }?.invoke()
             } catch (e: Exception) {
                 pendingAction = null
-                showTip(getString(R.string.err_save, e.message ?: ""))
+                showTip(getString(R.string.err_save, FriendlyError.message(this@MainActivity, e)))
             } finally {
                 pendingEncoding = null
             }
@@ -1063,7 +1095,6 @@ class MainActivity : AppCompatActivity() {
             }
             if (success > 0) prefs.lastSaveTime = System.currentTimeMillis()
             refreshTabBar()
-            updateAutoSaveStatus()
             if (failed == 0) showTip(getString(R.string.save_all_success, success))
             else showTip(getString(R.string.save_all_partial, success, failed))
         }
@@ -1120,7 +1151,7 @@ class MainActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 hideLoading()
-                showTip(getString(R.string.err_open, e.message ?: ""))
+                showTip(getString(R.string.err_open, FriendlyError.message(this@MainActivity, e)))
             }
         }
     }
@@ -1128,13 +1159,23 @@ class MainActivity : AppCompatActivity() {
     // ---------------- 菜单 ----------------
 
     private fun showSaveMenu() {
+        val t = prefs.lastSaveTime
+        val header = if (t > 0) {
+            getString(
+                R.string.auto_save_last_time,
+                SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(t))
+            )
+        } else {
+            getString(R.string.auto_save_never)
+        }
         showCustomMenu(
             binding.btnSave,
             listOf(
                 getString(R.string.menu_save_all) to { saveAll() },
                 getString(R.string.menu_save_current) to { saveCurrent() },
                 getString(R.string.menu_save_as) to { chooseEncodingThenSaveAs() }
-            )
+            ),
+            header
         )
     }
 
@@ -1144,11 +1185,14 @@ class MainActivity : AppCompatActivity() {
             listOf(
                 getString(R.string.menu_new) to { newTab() },
                 getString(R.string.menu_open) to { openLauncher.launch(arrayOf("text/plain", "text/*")) },
+                getString(R.string.menu_open_folder) to {
+                    folderLauncher.launch(Intent(this, FolderBrowserActivity::class.java))
+                },
                 getString(R.string.menu_reopen_encoding) to { showReopenEncoding() },
                 getString(R.string.menu_recent) to { showRecent() },
                 getString(R.string.menu_close_tab) to { requestCloseTab(currentIndex) },
-                getString(R.string.menu_replace) to { showReplace() },
                 getString(R.string.menu_goto_line) to { showGotoLine() },
+                getString(R.string.menu_tools) to { showToolsMenu() },
                 getString(R.string.menu_bookmarks) to { showBookmarks() },
                 getString(R.string.menu_immersive) to { applyImmersive(true) },
                 getString(R.string.menu_default) to { openDefaultAppsSettings() },
@@ -1158,7 +1202,11 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun showCustomMenu(anchor: View, items: List<Pair<String, () -> Unit>>) {
+    private fun showCustomMenu(
+        anchor: View,
+        items: List<Pair<String, () -> Unit>>,
+        header: String? = null
+    ) {
         val popup = ListPopupWindow(this)
         popup.anchorView = anchor
         popup.isModal = true
@@ -1182,21 +1230,44 @@ class MainActivity : AppCompatActivity() {
                 (4 * density).toInt()
             )
         )
+        val hasHeader = header != null
         popup.setAdapter(object : BaseAdapter() {
-            override fun getCount() = items.size
-            override fun getItem(position: Int) = items[position]
+            override fun getCount() = items.size + if (hasHeader) 1 else 0
+            override fun getItem(position: Int) = position
             override fun getItemId(position: Int) = position.toLong()
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val b = if (convertView != null) DialogChoiceItemBinding.bind(convertView)
-                else DialogChoiceItemBinding.inflate(layoutInflater, parent, false)
-                b.tvOptionText.text = items[position].first
+                // 顶部信息行：不可点击，只用于展示
+                if (hasHeader && position == 0) {
+                    return TextView(this@MainActivity).apply {
+                        text = header
+                        setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                        setTextColor(
+                            resolveThemeColor(com.google.android.material.R.attr.colorOnSurfaceVariant)
+                        )
+                        setPadding(
+                            (16 * density).toInt(),
+                            (10 * density).toInt(),
+                            (16 * density).toInt(),
+                            (8 * density).toInt()
+                        )
+                    }
+                }
+                val index = if (hasHeader) position - 1 else position
+                val b = if (convertView is android.widget.LinearLayout) {
+                    DialogChoiceItemBinding.bind(convertView)
+                } else {
+                    DialogChoiceItemBinding.inflate(layoutInflater, parent, false)
+                }
+                b.tvOptionText.text = items[index].first
                 b.ivCheck.visibility = View.GONE
                 return b.root
             }
         })
         popup.setOnItemClickListener { _, _, position, _ ->
+            if (hasHeader && position == 0) return@setOnItemClickListener
+            val index = if (hasHeader) position - 1 else position
             popup.dismiss()
-            items[position].second.invoke()
+            items[index].second.invoke()
         }
         popup.show()
     }
@@ -1276,65 +1347,11 @@ class MainActivity : AppCompatActivity() {
     // ---------------- 查找 / 替换 / 跳转 / 统计 ----------------
 
     private fun showFind() {
-        if (isLargeFileMode) {
-            showTip(getString(R.string.large_file_feature_disabled))
-            return
-        }
-        EditorDialogs.showFind(
-            this,
-            onFind = { query, forward, options, isFirst ->
-                EditorSearchHelper.findNext(binding.editor, query, forward, options, isFirst)
-            },
-            onQueryChanged = { query, options -> scheduleSearchHighlight(query, options) },
-            onClosed = { clearSearchHighlight() }
-        )
+        findBarController.open(replace = false)
     }
 
     private fun showReplace() {
-        if (currentDoc()?.isReadOnly == true || isLargeFileMode) {
-            showTip(getString(R.string.large_file_feature_disabled))
-            return
-        }
-        EditorDialogs.showReplace(
-            this,
-            onReplace = { query, replacement, options, isFirst ->
-                EditorSearchHelper.replaceOne(binding.editor, query, replacement, options, isFirst)
-            },
-            onReplaceAll = { query, replacement, options ->
-                EditorSearchHelper.replaceAll(binding.editor, query, replacement, options)
-            },
-            onQueryChanged = { query, options -> scheduleSearchHighlight(query, options) },
-            onClosed = { clearSearchHighlight() }
-        )
-    }
-
-    // ---------------- 查找高亮 ----------------
-
-    private fun scheduleSearchHighlight(query: String, options: SearchOptions) {
-        cancelSearchHighlight()
-        val r = Runnable {
-            searchHighlightRunnable = null
-            if (isLargeFileMode) return@Runnable
-            SearchHighlighter.apply(binding.editor, query, options, searchHighlightColor())
-        }
-        searchHighlightRunnable = r
-        searchHighlightHandler.postDelayed(r, SEARCH_HIGHLIGHT_DELAY_MS)
-    }
-
-    private fun cancelSearchHighlight() {
-        searchHighlightRunnable?.let { searchHighlightHandler.removeCallbacks(it) }
-        searchHighlightRunnable = null
-    }
-
-    private fun clearSearchHighlight() {
-        cancelSearchHighlight()
-        SearchHighlighter.clear(binding.editor)
-    }
-
-    /** 半透明主题色，和当前行高亮区分开 */
-    private fun searchHighlightColor(): Int {
-        val primary = resolveThemeColor(com.google.android.material.R.attr.colorPrimary)
-        return (primary and 0x00FFFFFF) or 0x33000000
+        findBarController.open(replace = true)
     }
 
     private fun showGotoLine() {
@@ -1540,32 +1557,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRecent() {
-        val files = prefs.getRecentFiles()
-        if (files.isEmpty()) {
+        if (prefs.getRecentFiles().isEmpty()) {
             showTip(getString(R.string.no_recent))
             return
         }
-        EditorDialogs.showRecent(
-            this, files,
-            onOpen = { file -> openDocumentIntoNewTab(Uri.parse(file.uri)) },
-            onClear = { prefs.clearRecentFiles(); showTip(getString(R.string.recent_cleared)) }
-        )
+        recentLauncher.launch(Intent(this, RecentFilesActivity::class.java))
     }
 
     // ---------------- 特殊字符 / 撤销 / 缩放 ----------------
 
     private fun showSpecialCharPanel() {
-        val items = listOf(
-            getString(R.string.special_lf) to "\n", getString(R.string.special_cr) to "\r",
-            getString(R.string.special_crlf) to "\r\n", getString(R.string.special_tab) to "\t",
-            getString(R.string.special_zwsp) to "\u200B", getString(R.string.special_zwnj) to "\u200C",
-            getString(R.string.special_zwj) to "\u200D", getString(R.string.special_nbsp) to "\u00A0",
-            getString(R.string.special_ideographic_space) to "\u3000", getString(R.string.special_nbhyphen) to "\u2011",
-            getString(R.string.special_bom) to "\uFEFF", getString(R.string.special_lrm) to "\u200E",
-            getString(R.string.special_rlm) to "\u200F"
+        val groups = listOf(
+            R.string.special_group_break to listOf(
+                getString(R.string.special_lf) to "\n",
+                getString(R.string.special_cr) to "\r",
+                getString(R.string.special_crlf) to "\r\n",
+                getString(R.string.special_tab) to "\t",
+                getString(R.string.special_nbsp) to "\u00A0",
+                getString(R.string.special_ideographic_space) to "\u3000"
+            ),
+            R.string.special_group_zero_width to listOf(
+                getString(R.string.special_zwsp) to "\u200B",
+                getString(R.string.special_zwnj) to "\u200C",
+                getString(R.string.special_zwj) to "\u200D",
+                getString(R.string.special_bom) to "\uFEFF"
+            ),
+            R.string.special_group_direction to listOf(
+                getString(R.string.special_lrm) to "\u200E",
+                getString(R.string.special_rlm) to "\u200F",
+                getString(R.string.special_nbhyphen) to "\u2011"
+            )
         )
         EditorDialogs.showSpecialCharPanel(
-            activity = this, items = items, showSpecialInitially = prefs.showSpecialChars,
+            activity = this, groups = groups, showSpecialInitially = prefs.showSpecialChars,
             onToggleShow = { checked ->
                 prefs.showSpecialChars = checked
                 SpecialCharRenderer.apply(binding.editor, checked)
@@ -1574,8 +1598,151 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun insertAtCursor(text: String) {
+    // ---------------- 文本工具 / 编辑锁定 ----------------
+
+    /** 文本工具 / 快速片段 / 锁定，统一收进「工具」，避免更多菜单无限变长 */
+    private fun showToolsMenu() {
+        val items = listOf(
+            getString(R.string.menu_text_tools),
+            getString(R.string.menu_snippets),
+            getString(
+                if (currentDoc()?.isLocked == true) R.string.menu_unlock_edit
+                else R.string.menu_lock_edit
+            )
+        )
+        EditorDialogs.showList(
+            activity = this,
+            titleRes = R.string.menu_tools,
+            subtitle = null,
+            items = items,
+            onPick = { index ->
+                when (index) {
+                    0 -> showTextTools()
+                    1 -> showSnippetsDialog()
+                    2 -> toggleLock()
+                }
+            }
+        )
+    }
+    private fun showTextTools() {
+        if (isLargeFileMode) {
+            showTip(getString(R.string.large_file_feature_disabled))
+            return
+        }
+        val doc = currentDoc() ?: return
+        if (doc.isReadOnly || doc.isLocked) {
+            showTip(getString(R.string.doc_locked_tip))
+            return
+        }
+
+        val tools = listOf(
+            R.string.tools_sort_asc,
+            R.string.tools_sort_desc,
+            R.string.tools_dedupe,
+            R.string.tools_remove_empty,
+            R.string.tools_trim_trailing,
+            R.string.tools_upper,
+            R.string.tools_lower,
+            R.string.tools_tabs_to_spaces
+        ).map { getString(it) }
+
+        EditorDialogs.showList(
+            activity = this,
+            titleRes = R.string.menu_text_tools,
+            subtitle = getString(R.string.tools_scope_tip),
+            items = tools,
+            onPick = { index -> applyTextTool(index) }
+        )
+    }
+
+    private fun applyTextTool(index: Int) {
         val editor = binding.editor
+        val all = editor.text?.toString() ?: return
+
+        val rawStart = editor.selectionStart
+        val rawEnd = editor.selectionEnd
+        val from = minOf(rawStart, rawEnd).coerceIn(0, all.length)
+        val to = maxOf(rawStart, rawEnd).coerceIn(0, all.length)
+        val hasSelection = to > from
+
+        val source = if (hasSelection) all.substring(from, to) else all
+        val result = when (index) {
+            0 -> EditorTextTools.sortLines(source, descending = false)
+            1 -> EditorTextTools.sortLines(source, descending = true)
+            2 -> EditorTextTools.dedupeLines(source)
+            3 -> EditorTextTools.removeEmptyLines(source)
+            4 -> EditorTextTools.trimTrailingSpaces(source)
+            5 -> source.uppercase()
+            6 -> source.lowercase()
+            7 -> EditorTextTools.tabsToSpaces(source, 4)
+            else -> return
+        }
+
+        if (result == source) {
+            showTip(getString(R.string.tools_no_change))
+            return
+        }
+
+        val editable = editor.text ?: return
+        if (hasSelection) {
+            editable.replace(from, to, result)
+            editor.setSelection(from, from + result.length)
+        } else {
+            editable.replace(0, editable.length, result)
+            editor.setSelection(0)
+        }
+        showTip(getString(R.string.tools_applied))
+    }
+
+    private fun toggleLock() {
+        if (isLargeFileMode) {
+            showTip(getString(R.string.large_file_feature_disabled))
+            return
+        }
+        val doc = currentDoc() ?: return
+        doc.isLocked = !doc.isLocked
+
+        binding.editor.isReadOnlyMode = doc.isReadOnly || doc.isLocked
+        binding.editor.showSoftInputOnFocus = !(doc.isReadOnly || doc.isLocked)
+
+        if (doc.isLocked) {
+            binding.editor.clearFocus()
+            val imm = getSystemService(
+                android.content.Context.INPUT_METHOD_SERVICE
+            ) as android.view.inputmethod.InputMethodManager
+            imm.hideSoftInputFromWindow(binding.editor.windowToken, 0)
+            showTip(getString(R.string.doc_locked_tip))
+        } else {
+            showTip(getString(R.string.menu_unlock_edit))
+        }
+    }
+
+    private fun showSnippetsDialog() {
+        EditorDialogs.showSnippets(
+            activity = this,
+            snippets = SnippetStore.load(prefs),
+            onPick = { snippet ->
+                insertAtCursor(snippet.content)
+                showTip(getString(R.string.tools_applied))
+            },
+            onAdd = {
+                EditorDialogs.showSnippetEditor(this, null) { snippet -> saveSnippet(snippet) }
+            },
+            onDelete = { snippet ->
+                SnippetStore.save(prefs, SnippetStore.load(prefs).filterNot { it.name == snippet.name })
+            }
+        )
+    }
+
+    private fun saveSnippet(snippet: Snippet) {
+        val list = SnippetStore.load(prefs).toMutableList()
+        val index = list.indexOfFirst { it.name == snippet.name }
+        if (index >= 0) list[index] = snippet else list.add(snippet)
+        SnippetStore.save(prefs, list)
+        showTip(getString(R.string.snippets_saved))
+    }
+
+    private fun insertAtCursor(text: String) {        val editor = binding.editor
         val editable = editor.text ?: return
         val s = editor.selectionStart.coerceIn(0, editable.length)
         val e = editor.selectionEnd.coerceIn(0, editable.length)
@@ -1732,7 +1899,7 @@ class MainActivity : AppCompatActivity() {
                 hideLoading()
             } catch (e: Exception) {
                 hideLoading()
-                showTip("Generate failed: ${e.message}")
+                showTip(getString(R.string.err_generate, FriendlyError.message(this@MainActivity, e)))
             }
         }
     }

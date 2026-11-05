@@ -136,6 +136,218 @@
             android:layout_height="1dp"
             android:background="?attr/colorOutlineVariant" />
 
+        <!-- 内嵌查找栏 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/findBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="2dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <!-- 第一行：输入框（内含计数）+ 导航 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/bg_search_pill"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_search"
+                            android:contentDescription="@null"
+                            app:tint="?android:attr/textColorSecondary" />
+
+                        <EditText
+                            android:id="@+id/etFindInput"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:background="@null"
+                            android:hint="@string/find_hint"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:paddingVertical="0dp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textColorHint="?android:attr/textColorSecondary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvFindCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:maxLines="1"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textSize="11sp"
+                            android:fontFamily="monospace"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnFindPrev"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="2dp"
+                        android:padding="9dp"
+                        android:src="@drawable/ic_arrow_up"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/find_prev"
+                        app:tint="?attr/colorPrimary" />
+
+                    <ImageButton
+                        android:id="@+id/btnFindNext"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:padding="9dp"
+                        android:src="@drawable/ic_arrow_down"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/find_next"
+                        app:tint="?attr/colorPrimary" />
+
+                    <ImageButton
+                        android:id="@+id/btnFindClose"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_close"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/close"
+                        app:tint="?android:attr/textColorSecondary" />
+                </LinearLayout>
+
+                <!-- 第二行：选项，自动换行，不需要横向滑动 -->
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/findChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    app:chipSpacingHorizontal="6dp"
+                    app:singleLine="false">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/cbFindRegex"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/search_regex"
+                        android:textSize="12sp"
+                        app:ensureMinTouchTargetSize="false" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/cbFindCase"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/search_case_sensitive"
+                        android:textSize="12sp"
+                        app:ensureMinTouchTargetSize="false" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/cbFindFromStart"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/search_from_start"
+                        android:textSize="12sp"
+                        app:ensureMinTouchTargetSize="false" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/btnToggleReplace"
+                        style="@style/Widget.Material3.Chip.Assist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/replace"
+                        android:textSize="12sp"
+                        app:ensureMinTouchTargetSize="false" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <!-- 仅当「正则表达式」开启时出现，用白话解释这个选项 -->
+                <TextView
+                    android:id="@+id/tvSearchHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:paddingHorizontal="4dp"
+                    android:text="@string/search_regex_hint"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="11sp"
+                    android:visibility="gone" />
+
+                <!-- 第三行：替换（仅替换模式显示） -->
+                <LinearLayout
+                    android:id="@+id/findReplaceRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/etReplaceInput"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_search_pill"
+                        android:hint="@string/replace_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:paddingHorizontal="14dp"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textColorHint="?android:attr/textColorSecondary"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnReplaceCurrent"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="10dp"
+                        android:text="@string/replace"
+                        android:textSize="12sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnReplaceAllInBar"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="8dp"
+                        android:text="@string/replace_all"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- 编辑区 -->
         <FrameLayout
             android:id="@+id/editArea"
@@ -222,33 +434,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="?android:attr/textColorSecondary"
                 android:textSize="12sp"
                 tools:text="0 字符 · 1 行" />
 
             <TextView
-                android:id="@+id/tvAutoSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:maxWidth="120dp"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="9sp"
-                android:visibility="visible"
-                tools:text="上次保存于12:34" />
-
-            <TextView
                 android:id="@+id/tvEncoding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
+                android:layout_marginStart="8dp"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="3dp"
                 android:background="?attr/colorSurfaceVariant"
+                android:maxLines="1"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:fontFamily="monospace"
                 tools:text="UTF-8" />
 
@@ -258,18 +460,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp"
+                android:paddingVertical="3dp"
                 android:background="?attr/colorSurfaceVariant"
+                android:maxLines="1"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:fontFamily="monospace"
-                tools:text="CRLF" />
+                tools:text="LF" />
 
             <ImageButton
                 android:id="@+id/btnBookmark"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="4dp"
                 android:padding="7dp"
                 android:src="@drawable/ic_bookmark"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -280,7 +483,7 @@
                 android:id="@+id/btnInsertSpecial"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="2dp"
                 android:padding="6dp"
                 android:src="@drawable/ic_insert_special"
                 android:background="?attr/selectableItemBackgroundBorderless"

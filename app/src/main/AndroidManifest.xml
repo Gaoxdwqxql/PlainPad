@@ -38,6 +38,16 @@
             android:parentActivityName=".MainActivity" />
 
         <activity
+            android:name=".FolderBrowserActivity"
+            android:exported="false"
+            android:label="@string/folder_title" />
+        <activity
+            android:name=".RecentFilesActivity"
+            android:exported="false"
+            android:label="@string/recent_title"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
             android:name=".AboutActivity"
             android:exported="false"
             android:label="@string/about_title"
@@ -55,6 +65,13 @@
             android:exported="false"
             android:label="@string/help_title"
             android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".HelpSearchActivity"
+            android:exported="false"
+            android:label="@string/help_title"
+            android:parentActivityName=".HelpActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".OnboardingActivity"

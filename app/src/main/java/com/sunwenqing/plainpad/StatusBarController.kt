@@ -4,9 +4,6 @@ import android.app.Activity
 import android.os.Handler
 import android.os.Looper
 import com.sunwenqing.plainpad.databinding.ActivityMainBinding
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 /**
  * 底部状态栏控制器。
@@ -90,18 +87,6 @@ class StatusBarController(
     fun updateEolLabel(): String {
         val text = if (isLargeFileMode()) getCurrentDoc()?.text else getEditor().text
         return EolConverter.applyLabel(binding.tvEol, text)
-    }
-
-    fun updateAutoSaveStatus() {
-        val t = prefs.lastSaveTime
-        if (t > 0) {
-            val fmt = SimpleDateFormat("HH:mm", Locale.getDefault())
-            binding.tvAutoSave.text =
-                activity.getString(R.string.auto_save_last_time, fmt.format(Date(t)))
-        } else {
-            binding.tvAutoSave.text = activity.getString(R.string.auto_save_never)
-        }
-        binding.tvAutoSave.visibility = android.view.View.VISIBLE
     }
 
     // ---------------- 特殊字符渲染 ----------------

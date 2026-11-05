@@ -420,7 +420,7 @@ class SettingsActivity : AppCompatActivity() {
             }.onFailure { e ->
                 Toast.makeText(
                     this@SettingsActivity,
-                    getString(R.string.font_import_fail_reason, e.message ?: ""),
+                    getString(R.string.font_import_fail_reason, FriendlyError.message(this@SettingsActivity, e)),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -519,7 +519,7 @@ class SettingsActivity : AppCompatActivity() {
             } ?: throw Exception("cannot open output stream")
             AppTips.showShort(this, R.string.ini_export_success)
         } catch (e: Exception) {
-            AppTips.showLong(this, getString(R.string.ini_export_failed, e.message ?: ""))
+            AppTips.showLong(this, getString(R.string.ini_export_failed, FriendlyError.message(this@SettingsActivity, e)))
         }
     }
 
@@ -537,10 +537,10 @@ class SettingsActivity : AppCompatActivity() {
                     if (!isFinishing) recreate()
                 }, 900)
             }.onFailure { e ->
-                AppTips.showLong(this, getString(R.string.ini_import_failed, e.message ?: ""))
+                AppTips.showLong(this, getString(R.string.ini_import_failed, FriendlyError.message(this@SettingsActivity, e)))
             }
         } catch (e: Exception) {
-            AppTips.showLong(this, getString(R.string.ini_import_failed, e.message ?: ""))
+            AppTips.showLong(this, getString(R.string.ini_import_failed, FriendlyError.message(this@SettingsActivity, e)))
         }
     }
 

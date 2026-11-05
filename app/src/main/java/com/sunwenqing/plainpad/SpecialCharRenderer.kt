@@ -58,6 +58,23 @@ object SpecialCharRenderer {
         for (s in spans) editable.removeSpan(s)
     }
 
+    /**
+     * 显示规则表：原字符、显示符号、名称文案。
+     * 供「查看规则」入口展示，避免用户看到 □ 或 ◦ 不知道是什么。
+     */
+    fun displayRules(): List<Triple<Char, String, Int>> = listOf(
+        Triple('\t', MAP.getValue('\t'), R.string.special_tab),
+        Triple('\u3000', MAP.getValue('\u3000'), R.string.special_ideographic_space),
+        Triple('\u00A0', MAP.getValue('\u00A0'), R.string.special_nbsp),
+        Triple('\u200B', MAP.getValue('\u200B'), R.string.special_zwsp),
+        Triple('\u200C', MAP.getValue('\u200C'), R.string.special_zwnj),
+        Triple('\u200D', MAP.getValue('\u200D'), R.string.special_zwj),
+        Triple('\u2011', MAP.getValue('\u2011'), R.string.special_nbhyphen),
+        Triple('\uFEFF', MAP.getValue('\uFEFF'), R.string.special_bom),
+        Triple('\u200E', MAP.getValue('\u200E'), R.string.special_lrm),
+        Triple('\u200F', MAP.getValue('\u200F'), R.string.special_rlm)
+    )
+
     /** 把某个不可见字符替换成符号的 Span */
     private class SymbolSpan(
         private val symbol: String,

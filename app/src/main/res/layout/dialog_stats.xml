@@ -1,414 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="20dp"
-    android:paddingBottom="8dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvStatsTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingBottom="4dp"
-        android:text="@string/stats_title"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <!-- 当前文件名 -->
     <TextView
         android:id="@+id/tvStatsFileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
         android:paddingBottom="12dp"
-        android:maxLines="1"
-        android:ellipsize="middle"
         android:textColor="?android:attr/textColorSecondary"
-        android:textSize="13sp"
-        android:fontFamily="monospace"
-        tools:text="文件：未命名.txt" />
+        android:textSize="13sp" />
 
-    <ScrollView
+    <!-- 摘要：三项最关键的数字 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="420dp">
+        android:orientation="horizontal"
+        android:background="@drawable/bg_dialog_input"
+        android:paddingVertical="14dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvSummaryChars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/stats_summary_chars"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvSummaryLines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/stats_summary_lines"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvSummaryWords"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/stats_summary_words"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 分组明细由代码生成，避免手写几十个重复行 -->
+    <LinearLayout
+        android:id="@+id/statsSections"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <TextView
+        android:id="@+id/rowMoreStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp"
+        android:text="@string/stats_more"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="13sp" />
+
+    <!-- SHA-256 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_dialog_input"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:text="@string/stats_group_chars"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_chars_with_space"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvCharsWithSpace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="1234" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_chars_no_space"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvCharsNoSpace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="1000" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_invisible_chars"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvInvisibleChars"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="234" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_letters"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvLetters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="650" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_digits"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvDigits"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="180" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_chinese_chars"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvChineseChars"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="150" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="8dp"
-                android:background="?attr/colorOutlineVariant" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="4dp"
-                android:text="@string/stats_group_paragraphs"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_total_lines"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvTotalLines"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="42" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_nonempty_lines"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvNonEmptyLines"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="38" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_paragraphs"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvParagraphs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="6" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_words"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvWords"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="210" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stat_max_line_width"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvMaxLineWidth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="15sp"
-                    tools:text="120" />
-            </LinearLayout>
-
-            <!-- ==================== 文件信息 ==================== -->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="8dp"
-                android:background="?attr/colorOutlineVariant" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="4dp"
-                android:text="@string/stats_group_file"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingStart="24dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="6dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/stats_sha256_label"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="15sp" />
-
-                <ImageButton
-                    android:id="@+id/btnCopySha256"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_copy"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/stats_sha256_copy"
-                    app:tint="?android:attr/textColorSecondary" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvSha256Value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="2dp"
-                android:paddingBottom="10dp"
-                android:fontFamily="monospace"
+                android:layout_weight="1"
+                android:text="@string/stats_sha256_label"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textIsSelectable="true"
-                android:textSize="12sp"
-                tools:text="a1b2c3d4e5f6..." />
+                android:textSize="12sp" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCopySha256"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:paddingHorizontal="8dp"
+                android:text="@string/stats_sha256_copy"
+                android:textSize="12sp" />
         </LinearLayout>
-    </ScrollView>
+
+        <TextView
+            android:id="@+id/tvSha256Value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="11sp"
+            android:lineSpacingExtra="2dp" />
+    </LinearLayout>
 </LinearLayout>

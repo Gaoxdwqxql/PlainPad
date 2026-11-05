@@ -67,6 +67,18 @@ object SearchHighlighter {
         spans.clear()
     }
 
+    /** 直接按已算好的区间高亮，避免调用方重复扫一遍文本 */
+    fun applyRanges(editor: EditText, ranges: List<IntRange>, color: Int) {
+        val editable = editor.text ?: return
+        clear(editor)
+        for (r in ranges) {
+            if (spans.size >= MAX_MATCHES) break
+            val start = r.first
+            val end = r.last + 1
+            addSpan(editable, start, end, color)
+        }
+    }
+
     private fun addSpan(editable: Editable, start: Int, end: Int, color: Int) {
         if (start < 0 || end > editable.length || end <= start) return
         val span = BackgroundColorSpan(color)

@@ -216,7 +216,13 @@ class FontManagerActivity : AppCompatActivity() {
                 setSelectionMode(false)
                 AppTips.showShort(this@FontManagerActivity, R.string.import_font_success)
             }.onFailure { e ->
-                AppTips.showLong(this@FontManagerActivity, getString(R.string.font_import_fail_reason, e.message ?: ""))
+                AppTips.showLong(
+                    this@FontManagerActivity,
+                    getString(
+                        R.string.font_import_fail_reason,
+                        FriendlyError.message(this@FontManagerActivity, e)
+                    )
+                )
             }
         }
     }

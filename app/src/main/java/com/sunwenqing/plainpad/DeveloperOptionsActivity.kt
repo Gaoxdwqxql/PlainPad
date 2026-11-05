@@ -5,12 +5,16 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowCompat
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sunwenqing.plainpad.databinding.ActivityDeveloperOptionsBinding
 import java.io.File
@@ -230,28 +234,26 @@ class DeveloperOptionsActivity : AppCompatActivity() {
         }
 
         val fmt = SimpleDateFormat("MM-dd HH:mm:ss", Locale.getDefault())
-        val labels = files.map { fmt.format(Date(it.lastModified())) }.toTypedArray()
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.dev_view_crash_logs)
-            .setItems(labels) { dialog, which ->
-                dialog.dismiss()
-                showCrashLogDetail(files[which])
-            }
-            .setNeutralButton(R.string.dev_copy) { _, _ ->
+        EditorDialogs.showList(
+            this,
+            titleRes = R.string.dev_view_crash_logs,
+            subtitle = getString(R.string.dev_view_crash_logs_desc),
+            items = files.map { fmt.format(Date(it.lastModified())) },
+            actionTextRes = R.string.dev_copy,
+            onPick = { index -> showCrashLogDetail(files[index]) },
+            onAction = {
                 val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 cm.setPrimaryClip(
                     ClipData.newPlainText("PlainPad crash logs", CrashLogger.readAll(this))
                 )
                 AppTips.showShort(this, R.string.dev_copied)
             }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
+        )
     }
 
     private fun showCrashLogDetail(file: File) {
         val text = runCatching { file.readText(Charsets.UTF_8) }.getOrDefault("")
-        showCopyDialog(getString(R.string.dev_view_crash_logs), text)
+        showCopyDialog(getString(R.string.dev_view_crash_logs), text, monospace = true)
     }
 
     // ---------------- 测试文档 ----------------
@@ -432,7 +434,7 @@ class DeveloperOptionsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         } catch (e: Exception) {
-            AppTips.showLong(this, getString(R.string.dev_intent_failed, e.message ?: ""))
+            AppTips.showLong(this, getString(R.string.dev_intent_failed, FriendlyError.message(this, e)))
         }
     }
 
@@ -543,17 +545,37 @@ class DeveloperOptionsActivity : AppCompatActivity() {
 
     // ---------------- 通用 ----------------
 
-    private fun showCopyDialog(title: String, content: String) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(title)
-            .setMessage(content)
-            .setPositiveButton(android.R.string.ok, null)
-            .setNeutralButton(R.string.dev_copy) { _, _ ->
-                val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                cm.setPrimaryClip(ClipData.newPlainText(title, content))
-                AppTips.showShort(this, R.string.dev_copied)
-            }
-            .show()
+    /**
+     * 信息类弹窗：统一外壳 + 等宽可选。
+     * 崩溃堆栈用 monospace，能保住缩进和列对齐。
+     */
+    private fun showCopyDialog(title: String, content: String, monospace: Boolean = false) {
+        val shell = DialogShell.build(this, title)
+
+        val density = resources.displayMetrics.density
+        val body = TextView(this).apply {
+            text = content
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+            setTextColor(
+                MaterialColors.getColor(
+                    this, com.google.android.material.R.attr.colorOnSurface
+                )
+            )
+            if (monospace) typeface = Typeface.MONOSPACE
+            setTextIsSelectable(true)
+            setLineSpacing(0f, 1.15f)
+            setPadding(0, (4 * density).toInt(), 0, (4 * density).toInt())
+        }
+        shell.shellContent.addView(body)
+
+        val dialog = DialogShell.show(this, shell)
+
+        DialogShell.addFooterButton(this, shell, R.string.dev_copy) {
+            val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            cm.setPrimaryClip(ClipData.newPlainText(title, content))
+            AppTips.showShort(this, R.string.dev_copied)
+        }
+        DialogShell.addFooterButton(this, shell, R.string.close) { dialog.dismiss() }
     }
 
     private fun confirmAction(messageRes: Int, action: () -> Unit) {

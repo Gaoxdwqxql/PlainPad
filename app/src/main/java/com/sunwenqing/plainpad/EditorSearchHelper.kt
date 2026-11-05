@@ -297,6 +297,43 @@ object EditorSearchHelper {
         else ReplaceAllOutcome.Ok(sb.toString(), count)
     }
 
+    // ---------------- 全部匹配 ----------------
+
+    /**
+     * 列出全部匹配位置，供内嵌查找栏计数与跳转使用。
+     * 超过 [limit] 后不再收集，避免超大文件卡死。
+     */
+    fun findAll(
+        text: String,
+        query: String,
+        options: SearchOptions,
+        limit: Int = 5000
+    ): List<IntRange> {
+        if (query.isEmpty() || text.isEmpty()) return emptyList()
+        val result = ArrayList<IntRange>()
+
+        if (options.regex) {
+            val pattern = try {
+                compileRegex(query, options.caseSensitive)
+            } catch (e: PatternSyntaxException) {
+                return emptyList()
+            }
+            val matcher = pattern.matcher(text)
+            while (result.size < limit && matcher.find()) {
+                if (matcher.end() > matcher.start()) {
+                    result.add(matcher.start() until matcher.end())
+                }
+            }
+        } else {
+            var index = text.indexOf(query, 0, ignoreCase = !options.caseSensitive)
+            while (index >= 0 && result.size < limit) {
+                result.add(index until index + query.length)
+                index = text.indexOf(query, index + query.length, ignoreCase = !options.caseSensitive)
+            }
+        }
+        return result
+    }
+
     // ---------------- 工具 ----------------
 
     private fun compileRegex(query: String, caseSensitive: Boolean): Pattern {
