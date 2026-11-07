@@ -193,7 +193,7 @@ object EditorSearchHelper {
                 }
                 val m = pattern.matcher(selected)
                 if (m.matches() && m.end() > m.start()) {
-                    val sb = StringBuilder()
+                    val sb = StringBuffer()
                     m.appendReplacement(sb, replacement)
                     m.appendTail(sb)
                     editable.replace(s, e, sb.toString())
@@ -252,7 +252,7 @@ object EditorSearchHelper {
         replacement: String,
         caseSensitive: Boolean
     ): ReplaceAllOutcome {
-        val sb = StringBuilder(text.length)
+        val sb = StringBuffer(text.length)
         var i = 0
         var count = 0
         while (i < text.length) {
@@ -284,7 +284,7 @@ object EditorSearchHelper {
         }
 
         val matcher = pattern.matcher(text)
-        val sb = StringBuilder(text.length)
+        val sb = StringBuffer(text.length)
         var count = 0
         while (matcher.find()) {
             if (matcher.end() == matcher.start()) continue
