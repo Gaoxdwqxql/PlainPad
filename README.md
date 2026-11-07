@@ -7,6 +7,9 @@
 - **最低支持**：Android 7.0 (API 24)
 - **推荐版本(可体验全部功能)**：Android 12.0+
 
+### 官网：[点击访问](https://sunwe.dpdns.org/app/PlainPad/)
+
+- 链接：https://sunwe.dpdns.org/app/PlainPad/
 ---
 
 ## ✨ 核心特性
