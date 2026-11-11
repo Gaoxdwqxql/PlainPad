@@ -23,7 +23,7 @@ import com.sunwenqing.plainpad.databinding.ItemHelpSearchBinding
  * 帮助页搜索。仿设置页搜索：输入关键词后列出命中的条目，
  * 每条显示标题 + 命中处上下文片段，点击把 section id 回传给帮助页跳转。
  */
-class HelpSearchActivity : AppCompatActivity() {
+class HelpSearchActivity : EinkActivity() {
 
     companion object {
         const val EXTRA_SECTION_ID = "help_section_id"

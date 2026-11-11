@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
 import com.sunwenqing.plainpad.databinding.ActivityAboutBinding
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : EinkActivity() {
 
     private lateinit var binding: ActivityAboutBinding
     private lateinit var prefs: Prefs
@@ -37,6 +37,48 @@ class AboutActivity : AppCompatActivity() {
         binding.tvAboutVersion.text = getString(R.string.about_version, appVersionName())
         binding.tvAboutVersion.setOnClickListener { onVersionClicked() }
         binding.btnSetDefault.setOnClickListener { openDefaultAppsSettings() }
+
+        binding.tvLicense.text = getString(R.string.about_license_text)
+        binding.tvMadeWith.text = getString(R.string.about_made_with)
+
+        setupLinks()
+    }
+
+    // ---------------- 链接 + 彩蛋 ----------------
+
+    private fun setupLinks() {
+        binding.rowWebsite.setOnClickListener {
+            openUrl("https://sunwe.dpdns.org/app/PlainPad/")
+        }
+        binding.rowWebsite.setOnLongClickListener {
+            val faces = listOf("(・∀・)", "(￣▽￣)", "┬─┬ ノ( ゜-゜ノ)", "(๑•̀ㅂ•́)و✧")
+            AppTips.showShort(this, faces.random())
+            true
+        }
+
+        binding.rowGithub.setOnClickListener {
+            openUrl("https://github.com/Gaoxdwqxql/PlainPad")
+        }
+        binding.rowGithub.setOnLongClickListener {
+            AppTips.showShort(this, "⭐ 点个 Star 吧")
+            true
+        }
+
+        binding.rowIssues.setOnClickListener {
+            openUrl("https://github.com/Gaoxdwqxql/PlainPad/issues")
+        }
+        binding.rowIssues.setOnLongClickListener {
+            AppTips.showShort(this, "写清楚复现步骤，我会看")
+            true
+        }
+    }
+
+    private fun openUrl(url: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        } catch (_: Exception) {
+            AppTips.showShort(this, getString(R.string.about_link_failed))
+        }
     }
 
     // ---------------- 开发者选项入口 ----------------

@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : EinkActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var prefs: Prefs
@@ -229,16 +229,40 @@ class SettingsActivity : AppCompatActivity() {
         binding.switchLineNumbers.isChecked = prefs.showLineNumbers
         binding.switchShowSpecialChars.isChecked = prefs.showSpecialChars
         binding.switchCurrentLine.isChecked = prefs.currentLineHighlight
+        binding.switchAllowZalgo.isChecked = prefs.allowZalgo
+        binding.switchEinkMode.isChecked = prefs.einkMode
+        binding.switchEinkOptimize.isChecked = prefs.einkOptimize
+        binding.switchEinkOptimize.isEnabled = prefs.einkMode
+        binding.rowEinkMode.setOnClickListener {
+            binding.switchEinkMode.isChecked = !binding.switchEinkMode.isChecked
+        }
+        binding.rowEinkOptimize.setOnClickListener {
+            if (prefs.einkMode) binding.switchEinkOptimize.isChecked =
+                !binding.switchEinkOptimize.isChecked
+        }
+        binding.switchEinkMode.setOnCheckedChangeListener { _, checked ->
+            binding.switchEinkOptimize.isEnabled = checked
+            if (prefs.einkMode != checked) {
+                prefs.einkMode = checked
+                // 黑白主题只能在 Activity 创建时合并，立刻重建才能看到效果
+                recreate()
+            }
+        }
+        binding.switchEinkOptimize.setOnCheckedChangeListener { _, checked ->
+            prefs.einkOptimize = checked
+        }
 
         binding.switchWrap.setOnCheckedChangeListener { _, checked -> prefs.wrap = checked }
         binding.switchLineNumbers.setOnCheckedChangeListener { _, checked -> prefs.showLineNumbers = checked }
         binding.switchShowSpecialChars.setOnCheckedChangeListener { _, checked -> prefs.showSpecialChars = checked }
         binding.switchCurrentLine.setOnCheckedChangeListener { _, checked -> prefs.currentLineHighlight = checked }
+        binding.switchAllowZalgo.setOnCheckedChangeListener { _, checked -> prefs.allowZalgo = checked }
 
         binding.rowWrap.setOnClickListener { binding.switchWrap.isChecked = !binding.switchWrap.isChecked }
         binding.rowLineNumbers.setOnClickListener { binding.switchLineNumbers.isChecked = !binding.switchLineNumbers.isChecked }
         binding.rowShowSpecialChars.setOnClickListener { binding.switchShowSpecialChars.isChecked = !binding.switchShowSpecialChars.isChecked }
         binding.rowCurrentLine.setOnClickListener { binding.switchCurrentLine.isChecked = !binding.switchCurrentLine.isChecked }
+        binding.rowAllowZalgo.setOnClickListener { binding.switchAllowZalgo.isChecked = !binding.switchAllowZalgo.isChecked }
     }
 
     private fun setupTheme() {
@@ -495,6 +519,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.rowExportIni.setOnClickListener {
             exportIniLauncher.launch(getString(R.string.ini_export_file_name))
         }
+        binding.rowMoreMenu.setOnClickListener { showMoreMenuSettings() }
         binding.rowAbout.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }
@@ -508,6 +533,44 @@ class SettingsActivity : AppCompatActivity() {
         val visible = prefs.devOptionsUnlocked
         binding.rowDevOptions.visibility = if (visible) View.VISIBLE else View.GONE
         binding.dividerDevOptions.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    /** 选择“更多”菜单里显示哪些项 */
+    private fun showMoreMenuSettings() {
+        val labels = MoreMenuCatalog.ALL.map { getString(it.titleRes) }.toTypedArray()
+        val selected = MoreMenuCatalog.ALL
+            .map { it.key !in prefs.hiddenMoreMenuItems }
+            .toBooleanArray()
+
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.settings_more_menu)
+            .setMultiChoiceItems(labels, selected) { _, which, isChecked ->
+                selected[which] = isChecked
+            }
+            .setPositiveButton(R.string.ok, null)
+            .setNegativeButton(R.string.cancel, null)
+            .setNeutralButton(R.string.settings_more_menu_reset, null)
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener {
+                    if (selected.none { it }) {
+                        AppTips.showShort(this, R.string.settings_more_menu_keep_one)
+                    } else {
+                        prefs.hiddenMoreMenuItems = MoreMenuCatalog.ALL
+                            .filterIndexed { index, _ -> !selected[index] }
+                            .mapTo(LinkedHashSet()) { it.key }
+                        dialog.dismiss()
+                    }
+                }
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL)
+                .setOnClickListener {
+                    prefs.hiddenMoreMenuItems = emptySet()
+                    dialog.dismiss()
+                }
+        }
+        dialog.show()
     }
 
     private fun exportIni(uri: Uri) {

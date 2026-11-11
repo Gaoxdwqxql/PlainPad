@@ -48,10 +48,20 @@ object ThemeColorHelper {
      */
     fun applySystemBars(activity: Activity) {
         val window = activity.window
+        val controller = WindowInsetsControllerCompat(window, window.decorView)
+
+        // 墨水屏：状态栏填充是黑色，必须配白图标；
+        // 只有主界面有黑色导航栏填充，其他页面导航栏区域是白底，需要黑图标。
+        if (Prefs(activity).einkMode) {
+            controller.isAppearanceLightStatusBars = false
+            controller.isAppearanceLightNavigationBars =
+                activity.findViewById<android.view.View>(R.id.navigationBarFill) == null
+            return
+        }
+
         val primary = resolvePrimary(activity)
         val isLight = isColorLight(primary)
 
-        val controller = WindowInsetsControllerCompat(window, window.decorView)
         // 如果状态栏背景是深色，图标就显示白色；如果是浅色，图标就显示黑色
         controller.isAppearanceLightStatusBars = isLight
         controller.isAppearanceLightNavigationBars = isLight

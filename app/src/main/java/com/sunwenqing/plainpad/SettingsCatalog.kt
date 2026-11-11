@@ -17,6 +17,7 @@ object SettingsCatalog {
         SettingsItem("wrap", R.string.menu_wrap, R.string.settings_wrap_desc, "editing"),
         SettingsItem("line_numbers", R.string.menu_show_line_numbers, 0, "editing"),
         SettingsItem("show_special_chars", R.string.settings_show_special_chars, R.string.settings_show_special_chars_hint, "editing"),
+        SettingsItem("allow_zalgo", R.string.settings_allow_zalgo, R.string.settings_allow_zalgo_hint, "editing"),
         SettingsItem("current_line", R.string.settings_current_line_highlight, R.string.settings_current_line_highlight_hint, "editing"),
         SettingsItem("replace_rules", R.string.special_chars_replace_rules_title, R.string.settings_replace_rules_desc, "editing"),
         SettingsItem("status_bar", R.string.settings_status_bar, R.string.status_bar_hint, "editing"),
@@ -32,11 +33,16 @@ object SettingsCatalog {
         // 外观
         SettingsItem("editor_theme", R.string.settings_editor_theme, R.string.settings_editor_theme_desc, "appearance"),
         SettingsItem("editor_font", R.string.settings_editor_font, R.string.settings_editor_font_desc, "appearance"),
+        SettingsItem("eink_mode", R.string.settings_eink_mode, R.string.settings_eink_mode_desc, "appearance"),
+        SettingsItem("eink_optimize", R.string.settings_eink_optimize, R.string.settings_eink_optimize_desc, "appearance"),
         SettingsItem("app_theme", R.string.settings_theme, R.string.settings_theme_desc, "appearance"),
 
         // 标签页
         SettingsItem("plus_reuse", R.string.settings_plus_behavior, R.string.plus_reuse_empty, "tabs"),
-        SettingsItem("startup_mode", R.string.settings_startup_mode, R.string.settings_startup_hint, "tabs")
+        SettingsItem("startup_mode", R.string.settings_startup_mode, R.string.settings_startup_hint, "tabs"),
+
+        // 其他
+        SettingsItem("more_menu", R.string.settings_more_menu, R.string.settings_more_menu_desc, "other")
     )
 
     /**
@@ -58,6 +64,7 @@ object SettingsCatalog {
         "save" -> R.string.section_save
         "appearance" -> R.string.section_appearance
         "tabs" -> R.string.section_tabs
+        "other" -> R.string.section_other
         else -> R.string.settings_title
     }
 }

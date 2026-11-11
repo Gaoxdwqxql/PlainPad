@@ -58,6 +58,11 @@
     <color name="tc_red_highlight">#33C62828</color>
     <color name="tc_pink_highlight">#33C2185B</color>
 
+    <!-- 墨水屏：纯黑白，高亮用中灰保证选中文字仍可读 -->
+    <color name="eink_black">#FF000000</color>
+    <color name="eink_white">#FFFFFFFF</color>
+    <color name="eink_highlight">#FFB0B0B0</color>
+
     <style name="ShapeAppearance.PlainPad.AppIcon" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">22dp</item>

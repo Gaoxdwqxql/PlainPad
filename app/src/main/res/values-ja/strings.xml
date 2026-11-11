@@ -37,7 +37,7 @@
     <string name="bookmark_added">ブックマークを追加しました</string>
     <string name="bookmark_removed">ブックマークを削除しました</string>
     <string name="bookmark_item">%1$d 行目 · %2$s</string>
-    <string name="menu_immersive">イマーシブモード</string>
+    <string name="menu_immersive">イマーシブ読書</string>
     <string name="menu_default">既定のエディタに設定</string>
     <string name="menu_about">PlainPad について</string>
 
@@ -119,7 +119,9 @@
     <string name="theme_dark">ダーク</string>
 
     <!-- Immersive -->
-    <string name="exit_immersive">イマーシブモードを終了</string>
+    <string name="exit_immersive">読書を終了</string>
+    <string name="immersive_hint">左右スワイプ/タップでページ送り · 中央で操作表示</string>
+    <string name="immersive_progress">%1$d%% · %2$s / %3$s</string>
 
     <!-- Goto Line -->
     <string name="goto_line_title">行へ移動</string>
@@ -307,7 +309,7 @@
     <string name="help_autosave_content">設定 → 保存 で有効にします:\n• バックグラウンド移行時に保存\n• タブ切り替え時に保存\n• 編集時に保存（2秒のデバウンス）\n• 一定間隔で保存（15秒～10分）\n\n注: 自動保存されるのは名前付きファイルのみです。ステータスバーに最終保存日時が表示されます。</string>
 
     <string name="help_section_encoding">文字コードのサポート</string>
-    <string name="help_encoding_content">BOM を自動判別し、まず UTF-8 としてデコードします。失敗した場合は GBK にフォールバックします。\n保存時の文字コード: UTF-8、UTF-16LE、UTF-16BE、GBK、GB2312。\n現在の文字コードは右下に表示されます。</string>
+    <string name="help_encoding_content">BOM と UTF-8/UTF-16 を自動判定し、失敗時は GBK。保存/再オープンは UTF-8、UTF-16LE/BE、GB18030、GBK、GB2312、Big5、Shift_JIS、EUC-KR、Windows-1252、ISO-8859-1 に対応。ASCII 互換エンコードの大容量ファイルはオンデマンド読み込みのままです。</string>
 
     <string name="help_section_eol">改行コード（EOL）</string>
     <string name="help_eol_content">現在の改行コード形式（CRLF または LF）は、下部バーの文字コードの隣に表示されます。\n• Windows は CRLF（\\r\\n）を使用\n• Unix / macOS は LF（\\n）を使用\n\n下部バーの CRLF または LF のラベルをタップすると相互に変換でき、異なる OS 間での書式の問題を防げます。</string>
@@ -315,8 +317,8 @@
     <string name="help_section_large_file">大容量ファイルモード</string>
     <string name="help_large_file_content">モバイル端末で快適に動作させるため、PlainPad は非常に大きなテキストを特別に処理します:\n• 読み込み上限: 最大20MB。超過分は切り捨てられ、通知が表示されます。\n• パフォーマンス保護: 1つのファイルが300万文字を超えるか、10,000文字を超える極端に長い行を含む場合、自動的に「大容量ファイルモード」に移行します。\n• 制限される機能: 遅延や OOM（メモリ不足）を防ぐため、このモードでは行番号、元に戻す/やり直し、ピンチズーム、特殊文字の表示、統計情報が無効になります。</string>
 
-    <string name="help_section_immersive">イマーシブモード</string>
-    <string name="help_immersive_content">メニュー → イマーシブモード でバーがすべて非表示になります。\n右下のボタンで終了するか、戻るボタンを押してください。</string>
+    <string name="help_section_immersive">イマーシブ読書</string>
+    <string name="help_immersive_content">メニュー → イマーシブ読書 ですべてのバーを隠し、本文だけを表示します。左右にスワイプするか端をタップしてページ送り、上下ドラッグでスクロール、中央タップで操作表示、音量キーでもページ送りできます。下部の細い線が読書位置を示します。戻るボタンか終了ボタンで解除します。</string>
 
     <!-- Onboarding -->
     <string name="onboard_skip">スキップ</string>
@@ -389,6 +391,8 @@
 
     <string name="settings_show_special_chars">特殊文字を表示</string>
     <string name="settings_show_special_chars_hint">スペース、タブ、ゼロ幅文字を記号として表示します</string>
+    <string name="settings_allow_zalgo">Zalgo 結合文字を許可</string>
+    <string name="settings_allow_zalgo_hint">オフにすると連続する結合文字を制限し、レイアウトやスクロールの遅延を防ぎます。保存内容は変更されません</string>
 
     <string name="help_section_about">PlainPad について</string>
     <string name="help_about_content">PlainPad は軽量でシンプル、オフラインで広告のないアプリを目指しています。すべてのデータは端末内に保持されます。\n\nバージョンの確認や既定のアプリへの設定は、メニュー → PlainPad について から行えます。</string>
@@ -532,6 +536,15 @@
 
     <string name="dev_test_crlf">256KB の CRLF テキストを生成</string>
     <string name="dev_test_mixed">256KB の混在改行コードテキストを生成</string>
+    <string name="dev_test_100mb">100MB のテストテキストを生成（オンデマンド読み込み）</string>
+
+    <string name="dev_section_render_diag">描画診断</string>
+    <string name="dev_render_diag">描画診断（現在の文書）</string>
+    <string name="dev_render_diag_desc">行数、データソース、前フレームの読み込みバイト数と時間</string>
+    <string name="dev_force_chunked">オンデマンド読み込みのしきい値を 1MB に強制</string>
+    <string name="dev_force_chunked_desc">小さいファイルもオンデマンド読み込みにして、大容量ファイル経路を検証</string>
+    <string name="dev_verbose_log">詳細ログ</string>
+    <string name="dev_verbose_log_desc">インデックス構築とフレームごとの読み込みを logcat に出力し、直近 200 行を保持</string>
 
     <string name="dev_section_font">フォントのデバッグ</string>
     <string name="dev_font_list">インポート済みフォントを表示</string>
@@ -556,6 +569,10 @@
     <string name="settings_about">PlainPad について</string>
     <string name="settings_import_ini">設定をインポート（INI）</string>
     <string name="settings_export_ini">設定をエクスポート（INI）</string>
+    <string name="settings_more_menu">その他メニューの項目</string>
+    <string name="settings_more_menu_desc">「その他」メニューに表示する操作を選択</string>
+    <string name="settings_more_menu_keep_one">1 項目以上選択してください</string>
+    <string name="settings_more_menu_reset">初期化</string>
     <string name="settings_developer_options">開発者向けオプション</string>
 
     <string name="dev_section_shortcut">設定へのショートカット</string>
@@ -654,4 +671,16 @@
     <string name="folder_dir">フォルダ</string>
     <string name="search_hint_short">検索</string>
     <string name="search_no_result">一致する項目がありません</string>
+    <string name="large_file_chunked_readonly">大きいファイルを読み取り専用で開きました。表示部分のみ読み込みます。</string>
+    <string name="about_links">リンク</string>
+    <string name="about_website">公式サイト</string>
+    <string name="about_github">ソースコード</string>
+    <string name="about_issues">問題を報告</string>
+    <string name="about_license_title">ライセンス</string>
+    <string name="about_license_text">MIT ライセンス。Kotlin、AndroidX、Material Components で構築。</string>
+    <string name="about_link_failed">リンクを開けません</string>
+    <string name="settings_eink_mode">電子ペーパーモード</string>
+    <string name="settings_eink_mode_desc">白黒高コントラスト、角丸と影なし</string>
+    <string name="settings_eink_optimize">電子ペーパー最適化</string>
+    <string name="settings_eink_optimize_desc">慣性スクロール無効・太字</string>
 </resources>

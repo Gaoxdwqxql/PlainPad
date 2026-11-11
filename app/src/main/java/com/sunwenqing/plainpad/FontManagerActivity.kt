@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FontManagerActivity : AppCompatActivity() {
+class FontManagerActivity : EinkActivity() {
 
     private lateinit var binding: ActivityFontManagerBinding
     private lateinit var prefs: Prefs

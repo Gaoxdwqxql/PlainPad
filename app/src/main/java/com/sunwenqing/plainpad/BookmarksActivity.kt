@@ -21,7 +21,7 @@ import com.sunwenqing.plainpad.databinding.ItemBookmarkBinding
  * 退出时通过 [EXTRA_REMAINING_OFFSETS] 回传删除后的书签列表，
  * 若用户点了某一条，则同时回传 [EXTRA_JUMP_OFFSET] 让主界面跳过去。
  */
-class BookmarksActivity : AppCompatActivity() {
+class BookmarksActivity : EinkActivity() {
 
     companion object {
         const val EXTRA_FILE_NAME = "file_name"

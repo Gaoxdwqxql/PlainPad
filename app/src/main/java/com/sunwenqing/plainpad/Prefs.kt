@@ -170,6 +170,31 @@ class Prefs(context: Context) {
         get() = sp.getBoolean(KEY_UTF8_BOM, false)
         set(v) = sp.edit { putBoolean(KEY_UTF8_BOM, v) }
 
+    /** 墨水屏模式：全应用黑白高对比，去掉阴影与圆角 */
+    var einkMode: Boolean
+        get() = sp.getBoolean("eink_mode", false)
+        set(value) = sp.edit().putBoolean("eink_mode", value).apply()
+
+    /** 墨水屏优化：关闭滑动惯性、文字加粗 */
+    var einkOptimize: Boolean
+        get() = sp.getBoolean("eink_optimize", true)
+        set(value) = sp.edit().putBoolean("eink_optimize", value).apply()
+
+    /** “更多”菜单里被隐藏的项；空集合表示全部显示 */
+    var hiddenMoreMenuItems: Set<String>
+        get() = sp.getString("hidden_more_menu", "").orEmpty()
+            .split(',')
+            .filter { it.isNotBlank() }
+            .toSet()
+        set(value) = sp.edit {
+            putString("hidden_more_menu", value.sorted().joinToString(","))
+        }
+
+    /** 是否允许堆叠组合字符（Zalgo）；关闭时限制显示和新输入 */
+    var allowZalgo: Boolean
+        get() = sp.getBoolean("allow_zalgo", true)
+        set(value) = sp.edit().putBoolean("allow_zalgo", value).apply()
+
     /** 是否用主题色淡淡标出光标所在行 */
     var currentLineHighlight: Boolean
         get() = sp.getBoolean(KEY_CURRENT_LINE, true)
@@ -249,6 +274,7 @@ class Prefs(context: Context) {
             o.put("enc", d.encoding)
             o.put("dirty", d.isDirty)
             o.put("readonly", d.isReadOnly)
+            o.put("chunked", d.wasChunked)
             o.put("sel", d.selStart)
             o.put("sel2", d.selEnd)
             o.put("scroll", d.scrollY)
@@ -282,6 +308,7 @@ class Prefs(context: Context) {
                         encoding = o.optString("enc", "UTF-8"),
                         isDirty = o.optBoolean("dirty", false),
                         isReadOnly = o.optBoolean("readonly", false),
+                        wasChunked = o.optBoolean("chunked", false),
                         selStart = o.optInt("sel", 0),
                         selEnd = o.optInt("sel2", 0),
                         scrollY = o.optInt("scroll", 0),

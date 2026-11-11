@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class DeveloperOptionsActivity : AppCompatActivity() {
+class DeveloperOptionsActivity : EinkActivity() {
 
     private lateinit var binding: ActivityDeveloperOptionsBinding
     private lateinit var prefs: Prefs
@@ -48,6 +48,7 @@ class DeveloperOptionsActivity : AppCompatActivity() {
         setupStorageSection()
         setupCrashSection()
         setupTestDocSection()
+        setupRenderSection()
         setupFontSection()
         setupQuickSwitchSection()
         setupIntentSection()
@@ -277,6 +278,20 @@ class DeveloperOptionsActivity : AppCompatActivity() {
         binding.rowTestMixed.setOnClickListener {
             generateTestDocWithEol(256 * 1024L, "mixed")
         }
+        binding.rowTest100mb.setOnClickListener {
+            generateLargeTestDoc(100L * 1024 * 1024)
+        }
+    }
+
+    /** 100MB 测试文本写缓存文件后走按需读取，不能走 20MB 上限的整读路径 */
+    private fun generateLargeTestDoc(size: Long) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            action = MainActivity.ACTION_GENERATE_LARGE_TEST_DOCUMENT
+            putExtra(MainActivity.EXTRA_TEST_SIZE, size)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        startActivity(intent)
+        finish()
     }
 
     private fun generateTestDoc(size: Long, singleLine: Boolean, chinese: Boolean) {
@@ -302,6 +317,40 @@ class DeveloperOptionsActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
+    }
+
+    // ---------------- 渲染诊断 ----------------
+
+    private fun setupRenderSection() {
+        binding.rowRenderDiag.setOnClickListener { showRenderDiag() }
+
+        binding.switchForceChunked.isChecked = DevDiag.forceChunkedThreshold
+        binding.rowForceChunked.setOnClickListener { binding.switchForceChunked.toggle() }
+        binding.switchForceChunked.setOnCheckedChangeListener { _, checked ->
+            DevDiag.forceChunkedThreshold = checked
+        }
+
+        binding.switchVerboseLog.isChecked = DevDiag.verbose
+        binding.rowVerboseLog.setOnClickListener { binding.switchVerboseLog.toggle() }
+        binding.switchVerboseLog.setOnCheckedChangeListener { _, checked ->
+            DevDiag.verbose = checked
+        }
+    }
+
+    private fun showRenderDiag() {
+        val text = buildString {
+            append(DevDiag.describe())
+            if (DevDiag.verbose) {
+                val logs = DevDiag.recentLogs()
+                appendLine()
+                appendLine("Recent logs (${logs.size}):")
+                logs.takeLast(80).forEach { appendLine(it) }
+            } else {
+                appendLine()
+                appendLine("Turn on verbose logging to capture per-frame details.")
+            }
+        }
+        showCopyDialog(getString(R.string.dev_render_diag), text, monospace = true)
     }
 
     // ---------------- 字体调试 ----------------
@@ -549,6 +598,7 @@ class DeveloperOptionsActivity : AppCompatActivity() {
      * 信息类弹窗：统一外壳 + 等宽可选。
      * 崩溃堆栈用 monospace，能保住缩进和列对齐。
      */
+
     private fun showCopyDialog(title: String, content: String, monospace: Boolean = false) {
         val shell = DialogShell.build(this, title)
 

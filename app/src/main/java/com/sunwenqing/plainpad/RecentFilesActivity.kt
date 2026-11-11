@@ -21,7 +21,7 @@ import java.util.Locale
  * 最近文件列表页。点击条目把 uri 回传给 MainActivity 打开，
  * 支持单条移除与清空，都不再占用弹窗。
  */
-class RecentFilesActivity : AppCompatActivity() {
+class RecentFilesActivity : EinkActivity() {
 
     companion object {
         const val EXTRA_URI = "recent_uri"

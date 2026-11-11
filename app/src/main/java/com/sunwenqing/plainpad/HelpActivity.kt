@@ -17,7 +17,7 @@ import com.sunwenqing.plainpad.databinding.ItemHelpSectionBinding
  * 搜索走独立的 [HelpSearchActivity]（与设置页一致）：搜索页列出命中条目，
  * 点一条返回这里，自动展开该节、滚动到位并高亮整张卡片。
  */
-class HelpActivity : AppCompatActivity() {
+class HelpActivity : EinkActivity() {
 
     private lateinit var binding: ActivityHelpBinding
     private lateinit var prefs: Prefs

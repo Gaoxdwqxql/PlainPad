@@ -62,7 +62,7 @@ object FolderStore {
  *
  * 只读取文件，不会修改任何内容；点文件才回到编辑器打开。
  */
-class FolderBrowserActivity : AppCompatActivity() {
+class FolderBrowserActivity : EinkActivity() {
 
     companion object {
         const val EXTRA_URI = "extra_uri"

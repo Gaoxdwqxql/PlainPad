@@ -15,6 +15,7 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -34,12 +35,16 @@ import com.sunwenqing.plainpad.databinding.DialogChoiceItemBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : EinkActivity() {
 
     companion object {
         const val ACTION_GENERATE_TEST_DOCUMENT = "com.sunwenqing.plainpad.GENERATE_TEST_DOCUMENT"
@@ -49,6 +54,16 @@ class MainActivity : AppCompatActivity() {
         const val EXTRA_TEST_CHINESE = "test_chinese"
         const val EXTRA_TEST_EOL = "test_eol"
         const val EXTRA_TEST_CONTENT = "test_content"
+        const val ACTION_GENERATE_LARGE_TEST_DOCUMENT =
+            "com.sunwenqing.plainpad.GENERATE_LARGE_TEST_DOCUMENT"
+        const val STATE_IMMERSIVE = "main_immersive"
+
+        /**
+         * 超过这个字节数就尝试按需读取（不整读进内存）。
+         * 12MB 是安全下限：UTF-8 单字符最多 4 字节，12MB 必然超过 3M 字符，
+         * 也就是必然进入只读的大文件模式；再低会让本来可编辑的 3M 字符文件变成只读。
+         */
+        const val CHUNKED_THRESHOLD_BYTES = 12L * 1024 * 1024
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -73,7 +88,9 @@ class MainActivity : AppCompatActivity() {
     private var currentEol = "LF"
 
     private val LARGE_FILE_THRESHOLD = 3_000_000
+
     private var isLargeFileMode = false
+    private var lastEinkMode = false
 
     private var lastAppliedFontSize = -1
     private var lastAppliedFontFamily = ""
@@ -141,6 +158,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
         currentThemeColor = prefs.themeColor
+        lastEinkMode = prefs.einkMode
         ThemeColorHelper.apply(this, currentThemeColor)
         AppCompatDelegate.setDefaultNightMode(prefs.themeMode)
         super.onCreate(savedInstanceState)
@@ -191,7 +209,8 @@ class MainActivity : AppCompatActivity() {
             activity = this,
             binding = binding,
             prefs = prefs,
-            canShowLineNumbers = { prefs.showLineNumbers && !isLargeFileMode }
+            canShowLineNumbers = { prefs.showLineNumbers && !isLargeFileMode },
+            isLargeFileMode = { isLargeFileMode }
         )
 
         setupEditor()
@@ -238,6 +257,9 @@ class MainActivity : AppCompatActivity() {
 
         refreshTabBar()
         refreshCurrentView()
+        if (savedInstanceState?.getBoolean(STATE_IMMERSIVE, false) == true) {
+            binding.root.post { applyImmersive(true) }
+        }
         scheduleAutoSave()
 
         uiReady = true
@@ -257,6 +279,14 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         if (!uiReady) return
 
+        // 墨水屏主题需要在 Activity 创建时合并，切换后重建一次才能真正全界面生效
+        if (prefs.einkMode != lastEinkMode) {
+            lastEinkMode = prefs.einkMode
+            saveCurrentToDoc()
+            recreate()
+            return
+        }
+
         if (prefs.themeColor != currentThemeColor) {
             saveCurrentToDoc()
             skipIconSwitchOnce = true
@@ -265,7 +295,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         applyAppearanceIfChanged()
-        binding.editor.currentLineHighlightEnabled = prefs.currentLineHighlight
+        applyEinkAppearance()
+        if (binding.editor.allowZalgo != prefs.allowZalgo) {
+            binding.editor.allowZalgo = prefs.allowZalgo
+            binding.largeTextView.allowZalgo = prefs.allowZalgo
+        }
+        immersiveController.onHostResume()
+        if (!immersiveController.isImmersive) {
+            binding.editor.currentLineHighlightEnabled = prefs.currentLineHighlight
+        }
 
         binding.tvLineNumbers.visibility =
             if (prefs.showLineNumbers && !immersiveController.isImmersive && !isLargeFileMode)
@@ -283,7 +321,9 @@ class MainActivity : AppCompatActivity() {
         statsDialog = null
 
         if (uiReady) {
+            if (::immersiveController.isInitialized) immersiveController.onHostPause()
             findBarController.close()
+            persistReadingPosition()
             saveCurrentToDoc()
             if (prefs.autoSaveEnabled && prefs.autoSaveOnPause) {
                 autoSaveController.autoSaveCurrent()
@@ -306,8 +346,10 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (!uiReady) return
+        persistReadingPosition()
         saveCurrentToDoc()
         InstanceStateStore.save(outState, documents, currentIndex, untitledCounter)
+        outState.putBoolean(STATE_IMMERSIVE, immersiveController.isImmersive)
     }
 
     override fun onStop() {
@@ -325,6 +367,9 @@ class MainActivity : AppCompatActivity() {
         if (::statusBarController.isInitialized) {
             statusBarController.cancelAll()
         }
+        if (::immersiveController.isInitialized) {
+            immersiveController.release()
+        }
         cancelDraftSave()
         if (uiReady && ::undoManager.isInitialized) {
             undoManager.release()
@@ -332,11 +377,40 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    /** 沉浸阅读时音量键翻页，避免退出全屏去点按钮 */
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (::immersiveController.isInitialized && immersiveController.isImmersive) {
+            when (keyCode) {
+                KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_PAGE_DOWN -> {
+                    immersiveController.pageDown()
+                    return true
+                }
+                KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_PAGE_UP -> {
+                    immersiveController.pageUp()
+                    return true
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (::immersiveController.isInitialized && immersiveController.isImmersive) {
+            when (keyCode) {
+                KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP,
+                KeyEvent.KEYCODE_PAGE_DOWN, KeyEvent.KEYCODE_PAGE_UP -> return true
+            }
+        }
+        return super.onKeyUp(keyCode, event)
+    }
+
     // ---------------- 编辑器与 UI 设置 ----------------
 
     private fun setupEditor() {
         EditorStyler.applyFontSize(binding, prefs.fontSize.toFloat())
         binding.editor.currentLineHighlightEnabled = prefs.currentLineHighlight
+        binding.editor.allowZalgo = prefs.allowZalgo
+        binding.largeTextView.allowZalgo = prefs.allowZalgo
         binding.editor.selectionChangedListener = {
             updateBookmarkButtonState()
             if (::findBarController.isInitialized) findBarController.onEditorSelectionChanged()
@@ -357,7 +431,7 @@ class MainActivity : AppCompatActivity() {
                     if (doc.isReadOnly) {
                         showTip(getString(R.string.read_only_cannot_edit))
                         suppressWatcher = true
-                        binding.editor.setText(doc.text)
+                        binding.editor.setTextPreservingZalgo(doc.text)
                         binding.editor.setSelection(doc.selStart.coerceIn(0, doc.text.length))
                         suppressWatcher = false
                         return
@@ -538,7 +612,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun cancelEditAutoSave() = autoSaveController.cancelEditAutoSave()
 
-    private fun applyImmersive(on: Boolean) = immersiveController.apply(on)
+    private fun applyImmersive(on: Boolean) {
+        if (on && ::findBarController.isInitialized) findBarController.close()
+        if (!on) persistReadingPosition()
+        immersiveController.apply(on)
+    }
 
     // ---------------- 草稿备份 ----------------
 
@@ -783,6 +861,9 @@ class MainActivity : AppCompatActivity() {
         if (index !in documents.indices) return
         val doc = documents[index]
         deleteDraft(doc)
+        // 按需读取的文档要释放文件句柄，否则标签关掉后文件还被占着
+        doc.chunkedSource?.let { runCatching { it.close() } }
+        doc.chunkedSource = null
         if (index == currentIndex) cancelDraftSave()
 
         documents.removeAt(index)
@@ -799,14 +880,40 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveCurrentToDoc() {
         val doc = currentDoc() ?: return
-        if (doc.isReadOnly || isLargeFileMode) return
+        if (doc.isReadOnly || isLargeFileMode) {
+            // 只读/大文件没有正文可回写，但阅读位置要记住
+            doc.scrollY = readingScrollY()
+            return
+        }
         doc.text = binding.editor.text?.toString().orEmpty()
         doc.selStart = binding.editor.selectionStart.coerceAtLeast(0)
         doc.selEnd = binding.editor.selectionEnd.coerceAtLeast(0)
         doc.scrollY = binding.editor.scrollY
     }
 
+    /** 保存当前阅读位置（沉浸阅读翻页、暂停、切换标签都会用到） */
+    private fun persistReadingPosition() {
+        val doc = currentDoc() ?: return
+        doc.scrollY = readingScrollY()
+    }
+
+    private fun readingScrollY(): Int =
+        if (isLargeFileMode) binding.largeTextView.getCurrentScrollY()
+        else binding.editor.scrollY
+
     private fun loadDocIntoEditor(doc: OpenDocument) {
+        val chunkedForDiag = doc.chunkedSource
+        DevDiag.resetDocument(
+            name = doc.displayName.ifEmpty { getString(R.string.untitled) },
+            bytes = chunkedForDiag?.byteLength ?: 0L,
+            chars = doc.text.length,
+            lines = chunkedForDiag?.lineCount
+                ?: if (doc.text.isEmpty()) 0 else doc.text.count { it == '\n' } + 1,
+            chunked = chunkedForDiag != null,
+            indexEntries = chunkedForDiag?.indexEntryCount ?: 0,
+            indexMs = chunkedForDiag?.indexBuildMs ?: 0L
+        )
+
         val isLargeLen = doc.text.length > LARGE_FILE_THRESHOLD
 
         var maxLineLength = 0
@@ -823,7 +930,7 @@ class MainActivity : AppCompatActivity() {
         }
         maxLineLength = maxOf(maxLineLength, currentLineLength)
 
-        val isLarge = isLargeLen || maxLineLength > 10000
+        val isLarge = doc.chunkedSource != null || isLargeLen || maxLineLength > 10000
         isLargeFileMode = isLarge
 
         applyWrap(if (isLarge) false else prefs.wrap)
@@ -844,11 +951,15 @@ class MainActivity : AppCompatActivity() {
                 theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface)
             )
 
-            binding.largeTextView.onReady = { hideLoading() }
+            binding.largeTextView.onReady = { hideLoading(); applyEinkAppearance() }
 
-            binding.largeTextView.setText(doc.text)
+            val chunked = chunkedForDiag
+            if (chunked != null) {
+                binding.largeTextView.setChunkedSource(chunked)
+            } else {
+                binding.largeTextView.setText(doc.text)
+            }
             binding.largeTextView.scrollToY(doc.scrollY)
-
             binding.fastScrollBar.attachLargeTextView(binding.largeTextView)
 
             binding.tvLineNumbers.visibility = View.GONE
@@ -860,7 +971,7 @@ class MainActivity : AppCompatActivity() {
             binding.fastScrollBar.attach(binding.editor)
 
             suppressWatcher = true
-            binding.editor.setText(doc.text)
+            binding.editor.setTextPreservingZalgo(doc.text)
             binding.editor.isReadOnlyMode = doc.isReadOnly || doc.isLocked
             binding.editor.showSoftInputOnFocus = !(doc.isReadOnly || doc.isLocked)
 
@@ -890,6 +1001,7 @@ class MainActivity : AppCompatActivity() {
             SpecialCharRenderer.apply(binding.editor, prefs.showSpecialChars)
             triggerStatusUpdate()
             hideLoading()
+            applyEinkAppearance()
         }
     }
 
@@ -900,6 +1012,8 @@ class MainActivity : AppCompatActivity() {
             onTabClose = { requestCloseTab(it) },
             onAddClick = { newTab() }
         )
+        // 标签是运行时创建的，墨水屏下需要补一次去圆角/去阴影
+        if (prefs.einkMode) EinkStyler.apply(binding.root)
     }
 
     private fun refreshCurrentView() {
@@ -955,8 +1069,31 @@ class MainActivity : AppCompatActivity() {
             if (doc.text.isEmpty() && doc.uri != null && !doc.isDirty) {
                 lifecycleScope.launch {
                     try {
+                        val uri = doc.uri!!
+                        // 之前走按需读取的文档：重建/重启后重新打开数据源，不能退回整读
+                        if (doc.wasChunked) {
+                            val encoding = doc.encoding.ifEmpty { "UTF-8" }
+                            val source = withContext(Dispatchers.IO) {
+                                EditorFileIO.openChunkedSource(contentResolver, uri, encoding)
+                            }
+                            if (source != null) {
+                                doc.chunkedSource = source
+                                doc.text = ""
+                                doc.encoding = source.encoding
+                                doc.isReadOnly = true
+                                doc.hasBom = source.utf8Bom
+                                if (index == currentIndex) loadDocIntoEditor(doc)
+                                refreshTabBar()
+                                return@launch
+                            }
+                            DevDiag.event(
+                                "chunked restore failed for \"${doc.displayName}\" " +
+                                        "encoding=$encoding, fallback to whole read"
+                            )
+                        }
+
                         val result = withContext(Dispatchers.IO) {
-                            EditorFileIO.load(contentResolver, doc.uri!!)
+                            EditorFileIO.load(contentResolver, uri)
                         }
                         doc.text = result.text
                         doc.encoding = result.encoding
@@ -991,8 +1128,55 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 showLoading()
-                val result = withContext(Dispatchers.IO) { EditorFileIO.load(contentResolver, uri) }
                 val name = EditorFileIO.queryName(contentResolver, uri, getString(R.string.untitled))
+
+                // 大文件先试「按需读取」：整个文件不进内存，只建稀疏行索引
+                val size = withContext(Dispatchers.IO) {
+                    EditorFileIO.querySize(contentResolver, uri)
+                }
+                val threshold = if (DevDiag.forceChunkedThreshold) 1L * 1024 * 1024
+                else CHUNKED_THRESHOLD_BYTES
+                DevDiag.event(
+                    "open \"$name\" size=$size threshold=$threshold " +
+                            "forced=${DevDiag.forceChunkedThreshold}"
+                )
+                if (size > threshold) {
+                    // 大文件先探测编码，再决定按哪种 Charset 建行索引
+                    val detected = withContext(Dispatchers.IO) {
+                        EditorFileIO.detectEncoding(contentResolver, uri)
+                    }
+                    DevDiag.event("detected encoding=$detected")
+                    val source = withContext(Dispatchers.IO) {
+                        EditorFileIO.openChunkedSource(contentResolver, uri, detected)
+                    }
+                    if (source != null) {
+                        val doc = OpenDocument(
+                            uri = uri,
+                            displayName = name,
+                            encoding = source.encoding,
+                            text = "",
+                            isReadOnly = true,
+                            hasBom = source.utf8Bom,
+                            chunkedSource = source,
+                            wasChunked = true
+                        )
+                        saveCurrentToDoc()
+                        documents.add(doc)
+                        currentIndex = documents.size - 1
+                        loadDocIntoEditor(doc)
+                        refreshTabBar()
+                        refreshCurrentView()
+                        prefs.addRecentFile(uri, name)
+                        showTip(getString(R.string.large_file_chunked_readonly))
+                        return@launch
+                    }
+                }
+
+                val result = withContext(Dispatchers.IO) { EditorFileIO.load(contentResolver, uri) }
+                DevDiag.event(
+                    "load in-memory encoding=${result.encoding} " +
+                            "chars=${result.text.length} truncated=${result.isTruncated}"
+                )
                 val doc = OpenDocument(
                     uri = uri,
                     displayName = name,
@@ -1127,9 +1311,48 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 showLoading()
+                val size = withContext(Dispatchers.IO) {
+                    EditorFileIO.querySize(contentResolver, uri)
+                }
+                val threshold = if (DevDiag.forceChunkedThreshold) 1L * 1024 * 1024
+                else CHUNKED_THRESHOLD_BYTES
+
+                // 大文件 + ASCII 兼容编码：保持按需读取，不退回 20MB 整读上限
+                if (size > threshold && TextCodec.supportsChunked(encoding)) {
+                    val source = withContext(Dispatchers.IO) {
+                        EditorFileIO.openChunkedSource(contentResolver, uri, encoding)
+                    }
+                    if (source != null) {
+                        doc.chunkedSource?.let { runCatching { it.close() } }
+                        doc.chunkedSource = source
+                        doc.wasChunked = true
+                        doc.text = ""
+                        doc.encoding = encoding
+                        doc.isReadOnly = true
+                        doc.hasBom = source.utf8Bom
+                        doc.isDirty = false
+                        doc.selStart = 0
+                        doc.selEnd = 0
+                        doc.scrollY = 0
+                        if (doc === currentDoc()) loadDocIntoEditor(doc)
+                        refreshTabBar()
+                        refreshCurrentView()
+                        hideLoading()
+                        showTip(getString(R.string.reopen_done, encoding))
+                        return@launch
+                    }
+                    DevDiag.event(
+                        "chunked reopen failed encoding=$encoding, fallback to whole read"
+                    )
+                }
+
                 val result = withContext(Dispatchers.IO) {
                     EditorFileIO.loadWithEncoding(contentResolver, uri, encoding)
                 }
+                // 成功退回整读后再释放旧数据源，失败时保持原文档不动
+                doc.chunkedSource?.let { runCatching { it.close() } }
+                doc.chunkedSource = null
+                doc.wasChunked = false
                 doc.text = result.text
                 doc.encoding = encoding
                 doc.isReadOnly = result.isTruncated
@@ -1180,26 +1403,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showMoreMenu() {
-        showCustomMenu(
-            binding.btnMore,
-            listOf(
-                getString(R.string.menu_new) to { newTab() },
-                getString(R.string.menu_open) to { openLauncher.launch(arrayOf("text/plain", "text/*")) },
-                getString(R.string.menu_open_folder) to {
-                    folderLauncher.launch(Intent(this, FolderBrowserActivity::class.java))
-                },
-                getString(R.string.menu_reopen_encoding) to { showReopenEncoding() },
-                getString(R.string.menu_recent) to { showRecent() },
-                getString(R.string.menu_close_tab) to { requestCloseTab(currentIndex) },
-                getString(R.string.menu_goto_line) to { showGotoLine() },
-                getString(R.string.menu_tools) to { showToolsMenu() },
-                getString(R.string.menu_bookmarks) to { showBookmarks() },
-                getString(R.string.menu_immersive) to { applyImmersive(true) },
-                getString(R.string.menu_default) to { openDefaultAppsSettings() },
-                getString(R.string.menu_help) to { startActivity(Intent(this, HelpActivity::class.java)) },
-                getString(R.string.menu_about) to { startActivity(Intent(this, AboutActivity::class.java)) }
-            )
+        val hidden = prefs.hiddenMoreMenuItems
+        val actions: Map<String, () -> Unit> = mapOf(
+            "new" to { newTab() },
+            "open" to { openLauncher.launch(arrayOf("text/plain", "text/*")) },
+            "open_folder" to {
+                folderLauncher.launch(Intent(this, FolderBrowserActivity::class.java))
+            },
+            "reopen_encoding" to { showReopenEncoding() },
+            "recent" to { showRecent() },
+            "close_tab" to { requestCloseTab(currentIndex) },
+            "goto_line" to { showGotoLine() },
+            "tools" to { showToolsMenu() },
+            "bookmarks" to { showBookmarks() },
+            "immersive" to { applyImmersive(true) },
+            "default_apps" to { openDefaultAppsSettings() },
+            "help" to { startActivity(Intent(this, HelpActivity::class.java)) },
+            "about" to { startActivity(Intent(this, AboutActivity::class.java)) }
         )
+
+        val items = MoreMenuCatalog.ALL
+            .filter { it.key !in hidden }
+            .mapNotNull { item ->
+                actions[item.key]?.let { action -> getString(item.titleRes) to action }
+            }
+            .toMutableList()
+
+        // 全部隐藏时至少保留帮助与关于，避免弹出一个空菜单
+        if (items.isEmpty()) {
+            items += getString(R.string.menu_help) to {
+                startActivity(Intent(this, HelpActivity::class.java))
+            }
+            items += getString(R.string.menu_about) to {
+                startActivity(Intent(this, AboutActivity::class.java))
+            }
+        }
+
+        showCustomMenu(binding.btnMore, items)
     }
 
     private fun showCustomMenu(
@@ -1355,6 +1595,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showGotoLine() {
+        // 按需读取模式没有全文，直接用行号定位
+        if (isLargeFileMode && currentDoc()?.chunkedSource != null) {
+            val total = binding.largeTextView.getLineCount()
+            if (total <= 0) return
+            EditorDialogs.showGotoLine(this, total) { lineNo ->
+                val contentHeight = binding.largeTextView.getContentHeight()
+                binding.largeTextView.scrollToY(((lineNo - 1) * contentHeight / total).coerceAtLeast(0))
+            }
+            return
+        }
         val text = if (isLargeFileMode) currentDoc()?.text else binding.editor.text
         if (text == null) return
         val totalLines = EditorCommands.countLogicalLines(text)
@@ -1624,6 +1874,28 @@ class MainActivity : AppCompatActivity() {
             }
         )
     }
+    /**
+     * 墨水屏模式：编辑区强制纯黑白，关闭阴影圆角由 [EinkStyler] 处理。
+     * 关闭时按当前编辑区主题恢复，避免退出墨水屏后仍残留黑字。
+     */
+    private fun applyEinkAppearance() {
+        val enabled = prefs.einkMode
+        val theme = if (enabled) EinkStyler.EDITOR_THEME else EditorThemes.byId(prefs.editorThemeId)
+
+        EditorThemes.apply(theme, this, binding.editArea, binding.editor, binding.tvLineNumbers)
+        // 只改颜色，不碰字号/字体：大文件模式下用户可能用双指缩放过
+        binding.largeTextView.setTextColor(binding.editor.currentTextColor)
+        binding.largeTextView.setBackgroundColor(
+            theme.bg ?: resolveThemeColor(com.google.android.material.R.attr.colorSurface)
+        )
+
+        binding.editor.paint.isFakeBoldText = enabled && prefs.einkOptimize
+        binding.largeTextView.setFakeBold(enabled && prefs.einkOptimize)
+        binding.largeTextView.allowFling = !(enabled && prefs.einkOptimize)
+        binding.fastScrollBar.syncColorFromEditor()
+
+        if (enabled) EinkStyler.apply(binding.root)
+    }
     private fun showTextTools() {
         if (isLargeFileMode) {
             showTip(getString(R.string.large_file_feature_disabled))
@@ -1771,7 +2043,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun applySnapshot(snap: Snapshot) {
         suppressWatcher = true
-        binding.editor.setText(snap.text)
+        binding.editor.setTextPreservingZalgo(snap.text)
         val s = snap.selStart.coerceIn(0, snap.text.length)
         val e = snap.selEnd.coerceIn(0, snap.text.length)
         binding.editor.setSelection(s, e)
@@ -1811,6 +2083,9 @@ class MainActivity : AppCompatActivity() {
         when (intent.action) {
             ACTION_GENERATE_TEST_DOCUMENT -> {
                 handleDevGenerateTest(intent)
+            }
+            ACTION_GENERATE_LARGE_TEST_DOCUMENT -> {
+                handleDevGenerateLargeTest(intent)
             }
             ACTION_OPEN_READ_ONLY_TEST -> {
                 handleDevReadOnlyDoc(intent)
@@ -1904,6 +2179,69 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 100MB 级测试文本：不经过 String，直接写缓存文件，再用按需读取打开。
+     * 这样既能验证 20MB 阈值、索引构建和滑动性能，又不会把主线程/堆撑爆。
+     */
+    private fun handleDevGenerateLargeTest(intent: Intent) {
+        val size = intent.getLongExtra(EXTRA_TEST_SIZE, 0L)
+        if (size <= 0L || size > 512L * 1024 * 1024) {
+            showTip("Invalid test size")
+            return
+        }
+
+        lifecycleScope.launch {
+            showLoading()
+            try {
+                val file = withContext(Dispatchers.IO) { writeLargeTestFile(size) }
+                val source = withContext(Dispatchers.IO) { ChunkedTextSource.open(file) }
+                if (source == null) {
+                    hideLoading()
+                    showTip("Cannot open generated test file")
+                    return@launch
+                }
+                val doc = OpenDocument(
+                    uri = Uri.fromFile(file),
+                    displayName = file.name,
+                    encoding = "UTF-8",
+                    text = "",
+                    isReadOnly = true,
+                    chunkedSource = source,
+                    wasChunked = true
+                )
+                saveCurrentToDoc()
+                documents.add(doc)
+                currentIndex = documents.size - 1
+                loadDocIntoEditor(doc)
+                refreshTabBar()
+                refreshCurrentView()
+                hideLoading()
+            } catch (e: Exception) {
+                hideLoading()
+                showTip(getString(R.string.err_generate, FriendlyError.message(this@MainActivity, e)))
+            }
+        }
+    }
+
+    /** 按目标字节数生成一个多行 UTF-8 文件；文件已存在且大小一致时直接复用 */
+    private fun writeLargeTestFile(size: Long): File {
+        val file = File(cacheDir, "dev_test_${size / (1024 * 1024)}mb.txt")
+        if (file.exists() && file.length() == size) return file
+
+        val line = "The quick brown fox jumps over the lazy dog. PlainPad large file test.\n"
+        val lineBytes = line.toByteArray(Charsets.UTF_8).size
+        BufferedWriter(OutputStreamWriter(FileOutputStream(file), Charsets.UTF_8)).use { out ->
+            var written = 0L
+            while (written + lineBytes <= size) {
+                out.write(line)
+                written += lineBytes
+            }
+            val rest = (size - written).toInt()
+            if (rest > 0) out.write(" ".repeat(rest))
+        }
+        return file
+    }
+
     private fun handleDevReadOnlyDoc(intent: Intent) {
         val content = intent.getStringExtra(EXTRA_TEST_CONTENT).orEmpty()
         if (content.isEmpty()) {
@@ -1986,7 +2324,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showTip(msg: String) {
         val anchor =
-            if (immersiveController.isImmersive) binding.btnExitImmersive else binding.statusBar
+            if (immersiveController.isImmersive) binding.immersiveLayer else binding.statusBar
         Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).setAnchorView(anchor).show()
     }
 

@@ -14,7 +14,7 @@ import com.sunwenqing.plainpad.databinding.ActivityOnboardingBinding
 import com.sunwenqing.plainpad.databinding.ItemOnboardingBinding
 import com.sunwenqing.plainpad.databinding.ItemOnboardingDotBinding
 
-class OnboardingActivity : AppCompatActivity() {
+class OnboardingActivity : EinkActivity() {
 
     private lateinit var binding: ActivityOnboardingBinding
     private lateinit var prefs: Prefs

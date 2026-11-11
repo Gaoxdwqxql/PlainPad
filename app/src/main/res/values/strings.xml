@@ -37,7 +37,7 @@
     <string name="bookmark_added">Bookmark added</string>
     <string name="bookmark_removed">Bookmark removed</string>
     <string name="bookmark_item">Line %1$d · %2$s</string>
-    <string name="menu_immersive">Immersive Mode</string>
+    <string name="menu_immersive">Immersive Reading</string>
     <string name="menu_default">Set as Default Editor</string>
     <string name="menu_about">About</string>
 
@@ -119,7 +119,9 @@
     <string name="theme_dark">Dark</string>
 
     <!-- Immersive -->
-    <string name="exit_immersive">Exit Immersive</string>
+    <string name="exit_immersive">Exit Reading</string>
+    <string name="immersive_hint">Swipe or tap sides to turn pages · tap center for controls</string>
+    <string name="immersive_progress">%1$d%% · %2$s / %3$s</string>
 
     <!-- Goto Line -->
     <string name="goto_line_title">Go to Line</string>
@@ -307,7 +309,7 @@
     <string name="help_autosave_content">Enable in Settings → Saving:\n• Save on background\n• Save on tab switch\n• Save on edit (2s debounce)\n• Interval save (15s ~ 10min)\n\nNote: Only named files are auto-saved. Status bar shows last save time.</string>
 
     <string name="help_section_encoding">Encoding Support</string>
-    <string name="help_encoding_content">Auto-detects BOM and decodes as UTF-8 first, falls back to GBK.\nSave options: UTF-8, UTF-16LE, UTF-16BE, GBK, GB2312.\nCurrent encoding is shown in bottom-right.</string>
+    <string name="help_encoding_content">Auto-detects BOM and UTF-8/UTF-16, falls back to GBK. Save/reopen supports UTF-8, UTF-16LE/BE, GB18030, GBK, GB2312, Big5, Shift_JIS, EUC-KR, Windows-1252 and ISO-8859-1. Large files stay on-demand for ASCII-compatible encodings.</string>
 
     <string name="help_section_eol">End of Line (EOL)</string>
     <string name="help_eol_content">The current EOL format (CRLF or LF) is displayed in the bottom bar next to the encoding.\n• Windows uses CRLF (\\r\\n)\n• Unix / macOS uses LF (\\n)\n\nTap the CRLF or LF label in the bottom bar to convert between them to prevent formatting issues across different operating systems.</string>
@@ -315,8 +317,8 @@
     <string name="help_section_large_file">Large File Mode</string>
     <string name="help_large_file_content">To ensure extreme smoothness on mobile devices, PlainPad has special handling for very large texts:\n• Read limit: Up to 20MB. Excess will be truncated with a prompt.\n• Performance protection: When a single file exceeds 3 million chars, or contains an extremely long line over 10,000 chars, it automatically enters "Large File Mode".\n• Restricted features: To prevent lag or OOM (Out of Memory), line numbers, undo/redo, pinch-to-zoom, special char rendering, and statistics are disabled in this mode.</string>
 
-    <string name="help_section_immersive">Immersive Mode</string>
-    <string name="help_immersive_content">Menu → Immersive Mode hides all bars. \nExit with the button in bottom-right or press Back.</string>
+    <string name="help_section_immersive">Immersive Reading</string>
+    <string name="help_immersive_content">Menu → Immersive Reading hides all bars and leaves only the text. Swipe left/right or tap the sides to turn pages, drag up/down to scroll, tap the center for controls, or use the volume keys. The thin line at the bottom shows your progress; press Back or the exit button to leave.</string>
 
     <!-- Onboarding -->
     <string name="onboard_skip">Skip</string>
@@ -389,6 +391,8 @@
 
     <string name="settings_show_special_chars">Show Special Chars</string>
     <string name="settings_show_special_chars_hint">Display space, tab, zero-width chars as symbols</string>
+    <string name="settings_allow_zalgo">Allow Zalgo combining marks</string>
+    <string name="settings_allow_zalgo_hint">When off, limit stacked combining marks to avoid layout and scrolling slowdowns; saved text is unchanged</string>
 
     <string name="help_section_about">About</string>
     <string name="help_about_content">PlainPad aims to be lightweight, pure, offline, and ad-free. All data is kept locally.\n\nTo view version or set as default, go to Menu → About.</string>
@@ -532,6 +536,15 @@
 
     <string name="dev_test_crlf">Generate 256KB CRLF text</string>
     <string name="dev_test_mixed">Generate 256KB mixed EOL text</string>
+    <string name="dev_test_100mb">Generate 100MB test text (on-demand read)</string>
+
+    <string name="dev_section_render_diag">Render Diagnostics</string>
+    <string name="dev_render_diag">Render diagnostics (current document)</string>
+    <string name="dev_render_diag_desc">Lines, data source, last frame bytes and time</string>
+    <string name="dev_force_chunked">Force 1MB on-demand threshold</string>
+    <string name="dev_force_chunked_desc">Small files also use on-demand reading, to verify the large-file path</string>
+    <string name="dev_verbose_log">Verbose logging</string>
+    <string name="dev_verbose_log_desc">Write index build and per-frame reads to logcat, keep the latest 200 lines</string>
 
     <string name="dev_section_font">Font Debug</string>
     <string name="dev_font_list">View imported fonts</string>
@@ -556,6 +569,10 @@
     <string name="settings_about">About</string>
     <string name="settings_import_ini">Import Config (INI)</string>
     <string name="settings_export_ini">Export Config (INI)</string>
+    <string name="settings_more_menu">More menu items</string>
+    <string name="settings_more_menu_desc">Choose which actions appear in the More menu</string>
+    <string name="settings_more_menu_keep_one">Keep at least one item</string>
+    <string name="settings_more_menu_reset">Reset</string>
     <string name="settings_developer_options">Developer Options</string>
 
     <string name="dev_section_shortcut">Settings Shortcut</string>
@@ -654,4 +671,16 @@
     <string name="folder_dir">Folder</string>
     <string name="search_hint_short">Search</string>
     <string name="search_no_result">No matches</string>
+    <string name="large_file_chunked_readonly">Large file opened in read-only mode. Only the visible part is loaded.</string>
+    <string name="about_links">Links</string>
+    <string name="about_website">Official site</string>
+    <string name="about_github">Source code</string>
+    <string name="about_issues">Report an issue</string>
+    <string name="about_license_title">License</string>
+    <string name="about_license_text">MIT License. Built with Kotlin, AndroidX and Material Components.</string>
+    <string name="about_link_failed">Cannot open link</string>
+    <string name="settings_eink_mode">E-ink mode</string>
+    <string name="settings_eink_mode_desc">Black on white, square corners, no shadows</string>
+    <string name="settings_eink_optimize">E-ink optimizations</string>
+    <string name="settings_eink_optimize_desc">Disable fling, bold text</string>
 </resources>

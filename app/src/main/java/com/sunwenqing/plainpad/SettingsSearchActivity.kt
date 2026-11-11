@@ -19,7 +19,7 @@ import com.google.android.material.color.MaterialColors
 import com.sunwenqing.plainpad.databinding.ActivitySettingsSearchBinding
 import com.sunwenqing.plainpad.databinding.ItemSettingsSearchBinding
 
-class SettingsSearchActivity : AppCompatActivity() {
+class SettingsSearchActivity : EinkActivity() {
 
     private lateinit var binding: ActivitySettingsSearchBinding
     private lateinit var prefs: Prefs

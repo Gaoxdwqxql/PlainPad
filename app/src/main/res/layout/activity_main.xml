@@ -213,7 +213,7 @@
                         android:id="@+id/btnFindPrev"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
-                        android:layout_marginStart="2dp"
+                        android:layout_marginStart="6dp"
                         android:padding="9dp"
                         android:src="@drawable/ic_arrow_up"
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -224,6 +224,7 @@
                         android:id="@+id/btnFindNext"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
+                        android:layout_marginStart="2dp"
                         android:padding="9dp"
                         android:src="@drawable/ic_arrow_down"
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -234,6 +235,7 @@
                         android:id="@+id/btnFindClose"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
+                        android:layout_marginStart="2dp"
                         android:padding="10dp"
                         android:src="@drawable/ic_close"
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -329,7 +331,7 @@
                         style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="6dp"
                         android:minWidth="0dp"
                         android:paddingHorizontal="10dp"
                         android:text="@string/replace"
@@ -340,6 +342,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:layout_marginStart="2dp"
                         android:minWidth="0dp"
                         android:paddingHorizontal="8dp"
                         android:text="@string/replace_all"
@@ -500,17 +503,73 @@
 
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnExitImmersive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:visibility="gone"
-        android:alpha="0.85"
-        android:text="@string/exit_immersive"
-        app:cornerRadius="24dp"
-        tools:visibility="visible" />
+    <!-- 沉浸阅读：全屏手势层 + 阅读进度 + 自动隐藏的控制条 -->
+    <FrameLayout
+        android:id="@+id/immersiveLayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/immersiveTouchLayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <View
+            android:id="@+id/immersiveProgressTrack"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
+            android:alpha="0.18"
+            android:background="?attr/colorOnSurface" />
+
+        <View
+            android:id="@+id/immersiveProgressFill"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
+            android:background="?attr/colorOnSurface" />
+
+        <LinearLayout
+            android:id="@+id/immersiveControls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
+
+            <TextView
+                android:id="@+id/tvImmersiveHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.6"
+                android:text="@string/immersive_hint"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvImmersiveProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="13sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExitImmersive"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/exit_immersive"
+                android:textColor="?attr/colorOnSurface"
+                app:cornerRadius="18dp" />
+        </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/loadingOverlay"

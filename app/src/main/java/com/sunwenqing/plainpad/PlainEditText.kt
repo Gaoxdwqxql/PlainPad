@@ -61,6 +61,34 @@ class PlainEditText @JvmOverloads constructor(
             }
         }
 
+    /** 是否允许堆叠组合字符；关闭时拦截新的 Zalgo 输入 */
+    var allowZalgo: Boolean = true
+        set(value) {
+            if (field == value) return
+            field = value
+            filters = if (value) emptyArray() else arrayOf(zalgoFilter)
+        }
+
+    private val zalgoFilter = android.text.InputFilter {
+            source, start, end, dest, dstart, _ ->
+        ZalgoText.filterInput(source, start, end, dest, dstart)
+    }
+
+    /**
+     * 程序化载入文本时临时移除过滤器。
+     * TextView.setText 是 final，无法重写；直接把原文塞进去再恢复过滤器，
+     * 避免把文件里已有的组合字符洗掉。
+     */
+    fun setTextPreservingZalgo(text: CharSequence?) {
+        val saved = filters
+        if (saved.isNotEmpty()) filters = emptyArray()
+        try {
+            setText(text)
+        } finally {
+            if (saved.isNotEmpty()) filters = saved
+        }
+    }
+
     /** 当前行高亮开关。关闭时立即移除已经画上去的背景。 */
     var currentLineHighlightEnabled: Boolean = false
         set(value) {

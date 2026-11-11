@@ -36,6 +36,7 @@
         android:id="@+id/btnDelete"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginStart="4dp"
         android:padding="10dp"
         android:src="@drawable/ic_close"
         android:background="?attr/selectableItemBackgroundBorderless"

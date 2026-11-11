@@ -19,8 +19,8 @@ android {
         applicationId = "com.sunwenqing.plainpad"
         minSdk = 24
         targetSdk = 36
-        versionCode = 5
-        versionName = "1.1.4.1"
+        versionCode = 6
+        versionName = "1.2.0-pre"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

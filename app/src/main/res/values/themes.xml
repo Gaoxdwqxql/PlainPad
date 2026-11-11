@@ -130,4 +130,71 @@
         <item name="android:textColorHighlight">@color/tc_pink_highlight</item>
     </style>
 
+    <!-- ============================================================ -->
+    <!--                    墨水屏：全应用黑白高对比                    -->
+    <!-- ============================================================ -->
+
+    <style name="ThemeOverlay.PlainPad.Eink" parent="">
+        <item name="isLightTheme">true</item>
+
+        <item name="android:colorBackground">@color/eink_white</item>
+        <item name="android:windowBackground">@color/eink_white</item>
+        <item name="android:navigationBarColor">@color/eink_white</item>
+        <item name="android:textColorPrimary">@color/eink_black</item>
+        <item name="android:textColorSecondary">@color/eink_black</item>
+        <item name="android:textColorHighlight">@color/eink_highlight</item>
+
+        <item name="colorPrimary">@color/eink_black</item>
+        <item name="colorOnPrimary">@color/eink_white</item>
+        <item name="colorPrimaryContainer">@color/eink_white</item>
+        <item name="colorOnPrimaryContainer">@color/eink_black</item>
+        <item name="colorPrimaryInverse">@color/eink_black</item>
+        <item name="colorSecondary">@color/eink_black</item>
+        <item name="colorOnSecondary">@color/eink_white</item>
+        <item name="colorSecondaryContainer">@color/eink_white</item>
+        <item name="colorOnSecondaryContainer">@color/eink_black</item>
+        <item name="colorTertiary">@color/eink_black</item>
+        <item name="colorOnTertiary">@color/eink_white</item>
+
+        <item name="colorSurface">@color/eink_white</item>
+        <item name="colorOnSurface">@color/eink_black</item>
+        <item name="colorSurfaceVariant">@color/eink_white</item>
+        <item name="colorOnSurfaceVariant">@color/eink_black</item>
+        <item name="colorSurfaceDim">@color/eink_white</item>
+        <item name="colorSurfaceBright">@color/eink_white</item>
+        <item name="colorSurfaceContainerLowest">@color/eink_white</item>
+        <item name="colorSurfaceContainerLow">@color/eink_white</item>
+        <item name="colorSurfaceContainer">@color/eink_white</item>
+        <item name="colorSurfaceContainerHigh">@color/eink_white</item>
+        <item name="colorSurfaceContainerHighest">@color/eink_white</item>
+
+        <item name="colorOutline">@color/eink_black</item>
+        <item name="colorOutlineVariant">@color/eink_black</item>
+        <item name="colorError">@color/eink_black</item>
+        <item name="colorOnError">@color/eink_white</item>
+        <item name="colorErrorContainer">@color/eink_white</item>
+        <item name="colorOnErrorContainer">@color/eink_black</item>
+
+        <item name="colorControlActivated">@color/eink_black</item>
+        <item name="colorControlNormal">@color/eink_black</item>
+        <item name="colorControlHighlight">@color/eink_highlight</item>
+
+        <!-- 去掉 Material 3 的色调叠加，避免白底被“染灰” -->
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.PlainPad.Eink.Dialog</item>
+    </style>
+
+    <style name="ThemeOverlay.PlainPad.Eink.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.PlainPad.Eink.Dialog</item>
+        <item name="colorSurface">@color/eink_white</item>
+        <item name="colorSurfaceContainerHigh">@color/eink_white</item>
+        <item name="colorOnSurface">@color/eink_black</item>
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+    <style name="ShapeAppearance.PlainPad.Eink.Dialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+    </style>
+
 </resources>
