@@ -24,5 +24,9 @@ data class OpenDocument(
     var hasBom: Boolean = false,
     /** 书签：记录的是行首字符偏移，编辑时会随文本增删调整 */
     var bookmarks: List<Int> = emptyList(),
+    /** 是否按 PlainPad 密钥格式加密保存 */
+    var encrypted: Boolean = false,
+    /** 当前会话的加密密钥，只存在内存里，不写入磁盘 */
+    var password: CharArray? = null,
     var draftId: String = UUID.randomUUID().toString()
 )

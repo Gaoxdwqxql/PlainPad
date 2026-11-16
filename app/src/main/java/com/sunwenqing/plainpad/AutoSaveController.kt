@@ -50,7 +50,7 @@ class AutoSaveController(
     fun scheduleEditAutoSave() {
         if (!prefs.autoSaveEnabled || !prefs.autoSaveOnEdit || isLargeFileMode()) return
         val doc = getCurrentDoc() ?: return
-        if (doc.uri == null || !doc.isDirty || doc.isReadOnly) return
+        if (doc.uri == null || !doc.isDirty || doc.isReadOnly || doc.encrypted) return
         editRunnable?.let { editHandler.removeCallbacks(it) }
         val r = Runnable { autoSaveCurrent() }
         editRunnable = r
@@ -65,7 +65,7 @@ class AutoSaveController(
     fun autoSaveCurrent() {
         if (!prefs.autoSaveEnabled || isLargeFileMode()) return
         val doc = getCurrentDoc() ?: return
-        if (doc.uri == null || !doc.isDirty || doc.isReadOnly) return
+        if (doc.uri == null || !doc.isDirty || doc.isReadOnly || doc.encrypted) return
         val content = getContent()
         val withBom = prefs.utf8Bom || doc.hasBom
         activity.lifecycleScope.launch {

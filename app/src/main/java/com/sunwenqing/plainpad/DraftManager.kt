@@ -38,7 +38,7 @@ object DraftManager {
         File(context.filesDir, "drafts").apply { mkdirs() }
 
     fun save(context: Context, doc: OpenDocument): Boolean {
-        if (doc.isReadOnly) return false
+        if (doc.isReadOnly || doc.encrypted) return false
         return try {
             val dir = draftsDir(context)
             val metaFile = File(dir, doc.draftId + META_EXT)

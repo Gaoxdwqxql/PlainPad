@@ -268,6 +268,8 @@ class Prefs(context: Context) {
     fun saveTabs(docs: List<OpenDocument>, sync: Boolean = false) {
         val arr = JSONArray()
         for (d in docs) {
+            // 加密文档不落盘到普通标签缓存，避免把正文/密文以外的东西写进 SharedPreferences
+            if (d.encrypted) continue
             val o = JSONObject()
             o.put("uri", d.uri?.toString() ?: "")
             o.put("name", d.displayName)

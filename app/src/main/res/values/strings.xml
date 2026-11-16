@@ -573,6 +573,22 @@
     <string name="settings_more_menu_desc">Choose which actions appear in the More menu</string>
     <string name="settings_more_menu_keep_one">Keep at least one item</string>
     <string name="settings_more_menu_reset">Reset</string>
+    <string name="menu_encrypt_file">Encrypt current file</string>
+    <string name="menu_remove_encryption">Remove file encryption</string>
+    <string name="crypto_enter_password">Enter key</string>
+    <string name="crypto_enter_password_hint">This file is encrypted. Enter the key to open it.</string>
+    <string name="crypto_set_password">Set key</string>
+    <string name="crypto_set_password_hint">The key encrypts this file. Keep it safe; it cannot be recovered.</string>
+    <string name="crypto_password_hint">Key</string>
+    <string name="crypto_confirm_password_hint">Confirm key</string>
+    <string name="crypto_password_empty">Key cannot be empty</string>
+    <string name="crypto_password_mismatch">Keys do not match</string>
+    <string name="crypto_wrong_password">Wrong key or corrupted file</string>
+    <string name="crypto_encrypt_success">File encrypted</string>
+    <string name="crypto_decrypt_success">Encryption removed</string>
+    <string name="crypto_no_file">Save the file first</string>
+    <string name="crypto_too_large">Encrypted files are limited to 20MB</string>
+    <string name="crypto_badge">Encrypted</string>
     <string name="settings_developer_options">Developer Options</string>
 
     <string name="dev_section_shortcut">Settings Shortcut</string>

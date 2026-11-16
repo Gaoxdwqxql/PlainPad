@@ -573,6 +573,22 @@
     <string name="settings_more_menu_desc">Выберите, какие действия показывать в меню «Ещё»</string>
     <string name="settings_more_menu_keep_one">Оставьте хотя бы один пункт</string>
     <string name="settings_more_menu_reset">Сбросить</string>
+    <string name="menu_encrypt_file">Зашифровать текущий файл</string>
+    <string name="menu_remove_encryption">Снять шифрование файла</string>
+    <string name="crypto_enter_password">Введите ключ</string>
+    <string name="crypto_enter_password_hint">Файл зашифрован. Введите ключ.</string>
+    <string name="crypto_set_password">Задайте ключ</string>
+    <string name="crypto_set_password_hint">Ключ шифрует этот файл. Сохраните его; восстановить нельзя.</string>
+    <string name="crypto_password_hint">Ключ</string>
+    <string name="crypto_confirm_password_hint">Повторите ключ</string>
+    <string name="crypto_password_empty">Ключ не может быть пустым</string>
+    <string name="crypto_password_mismatch">Ключи не совпадают</string>
+    <string name="crypto_wrong_password">Неверный ключ или файл повреждён</string>
+    <string name="crypto_encrypt_success">Файл зашифрован</string>
+    <string name="crypto_decrypt_success">Шифрование снято</string>
+    <string name="crypto_no_file">Сначала сохраните файл</string>
+    <string name="crypto_too_large">Зашифрованные файлы до 20 МБ</string>
+    <string name="crypto_badge">Зашифровано</string>
     <string name="settings_developer_options">Для разработчиков</string>
 
     <string name="dev_section_shortcut">Ярлык в настройках</string>

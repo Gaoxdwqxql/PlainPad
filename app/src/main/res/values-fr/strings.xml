@@ -573,6 +573,22 @@
     <string name="settings_more_menu_desc">Choisissez les actions affichées dans le menu Plus</string>
     <string name="settings_more_menu_keep_one">Gardez au moins un élément</string>
     <string name="settings_more_menu_reset">Réinitialiser</string>
+    <string name="menu_encrypt_file">Chiffrer le fichier actuel</string>
+    <string name="menu_remove_encryption">Supprimer le chiffrement</string>
+    <string name="crypto_enter_password">Saisir la clé</string>
+    <string name="crypto_enter_password_hint">Ce fichier est chiffré. Saisissez la clé.</string>
+    <string name="crypto_set_password">Définir une clé</string>
+    <string name="crypto_set_password_hint">La clé chiffre ce fichier. Conservez-la ; elle est irrécupérable.</string>
+    <string name="crypto_password_hint">Clé</string>
+    <string name="crypto_confirm_password_hint">Confirmer la clé</string>
+    <string name="crypto_password_empty">La clé ne peut pas être vide</string>
+    <string name="crypto_password_mismatch">Les clés ne correspondent pas</string>
+    <string name="crypto_wrong_password">Clé incorrecte ou fichier corrompu</string>
+    <string name="crypto_encrypt_success">Fichier chiffré</string>
+    <string name="crypto_decrypt_success">Chiffrement supprimé</string>
+    <string name="crypto_no_file">Enregistrez d\'abord le fichier</string>
+    <string name="crypto_too_large">Fichiers chiffrés limités à 20 Mo</string>
+    <string name="crypto_badge">Chiffré</string>
     <string name="settings_developer_options">Options pour les développeurs</string>
 
     <string name="dev_section_shortcut">Raccourci vers les paramètres</string>

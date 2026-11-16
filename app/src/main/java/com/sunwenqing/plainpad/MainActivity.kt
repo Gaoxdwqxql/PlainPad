@@ -296,6 +296,7 @@ class MainActivity : EinkActivity() {
 
         applyAppearanceIfChanged()
         applyEinkAppearance()
+        if (!isLargeFileMode) EditorStyler.applyFont(binding, prefs)
         if (binding.editor.allowZalgo != prefs.allowZalgo) {
             binding.editor.allowZalgo = prefs.allowZalgo
             binding.largeTextView.allowZalgo = prefs.allowZalgo
@@ -623,7 +624,7 @@ class MainActivity : EinkActivity() {
     private fun scheduleDraftSave() {
         cancelDraftSave()
         val doc = currentDoc() ?: return
-        if (doc.isReadOnly || isLargeFileMode) return
+        if (doc.isReadOnly || isLargeFileMode || doc.encrypted) return
         if (!doc.isDirty) return
 
         val targetId = doc.draftId
@@ -649,7 +650,7 @@ class MainActivity : EinkActivity() {
     }
 
     private fun saveDraftNow(doc: OpenDocument) {
-        if (doc.isReadOnly || isLargeFileMode) return
+        if (doc.isReadOnly || isLargeFileMode || doc.encrypted) return
         if (!doc.isDirty) return
         lifecycleScope.launch(Dispatchers.IO) {
             DraftManager.save(this@MainActivity, doc)
@@ -864,6 +865,8 @@ class MainActivity : EinkActivity() {
         // 按需读取的文档要释放文件句柄，否则标签关掉后文件还被占着
         doc.chunkedSource?.let { runCatching { it.close() } }
         doc.chunkedSource = null
+        doc.password?.fill('\u0000')
+        doc.password = null
         if (index == currentIndex) cancelDraftSave()
 
         documents.removeAt(index)
@@ -999,6 +1002,7 @@ class MainActivity : EinkActivity() {
                 refreshBookmarkMarkers()
             }
             SpecialCharRenderer.apply(binding.editor, prefs.showSpecialChars)
+            EditorStyler.applyFont(binding, prefs)
             triggerStatusUpdate()
             hideLoading()
             applyEinkAppearance()
@@ -1066,6 +1070,8 @@ class MainActivity : EinkActivity() {
 
     private fun loadMissingTextsAsync() {
         documents.forEachIndexed { index, doc ->
+            // 加密文档不能在没有密钥的情况下重新读盘
+            if (doc.encrypted) return@forEachIndexed
             if (doc.text.isEmpty() && doc.uri != null && !doc.isDirty) {
                 lifecycleScope.launch {
                     try {
@@ -1119,6 +1125,53 @@ class MainActivity : EinkActivity() {
 
     // ---------------- 打开 / 保存 ----------------
 
+    private fun promptEncryptedOpen(uri: Uri, name: String) {
+        PasswordDialog.show(
+            activity = this,
+            title = getString(R.string.crypto_enter_password),
+            subtitle = getString(R.string.crypto_enter_password_hint),
+            requireConfirm = false
+        ) { password ->
+            openEncryptedWithPassword(uri, name, password)
+        }
+    }
+
+    private fun openEncryptedWithPassword(uri: Uri, name: String, password: CharArray) {
+        lifecycleScope.launch {
+            try {
+                showLoading()
+                val result = withContext(Dispatchers.IO) {
+                    EditorFileIO.loadEncrypted(contentResolver, uri, password)
+                }
+                val doc = OpenDocument(
+                    uri = uri,
+                    displayName = name,
+                    encoding = result.encoding,
+                    text = result.text,
+                    isReadOnly = false,
+                    hasBom = result.hasBom,
+                    encrypted = true,
+                    password = password
+                )
+                saveCurrentToDoc()
+                documents.add(doc)
+                currentIndex = documents.size - 1
+                loadDocIntoEditor(doc)
+                refreshTabBar()
+                refreshCurrentView()
+                prefs.addRecentFile(uri, name)
+                hideLoading()
+            } catch (_: CryptoText.WrongPasswordException) {
+                hideLoading()
+                showTip(getString(R.string.crypto_wrong_password))
+                promptEncryptedOpen(uri, name)
+            } catch (e: Exception) {
+                hideLoading()
+                showTip(getString(R.string.err_open, FriendlyError.message(this@MainActivity, e)))
+            }
+        }
+    }
+
     private fun openDocumentIntoNewTab(uri: Uri) {
         val existing = documents.indexOfFirst { it.uri == uri }
         if (existing >= 0) {
@@ -1129,6 +1182,16 @@ class MainActivity : EinkActivity() {
             try {
                 showLoading()
                 val name = EditorFileIO.queryName(contentResolver, uri, getString(R.string.untitled))
+
+                // PlainPad 加密文件必须先输入密钥，不能按普通文本读
+                val encrypted = withContext(Dispatchers.IO) {
+                    EditorFileIO.isEncrypted(contentResolver, uri)
+                }
+                if (encrypted) {
+                    hideLoading()
+                    promptEncryptedOpen(uri, name)
+                    return@launch
+                }
 
                 // 大文件先试「按需读取」：整个文件不进内存，只建稀疏行索引
                 val size = withContext(Dispatchers.IO) {
@@ -1228,6 +1291,17 @@ class MainActivity : EinkActivity() {
         val content = binding.editor.text?.toString().orEmpty()
         val encoding = pendingEncoding ?: doc.encoding
         val withBom = prefs.utf8Bom || doc.hasBom
+
+        if (doc.encrypted) {
+            val password = doc.password
+            if (password == null) {
+                promptSavePassword(doc, uri)
+                return
+            }
+            saveEncryptedToUri(doc, uri, content, encoding, withBom, password)
+            return
+        }
+
         lifecycleScope.launch {
             try {
                 withContext(Dispatchers.IO) {
@@ -1255,9 +1329,177 @@ class MainActivity : EinkActivity() {
         }
     }
 
+    private fun saveEncryptedToUri(
+        doc: OpenDocument,
+        uri: Uri,
+        content: String,
+        encoding: String,
+        withBom: Boolean,
+        password: CharArray
+    ) {
+        lifecycleScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    EditorFileIO.saveEncrypted(
+                        contentResolver, uri, content, encoding, withBom, password
+                    )
+                }
+                doc.uri = uri
+                doc.displayName = EditorFileIO.queryName(contentResolver, uri, getString(R.string.untitled))
+                doc.encoding = encoding
+                doc.text = content
+                doc.hasBom = withBom
+                doc.isDirty = false
+                doc.encrypted = true
+                doc.password = password
+                prefs.lastSaveTime = System.currentTimeMillis()
+                deleteDraft(doc)
+                updateEncodingLabel()
+                refreshTabBar()
+                showTip(getString(R.string.saved))
+                prefs.addRecentFile(uri, doc.displayName)
+                pendingAction?.also { pendingAction = null }?.invoke()
+            } catch (e: Exception) {
+                pendingAction = null
+                showTip(getString(R.string.err_save, FriendlyError.message(this@MainActivity, e)))
+            } finally {
+                pendingEncoding = null
+            }
+        }
+    }
+
+    private fun promptSavePassword(doc: OpenDocument, uri: Uri) {
+        PasswordDialog.show(
+            activity = this,
+            title = getString(R.string.crypto_enter_password),
+            subtitle = getString(R.string.crypto_enter_password_hint),
+            requireConfirm = false
+        ) { password ->
+            doc.password = password
+            saveCurrentToUri(uri)
+        }
+    }
+
+    /** 加密当前文件；已加密时改为移除加密 */
+    private fun toggleFileEncryption() {
+        val doc = currentDoc() ?: return
+        val uri = doc.uri
+        if (uri == null) {
+            showTip(getString(R.string.crypto_no_file))
+            return
+        }
+        if (doc.isReadOnly || isLargeFileMode) {
+            showTip(getString(R.string.cannot_save_large_file))
+            return
+        }
+        if (doc.encrypted) removeFileEncryption(doc, uri) else encryptCurrentFile(doc, uri)
+    }
+
+    private fun encryptCurrentFile(doc: OpenDocument, uri: Uri) {
+        val content = binding.editor.text?.toString().orEmpty()
+        val encoding = doc.encoding
+        val withBom = prefs.utf8Bom || doc.hasBom
+
+        PasswordDialog.show(
+            activity = this,
+            title = getString(R.string.crypto_set_password),
+            subtitle = getString(R.string.crypto_set_password_hint),
+            requireConfirm = true
+        ) { password ->
+            lifecycleScope.launch {
+                try {
+                    showLoading()
+                    withContext(Dispatchers.IO) {
+                        EditorFileIO.saveEncrypted(
+                            contentResolver, uri, content, encoding, withBom, password
+                        )
+                    }
+                    doc.encrypted = true
+                    doc.password = password
+                    doc.text = content
+                    doc.hasBom = withBom
+                    doc.isDirty = false
+                    doc.encoding = encoding
+                    prefs.lastSaveTime = System.currentTimeMillis()
+                    deleteDraft(doc)
+                    updateEncodingLabel()
+                    refreshTabBar()
+                    hideLoading()
+                    showTip(getString(R.string.crypto_encrypt_success))
+                } catch (e: Exception) {
+                    hideLoading()
+                    showTip(getString(R.string.err_save, FriendlyError.message(this@MainActivity, e)))
+                }
+            }
+        }
+    }
+
+    private fun removeFileEncryption(doc: OpenDocument, uri: Uri) {
+        val savePlain = {
+            val content = binding.editor.text?.toString().orEmpty()
+            val encoding = doc.encoding
+            val withBom = prefs.utf8Bom || doc.hasBom
+            lifecycleScope.launch {
+                try {
+                    showLoading()
+                    withContext(Dispatchers.IO) {
+                        EditorFileIO.save(contentResolver, uri, content, encoding, withBom)
+                    }
+                    doc.encrypted = false
+                    doc.password = null
+                    doc.text = content
+                    doc.hasBom = withBom
+                    doc.isDirty = false
+                    prefs.lastSaveTime = System.currentTimeMillis()
+                    deleteDraft(doc)
+                    updateEncodingLabel()
+                    refreshTabBar()
+                    hideLoading()
+                    showTip(getString(R.string.crypto_decrypt_success))
+                } catch (e: Exception) {
+                    hideLoading()
+                    showTip(getString(R.string.err_save, FriendlyError.message(this@MainActivity, e)))
+                }
+            }
+        }
+
+        val password = doc.password
+        if (password != null) {
+            savePlain()
+        } else {
+            PasswordDialog.show(
+                activity = this,
+                title = getString(R.string.crypto_enter_password),
+                subtitle = getString(R.string.crypto_enter_password_hint),
+                requireConfirm = false
+            ) { pwd ->
+                lifecycleScope.launch {
+                    try {
+                        showLoading()
+                        withContext(Dispatchers.IO) {
+                            EditorFileIO.loadEncrypted(contentResolver, uri, pwd)
+                        }
+                        hideLoading()
+                        doc.password = pwd
+                        savePlain()
+                    } catch (_: CryptoText.WrongPasswordException) {
+                        hideLoading()
+                        showTip(getString(R.string.crypto_wrong_password))
+                        removeFileEncryption(doc, uri)
+                    } catch (e: Exception) {
+                        hideLoading()
+                        showTip(getString(R.string.err_open, FriendlyError.message(this@MainActivity, e)))
+                    }
+                }
+            }
+        }
+    }
+
     private fun saveAll() {
         saveCurrentToDoc()
-        val targets = documents.filter { it.uri != null && it.isDirty && !it.isReadOnly }
+        val targets = documents.filter {
+            it.uri != null && it.isDirty && !it.isReadOnly && !it.encrypted
+        }
         if (targets.isEmpty()) {
             showTip(getString(R.string.save_all_nothing))
             return
@@ -1406,7 +1648,9 @@ class MainActivity : EinkActivity() {
         val hidden = prefs.hiddenMoreMenuItems
         val actions: Map<String, () -> Unit> = mapOf(
             "new" to { newTab() },
-            "open" to { openLauncher.launch(arrayOf("text/plain", "text/*")) },
+            "open" to {
+                openLauncher.launch(arrayOf("text/plain", "text/*", "application/octet-stream"))
+            },
             "open_folder" to {
                 folderLauncher.launch(Intent(this, FolderBrowserActivity::class.java))
             },
@@ -1416,14 +1660,23 @@ class MainActivity : EinkActivity() {
             "goto_line" to { showGotoLine() },
             "tools" to { showToolsMenu() },
             "bookmarks" to { showBookmarks() },
+            "encrypt" to { toggleFileEncryption() },
+            "remove_encryption" to { toggleFileEncryption() },
             "immersive" to { applyImmersive(true) },
             "default_apps" to { openDefaultAppsSettings() },
             "help" to { startActivity(Intent(this, HelpActivity::class.java)) },
             "about" to { startActivity(Intent(this, AboutActivity::class.java)) }
         )
 
+        val docEncrypted = currentDoc()?.encrypted == true
         val items = MoreMenuCatalog.ALL
-            .filter { it.key !in hidden }
+            .filter {
+                it.key !in hidden && when (it.key) {
+                    "encrypt" -> !docEncrypted
+                    "remove_encryption" -> docEncrypted
+                    else -> true
+                }
+            }
             .mapNotNull { item ->
                 actions[item.key]?.let { action -> getString(item.titleRes) to action }
             }

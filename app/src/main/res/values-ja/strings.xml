@@ -573,6 +573,22 @@
     <string name="settings_more_menu_desc">「その他」メニューに表示する操作を選択</string>
     <string name="settings_more_menu_keep_one">1 項目以上選択してください</string>
     <string name="settings_more_menu_reset">初期化</string>
+    <string name="menu_encrypt_file">現在のファイルを暗号化</string>
+    <string name="menu_remove_encryption">ファイルの暗号化を解除</string>
+    <string name="crypto_enter_password">キーを入力</string>
+    <string name="crypto_enter_password_hint">このファイルは暗号化されています。キーを入力してください。</string>
+    <string name="crypto_set_password">キーを設定</string>
+    <string name="crypto_set_password_hint">このファイルを暗号化するキーです。忘れると復元できません。</string>
+    <string name="crypto_password_hint">キー</string>
+    <string name="crypto_confirm_password_hint">キーを再入力</string>
+    <string name="crypto_password_empty">キーを入力してください</string>
+    <string name="crypto_password_mismatch">キーが一致しません</string>
+    <string name="crypto_wrong_password">キーが違うかファイルが壊れています</string>
+    <string name="crypto_encrypt_success">ファイルを暗号化しました</string>
+    <string name="crypto_decrypt_success">暗号化を解除しました</string>
+    <string name="crypto_no_file">先にファイルを保存してください</string>
+    <string name="crypto_too_large">暗号化ファイルは 20MB まで</string>
+    <string name="crypto_badge">暗号化済み</string>
     <string name="settings_developer_options">開発者向けオプション</string>
 
     <string name="dev_section_shortcut">設定へのショートカット</string>

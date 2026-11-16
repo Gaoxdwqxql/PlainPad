@@ -152,6 +152,52 @@ object EditorFileIO {
         }
     }
 
+    /** 只读文件头，判断是否为 PlainPad 加密文本 */
+    fun isEncrypted(cr: ContentResolver, uri: Uri): Boolean {
+        return try {
+            cr.openInputStream(uri)?.use { input ->
+                val header = ByteArray(8)
+                var read = 0
+                while (read < header.size) {
+                    val n = input.read(header, read, header.size - read)
+                    if (n <= 0) break
+                    read += n
+                }
+                CryptoText.isEncrypted(header.copyOf(read))
+            } ?: false
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    /** 读取并解密；超过 20MB 的加密文件不支持 */
+    fun loadEncrypted(
+        cr: ContentResolver,
+        uri: Uri,
+        password: CharArray
+    ): LoadResult {
+        val (bytes, truncated) = readCapped(cr, uri)
+        if (truncated) throw IOException("encrypted file is too large")
+        val payload = CryptoText.decrypt(bytes, password)
+        return LoadResult(payload.text, payload.encoding, isTruncated = false, hasBom = payload.hasBom)
+    }
+
+    /** 保存为 PlainPad 加密文本 */
+    fun saveEncrypted(
+        cr: ContentResolver,
+        uri: Uri,
+        text: String,
+        encoding: String,
+        withBom: Boolean,
+        password: CharArray
+    ) {
+        val out = openOutput(cr, uri) ?: throw IOException("无法写入该文件")
+        out.use {
+            it.write(CryptoText.encrypt(text, encoding, withBom, password))
+            it.flush()
+        }
+    }
+
     /** 文件字节大小，取不到返回 -1 */
     fun querySize(cr: ContentResolver, uri: Uri): Long {
         return try {

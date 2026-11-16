@@ -573,6 +573,22 @@
     <string name="settings_more_menu_desc">Wählen Sie, welche Aktionen im Mehr-Menü erscheinen</string>
     <string name="settings_more_menu_keep_one">Mindestens einen Eintrag behalten</string>
     <string name="settings_more_menu_reset">Zurücksetzen</string>
+    <string name="menu_encrypt_file">Aktuelle Datei verschlüsseln</string>
+    <string name="menu_remove_encryption">Dateiverschlüsselung entfernen</string>
+    <string name="crypto_enter_password">Schlüssel eingeben</string>
+    <string name="crypto_enter_password_hint">Diese Datei ist verschlüsselt. Schlüssel eingeben.</string>
+    <string name="crypto_set_password">Schlüssel festlegen</string>
+    <string name="crypto_set_password_hint">Der Schlüssel verschlüsselt diese Datei. Sicher aufbewahren; er kann nicht wiederhergestellt werden.</string>
+    <string name="crypto_password_hint">Schlüssel</string>
+    <string name="crypto_confirm_password_hint">Schlüssel bestätigen</string>
+    <string name="crypto_password_empty">Schlüssel darf nicht leer sein</string>
+    <string name="crypto_password_mismatch">Schlüssel stimmen nicht überein</string>
+    <string name="crypto_wrong_password">Falscher Schlüssel oder beschädigte Datei</string>
+    <string name="crypto_encrypt_success">Datei verschlüsselt</string>
+    <string name="crypto_decrypt_success">Verschlüsselung entfernt</string>
+    <string name="crypto_no_file">Datei zuerst speichern</string>
+    <string name="crypto_too_large">Verschlüsselte Dateien max. 20MB</string>
+    <string name="crypto_badge">Verschlüsselt</string>
     <string name="settings_developer_options">Entwickleroptionen</string>
 
     <string name="dev_section_shortcut">Einstellungs-Verknüpfung</string>

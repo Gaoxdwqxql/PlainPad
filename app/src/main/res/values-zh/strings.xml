@@ -532,6 +532,22 @@
     <string name="settings_more_menu_desc">选择“更多”菜单里显示的功能</string>
     <string name="settings_more_menu_keep_one">至少保留一项</string>
     <string name="settings_more_menu_reset">恢复默认</string>
+    <string name="menu_encrypt_file">加密当前文件</string>
+    <string name="menu_remove_encryption">移除文件加密</string>
+    <string name="crypto_enter_password">输入密钥</string>
+    <string name="crypto_enter_password_hint">该文件已加密，请输入密钥。</string>
+    <string name="crypto_set_password">设置密钥</string>
+    <string name="crypto_set_password_hint">密钥用于加密此文件，请妥善保管；忘记后无法恢复。</string>
+    <string name="crypto_password_hint">密钥</string>
+    <string name="crypto_confirm_password_hint">再次输入密钥</string>
+    <string name="crypto_password_empty">密钥不能为空</string>
+    <string name="crypto_password_mismatch">两次输入的密钥不一致</string>
+    <string name="crypto_wrong_password">密钥错误或文件已损坏</string>
+    <string name="crypto_encrypt_success">文件已加密</string>
+    <string name="crypto_decrypt_success">已移除加密</string>
+    <string name="crypto_no_file">请先保存文件再加密</string>
+    <string name="crypto_too_large">加密文件不能超过 20MB</string>
+    <string name="crypto_badge">加密</string>
     <string name="settings_developer_options">开发人员选项</string>
 
     <string name="dev_section_shortcut">设置页入口</string>

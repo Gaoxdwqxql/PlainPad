@@ -20,6 +20,8 @@ object MoreMenuCatalog {
         MoreMenuItem("goto_line", R.string.menu_goto_line),
         MoreMenuItem("tools", R.string.menu_tools),
         MoreMenuItem("bookmarks", R.string.menu_bookmarks),
+        MoreMenuItem("encrypt", R.string.menu_encrypt_file),
+        MoreMenuItem("remove_encryption", R.string.menu_remove_encryption),
         MoreMenuItem("immersive", R.string.menu_immersive),
         MoreMenuItem("default_apps", R.string.menu_default),
         MoreMenuItem("help", R.string.menu_help),

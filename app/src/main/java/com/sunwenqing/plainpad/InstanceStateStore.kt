@@ -13,6 +13,7 @@ object InstanceStateStore {
     private const val KEY_DIRTY_FLAGS = "doc_dirty_flags"
     private const val KEY_READONLY_FLAGS = "doc_readonly_flags"
     private const val KEY_CHUNKED_FLAGS = "doc_chunked_flags"
+    private const val KEY_ENCRYPTED_FLAGS = "doc_encrypted_flags"
     private const val KEY_BOM_FLAGS = "doc_bom_flags"
     private const val KEY_BOOKMARKS = "doc_bookmarks"
     private const val KEY_SEL_STARTS = "doc_sel_starts"
@@ -42,6 +43,7 @@ object InstanceStateStore {
         val dirtyFlags = ArrayList<Boolean>()
         val readonlyFlags = ArrayList<Boolean>()
         val chunkedFlags = ArrayList<Boolean>()
+        val encryptedFlags = ArrayList<Boolean>()
         val bomFlags = ArrayList<Boolean>()
         val bookmarkLists = ArrayList<String>()
         val selStarts = ArrayList<Int>()
@@ -57,6 +59,7 @@ object InstanceStateStore {
             dirtyFlags.add(d.isDirty)
             readonlyFlags.add(d.isReadOnly)
             chunkedFlags.add(d.wasChunked)
+            encryptedFlags.add(d.encrypted)
             bomFlags.add(d.hasBom)
             bookmarkLists.add(d.bookmarks.joinToString(","))
             selStarts.add(d.selStart)
@@ -72,6 +75,7 @@ object InstanceStateStore {
         outState.putBooleanArray(KEY_DIRTY_FLAGS, dirtyFlags.toBooleanArray())
         outState.putBooleanArray(KEY_READONLY_FLAGS, readonlyFlags.toBooleanArray())
         outState.putBooleanArray(KEY_CHUNKED_FLAGS, chunkedFlags.toBooleanArray())
+        outState.putBooleanArray(KEY_ENCRYPTED_FLAGS, encryptedFlags.toBooleanArray())
         outState.putBooleanArray(KEY_BOM_FLAGS, bomFlags.toBooleanArray())
         outState.putStringArrayList(KEY_BOOKMARKS, bookmarkLists)
         outState.putIntegerArrayList(KEY_SEL_STARTS, selStarts)
@@ -96,6 +100,7 @@ object InstanceStateStore {
         val dirtyFlags = state.getBooleanArray(KEY_DIRTY_FLAGS) ?: booleanArrayOf()
         val readonlyFlags = state.getBooleanArray(KEY_READONLY_FLAGS) ?: booleanArrayOf()
         val chunkedFlags = state.getBooleanArray(KEY_CHUNKED_FLAGS) ?: booleanArrayOf()
+        val encryptedFlags = state.getBooleanArray(KEY_ENCRYPTED_FLAGS) ?: booleanArrayOf()
         val bomFlags = state.getBooleanArray(KEY_BOM_FLAGS) ?: booleanArrayOf()
         val bookmarkLists = state.getStringArrayList(KEY_BOOKMARKS) ?: arrayListOf()
         val selStarts = state.getIntegerArrayList(KEY_SEL_STARTS) ?: arrayListOf()
@@ -116,6 +121,7 @@ object InstanceStateStore {
                     isDirty = dirtyFlags.getOrNull(i) ?: false,
                     isReadOnly = readonlyFlags.getOrNull(i) ?: false,
                     wasChunked = chunkedFlags.getOrNull(i) ?: false,
+                    encrypted = encryptedFlags.getOrNull(i) ?: false,
                     hasBom = bomFlags.getOrNull(i) ?: false,
                     bookmarks = bookmarkLists.getOrNull(i)
                         ?.takeIf { it.isNotBlank() }

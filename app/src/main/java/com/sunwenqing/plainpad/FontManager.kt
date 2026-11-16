@@ -203,12 +203,29 @@ object FontManager {
         }
     }
 
-    /** 通过 URI 加载 Typeface。API 26+ 直接用 fd；低版本返回 null，强制走复制模式。 */
+    /** 通过 URI 加载 Typeface。API 26+ 优先用 fd；打不开 fd 时复制到缓存再加载。 */
     fun loadTypefaceFromUri(context: Context, uri: Uri): Typeface? {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
-        return try {
+
+        try {
             context.contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
-                Typeface.Builder(pfd.fileDescriptor).build()
+                Typeface.Builder(pfd.fileDescriptor).build()?.let { return it }
+            }
+        } catch (_: Exception) {}
+
+        // 某些文件提供方给的是管道 fd，Typeface.Builder 会失败；
+        // 复制一份到缓存再按普通文件加载，权限失效前已经导入的字体也能继续用
+        return try {
+            val cache = File(context.cacheDir, "font_uri_${uri.toString().hashCode()}.font")
+            if (!cache.exists() || cache.length() == 0L) {
+                context.contentResolver.openInputStream(uri)?.use { input ->
+                    cache.outputStream().use { out -> input.copyTo(out) }
+                } ?: return null
+            }
+            try {
+                Typeface.createFromFile(cache)
+            } catch (_: Exception) {
+                Typeface.Builder(cache).build()
             }
         } catch (_: Exception) {
             null

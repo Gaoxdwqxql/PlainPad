@@ -76,7 +76,13 @@ class StatusBarController(
     }
 
     fun updateEncodingLabel() {
-        binding.tvEncoding.text = getCurrentDoc()?.encoding ?: "UTF-8"
+        val doc = getCurrentDoc()
+        val encoding = doc?.encoding ?: "UTF-8"
+        binding.tvEncoding.text = if (doc?.encrypted == true) {
+            "$encoding · ${activity.getString(R.string.crypto_badge)}"
+        } else {
+            encoding
+        }
     }
 
     fun updateLineNumbers() {

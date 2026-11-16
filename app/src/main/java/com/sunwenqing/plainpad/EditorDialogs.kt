@@ -193,7 +193,7 @@ object EditorDialogs {
 
         dialog.show()
 
-        sizeDialog(activity, dialog)
+        sizeDialog(activity, dialog, 0.78f)
     }
 
     // ---------------- 跳转到行 ----------------
@@ -725,10 +725,19 @@ object EditorDialogs {
     // ---------------- 统一尺寸 ----------------
 
     /** 自定义内容弹窗统一按屏幕宽度 92% 显示，避免有的宽有的窄 */
-    private fun sizeDialog(activity: Activity, dialog: Dialog) {
+    private fun sizeDialog(
+        activity: Activity,
+        dialog: Dialog,
+        heightFraction: Float = 0f
+    ) {
+        val metrics = activity.resources.displayMetrics
         dialog.window?.setLayout(
-            (activity.resources.displayMetrics.widthPixels * 0.92f).toInt(),
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            (metrics.widthPixels * 0.92f).toInt(),
+            if (heightFraction > 0f) {
+                (metrics.heightPixels * heightFraction).toInt()
+            } else {
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            }
         )
     }
 

@@ -23,7 +23,13 @@ object FontHelper {
                 if (file.exists()) {
                     try {
                         return Typeface.createFromFile(file)
-                    } catch (_: Exception) {}
+                    } catch (_: Exception) {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            try {
+                                return Typeface.Builder(file).build()
+                            } catch (_: Exception) {}
+                        }
+                    }
                 }
                 return Typeface.MONOSPACE
             }
